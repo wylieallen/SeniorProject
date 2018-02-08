@@ -16,14 +16,16 @@ public class Application
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JPanel panel = new JPanel();
+        InterfacePanel panel = new InterfacePanel(new Uberstate());
         panel.setSize(1280, 720);
         panel.setBackground(Color.BLACK);
 
         frame.getContentPane().add(panel, BorderLayout.CENTER);
-        //InterfacePanel panel = new InterfacePanel(new Dimension(1280, 720));
 
         frame.validate();
         frame.setVisible(true);
+
+        frame.addKeyListener(panel);
+
     }
 }
