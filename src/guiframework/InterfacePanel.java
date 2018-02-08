@@ -1,3 +1,5 @@
+package guiframework;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -64,7 +66,7 @@ public class InterfacePanel extends JPanel implements KeyListener {
 
     public void keyTyped(KeyEvent e)
     {
-
+        System.out.println("Key " + e.getKeyChar() + " with keycode " + e.getKeyCode() + " typed");
     }
 
     @Override

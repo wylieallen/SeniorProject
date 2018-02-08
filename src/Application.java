@@ -1,5 +1,9 @@
+import guiframework.InterfacePanel;
+import guiframework.Uberstate;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Application
 {
@@ -16,7 +20,9 @@ public class Application
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        InterfacePanel panel = new InterfacePanel(new Uberstate());
+        Uberstate uberstate = new Uberstate();
+
+        InterfacePanel panel = new InterfacePanel(uberstate);
         panel.setSize(1280, 720);
         panel.setBackground(Color.BLACK);
 
