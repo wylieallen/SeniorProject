@@ -11,26 +11,36 @@ public class ShipStats {
     private int currentFuel;
     private int currentSpeed;
 
+    public ShipStats(int maxHealth){
+        this.maxHealth = maxHealth;
+        maxShield = 0;
+        maxFuel = 0;
+        maxSpeed = 0;
+        currentHealth = this.maxHealth;
+    }
+
+
     //Getters and Setters
     public void setMaxHealth(int value){
         maxHealth = value;
     }
 
-    public void setMaxShield(int value){
-        maxShield = value;
+    public void setMaxShield(int maxShield){
+        this.maxShield = maxShield;
+        currentShield = this.maxShield;
     }
 
-    public void setMaxFuel(int value){
-        maxFuel = value;
+    public void setMaxFuel(int maxFuel){
+        this.maxFuel = maxFuel;
+        currentFuel = this.maxFuel;
     }
 
-    public void setMaxSpeed(int value){
-        maxSpeed = value;
+    public void setMaxSpeed(int maxSpeed){
+        this.maxSpeed = maxSpeed;
+        currentSpeed = 0;
     }
 
-    public int getMaxHealth(){
-        return maxHealth;
-    }
+    public int getMaxHealth(){ return maxHealth; }
 
     public int getMaxShield(){
         return maxShield;

@@ -6,8 +6,10 @@ import Model.Ship.ShipParts.*;
 
 public class Ship {
 
-    private Pilot myPilot;
-    private ShipStats myStats;
+    final private Pilot myPilot;
+    final private ShipStats myStats;
+    final private ShipHull hullSlot;
+
     private ShipWeapon weaponSlot1;
     private ShipWeapon weaponSlot2;
     private ShipEngine engineSlot;
@@ -16,33 +18,45 @@ public class Ship {
     private Inventory cargobay;
     private int inventorySize;
 
+    public Ship(Pilot owner, ShipHull myShip){
+        this.hullSlot = myShip;
+        myStats = new ShipStats(hullSlot.getmaxHealth());
+        myPilot = owner;
+    }
+
     public void equipWeapon1(ShipWeapon weapon){
         weaponSlot1 = weapon;
-        updateStats();
+        updateMaxStats();
     }
 
     public void equipWeapon2(ShipWeapon weapon){
         weaponSlot2 = weapon;
-        updateStats();
+        updateMaxStats();
     }
 
     public void equipEngine(ShipEngine engine){
         engineSlot = engine;
-        updateStats();
+        updateMaxStats();
     }
 
     public void equipShield(ShipShield shield){
         shieldSlot = shield;
-        updateStats();
+        updateMaxStats();
     }
 
     public void equipSpeical(ShipSpecial special){
         specialSlot = special;
-        updateStats();
+        updateMaxStats();
     }
 
-    public void updateStats(){
+    public void updateMaxStats(){
+        if (engineSlot != null) myStats.setMaxSpeed(engineSlot.getMaxSpeed());
+        if (specialSlot != null) myStats.setMaxFuel(specialSlot.getmaxFuel());
+        if (shieldSlot != null) myStats.setMaxShield(shieldSlot.getmaxShield());
+    }
 
+    public ShipStats getMyStats() {
+        return myStats;
     }
 
     public boolean isAlive(){
