@@ -1,7 +1,7 @@
 package Model.Items.Consumables;
 
 import Model.Items.Item;
-import Model.Ship.ShipStats;
+import Model.Ship.*;
 
 abstract class Consumable extends Item{
     private int currencyValue;
@@ -13,5 +13,5 @@ abstract class Consumable extends Item{
     public abstract void setCurrencyValue(int cv);
     public abstract void setUseValue(int uv);
 
-    public abstract void Use(ShipStats s);
+    public abstract void Use(Ship s);
 }

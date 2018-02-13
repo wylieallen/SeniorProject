@@ -1,6 +1,6 @@
 package Model.Items.Consumables;
 
-import Model.Ship.ShipStats;
+import Model.Ship.*;
 
 public class HealthConsumable extends Consumable{
     private int currencyValue;
@@ -27,14 +27,15 @@ public class HealthConsumable extends Consumable{
         useValue = uv;
     }
 
-    public void Use(ShipStats s) {
-        int ch = s.getCurrentHealth();
-        int mh = s.getMaxHealth();
+    public void Use(Ship s) {
+        ShipStats stats = s.getMyStats();
+        int ch = stats.getCurrentHealth();
+        int mh = stats.getMaxHealth();
         int dif = mh - ch;
 
         if( ch + useValue > mh)
-            s.modifyCurrentHealth(dif);
+            stats.modifyCurrentHealth(dif);
         else
-            s.modifyCurrentHealth(useValue);
+            stats.modifyCurrentHealth(useValue);
     }
 }

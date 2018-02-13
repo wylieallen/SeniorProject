@@ -1,6 +1,6 @@
 package Model.Items.Consumables;
 
-import Model.Ship.ShipStats;
+import Model.Ship.*;
 
 public class FuelConsumable extends Consumable{
     private int currencyValue;
@@ -27,14 +27,15 @@ public class FuelConsumable extends Consumable{
         useValue = uv;
     }
 
-    public void Use(ShipStats s) {
-        int cf = s.getCurrentFuel();
-        int mf = s.getMaxFuel();
+    public void Use(Ship s) {
+        ShipStats stats = s.getMyStats();
+        int cf = stats.getCurrentFuel();
+        int mf = stats.getMaxFuel();
         int dif = mf - cf;
 
         if( cf + useValue > mf)
-            s.modifyCurrentFuel(dif);
+            stats.modifyCurrentFuel(dif);
         else
-            s.modifyCurrentFuel(useValue);
+            stats.modifyCurrentFuel(useValue);
     }
 }

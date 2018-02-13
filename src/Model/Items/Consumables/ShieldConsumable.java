@@ -1,8 +1,8 @@
 package Model.Items.Consumables;
 
-import Model.Ship.ShipStats;
+import Model.Ship.*;
 
-public class ShieldConsumable  extends Consumable{
+public class ShieldConsumable extends Consumable{
     private int currencyValue;
     private int useValue;
 
@@ -27,14 +27,15 @@ public class ShieldConsumable  extends Consumable{
         useValue = uv;
     }
 
-    public void Use(ShipStats s) {
-        int cs = s.getCurrentShield();
-        int ms = s.getMaxShield();
+    public void Use(Ship s) {
+        ShipStats stats = s.getMyStats();
+        int cs = stats.getCurrentShield();
+        int ms = stats.getMaxShield();
         int dif = ms - cs;
 
         if( cs + useValue > ms)
-            s.modifyCurrentShield(dif);
+            stats.modifyCurrentShield(dif);
         else
-            s.modifyCurrentShield(useValue);
+            stats.modifyCurrentShield(useValue);
     }
 }
