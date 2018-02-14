@@ -15,12 +15,12 @@ public class Ship {
     private ShipEngine engineSlot;
     private ShipShield shieldSlot;
     private ShipSpecial specialSlot;
-    private Inventory cargobay;
-    private int inventorySize;
+    private Inventory inventory;
 
     public Ship(Pilot owner, ShipHull myShip){
         this.hullSlot = myShip;
         myStats = new ShipStats(hullSlot.getmaxHealth());
+        inventory = new Inventory(hullSlot.getInventorySize());
         myPilot = owner;
     }
 
@@ -54,6 +54,11 @@ public class Ship {
         if (specialSlot != null) myStats.setMaxFuel(specialSlot.getmaxFuel());
         if (shieldSlot != null) myStats.setMaxShield(shieldSlot.getmaxShield());
     }
+
+    public Inventory getInventory(){
+        return inventory;
+    }
+
 
     public ShipStats getMyStats() {
         return myStats;
