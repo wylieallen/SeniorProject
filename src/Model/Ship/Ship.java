@@ -7,7 +7,7 @@ import Model.Ship.ShipParts.*;
 public class Ship {
 
     final private Pilot myPilot;
-    final private ShipStats myStats;
+    final private ShipStats shipStats;
     final private ShipHull hullSlot;
 
     private ShipWeapon weaponSlot1;
@@ -19,7 +19,7 @@ public class Ship {
 
     public Ship(Pilot owner, ShipHull myShip){
         this.hullSlot = myShip;
-        myStats = new ShipStats(hullSlot.getmaxHealth());
+        shipStats = new ShipStats(hullSlot.getmaxHealth());
         inventory = new Inventory(hullSlot.getInventorySize());
         myPilot = owner;
     }
@@ -50,9 +50,9 @@ public class Ship {
     }
 
     public void updateMaxStats(){
-        if (engineSlot != null) myStats.setMaxSpeed(engineSlot.getMaxSpeed());
-        if (specialSlot != null) myStats.setMaxFuel(specialSlot.getmaxFuel());
-        if (shieldSlot != null) myStats.setMaxShield(shieldSlot.getmaxShield());
+        if (engineSlot != null) shipStats.setMaxSpeed(engineSlot.getMaxSpeed());
+        if (specialSlot != null) shipStats.setMaxFuel(specialSlot.getmaxFuel());
+        if (shieldSlot != null) shipStats.setMaxShield(shieldSlot.getmaxShield());
     }
 
     public Inventory getInventory(){
@@ -60,16 +60,16 @@ public class Ship {
     }
 
 
-    public ShipStats getMyStats() {
-        return myStats;
+    public ShipStats getshipStats() {
+        return shipStats;
     }
 
     public boolean isAlive(){
-        return myStats.isAlive();
+        return shipStats.isAlive();
     }
 
     public void takeDamage(int amount){
-        myStats.modifyCurrentHealth(amount);
+        shipStats.modifyCurrentHealth(amount);
     }
 
 }

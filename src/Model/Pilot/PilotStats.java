@@ -8,6 +8,14 @@ public class PilotStats {
     private int combat;
     private int charisma;
 
+    public PilotStats(int level){
+        this.level = level;
+        this.experience = 0;
+        this.flying = 1;
+        this.combat = 1;
+        this.charisma = 1;
+    }
+
 
     public void levelUp(){
         level++;
@@ -19,9 +27,7 @@ public class PilotStats {
         return level;
     }
 
-    public int getExperience(){
-        return experience;
-    }
+    public int getExperience(){ return experience; }
 
     public int getFlying(){
         return flying;

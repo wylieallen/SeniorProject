@@ -13,10 +13,10 @@ public class ShipStats {
 
     public ShipStats(int maxHealth){
         this.maxHealth = maxHealth;
-        maxShield = 0;
-        maxFuel = 0;
-        maxSpeed = 0;
-        currentHealth = this.maxHealth;
+        this.maxShield = 0;
+        this.maxFuel = 0;
+        this.maxSpeed = 0;
+        this.currentHealth = this.maxHealth;
     }
 
 
@@ -27,17 +27,17 @@ public class ShipStats {
 
     public void setMaxShield(int maxShield){
         this.maxShield = maxShield;
-        currentShield = this.maxShield;
+        this.currentShield = this.maxShield;
     }
 
     public void setMaxFuel(int maxFuel){
         this.maxFuel = maxFuel;
-        currentFuel = this.maxFuel;
+        this.currentFuel = this.maxFuel;
     }
 
     public void setMaxSpeed(int maxSpeed){
         this.maxSpeed = maxSpeed;
-        currentSpeed = 0;
+        this.currentSpeed = 0;
     }
 
     public int getMaxHealth(){ return maxHealth; }
