@@ -2,11 +2,12 @@ package Model.Pilot;
 
 import Model.Ship.Ship;
 import Model.Ship.ShipHangar;
+import Model.TradingPost.Wallet;
 
 public class Player extends Pilot {
 
     private ShipHangar shipHangar;
-    private int currency;
+    private Wallet myWallet;
 
     public Player(){
         super.setPilotStats(new PilotStats(1));
@@ -14,6 +15,14 @@ public class Player extends Pilot {
     }
 
     // TODO Add Currency class and make getter/setters
+
+    public ShipHangar getShipHangar(){
+        return shipHangar;
+    }
+
+    public Wallet getMyWallet(){
+        return myWallet;
+    }
 
     @Override
     public void setActiveShip(Ship ship) {
