@@ -1,4 +1,4 @@
 package Model.TradingPost;
 
-public class TtradingPost {
+public class TradingPost {
 }
