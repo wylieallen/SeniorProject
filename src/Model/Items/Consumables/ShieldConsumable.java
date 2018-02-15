@@ -28,7 +28,7 @@ public class ShieldConsumable extends Consumable{
     }
 
     public void Use(Ship s) {
-        ShipStats stats = s.getMyStats();
+        ShipStats stats = s.getShipStats();
         int cs = stats.getCurrentShield();
         int ms = stats.getMaxShield();
         int dif = ms - cs;

@@ -12,7 +12,7 @@ public class HealthPowerup extends Powerup{
     public void setUseValue(int uv){useValue = uv;}
 
     public void Use(Ship s){
-        ShipStats stats = s.getMyStats();
+        ShipStats stats = s.getShipStats();
         int ch = stats.getCurrentHealth();
         int mh = stats.getMaxHealth();
         int dif = mh - ch;

@@ -12,7 +12,7 @@ public class ShieldPowerup extends Powerup{
     public void setUseValue(int uv){useValue = uv;}
 
     public void Use(Ship s){
-        ShipStats stats = s.getMyStats();
+        ShipStats stats = s.getShipStats();
         int cs = stats.getCurrentShield();
         int ms = stats.getMaxShield();
         int dif = ms - cs;

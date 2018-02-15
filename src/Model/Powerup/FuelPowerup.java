@@ -12,7 +12,7 @@ public class FuelPowerup extends Powerup{
     public void setUseValue(int uv){useValue = uv;}
 
     public void Use(Ship s){
-        ShipStats stats = s.getMyStats();
+        ShipStats stats = s.getShipStats();
         int cf = stats.getCurrentFuel();
         int mf = stats.getMaxFuel();
         int dif = mf - cf;
