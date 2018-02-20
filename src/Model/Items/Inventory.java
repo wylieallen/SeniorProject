@@ -49,5 +49,4 @@ public class Inventory {
         currentItems--;
         return i;
     }
-
 }

@@ -4,6 +4,7 @@ import Model.Map.Overworld;
 import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
 import Model.Ship.ShipHangar;
+import Model.TradingPost.BountyMission;
 import Model.TradingPost.Wallet;
 import Utility.Vector3D;
 
@@ -13,11 +14,13 @@ public class Player extends Pilot {
 
     private ShipHangar shipHangar;
     private Wallet myWallet;
+    private BountyMission currentBountyMission;
 
     public Player(){
         super.setPilotStats(new PilotStats(1));
         shipHangar = new ShipHangar();
         myWallet = new Wallet(0);
+        currentBountyMission = null;
     }
 
     // TODO Add Currency class and make getter/setters
@@ -28,6 +31,14 @@ public class Player extends Pilot {
 
     public Wallet getMyWallet(){
         return myWallet;
+    }
+
+    public BountyMission getCurrentBountyMission() {
+        return currentBountyMission;
+    }
+
+    public void setCurrentBountyMission(BountyMission currentBountyMission) {
+        this.currentBountyMission = currentBountyMission;
     }
 
     @Override
