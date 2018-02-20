@@ -1,6 +1,8 @@
 package Model.Pilot;
 
+import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
+import Utility.Vector3D;
 
 public class Enemy extends Pilot {
 
@@ -11,7 +13,7 @@ public class Enemy extends Pilot {
 
 
     @Override
-    public void Move() {
+    public void Move(Vector3D unitVector) {
 
     }
 }

@@ -1,4 +1,4 @@
 package Model.Map.Zones;
 
-public class ShopZone {
+public class ShopZone extends Zone{
 }

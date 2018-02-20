@@ -1,8 +1,13 @@
 package Model.Pilot;
 
+import Model.Map.Overworld;
+import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
 import Model.Ship.ShipHangar;
 import Model.TradingPost.Wallet;
+import Utility.Vector3D;
+
+import java.util.Vector;
 
 public class Player extends Pilot {
 
@@ -32,7 +37,27 @@ public class Player extends Pilot {
     }
 
     @Override
-    public void Move() {
+    public void Move(Vector3D unitVector) {
+
+        //Psuedo-code (get keypress and put in gameloop?)
+        String keypress = "";
+
+        BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
+        if (keypress.equals("w") && getCurrentShipSpeed() != getMaxShipSpeed())
+        {
+            accelerate();
+            currentZone.updatePlayerPosition(unitVector, this);
+        }
+        else if(keypress.equals("s") && getCurrentShipSpeed() != 0){
+            brake();
+            currentZone.updatePlayerPosition(unitVector, this);
+        }
+        else if (getCurrentShipSpeed() != 0)
+        {
+            decelerate();
+            currentZone.updatePlayerPosition(unitVector, this);
+        }
+
 
     }
 }

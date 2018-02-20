@@ -9,6 +9,12 @@ public class Point3D {
     public float getY(){ return y; }
     public float getZ(){ return z; }
 
+    public Point3D(float x, float y, float z){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     public float distance(Point3D pointA, Point3D pointB){
         float xDistance = (float) Math.pow(pointB.getX() - pointA.getX(), 2);
         float yDistance = (float) Math.pow(pointB.getY() - pointA.getY(), 2);

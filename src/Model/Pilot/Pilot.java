@@ -1,5 +1,8 @@
 package Model.Pilot;
+import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
+import Model.Ship.ShipStats;
+import Utility.Vector3D;
 
 public abstract class Pilot {
     private Ship activeShip;
@@ -13,6 +16,14 @@ public abstract class Pilot {
     public Ship getActiveShip(){
         return this.activeShip;
     }
+
+    public int getCurrentShipSpeed() {
+        return getActiveShip().getShipStats().getCurrentSpeed();
+    };
+
+    public int getMaxShipSpeed() {
+        return getActiveShip().getShipStats().getMaxSpeed();
+    };
 
     public void setPilotStats(PilotStats pilotStats){
         this.pilotStats = pilotStats;
@@ -30,7 +41,19 @@ public abstract class Pilot {
         this.maxLevel = maxLevel;
     }
 
+    public void accelerate(){
+        activeShip.getShipStats().modifyCurrentSpeed(1);
+    }
 
-    public abstract void Move();
+    public void decelerate(){
+        activeShip.getShipStats().modifyCurrentSpeed(-1);
+    }
+
+    public void brake(){
+        activeShip.getShipStats().modifyCurrentSpeed(-2);
+    }
+
+
+    public abstract void Move(Vector3D unitVector);
 
 }

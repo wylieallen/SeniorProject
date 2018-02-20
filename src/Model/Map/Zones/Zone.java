@@ -1,4 +1,5 @@
 package Model.Map.Zones;
 
-public class Zone {
+public abstract class Zone {
+
 }
