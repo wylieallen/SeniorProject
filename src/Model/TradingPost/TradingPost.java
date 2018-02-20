@@ -32,5 +32,4 @@ public class TradingPost {
         inventory.removeItem(i);
         wallet.increaseCurrencyBalance(value);
     }
-
 }

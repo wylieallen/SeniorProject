@@ -13,8 +13,6 @@ public class Inventory {
     private int maxItems;
     private Iterator<Item> itemIterator;
 
-
-
     public Inventory(int mi){
         itemList = new ArrayList<>();
         itemIterator = itemList.iterator();

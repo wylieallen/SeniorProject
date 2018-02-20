@@ -17,6 +17,7 @@ public class Player extends Pilot {
     public Player(){
         super.setPilotStats(new PilotStats(1));
         shipHangar = new ShipHangar();
+        myWallet = new Wallet(0);
     }
 
     // TODO Add Currency class and make getter/setters
