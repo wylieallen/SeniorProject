@@ -23,8 +23,6 @@ public class Player extends Pilot {
         currentBountyMission = null;
     }
 
-    // TODO Add Currency class and make getter/setters
-
     public ShipHangar getShipHangar(){
         return shipHangar;
     }
@@ -46,6 +44,12 @@ public class Player extends Pilot {
         shipHangar.addShip(getActiveShip());
         super.setActiveShip(ship);
         shipHangar.removeShip(ship);
+    }
+
+    @Override
+    public void pilotDied() {
+        //TODO go to death menu
+        System.out.println("Game over");
     }
 
     @Override

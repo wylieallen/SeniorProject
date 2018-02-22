@@ -7,6 +7,11 @@ public class LocationTuple<T> {
     private Point3D location;
     private T object;
 
+    public LocationTuple(Point3D location, T object){
+        setObject(object);
+        setLocation(location);
+    }
+
     public T getObject(){
         return object;
     }

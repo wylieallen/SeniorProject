@@ -54,6 +54,8 @@ public abstract class Pilot {
     }
 
 
+    public abstract void pilotDied();
+
     public abstract void Move(Vector3D unitVector);
 
 }

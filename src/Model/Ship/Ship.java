@@ -70,6 +70,10 @@ public class Ship {
 
     public void takeDamage(int amount){
         shipStats.modifyCurrentHealth(amount);
+        if (isAlive() == false)
+        {
+            myPilot.pilotDied();
+        }
     }
 
 }
