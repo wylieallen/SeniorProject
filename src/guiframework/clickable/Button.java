@@ -17,6 +17,8 @@ public class Button extends ImageDisplayable implements Clickable
     {
         super(origin, baseImage);
 
+        System.out.println("Instantiated at " + origin);
+
         this.baseImage = baseImage;
         this.hoverImage = hoverImage;
         this.pressImage = pressImage;
@@ -55,7 +57,7 @@ public class Button extends ImageDisplayable implements Clickable
 
     public void release()
     {
-        super.setImage(baseImage);
+        super.setImage(hoverImage);
         releaseFunction.execute();
     }
 }

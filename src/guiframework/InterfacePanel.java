@@ -4,13 +4,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class InterfacePanel extends JPanel implements KeyListener {
-
+public class InterfacePanel extends JPanel implements KeyListener
+{
     private Uberstate activeState;
+    private Timer renderTimer;
 
     public InterfacePanel(Uberstate activeState)
     {
         this.activeState = activeState;
+
+        renderTimer = new Timer(17, new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                renderTimer.stop();
+
+                activeState.update();
+                repaint();
+
+                renderTimer.restart();
+            }
+        });
+
+        renderTimer.start();
 
         this.addMouseListener(new MouseListener()
         {

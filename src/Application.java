@@ -1,9 +1,10 @@
+import guiframework.ImageFactory;
 import guiframework.InterfacePanel;
 import guiframework.Uberstate;
+import guiframework.clickable.Button;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class Application
 {
@@ -21,6 +22,17 @@ public class Application
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         Uberstate uberstate = new Uberstate();
+        Button exampleButton = new Button(new Point(256, 256),
+                ImageFactory.makeBorderedRect(128, 128, Color.WHITE, Color.GRAY),
+                ImageFactory.makeBorderedRect(128, 128, Color.RED, Color.GRAY),
+                ImageFactory.makeBorderedRect(128, 128, Color.ORANGE, Color.GRAY),
+                () -> {},
+                () -> {},
+                () -> {},
+                () -> {});
+
+        uberstate.addClickable(exampleButton);
+        uberstate.addOverlay(exampleButton);
 
         InterfacePanel panel = new InterfacePanel(uberstate);
         panel.setSize(1280, 720);
@@ -32,6 +44,5 @@ public class Application
         frame.setVisible(true);
 
         frame.addKeyListener(panel);
-
     }
 }
