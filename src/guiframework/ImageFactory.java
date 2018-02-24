@@ -21,6 +21,8 @@ public class ImageFactory
     {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
+        //Added Font line. Can be moved to constructor
+        g2d.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         FontMetrics metrics = g2d.getFontMetrics();
         g2d.setColor(bodyColor);
