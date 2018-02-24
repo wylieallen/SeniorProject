@@ -1,8 +1,10 @@
 package guiframework;
 
 import guiframework.clickable.Button;
+import guiframework.displayable.CompositeDisplayable;
 import guiframework.displayable.Displayable;
 import guiframework.displayable.ImageDisplayable;
+import guiframework.displayable.StringDisplayable;
 
 import java.awt.*;
 
@@ -34,7 +36,7 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Buy"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Buy"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Buy"),
-                () -> {},
+                () -> {modifyMoney(10);},
                 () -> {},
                 () -> {},
                 () -> {});
@@ -47,7 +49,7 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Sell"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Sell"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Sell"),
-                () -> {},
+                () -> {modifyMoney(-10);},
                 () -> {},
                 () -> {},
                 () -> {});
@@ -81,5 +83,18 @@ public class TradingPostUberstate extends Uberstate{
         this.addClickable(exitButton);
         this.addLeftOverlay(exitButton);
 
+        CompositeDisplayable shopStuff = new CompositeDisplayable(new Point());
+        Displayable shopStuffBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(256, 256, Color.WHITE, Color.GRAY));
+        shopStuff.add(shopStuffBackground);
+        shopStuff.add(new StringDisplayable( new Point(16, 64), () -> "MONEY: " + getMoney()));
+
+        this.addRightOverlay(shopStuff);
+
     }
+
+    // Placeholder money example stuff goes here
+    private int money = 100;
+
+    public int getMoney() { return money; }
+    public void modifyMoney(int newMoney) { money += newMoney; }
 }
