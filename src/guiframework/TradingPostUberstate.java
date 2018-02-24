@@ -36,10 +36,10 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Buy"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Buy"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Buy"),
-                () -> {modifyMoney(10);},
-                () -> {},
-                () -> {},
-                () -> {});
+                () ->
+                {
+                    modifyMoney(10);
+                });
 
         this.addClickable(buyButton);
         this.addLeftOverlay(buyButton);
@@ -49,10 +49,7 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Sell"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Sell"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Sell"),
-                () -> {modifyMoney(-10);},
-                () -> {},
-                () -> {},
-                () -> {});
+                () -> {modifyMoney(-10);});
 
         this.addClickable(sellButton);
         this.addLeftOverlay(sellButton);
@@ -75,9 +72,6 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Exit"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Exit"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Exit"),
-                () -> {},
-                () -> {},
-                () -> {},
                 () -> {});
 
         this.addClickable(exitButton);

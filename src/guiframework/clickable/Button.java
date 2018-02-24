@@ -29,6 +29,12 @@ public class Button extends ImageDisplayable implements Clickable
         this.exitFunction = exitFunction;
     }
 
+    public Button(Point origin, BufferedImage baseImage, BufferedImage hoverImage, BufferedImage pressImage,
+                  AbstractFunction pressFunction)
+    {
+        this(origin, baseImage, hoverImage, pressImage, pressFunction, AbstractFunction.NULL, AbstractFunction.NULL, AbstractFunction.NULL);
+    }
+
     public boolean pointIsOn(Point point)
     {
         Point origin = super.getOrigin();
