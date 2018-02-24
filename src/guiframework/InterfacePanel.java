@@ -90,6 +90,11 @@ public class InterfacePanel extends JPanel implements KeyListener
         System.out.println("Key " + e.getKeyChar() + " with keycode " + e.getKeyCode() + " typed");
     }
 
+    public void changeSize()
+    {
+        activeState.changeSize(this.getSize());
+    }
+
     @Override
     public void paintComponent(Graphics g)
     {

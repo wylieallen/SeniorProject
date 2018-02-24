@@ -6,6 +6,8 @@ import guiframework.clickable.Button;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 public class Application
 {
@@ -45,5 +47,19 @@ public class Application
         frame.setVisible(true);
 
         frame.addKeyListener(panel);
+
+        frame.addComponentListener(new ComponentListener()
+        {
+            public void componentResized(ComponentEvent e)
+            {
+                panel.changeSize();
+            }
+
+            public void componentMoved(ComponentEvent e) { }
+
+            public void componentHidden(ComponentEvent e) { }
+
+            public void componentShown(ComponentEvent e) { }
+        });
     }
 }

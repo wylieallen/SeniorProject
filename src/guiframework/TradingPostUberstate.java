@@ -13,16 +13,21 @@ public class TradingPostUberstate extends Uberstate{
     public TradingPostUberstate() {
 
         //Add space background
+
+        this.addUnderlay(Displayable.NULL);
+
         ImageDisplayable background =
                 new ImageDisplayable(new Point(WIDTH,0), ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT*5, Color.black, Color.GRAY, Color.WHITE, "Space Background. Pretty stars and stuff."));
 
         this.addUnderlay(background);
 
+        this.addUnderlay(Displayable.NULL);
+
         //Add title box
         ImageDisplayable tpTitle =
                 new ImageDisplayable(new Point(0,0), ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.BLUE, Color.GRAY, Color.RED, "Trading Post"));
 
-        this.addOverlay(tpTitle);
+        this.addLeftOverlay(tpTitle);
 
         //Add Buy Button
         Button buyButton = new Button(new Point(0, HEIGHT),
@@ -35,7 +40,7 @@ public class TradingPostUberstate extends Uberstate{
                 () -> {});
 
         this.addClickable(buyButton);
-        this.addOverlay(buyButton);
+        this.addLeftOverlay(buyButton);
 
         //Add Sell Button
         Button sellButton = new Button(new Point(0, HEIGHT * 2),
@@ -48,7 +53,7 @@ public class TradingPostUberstate extends Uberstate{
                 () -> {});
 
         this.addClickable(sellButton);
-        this.addOverlay(sellButton);
+        this.addLeftOverlay(sellButton);
 
         //Add Bounty Missions Button
         Button bountyButton = new Button(new Point(0, HEIGHT * 3),
@@ -61,7 +66,7 @@ public class TradingPostUberstate extends Uberstate{
                 () -> {});
 
         this.addClickable(bountyButton);
-        this.addOverlay(bountyButton);
+        this.addLeftOverlay(bountyButton);
 
         //Add Exit Button
         Button exitButton = new Button(new Point(0, HEIGHT * 4),
@@ -74,7 +79,7 @@ public class TradingPostUberstate extends Uberstate{
                 () -> {});
 
         this.addClickable(exitButton);
-        this.addOverlay(exitButton);
+        this.addLeftOverlay(exitButton);
 
     }
 }

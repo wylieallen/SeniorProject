@@ -22,4 +22,11 @@ public interface Displayable
     }
 
     void drawAt(Graphics2D g2d, Point drawPt);
+
+    Displayable NULL = new Displayable()
+    {
+      public Point getOrigin() { return new Point(); }
+      public Dimension getSize() { return new Dimension(0, 0); }
+      public void drawAt(Graphics2D g2d, Point drawPt) {}
+    };
 }

@@ -5,9 +5,8 @@ import guiframework.displayable.Displayable;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.List;
 
 public class Uberstate
 {
@@ -18,12 +17,17 @@ public class Uberstate
     private Set<Clickable> clickables;
     private Clickable selectedClickable = Clickable.NULL;
 
+    private OverlayManager overlayManager;
+    private UnderlayManager underlayManager;
+
     public Uberstate()
     {
         underlays = new LinkedHashSet<>();
         displayables = new LinkedHashSet<>();
         overlays = new LinkedHashSet<>();
         clickables = new LinkedHashSet<>();
+        overlayManager = new OverlayManager();
+        underlayManager = new UnderlayManager();
     }
 
     public void draw(Graphics2D g2d)
@@ -45,10 +49,35 @@ public class Uberstate
     public void addClickable(Clickable clickable) { clickables.add(clickable); }
     public void removeClickable(Clickable clickable) { clickables.remove(clickable); }
 
-    public void addOverlay(Displayable overlay) { overlays.add(overlay); }
-    public void removeOverlay(Displayable overlay) { overlays.remove(overlay); }
+    public void addLeftOverlay(Displayable overlay)
+    {
+        overlayManager.addLeft(overlay);
+        overlays.add(overlay);
+    }
 
-    public void addUnderlay(Displayable underlay) { underlays.add(underlay); }
+    public void addRightOverlay(Displayable overlay)
+    {
+        overlayManager.addRight(overlay);
+        overlays.add(overlay);
+    }
+
+    public void addCenterOverlay(Displayable overlay)
+    {
+        overlayManager.addCenter(overlay);
+        overlays.add(overlay);
+    }
+
+    public void removeOverlay(Displayable overlay)
+    {
+        overlays.remove(overlay);
+    }
+
+    public void addUnderlay(Displayable underlay)
+    {
+        underlays.add(underlay);
+        //todo: UnderlayManager is hacked together and jank! It's only really meant for one Underlay, use with caution!
+        underlayManager.addCenterUnderlay(underlay);
+    }
     public void removeUnderlay(Displayable underlay) { underlays.remove(underlay); }
 
     public void addDisplayables(Collection<? extends Displayable> displayables) {
@@ -58,8 +87,6 @@ public class Uberstate
 
     public void parseKeyPress(int keyCode) { }
     public void parseKeyRelease(int keyCode) { }
-
-
 
     public void parseMousePress(MouseEvent e)
     {
@@ -114,5 +141,144 @@ public class Uberstate
         }
 
         selectedClickable = Clickable.NULL;
+    }
+
+    public void changeSize(Dimension size)
+    {
+        overlayManager.resetOverlays(size);
+        underlayManager.resetUnderlays(size);
+    }
+
+    public class OverlayManager
+    {
+        private List<Displayable> leftOverlays;
+        private List<Displayable> centerOverlays;
+        private List<Displayable> rightOverlays;
+
+        private int edgeBuffer = 12;
+
+        public OverlayManager()
+        {
+            leftOverlays = new ArrayList<>();
+            centerOverlays = new ArrayList<>();
+            rightOverlays = new ArrayList<>();
+        }
+
+        public void addRight(Displayable displayable)
+        {
+            rightOverlays.add(displayable);
+        }
+
+        public void addCenter(Displayable displayable)
+        {
+            centerOverlays.add(displayable);
+        }
+
+        public void addLeft(Displayable displayable)
+        {
+            leftOverlays.add(displayable);
+        }
+
+        public void resetOverlays(Dimension size)
+        {
+            int centerX;
+
+            centerX = size.width - edgeBuffer - (getMaxX(rightOverlays) / 2);
+            updateLocations(centerX, rightOverlays, size);
+
+            centerX = (size.width / 2);
+            updateLocations(centerX, centerOverlays, size);
+
+            centerX = edgeBuffer + (getMaxX(leftOverlays) / 2);
+            updateLocations(centerX, leftOverlays, size);
+        }
+
+        private int getMaxX(Collection<Displayable> overlays)
+        {
+            int maxWidth = 0;
+
+            for(Displayable overlay : overlays)
+            {
+                int overlayWidth = overlay.getSize().width;
+                if(overlayWidth > maxWidth)
+                {
+                    maxWidth = overlayWidth;
+                }
+            }
+
+            return maxWidth;
+        }
+
+        private void updateLocations(int centerX, Collection<Displayable> overlays, Dimension size)
+        {
+            double y = edgeBuffer;
+
+            int maxHeight = size.height;
+            int usedSpace = edgeBuffer * 2;
+            for(Displayable overlay : overlays)
+            {
+                usedSpace += overlay.getSize().height;
+            }
+            int freeSpace = maxHeight - usedSpace;
+            double elementBuffer =  overlays.size() > 1 ? freeSpace / (overlays.size() - 1) : freeSpace;
+
+            //System.out.println("maxHeight " + maxHeight + ", usedSpace = " + usedSpace + ", bufferSize = " + elementBuffer);
+
+            for(Displayable overlay : overlays)
+            {
+                Dimension overlaySize = overlay.getSize();
+
+                //System.out.println("Next overlay: " + overlay.getClass() + " at " + (centerX - (size.width / 2)) + ", " + y);
+
+                overlay.getOrigin().setLocation(centerX - (overlaySize.width / 2), y);
+
+                y += elementBuffer + overlaySize.height; //componentBuffer + size.height;
+            }
+        }
+    }
+
+    public class UnderlayManager
+    {
+        private List<Displayable> centerUnderlays;
+
+        public UnderlayManager() { centerUnderlays = new ArrayList<>(); }
+
+        public void addCenterUnderlay(Displayable underlay)
+        {
+            centerUnderlays.add(underlay);
+        }
+
+        public void resetUnderlays(Dimension size)
+        {
+            int centerX = (size.width / 2);
+            updateLocations(centerX, centerUnderlays, size);
+        }
+
+        public void updateLocations(int centerX, List<Displayable> underlayList, Dimension size)
+        {
+            double y = 0;
+
+            int maxHeight = size.height;
+            int usedSpace = 0 * 2;
+            for(Displayable overlay : underlayList)
+            {
+                usedSpace += overlay.getSize().height;
+            }
+            int freeSpace = maxHeight - usedSpace;
+            double elementBuffer =  underlayList.size() > 1 ? freeSpace / (underlayList.size() - 1) : freeSpace;
+
+            //System.out.println("maxHeight " + maxHeight + ", usedSpace = " + usedSpace + ", bufferSize = " + elementBuffer);
+
+            for(Displayable overlay : underlayList)
+            {
+                Dimension overlaySize = overlay.getSize();
+
+                //System.out.println("Next overlay: " + overlay.getClass() + " at " + (centerX - (size.width / 2)) + ", " + y);
+
+                overlay.getOrigin().setLocation(centerX - (overlaySize.width / 2), y);
+
+                y += elementBuffer + overlaySize.height; //componentBuffer + size.height;
+            }
+        }
     }
 }
