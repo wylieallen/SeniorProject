@@ -44,7 +44,7 @@ public class Ship {
         updateMaxStats();
     }
 
-    public void equipSpeical(ShipSpecial special){
+    public void equipSpecial(ShipSpecial special){
         specialSlot = special;
         updateMaxStats();
     }

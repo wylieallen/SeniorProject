@@ -1,12 +1,14 @@
 package Model.Ship.ShipParts;
 
+import Utility.Rarity;
+
 public class ShipSpecial extends ShipPart{
 
     private int maxFuel;
 
-    public ShipSpecial(int currencyValue, int maxFuel){
+    public ShipSpecial(int currencyValue, int maxFuel, Rarity rarity){
+        super(currencyValue, rarity);
         this.maxFuel = maxFuel;
-        this.setCurrencyValue(currencyValue);
     }
 
     public int getmaxFuel() {

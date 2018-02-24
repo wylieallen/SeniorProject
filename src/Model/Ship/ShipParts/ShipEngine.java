@@ -1,12 +1,14 @@
 package Model.Ship.ShipParts;
 
+import Utility.Rarity;
+
 public class ShipEngine extends ShipPart {
 
     private int maxSpeed;
 
-    public ShipEngine(int currencyValue, int maxSpeed){
+    public ShipEngine(int currencyValue, int maxSpeed, Rarity rarity){
+        super(currencyValue, rarity);
         this.maxSpeed = maxSpeed;
-        this.setCurrencyValue(currencyValue);
     }
 
     public int getMaxSpeed() {

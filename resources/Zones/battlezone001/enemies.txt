@@ -4,10 +4,13 @@ ENEMY
         5
         10
         5
+    RARITY
+        LEGENDARY
     SHIP
-        1000
-        100
-        8
+        HULL
+            1000
+            100
+            8
         ENGINE
             1000
             50
