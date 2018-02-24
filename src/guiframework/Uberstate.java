@@ -43,7 +43,9 @@ public class Uberstate
     {
         underlays.forEach(Displayable::update);
         displayables.forEach((collection) -> collection.forEach(Displayable::update));
-        overlays.forEach(Displayable::update);
+        synchronized (overlays) {
+            overlays.forEach(Displayable::update);
+        }
     }
 
     public void addClickable(Clickable clickable) { clickables.add(clickable); }
@@ -60,6 +62,17 @@ public class Uberstate
         overlayManager.addRight(overlay);
         overlays.add(overlay);
     }
+
+    public void removeRightOverlay(Displayable overlay)
+    {
+        overlayManager.removeRight(overlay);
+        overlays.remove(overlay);
+    }
+
+    public void removeAllRightOverlays() {
+        overlayManager.removeAllRightOverlays();
+    }
+
 
     public void addCenterOverlay(Displayable overlay)
     {
@@ -154,6 +167,7 @@ public class Uberstate
         private List<Displayable> leftOverlays;
         private List<Displayable> centerOverlays;
         private List<Displayable> rightOverlays;
+        private Iterator<Displayable> rightIterator;
 
         private int edgeBuffer = 12;
 
@@ -162,12 +176,14 @@ public class Uberstate
             leftOverlays = new ArrayList<>();
             centerOverlays = new ArrayList<>();
             rightOverlays = new ArrayList<>();
+            rightIterator = rightOverlays.iterator();
         }
 
         public void addRight(Displayable displayable)
         {
             rightOverlays.add(displayable);
         }
+        public void removeRight(Displayable displayable) { rightOverlays.remove(displayable);}
 
         public void addCenter(Displayable displayable)
         {
@@ -233,6 +249,14 @@ public class Uberstate
                 overlay.getOrigin().setLocation(centerX - (overlaySize.width / 2), y);
 
                 y += elementBuffer + overlaySize.height; //componentBuffer + size.height;
+            }
+        }
+
+        public void removeAllRightOverlays()
+        {
+            synchronized (overlays) {
+                overlays.removeAll(rightOverlays);
+                rightOverlays.clear();
             }
         }
     }

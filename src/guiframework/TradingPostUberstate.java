@@ -11,6 +11,9 @@ import java.awt.*;
 public class TradingPostUberstate extends Uberstate{
     static final int HEIGHT = 128;
     static final int WIDTH = 640;
+    private int money = 100;
+    private CompositeDisplayable playerInventory;
+    private CompositeDisplayable tpInventory;
 
     public TradingPostUberstate() {
 
@@ -38,7 +41,8 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Buy"),
                 () ->
                 {
-                    modifyMoney(10);
+                    this.removeAllRightOverlays();
+                    this.addRightOverlay(this.tpInventory);
                 });
 
         this.addClickable(buyButton);
@@ -49,7 +53,11 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Sell"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Sell"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Sell"),
-                () -> {modifyMoney(-10);});
+                () ->
+                {
+                    this.removeAllRightOverlays();
+                    this.addRightOverlay(this.playerInventory);
+                });
 
         this.addClickable(sellButton);
         this.addLeftOverlay(sellButton);
@@ -77,17 +85,22 @@ public class TradingPostUberstate extends Uberstate{
         this.addClickable(exitButton);
         this.addLeftOverlay(exitButton);
 
-        CompositeDisplayable shopStuff = new CompositeDisplayable(new Point());
-        Displayable shopStuffBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(256, 256, Color.WHITE, Color.GRAY));
-        shopStuff.add(shopStuffBackground);
-        shopStuff.add(new StringDisplayable( new Point(16, 64), () -> "MONEY: " + getMoney()));
+        CompositeDisplayable playerInventory = new CompositeDisplayable(new Point());
+        Displayable piBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(256, 256, Color.WHITE, Color.GRAY));
+        playerInventory.add(piBackground);
+        playerInventory.add(new StringDisplayable( new Point(16, 64), () -> " Player MONEY: " + getMoney()));
+        this.playerInventory = playerInventory;
 
-        this.addRightOverlay(shopStuff);
+        CompositeDisplayable tpInventory = new CompositeDisplayable(new Point());
+        Displayable tpBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(256, 256, Color.WHITE, Color.GRAY));
+        playerInventory.add(tpBackground);
+        playerInventory.add(new StringDisplayable( new Point(16, 64), () -> "Trading Post MONEY: " + getMoney()));
+        this.playerInventory = playerInventory;
 
     }
 
     // Placeholder money example stuff goes here
-    private int money = 100;
+
 
     public int getMoney() { return money; }
     public void modifyMoney(int newMoney) { money += newMoney; }
