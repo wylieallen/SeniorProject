@@ -1,4 +1,4 @@
-package Model.Ship.ShipParts.ShipBuilder;
+package Model.Ship.ShipBuilder;
 
 import Model.Pilot.Pilot;
 import Model.Ship.Ship;

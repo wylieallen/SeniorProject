@@ -9,10 +9,11 @@ import Utility.*;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import static Utility.Config.FRAMERATE;
+
 
 public class BattleZone extends Zone {
 
-    private int framerate = 30; // Put into constants?
     private int zoneID;
 
     private List<LocationTuple<Player>> players;
@@ -25,7 +26,7 @@ public class BattleZone extends Zone {
         this.zoneID = zoneID;
         Point3D origin = new Point3D(0f,0f,0f);
         addPlayer(origin, player);
-        //LoadEnemies
+        addEnemies();
     }
 
     public void addPlayer(Point3D location, Player player){
@@ -33,9 +34,9 @@ public class BattleZone extends Zone {
         players.add(newPlayer);
     }
 
-    public void addEnemies() throws FileNotFoundException {
-        EnemyBuilder newBuilder = new EnemyBuilder();
-        this.enemies = newBuilder.buildEnemies("/resources/Zones/battlezone", Integer.toString(zoneID));
+    public void addEnemies() {
+        EnemyBuilder newEnemyBuilder = new EnemyBuilder();
+        this.enemies = newEnemyBuilder.buildEnemies("/resources/Zones/battlezone", Integer.toString(zoneID));
     }
 
     //See if math is correct?
@@ -44,9 +45,9 @@ public class BattleZone extends Zone {
             if (players.get(i).getObject() == player){
 
                 Point3D curPosition = players.get(i).getLocation();
-                float newX = curPosition.getX() + unitVector.getX()*(player.getCurrentShipSpeed()/framerate);
-                float newY = curPosition.getY() + unitVector.getY()*(player.getCurrentShipSpeed()/framerate);
-                float newZ = curPosition.getZ() + unitVector.getZ()*(player.getCurrentShipSpeed()/framerate);
+                float newX = curPosition.getX() + unitVector.getX()*(player.getCurrentShipSpeed()/FRAMERATE);
+                float newY = curPosition.getY() + unitVector.getY()*(player.getCurrentShipSpeed()/FRAMERATE);
+                float newZ = curPosition.getZ() + unitVector.getZ()*(player.getCurrentShipSpeed()/FRAMERATE);
 
                 Point3D newPosition = new Point3D(newX, newY, newZ);
                 players.get(i).setLocation(newPosition);
@@ -60,9 +61,9 @@ public class BattleZone extends Zone {
             if (enemies.get(i).getObject() == enemy){
 
                 Point3D curPosition = enemies.get(i).getLocation();
-                float newX = curPosition.getX() + unitVector.getX()*(enemy.getCurrentShipSpeed()/framerate);
-                float newY = curPosition.getY() + unitVector.getY()*(enemy.getCurrentShipSpeed()/framerate);
-                float newZ = curPosition.getZ() + unitVector.getZ()*(enemy.getCurrentShipSpeed()/framerate);
+                float newX = curPosition.getX() + unitVector.getX()*(enemy.getCurrentShipSpeed()/FRAMERATE);
+                float newY = curPosition.getY() + unitVector.getY()*(enemy.getCurrentShipSpeed()/FRAMERATE);
+                float newZ = curPosition.getZ() + unitVector.getZ()*(enemy.getCurrentShipSpeed()/FRAMERATE);
 
                 Point3D newPosition = new Point3D(newX, newY, newZ);
                 enemies.get(i).setLocation(newPosition);

@@ -1,4 +1,4 @@
-package Model.Ship.ShipParts.ShipBuilder;
+package Model.Ship.ShipBuilder;
 
 import Model.Ship.ShipParts.ShipWeapon;
 import Utility.Rarity;

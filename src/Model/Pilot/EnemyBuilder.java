@@ -3,7 +3,7 @@ package Model.Pilot;
 import Model.Map.LocationTuple;
 import Model.Ship.ShipParts.*;
 import Model.Ship.*;
-import Model.Ship.ShipParts.ShipBuilder.ShipBuilder;
+import Model.Ship.ShipBuilder.ShipBuilder;
 import Utility.Point3D;
 import Utility.Rarity;
 
@@ -21,10 +21,16 @@ public class EnemyBuilder {
         shipBuilder = new ShipBuilder();
     }
 
-    public List<LocationTuple<Enemy>> buildEnemies(String filepath, String zoneid) throws FileNotFoundException {
+    public List<LocationTuple<Enemy>> buildEnemies(String filepath, String zoneid) {
         String filename = filepath + zoneid + "/enemies.txt";
 
-        Scanner s = new Scanner(new File(filename));
+        Scanner s = null;
+        try {
+            s = new Scanner(new File(filename));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         List<String> enemyData = new ArrayList<>();
         while (s.hasNextLine()){
             enemyData.add(s.nextLine());
