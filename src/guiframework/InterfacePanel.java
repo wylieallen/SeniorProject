@@ -61,13 +61,13 @@ public class InterfacePanel extends JPanel implements KeyListener
         {
             public void mouseDragged(MouseEvent e)
             {
-                System.out.println("Mouse button " + e.getButton() + " dragged to " + e.getPoint());
+                //System.out.println("Mouse button " + e.getButton() + " dragged to " + e.getPoint());
                 activeState.parseMouseDrag(e);
             }
 
             public void mouseMoved(MouseEvent e)
             {
-                System.out.println("Mouse moved to " + e.getPoint());
+                //System.out.println("Mouse moved to " + e.getPoint());
                 activeState.parseMouseMove(e);
             }
         });
