@@ -20,6 +20,18 @@ public class TradingPost {
         bountyIterator = bountyList.iterator();
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public List<BountyMission> getBountyList() {
+        return bountyList;
+    }
+
     public void Buy(Item i) {
         int value = i.getCurrencyValue();
 

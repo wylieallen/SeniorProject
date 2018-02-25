@@ -1,9 +1,14 @@
 package Model.Ship;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShipHangar {
     private List<Ship> myShips;
+
+    public ShipHangar() {
+        myShips = new ArrayList<Ship>();
+    }
 
     public void addShip(Ship ship){
         myShips.add(ship);

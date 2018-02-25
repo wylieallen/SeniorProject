@@ -1,21 +1,53 @@
 package guiframework;
 
+import Model.Items.Consumables.FuelConsumable;
+import Model.Items.Consumables.HealthConsumable;
+import Model.Items.Consumables.ShieldConsumable;
+import Model.Items.Inventory;
+import Model.Pilot.Player;
+import Model.Ship.Ship;
+import Model.Ship.ShipParts.ShipHull;
+import Model.TradingPost.BountyMission;
+import Model.TradingPost.TradingPost;
+import Model.TradingPost.Wallet;
+import Utility.Rarity;
 import guiframework.clickable.Button;
+import guiframework.clickable.Overlay;
 import guiframework.displayable.CompositeDisplayable;
 import guiframework.displayable.Displayable;
 import guiframework.displayable.ImageDisplayable;
 import guiframework.displayable.StringDisplayable;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TradingPostUberstate extends Uberstate{
     static final int HEIGHT = 128;
     static final int WIDTH = 640;
-    private int money = 100;
-    private CompositeDisplayable playerInventory;
-    private CompositeDisplayable tpInventory = new CompositeDisplayable(new Point());
+    private TradingPost currentTP;
+    private Player currentPlayer;
+    private Overlay playerInventory = new Overlay(new Point());
+    private Overlay tpInventory = new Overlay(new Point());
+    private Overlay bountyList = new Overlay(new Point());
+    private Overlay activeOverlay = new Overlay(new Point());
 
     public TradingPostUberstate() {
+
+        //todo: Figure out how player and trading post are passed to Uberstate properly. Temporarily adding test player and trading post.
+        currentPlayer = new Player();
+        currentPlayer.getMyWallet().increaseCurrencyBalance(200);
+        Ship ship = new Ship(currentPlayer, new ShipHull(1000, 1000, 30, Rarity.COMMON));
+        currentPlayer.getShipHangar().addShip(ship);
+        currentPlayer.setActiveShip(ship);
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+
+        currentTP = new TradingPost(new Inventory(20), new Wallet(500), new ArrayList<BountyMission>());
+        currentTP.getInventory().addItem(new FuelConsumable(300, 70));
+        currentTP.getInventory().addItem(new FuelConsumable(300, 70));
+        currentTP.getInventory().addItem(new FuelConsumable(300, 70));
+
 
         //Add space background
 
@@ -42,7 +74,10 @@ public class TradingPostUberstate extends Uberstate{
                 () ->
                 {
                     this.removeAllRightOverlays();
+                    this.removeClickable(activeOverlay);
+                    activeOverlay = this.tpInventory;
                     this.addRightOverlay(this.tpInventory);
+                    this.addClickable(this.tpInventory);
                 });
 
         this.addClickable(buyButton);
@@ -56,7 +91,10 @@ public class TradingPostUberstate extends Uberstate{
                 () ->
                 {
                     this.removeAllRightOverlays();
+                    this.removeClickable(activeOverlay);
+                    activeOverlay = this.playerInventory;
                     this.addRightOverlay(this.playerInventory);
+                    this.addClickable(this.playerInventory);
                 });
 
         this.addClickable(sellButton);
@@ -67,10 +105,14 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Bounty Missions"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Bounty Missions"),
                 ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Bounty Missions"),
-                () -> {},
-                () -> {},
-                () -> {},
-                () -> {});
+                () ->
+                {
+                    this.removeAllRightOverlays();
+                    this.addRightOverlay(this.bountyList);
+                    this.removeClickable(activeOverlay);
+                    activeOverlay = this.bountyList;
+                    this.addClickable(this.bountyList);
+                });
 
         this.addClickable(bountyButton);
         this.addLeftOverlay(bountyButton);
@@ -85,23 +127,65 @@ public class TradingPostUberstate extends Uberstate{
         this.addClickable(exitButton);
         this.addLeftOverlay(exitButton);
 
-        CompositeDisplayable playerInventory = new CompositeDisplayable(new Point());
-        Displayable piBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(256, 256, Color.WHITE, Color.GRAY));
+        Overlay playerInventory = new Overlay(new Point());
+        Displayable piBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(WIDTH, HEIGHT*5, Color.WHITE, Color.GRAY));
         playerInventory.add(piBackground);
-        playerInventory.add(new StringDisplayable( new Point(16, 64), () -> " Player MONEY: " + getMoney()));
+        playerInventory.add(new StringDisplayable( new Point(16, 64), () -> " Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance()));
+        playerInventory.add(new StringDisplayable( new Point(WIDTH/2, 64), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance()));
+
+        Button itemSell = new Button(new Point(WIDTH/5,HEIGHT ),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Sell"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Sell"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Sell"),
+                () ->
+                {
+                    currentPlayer.getMyWallet().increaseCurrencyBalance(5);
+                    currentTP.getWallet().decreaseCurrencyBalance(5);
+                });
+        playerInventory.addClickable(itemSell);
+        playerInventory.add(itemSell);
         this.playerInventory = playerInventory;
 
-        CompositeDisplayable tpInventory = new CompositeDisplayable(new Point());
-        Displayable tpBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(256, 256, Color.WHITE, Color.GRAY));
-        playerInventory.add(tpBackground);
-        playerInventory.add(new StringDisplayable( new Point(16, 64), () -> "Trading Post MONEY: " + getMoney()));
-        this.playerInventory = playerInventory;
+        Overlay tpInventory = new Overlay(new Point());
+        Displayable tpBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(WIDTH, HEIGHT*5, Color.WHITE, Color.GRAY));
+        tpInventory.add(tpBackground);
+        tpInventory.add(new StringDisplayable( new Point(16, 64), () -> "Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance()));
+        tpInventory.add(new StringDisplayable( new Point(WIDTH/2, 64), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance()));
 
+        Button itemBuy = new Button(new Point(WIDTH/5,HEIGHT ),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Buy"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Buy"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Buy"),
+                () ->
+                {
+                   currentPlayer.getMyWallet().decreaseCurrencyBalance(5);
+                   currentTP.getWallet().increaseCurrencyBalance(5);
+                });
+        tpInventory.addClickable(itemBuy);
+        tpInventory.add(itemBuy);
+        this.tpInventory = tpInventory;
+
+        Overlay bountyList =  new Overlay(new Point());
+        Displayable bountyBackground =  new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(WIDTH, HEIGHT*5, Color.WHITE, Color.GRAY));
+        bountyList.add(bountyBackground);
+        bountyList.add(new StringDisplayable(new Point(16, 64), () -> "Bounty List"));
+
+        Button bountyListing = new Button(new Point(WIDTH/5,HEIGHT ),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Take Mission"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Take Mission"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Take Mission"),
+                () ->
+                {
+
+                });
+        bountyList.addClickable(bountyListing);
+        bountyList.add(bountyListing);
+        this.bountyList = bountyList;
     }
 
     // Placeholder money example stuff goes here
+//    public int getMoney() { return money; }
+//    public void modifyMoney(int newMoney) { money += newMoney; }
 
 
-    public int getMoney() { return money; }
-    public void modifyMoney(int newMoney) { money += newMoney; }
 }
