@@ -13,7 +13,7 @@ public class TradingPostUberstate extends Uberstate{
     static final int WIDTH = 640;
     private int money = 100;
     private CompositeDisplayable playerInventory;
-    private CompositeDisplayable tpInventory;
+    private CompositeDisplayable tpInventory = new CompositeDisplayable(new Point());
 
     public TradingPostUberstate() {
 

@@ -20,6 +20,8 @@ public class Uberstate
     private OverlayManager overlayManager;
     private UnderlayManager underlayManager;
 
+    private Dimension size = new Dimension(1280, 720);
+
     public Uberstate()
     {
         underlays = new LinkedHashSet<>();
@@ -43,9 +45,7 @@ public class Uberstate
     {
         underlays.forEach(Displayable::update);
         displayables.forEach((collection) -> collection.forEach(Displayable::update));
-        synchronized (overlays) {
-            overlays.forEach(Displayable::update);
-        }
+        overlays.forEach(Displayable::update);
     }
 
     public void addClickable(Clickable clickable) { clickables.add(clickable); }
@@ -55,22 +55,26 @@ public class Uberstate
     {
         overlayManager.addLeft(overlay);
         overlays.add(overlay);
+        changeSize(this.size);
     }
 
     public void addRightOverlay(Displayable overlay)
     {
         overlayManager.addRight(overlay);
         overlays.add(overlay);
+        changeSize(this.size);
     }
 
     public void removeRightOverlay(Displayable overlay)
     {
         overlayManager.removeRight(overlay);
         overlays.remove(overlay);
+        changeSize(this.size);
     }
 
     public void removeAllRightOverlays() {
         overlayManager.removeAllRightOverlays();
+        changeSize(this.size);
     }
 
 
@@ -78,6 +82,7 @@ public class Uberstate
     {
         overlayManager.addCenter(overlay);
         overlays.add(overlay);
+        changeSize(this.size);
     }
 
     public void removeOverlay(Displayable overlay)
@@ -158,6 +163,7 @@ public class Uberstate
 
     public void changeSize(Dimension size)
     {
+        this.size.setSize(size);
         overlayManager.resetOverlays(size);
         underlayManager.resetUnderlays(size);
     }
