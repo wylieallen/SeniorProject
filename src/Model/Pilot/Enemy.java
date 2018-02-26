@@ -18,7 +18,7 @@ public class Enemy extends Pilot {
     }
 
     @Override
-    public void Move(Vector3D unitVector) {
+    public void move(Vector3D unitVector) {
 
     }
 }
