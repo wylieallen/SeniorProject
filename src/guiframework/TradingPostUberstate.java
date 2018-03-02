@@ -63,15 +63,15 @@ public class TradingPostUberstate extends Uberstate{
 
         //Add title box
         ImageDisplayable tpTitle =
-                new ImageDisplayable(new Point(0,0),ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.BLUE, Color.GRAY, Color.RED, "Trading Post"));
+                new ImageDisplayable(new Point(0,0),ImageFactory.getTradingPostLabel());
 
         this.addLeftOverlay(tpTitle);
 
         //Add Buy Button
         Button buyButton = new Button(new Point(0, HEIGHT),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.BLACK, Color.BLACK, Color.WHITE, "Buy"),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.BLACK, Color.WHITE, Color.WHITE, "Buy"),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.BLACK, Color.BLUE, Color.WHITE, "Buy"),
+                ImageFactory.getBuyButtonBase(),
+                ImageFactory.getBuyButtonHover(),
+                ImageFactory.getBuyButtonPress(),
                 () ->
                 {
                     this.removeAllRightOverlays();
@@ -86,9 +86,9 @@ public class TradingPostUberstate extends Uberstate{
 
         //Add Sell Button
         Button sellButton = new Button(new Point(0, (HEIGHT * 2) + 20),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.BLACK, Color.BLACK, Color.WHITE, "Sell"),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.BLACK, Color.WHITE, Color.WHITE, "Sell"),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.BLACK, Color.BLUE, Color.WHITE, "Sell"),
+                ImageFactory.getSellButtonBase(),
+                ImageFactory.getSellButtonHover(),
+                ImageFactory.getSellButtonPress(),
                 () ->
                 {
                     this.removeAllRightOverlays();
@@ -103,9 +103,9 @@ public class TradingPostUberstate extends Uberstate{
 
         //Add Bounty Missions Button
         Button bountyButton = new Button(new Point(0, HEIGHT * 3),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Bounty Missions"),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Bounty Missions"),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Bounty Missions"),
+                ImageFactory.getBountyButtonBase(),
+                ImageFactory.getBountyButtonHover(),
+                ImageFactory.getBountyButtonPress(),
                 () ->
                 {
                     this.removeAllRightOverlays();
@@ -120,9 +120,9 @@ public class TradingPostUberstate extends Uberstate{
 
         //Add Exit Button
         Button exitButton = new Button(new Point(0, HEIGHT * 4),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Exit"),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Exit"),
-                ImageFactory.makeCenterLabeledRect(WIDTH, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Exit"),
+                ImageFactory.getExitButtonBase(),
+                ImageFactory.getExitButtonHover(),
+                ImageFactory.getExitButtonPress(),
                 () -> {});
 
         this.addClickable(exitButton);
