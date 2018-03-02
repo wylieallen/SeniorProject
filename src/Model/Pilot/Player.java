@@ -8,8 +8,6 @@ import Model.TradingPost.BountyMission;
 import Model.TradingPost.Wallet;
 import Utility.Vector3D;
 
-import java.util.Vector;
-
 public class Player extends Pilot {
 
     private ShipHangar shipHangar;
@@ -53,27 +51,26 @@ public class Player extends Pilot {
     }
 
     @Override
-    public void Move(Vector3D unitVector) {
+    public void accelerate(Vector3D unitVector){
+        super.accelerate(unitVector);
+        this.move(unitVector);
+    }
 
-        //Psuedo-code (get keypress and put in gameloop?)
-        String keypress = "";
+    @Override
+    public void applyFriction(Vector3D unitVector){
+        super.applyFriction(unitVector);
+        this.move(unitVector);
+    }
 
+    @Override
+    public void decelerate(Vector3D unitVector){
+        super.decelerate(unitVector);
+        this.move(unitVector);
+    }
+
+    @Override
+    public void move(Vector3D unitVector) {
         BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
-        if (keypress.equals("w") && getCurrentShipSpeed() != getMaxShipSpeed())
-        {
-            accelerate();
-            currentZone.updatePlayerPosition(unitVector, this);
-        }
-        else if(keypress.equals("s") && getCurrentShipSpeed() != 0){
-            brake();
-            currentZone.updatePlayerPosition(unitVector, this);
-        }
-        else if (getCurrentShipSpeed() != 0)
-        {
-            decelerate();
-            currentZone.updatePlayerPosition(unitVector, this);
-        }
-
-
+        currentZone.updatePlayerPosition(unitVector, this);
     }
 }

@@ -3,6 +3,7 @@ import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
 import Model.Ship.ShipStats;
 import Utility.Vector3D;
+import static Utility.Config.*;
 
 public abstract class Pilot {
     private Ship activeShip;
@@ -41,21 +42,26 @@ public abstract class Pilot {
         this.maxLevel = maxLevel;
     }
 
-    public void accelerate(){
-        activeShip.getShipStats().modifyCurrentSpeed(1);
+    public void accelerate(Vector3D unitVector){
+        activeShip.getShipStats().modifyCurrentSpeed(ACCELERATE_RATE);
     }
 
-    public void decelerate(){
-        activeShip.getShipStats().modifyCurrentSpeed(-1);
+    public void applyFriction(Vector3D unitVector){
+        if (activeShip.getShipStats().getCurrentSpeed() > 0){
+            activeShip.getShipStats().modifyCurrentSpeed(-FRICTION_RATE);
+        }
+        else if (activeShip.getShipStats().getCurrentSpeed() < 0) {
+            activeShip.getShipStats().modifyCurrentSpeed(FRICTION_RATE);
+        }
     }
 
-    public void brake(){
-        activeShip.getShipStats().modifyCurrentSpeed(-2);
+    public void decelerate(Vector3D unitVector){
+        activeShip.getShipStats().modifyCurrentSpeed(-ACCELERATE_RATE);
     }
 
 
     public abstract void pilotDied();
 
-    public abstract void Move(Vector3D unitVector);
+    public abstract void move(Vector3D unitVector);
 
 }

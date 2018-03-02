@@ -42,6 +42,7 @@ public class ShipBuilder {
         return weaponBuilder.buildWeapon();
     }
 
+
     public Ship buildShip(Pilot owner, ShipEngine myEngine, ShipHull myHull, ShipShield myShield, ShipSpecial mySpecial, ShipWeapon myWeapon1, ShipWeapon myWeapon2){
 
         Ship newShip = new Ship(owner, myHull);
@@ -50,6 +51,17 @@ public class ShipBuilder {
         newShip.equipSpecial(mySpecial);
         newShip.equipWeapon1(myWeapon1);
         newShip.equipWeapon2(myWeapon2);
+        return newShip;
+    }
+
+    public Ship buildRandomShip(Pilot owner, Rarity rarity){
+
+        Ship newShip = new Ship(owner, buildHull(1000,100,8,rarity));
+        newShip.equipEngine(buildEngine(1000,50,rarity));
+        newShip.equipShield(buildShield(1000,50,rarity));
+        newShip.equipSpecial(buildSpecial());
+        newShip.equipWeapon1(buildWeapon());
+        newShip.equipWeapon2(buildWeapon());
         return newShip;
     }
 

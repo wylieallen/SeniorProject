@@ -32,4 +32,10 @@ public class Point3D {
         return false;
     }
 
+    public String toString(){
+
+        String coordinates = "X: " + x + " Y: " + y + " Z: " + z;
+        return coordinates;
+    }
+
 }

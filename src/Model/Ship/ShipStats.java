@@ -68,6 +68,13 @@ public class ShipStats {
 
     public void modifyCurrentSpeed(int amount){
         currentSpeed += amount;
+
+        if (currentSpeed > maxSpeed){
+            currentSpeed = maxSpeed;
+        }
+        if (currentSpeed < -maxSpeed){
+            currentSpeed = -maxSpeed;
+        }
     }
 
     public int getCurrentHealth(){
