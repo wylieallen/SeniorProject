@@ -49,4 +49,6 @@ public class Inventory {
         currentItems--;
         return i;
     }
+
+    public Item getItem(int index) { return itemList.get(index); }
 }

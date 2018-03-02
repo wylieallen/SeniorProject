@@ -38,4 +38,9 @@ public class FuelConsumable extends Consumable{
         else
             stats.modifyCurrentFuel(useValue);
     }
+
+
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
 }

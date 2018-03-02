@@ -18,4 +18,6 @@ public class Item {
     }
 
     public void Use(){}
+
+    public String getName(){return this.getClass().getSimpleName();}
 }

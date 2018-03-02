@@ -38,4 +38,8 @@ public class HealthConsumable extends Consumable{
         else
             stats.modifyCurrentHealth(useValue);
     }
+
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
 }

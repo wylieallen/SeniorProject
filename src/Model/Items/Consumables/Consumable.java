@@ -14,4 +14,6 @@ abstract class Consumable extends Item{
     public abstract void setUseValue(int uv);
 
     public abstract void Use(Ship s);
+
+    public abstract String getName();
 }

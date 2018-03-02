@@ -38,4 +38,8 @@ public class ShieldConsumable extends Consumable{
         else
             stats.modifyCurrentShield(useValue);
     }
+
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
 }

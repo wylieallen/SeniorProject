@@ -18,7 +18,8 @@ public class Application
     private static void createAndShowGUI()
     {
         JFrame frame = new JFrame();
-        frame.setSize(1280, 720);
+        frame.setSize(1800, 1000);
+        //frame.setExtendedState( frame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
 
         frame.setTitle("Senior Project");
 
@@ -38,7 +39,7 @@ public class Application
 //        uberstate.addOverlay(exampleButton);
 
         InterfacePanel panel = new InterfacePanel(tpUberstate);
-        panel.setSize(1280, 720);
+        panel.setSize(1800, 1000);
         panel.setBackground(Color.BLACK);
 
         frame.getContentPane().add(panel, BorderLayout.CENTER);
