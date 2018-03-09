@@ -9,6 +9,7 @@ public class Enemy extends Pilot {
 
     public Enemy(){
         super.setPilotStats(new PilotStats(getMaxLevel()));
+        super.setFaction(Faction.REBEL);
     }
 
     @Override

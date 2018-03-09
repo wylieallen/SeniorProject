@@ -9,7 +9,7 @@ public class SpecialBuilder {
         super();
     }
 
-    public ShipSpecial buildSpecial(){
+    public ShipSpecial buildRandomSpecial(){
         return new ShipSpecial(0, 0, Rarity.COMMON);
     }
 

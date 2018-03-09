@@ -10,7 +10,7 @@ public class EngineBuilder extends PartBuilder{
         super();
     }
 
-    public ShipEngine buildEngine(int baseValue, int baseSpeed, Rarity rarity){
+    public ShipEngine buildRandomEngine(int baseValue, int baseSpeed, Rarity rarity){
 
         int currencyValue = super.generateRandom(baseValue, (int) (baseValue*CURRENCY_OFFSET), rarity);
         int maxSpeed =  super.generateRandom(baseSpeed, (int) (baseSpeed*SPEED_OFFSET), rarity);

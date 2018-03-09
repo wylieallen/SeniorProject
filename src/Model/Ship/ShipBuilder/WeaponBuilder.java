@@ -1,16 +1,27 @@
 package Model.Ship.ShipBuilder;
 
+import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.Ship.ShipParts.ShipWeapon;
+import Model.Ship.ShipParts.WeaponType.EnergyWeapon;
 import Utility.Rarity;
 
-public class WeaponBuilder {
+import static Utility.Config.*;
+
+public class WeaponBuilder extends PartBuilder{
+
+    private ProjectileBuilder projectileBuilder;
 
     public WeaponBuilder(){
         super();
+        projectileBuilder = new ProjectileBuilder();
+
     }
 
-    public ShipWeapon buildWeapon(){
+    public ShipWeapon buildRandomEnergyWeapon(int baseValue, int baseDamage, int baseSpeed, Rarity rarity){
 
-        return new ShipWeapon(0, 0, Rarity.COMMON);
+        int currencyValue = super.generateRandom(baseValue, (int) (baseValue*CURRENCY_OFFSET), rarity);
+        Projectile projectile = projectileBuilder.buildRandomLinearProjectile(10,10, rarity);
+
+        return new EnergyWeapon(currencyValue, projectile, rarity);
     }
 }

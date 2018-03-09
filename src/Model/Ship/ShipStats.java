@@ -5,11 +5,11 @@ public class ShipStats {
     private int maxHealth;
     private int maxShield;
     private int maxFuel;
-    private int maxSpeed;
+    private double maxSpeed;
     private int currentHealth;
     private int currentShield;
     private int currentFuel;
-    private int currentSpeed;
+    private double currentSpeed;
 
     public ShipStats(int maxHealth){
         this.maxHealth = maxHealth;
@@ -50,23 +50,43 @@ public class ShipStats {
         return maxFuel;
     }
 
-    public int getMaxSpeed(){
+    public double getMaxSpeed(){
         return maxSpeed;
     }
 
     public void modifyCurrentHealth(int amount){
-        currentHealth += amount;
+        if (amount < 0 && currentShield > 0){
+            modifyCurrentShield(amount);
+        }
+        else {
+            currentHealth += amount;
+            if (currentHealth > maxHealth){
+                currentHealth = maxHealth;
+            }
+        }
     }
 
     public void modifyCurrentShield(int amount){
         currentShield += amount;
+        if (currentShield > maxShield){
+            currentShield = maxShield;
+        }
+
+        if (currentShield < 0){
+            amount = currentShield;
+            currentShield = 0;
+            modifyCurrentHealth(amount);
+        }
     }
 
     public void modifyCurrentFuel(int amount){
         currentFuel += amount;
+        if (currentFuel > maxFuel){
+            currentFuel = maxFuel;
+        }
     }
 
-    public void modifyCurrentSpeed(int amount){
+    public void modifyCurrentSpeed(double amount){
         currentSpeed += amount;
 
         if (currentSpeed > maxSpeed){
@@ -89,9 +109,7 @@ public class ShipStats {
         return currentFuel;
     }
 
-    public int getCurrentSpeed(){
-        return currentSpeed;
-    }
+    public double getCurrentSpeed(){ return currentSpeed; }
 
     // End Getter/Setters
 

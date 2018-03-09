@@ -77,32 +77,32 @@ public class EnemyBuilder {
             int hullCost = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
             int health = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
             int inventorySize = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
-            ShipHull newHull = shipBuilder.buildHull(hullCost, health, inventorySize, enemyRarity);
+            ShipHull newHull = shipBuilder.buildRandomHull(hullCost, health, inventorySize, enemyRarity);
 
             lineIndex++; //SKIP ENGINE
             int engineCost = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
             int speed = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
-            ShipEngine newEngine = shipBuilder.buildEngine(engineCost, speed, enemyRarity);
+            ShipEngine newEngine = shipBuilder.buildRandomEngine(engineCost, speed, enemyRarity);
 
             lineIndex++; //SKIP SHIELD
             int shieldCost = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
             int shield = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
-            ShipShield newShield = shipBuilder.buildShield(shieldCost, shield, enemyRarity);
+            ShipShield newShield = shipBuilder.buildRandomShield(shieldCost, shield, enemyRarity);
 
             lineIndex++; //SKIP SPECIAL
             int specialCost = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
             int fuel = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
-            ShipSpecial newSpecial = shipBuilder.buildSpecial();
+            ShipSpecial newSpecial = shipBuilder.buildRandomSpecial();
 
             lineIndex++; //SKIP WEAPON
             int weap1Cost = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
             int value = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
-            ShipWeapon newWeapon1 = shipBuilder.buildWeapon();
+            ShipWeapon newWeapon1 = shipBuilder.buildRandomWeapon(100,100,100,enemyRarity);
 
             lineIndex++; //SKIP WEAPON2
             int weap2Cost = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
             int value2 = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
-            ShipWeapon newWeapon2 = shipBuilder.buildWeapon();
+            ShipWeapon newWeapon2 = shipBuilder.buildRandomWeapon(100,100,100,enemyRarity);
 
 
             Ship newShip = shipBuilder.buildShip(newEnemy, newEngine, newHull, newShield, newSpecial, newWeapon1, newWeapon2);

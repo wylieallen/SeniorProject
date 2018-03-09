@@ -31,6 +31,14 @@ public class ShipInputHandler implements KeyListener {
             Vector3D newVector = new Vector3D(0,1,0);
             player.applyFriction(newVector);
         }
+
+        if (keys[KeyEvent.VK_SPACE] == true){
+            player.fireWeapon1();
+        }
+
+        if (keys[KeyEvent.VK_E] == true){
+            player.toggleShield();
+        }
     }
 
     @Override

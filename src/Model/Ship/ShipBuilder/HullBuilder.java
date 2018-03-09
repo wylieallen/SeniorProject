@@ -11,7 +11,7 @@ public class HullBuilder extends PartBuilder {
         super();
     }
 
-    public ShipHull buildHull(int baseValue, int baseHealth, int inventorySize, Rarity rarity){
+    public ShipHull buildRandomHull(int baseValue, int baseHealth, int inventorySize, Rarity rarity){
 
         int currencyValue = super.generateRandom(baseValue, (int) (baseValue*CURRENCY_OFFSET), rarity);
         int maxHealth =  super.generateRandom(baseHealth, (int) (baseHealth*HEALTH_OFFSET), rarity);

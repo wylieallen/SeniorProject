@@ -10,7 +10,7 @@ public class ShieldBuilder extends PartBuilder {
         super();
     }
 
-    public ShipShield buildShield(int baseValue, int baseShield, Rarity rarity){
+    public ShipShield buildRandomShield(int baseValue, int baseShield, Rarity rarity){
 
         int currencyValue = super.generateRandom(baseValue, (int) (baseValue*CURRENCY_OFFSET), rarity);
         int maxShield =  super.generateRandom(baseShield, (int) (baseShield*SHIELD_OFFSET), rarity);

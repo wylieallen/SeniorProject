@@ -9,6 +9,7 @@ public abstract class Pilot {
     private Ship activeShip;
     private PilotStats pilotStats;
     private int maxLevel;
+    private Faction faction;
 
     public void setActiveShip(Ship ship){
         this.activeShip = ship;
@@ -18,11 +19,11 @@ public abstract class Pilot {
         return this.activeShip;
     }
 
-    public int getCurrentShipSpeed() {
+    public double getCurrentShipSpeed() {
         return getActiveShip().getShipStats().getCurrentSpeed();
     };
 
-    public int getMaxShipSpeed() {
+    public double getMaxShipSpeed() {
         return getActiveShip().getShipStats().getMaxSpeed();
     };
 
@@ -42,6 +43,12 @@ public abstract class Pilot {
         this.maxLevel = maxLevel;
     }
 
+    public Faction getFaction() { return faction; }
+
+    public void setFaction(Faction faction) {
+        this.faction = faction;
+    }
+
     public void accelerate(Vector3D unitVector){
         activeShip.getShipStats().modifyCurrentSpeed(ACCELERATE_RATE);
     }
@@ -59,6 +66,13 @@ public abstract class Pilot {
         activeShip.getShipStats().modifyCurrentSpeed(-ACCELERATE_RATE);
     }
 
+    public void fireWeapon1(){
+        activeShip.useWeapon1();
+    }
+
+    public void toggleShield(){
+        activeShip.toggleShieldActivated();
+    }
 
     public abstract void pilotDied();
 

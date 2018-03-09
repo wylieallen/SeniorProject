@@ -3,6 +3,9 @@ package Model.Ship;
 import Model.Items.Inventory;
 import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.*;
+import Utility.SystemTimer;
+
+import static Utility.Config.*;
 
 public class Ship {
 
@@ -17,11 +20,16 @@ public class Ship {
     private ShipSpecial specialSlot;
     private Inventory inventory;
 
+    private boolean shieldActivated;
+    private SystemTimer shieldCooldown;
+
     public Ship(Pilot owner, ShipHull myShip){
         this.hullSlot = myShip;
         shipStats = new ShipStats(hullSlot.getmaxHealth());
         inventory = new Inventory(hullSlot.getInventorySize());
         myPilot = owner;
+        shieldActivated = false;
+        shieldCooldown = new SystemTimer();
     }
 
     public void equipWeapon1(ShipWeapon weapon){
@@ -49,6 +57,8 @@ public class Ship {
         updateMaxStats();
     }
 
+    //TODO add unequip methods
+
     public void updateMaxStats(){
         if (engineSlot != null) shipStats.setMaxSpeed(engineSlot.getMaxSpeed());
         if (specialSlot != null) shipStats.setMaxFuel(specialSlot.getmaxFuel());
@@ -59,7 +69,6 @@ public class Ship {
         return inventory;
     }
 
-
     public ShipStats getShipStats() {
         return shipStats;
     }
@@ -68,9 +77,44 @@ public class Ship {
         return shipStats.isAlive();
     }
 
+    public void useWeapon1(){
+        if (!shieldActivated) {
+            weaponSlot1.fireWeapon(myPilot);
+        }
+        else{
+            System.out.println("Shield is active, CANNOT fire");
+        }
+    }
+
+    public void useWeapon2(){
+        if (!shieldActivated) {
+            weaponSlot2.fireWeapon(myPilot);
+        }
+        else{
+            System.out.println("Shield is active, CANNOT fire");
+        }
+    }
+
+    public void toggleShieldActivated(){
+
+        if (!shieldActivated && shieldCooldown.getElapsedTime() >= SHIELD_CD){
+            shieldActivated = true;
+            shipStats.modifyCurrentShield(shipStats.getMaxShield());
+        }
+        else if (shieldActivated){
+            shieldCooldown.reset();
+            shieldActivated = false;
+            shipStats.modifyCurrentShield(-shipStats.getCurrentShield());
+        }
+    }
+
+    public boolean shieldActivated(){
+        return shieldActivated;
+    }
+
     public void takeDamage(int amount){
         shipStats.modifyCurrentHealth(amount);
-        if (isAlive() == false)
+        if (!isAlive())
         {
             myPilot.pilotDied();
         }

@@ -20,26 +20,25 @@ public class ShipBuilder {
         weaponBuilder = new WeaponBuilder();
     }
 
-    public ShipEngine buildEngine(int baseValue, int baseSpeed, Rarity rarity){
-       return engineBuilder.buildEngine(baseValue, baseSpeed, rarity);
+    public ShipEngine buildRandomEngine(int baseValue, int baseSpeed, Rarity rarity){
+       return engineBuilder.buildRandomEngine(baseValue, baseSpeed, rarity);
     }
 
-    public ShipHull buildHull(int baseValue, int baseHealth, int inventorySize, Rarity rarity){
-        return hullBuilder.buildHull(baseValue, baseHealth, inventorySize, rarity);
+    public ShipHull buildRandomHull(int baseValue, int baseHealth, int inventorySize, Rarity rarity){
+        return hullBuilder.buildRandomHull(baseValue, baseHealth, inventorySize, rarity);
     }
 
-    public ShipShield buildShield(int baseValue, int baseShield, Rarity rarity){
-        return shieldBuilder.buildShield(baseValue, baseShield, rarity);
+    public ShipShield buildRandomShield(int baseValue, int baseShield, Rarity rarity){
+        return shieldBuilder.buildRandomShield(baseValue, baseShield, rarity);
     }
 
     //TODO implement Specials
-    public ShipSpecial buildSpecial(){
-        return specialBuilder.buildSpecial();
+    public ShipSpecial buildRandomSpecial(){
+        return specialBuilder.buildRandomSpecial();
     }
 
-    //TODO implement Weapons
-    public ShipWeapon buildWeapon(){
-        return weaponBuilder.buildWeapon();
+    public ShipWeapon buildRandomWeapon(int baseValue, int baseDamage, int baseSpeed, Rarity rarity){
+        return weaponBuilder.buildRandomEnergyWeapon(baseValue, baseDamage, baseSpeed, rarity);
     }
 
 
@@ -56,12 +55,12 @@ public class ShipBuilder {
 
     public Ship buildRandomShip(Pilot owner, Rarity rarity){
 
-        Ship newShip = new Ship(owner, buildHull(1000,100,8,rarity));
-        newShip.equipEngine(buildEngine(1000,50,rarity));
-        newShip.equipShield(buildShield(1000,50,rarity));
-        newShip.equipSpecial(buildSpecial());
-        newShip.equipWeapon1(buildWeapon());
-        newShip.equipWeapon2(buildWeapon());
+        Ship newShip = new Ship(owner, buildRandomHull(1000,100,8,rarity));
+        newShip.equipEngine(buildRandomEngine(1000,50,rarity));
+        newShip.equipShield(buildRandomShield(1000,50,rarity));
+        newShip.equipSpecial(buildRandomSpecial());
+        newShip.equipWeapon1(buildRandomWeapon(1000, 25, 40, rarity));
+        newShip.equipWeapon2(buildRandomWeapon(1000, 5, 100, rarity));
         return newShip;
     }
 

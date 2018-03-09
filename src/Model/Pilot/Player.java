@@ -16,6 +16,7 @@ public class Player extends Pilot {
 
     public Player(){
         super.setPilotStats(new PilotStats(1));
+        super.setFaction(Faction.ALLY);
         shipHangar = new ShipHangar();
         myWallet = new Wallet(0);
         currentBountyMission = null;
@@ -68,6 +69,8 @@ public class Player extends Pilot {
         this.move(unitVector);
     }
 
+
+    //TODO change move to calculate new position based on old (from updateplayerposition)
     @Override
     public void move(Vector3D unitVector) {
         BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
