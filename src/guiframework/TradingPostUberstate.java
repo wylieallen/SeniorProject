@@ -13,6 +13,7 @@ import Model.TradingPost.TradingPost;
 import Model.TradingPost.Wallet;
 import Utility.Rarity;
 import guiframework.clickable.Button;
+import guiframework.clickable.ItemButton;
 import guiframework.clickable.Overlay;
 import guiframework.displayable.CompositeDisplayable;
 import guiframework.displayable.Displayable;
@@ -24,15 +25,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TradingPostUberstate extends Uberstate{
-    static final int HEIGHT = 200;
-    static final int WIDTH = 800;
+    private static final int HEIGHT = 200;
+    private static final int WIDTH = 800;
+    private static final Font font = new Font("Arvo", Font.PLAIN, 30);
     private TradingPost currentTP;
     private Player currentPlayer;
-    private int selectedItem;
+    private int selectedItem = 0;
     private Overlay playerInventory = new Overlay(new Point());
     private Overlay tpInventory = new Overlay(new Point());
     private Overlay bountyList = new Overlay(new Point());
     private Overlay activeOverlay = new Overlay(new Point());
+    private Overlay activeSelectedOverlay = new Overlay(new Point());
 
     public TradingPostUberstate() {
 
@@ -47,8 +50,8 @@ public class TradingPostUberstate extends Uberstate{
 
         currentTP = new TradingPost(new Inventory(20), new Wallet(500), new ArrayList<BountyMission>());
         currentTP.getInventory().addItem(new FuelConsumable(300, 70));
-        currentTP.getInventory().addItem(new FuelConsumable(300, 70));
-        currentTP.getInventory().addItem(new FuelConsumable(300, 70));
+        currentTP.getInventory().addItem(new FuelConsumable(400, 80));
+        currentTP.getInventory().addItem(new FuelConsumable(500, 90));
 
 
         //todo: add space background here
@@ -74,6 +77,8 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.getBuyButtonPress(),
                 () ->
                 {
+                    activeOverlay.remove(activeSelectedOverlay);
+                    activeOverlay.removeClickable(activeSelectedOverlay);
                     this.removeAllRightOverlays();
                     this.removeClickable(activeOverlay);
                     activeOverlay = this.tpInventory;
@@ -91,6 +96,8 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.getSellButtonPress(),
                 () ->
                 {
+                    activeOverlay.remove(activeSelectedOverlay);
+                    activeOverlay.removeClickable(activeSelectedOverlay);
                     this.removeAllRightOverlays();
                     this.removeClickable(activeOverlay);
                     activeOverlay = this.playerInventory;
@@ -108,6 +115,8 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.getBountyButtonPress(),
                 () ->
                 {
+                    activeOverlay.remove(activeSelectedOverlay);
+                    activeOverlay.removeClickable(activeSelectedOverlay);
                     this.removeAllRightOverlays();
                     this.addRightOverlay(this.bountyList);
                     this.removeClickable(activeOverlay);
@@ -131,78 +140,103 @@ public class TradingPostUberstate extends Uberstate{
         Overlay playerInventory = new Overlay(new Point());
         Displayable piBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(WIDTH, HEIGHT*5, Color.WHITE, Color.GRAY));
         playerInventory.add(piBackground);
+        playerInventory.add(new StringDisplayable( new Point(16, 16), () -> " Player Inventory"));
         playerInventory.add(new StringDisplayable( new Point(16, 64), () -> " Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance()));
         playerInventory.add(new StringDisplayable( new Point(WIDTH/2, 64), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance()));
 
+
+
+
+        //Add selected item Overlay
+        Overlay playerItemSelected = new Overlay(new Point(WIDTH/5,HEIGHT*3));
+        Displayable pisBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLUE, Color.GRAY));
+        playerItemSelected.add(pisBackground);
+        playerItemSelected.add(new StringDisplayable( new Point(16, 16), () -> "" + currentPlayer.getActiveShip().getInventory().getItem(selectedItem).getCurrencyValue(), Color.RED, this.font));
+
+        Button itemSell = new Button(new Point(16,100),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.WHITE, Color.GRAY, Color.BLACK, "Sell Item"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, "Sell Item"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, "Sell Item"),
+                () ->
+                {
+                });
+        playerItemSelected.addClickable(itemSell);
+        playerItemSelected.add(itemSell);
+
         //Adding playerInventory item displayables
         for(int i = 0; i < currentPlayer.getActiveShip().getInventory().getcurrItemsNum(); i++){
-            Button playerItem = new Button(new Point((160*i) + (i*5) + 5, 100),
-                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, currentPlayer.getActiveShip().getInventory().getItem(i).getName()),
-                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, currentPlayer.getActiveShip().getInventory().getItem(i).getName()),
-                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, currentPlayer.getActiveShip().getInventory().getItem(i).getName()),
+
+            Item item = currentPlayer.getActiveShip().getInventory().getItem(i);
+
+            ItemButton playerItem = new ItemButton(item, new Point((160*i) + (i*5) + 5, 100),
+                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
+                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, item.getName()),
+                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, item.getName()),
                     () ->
                     {
-                        currentTP.getWallet().decreaseCurrencyBalance(5);
-                        currentPlayer.getMyWallet().increaseCurrencyBalance(5);
+                        playerInventory.removeClickable(playerItemSelected);
+                        playerInventory.remove(playerItemSelected);
+                        selectedItem = currentPlayer.getActiveShip().getInventory().getIndex(item);
+                        playerInventory.addClickable(playerItemSelected);
+                        playerInventory.add(playerItemSelected);
+                        this.activeSelectedOverlay = playerItemSelected;
                     });
 
             playerInventory.addClickable(playerItem);
             playerInventory.add(playerItem);
         }
 
-        Button itemSell = new Button(new Point(WIDTH/5,HEIGHT ),
-                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Sell"),
-                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.RED, Color.GRAY, Color.WHITE, "Sell"),
-                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Sell"),
-                () ->
-                {
-                    currentPlayer.getMyWallet().increaseCurrencyBalance(5);
-                    currentTP.getWallet().decreaseCurrencyBalance(5);
-                });
-        playerInventory.addClickable(itemSell);
-        playerInventory.add(itemSell);
+
         this.playerInventory = playerInventory;
 
         Overlay tpInventory = new Overlay(new Point());
         Displayable tpBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(WIDTH, HEIGHT*5, Color.WHITE, Color.GRAY));
         tpInventory.add(tpBackground);
+        tpInventory.add(new StringDisplayable( new Point(16, 16), () -> " Trading Post Inventory"));
         tpInventory.add(new StringDisplayable( new Point(16, 64), () -> "Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance()));
         tpInventory.add(new StringDisplayable( new Point(WIDTH/2, 64), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance()));
 
+
+        //Add selected item Overlay
+        Overlay tpItemSelected = new Overlay(new Point(WIDTH/5,HEIGHT*3));
+        Displayable tpiBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLUE, Color.GRAY));
+        tpItemSelected.add(tpiBackground);
+        tpItemSelected.add(new StringDisplayable( new Point(16, 16), () -> "" + currentTP.getInventory().getItem(selectedItem).getCurrencyValue(), Color.RED, this.font));
+
+        Button itemBuy = new Button(new Point(16,100),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.WHITE, Color.GRAY, Color.BLACK, "Buy Item"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, "Buy Item"),
+                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, "Buy Item"),
+                () ->
+                {
+                });
+        tpItemSelected.addClickable(itemBuy);
+        tpItemSelected.add(itemBuy);
+
         //Adding tpInventory item displayables
         for(int i = 0; i < currentTP.getInventory().getcurrItemsNum(); i++){
-//            Button tpItem = new Button(new Point( 160*(i) + 5, 100));
-//            Displayable itemBack = new ImageDisplayable(new Point(0,0),
-//                    ImageFactory.makeCenterLabeledRect(150, HEIGHT, Color.blue, Color.GRAY, Color.white, currentTP.getInventory().getItem(i).getName()));
-//            tpItem.add(itemBack);
+            Item item = currentTP.getInventory().getItem(i);
 
-
-            Button tpItem = new Button(new Point((160*i) + (i*5) + 5, 100),
-                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, currentTP.getInventory().getItem(i).getName()),
-                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, currentTP.getInventory().getItem(i).getName()),
-                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, currentTP.getInventory().getItem(i).getName()),
+            ItemButton tpItem = new ItemButton(item, new Point((160*i) + (i*5) + 5, 100),
+                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
+                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, item.getName()),
+                    ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, item.getName()),
                     () ->
                     {
-                        currentPlayer.getMyWallet().decreaseCurrencyBalance(5);
-                        currentTP.getWallet().increaseCurrencyBalance(5);
+                        tpInventory.removeClickable(tpItemSelected);
+                        tpInventory.remove(tpItemSelected);
+                        selectedItem = currentTP.getInventory().getIndex(item);
+                        tpInventory.addClickable(tpItemSelected);
+                        tpInventory.add(tpItemSelected);
+                        this.activeSelectedOverlay = tpItemSelected;
                     });
 
             tpInventory.addClickable(tpItem);
             tpInventory.add(tpItem);
         }
 
-
-        Button itemBuy = new Button(new Point(WIDTH/5,HEIGHT*4),
-                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.WHITE, Color.GRAY, Color.BLACK, "" + this.selectedItem),
-                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, "" + this.selectedItem),
-                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, "" + this.selectedItem),
-                () ->
-                {
-                   currentPlayer.getMyWallet().decreaseCurrencyBalance(5);
-                   currentTP.getWallet().increaseCurrencyBalance(5);
-                });
-        tpInventory.addClickable(itemBuy);
-        tpInventory.add(itemBuy);
+//        tpInventory.addClickable(tpItemSelected);
+//        tpInventory.add(tpItemSelected);
         this.tpInventory = tpInventory;
 
         Overlay bountyList =  new Overlay(new Point());

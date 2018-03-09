@@ -51,4 +51,8 @@ public class Inventory {
     }
 
     public Item getItem(int index) { return itemList.get(index); }
+
+    public int getIndex(Item item) {
+        return itemList.indexOf(item);
+    }
 }
