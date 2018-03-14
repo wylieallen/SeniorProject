@@ -19,14 +19,6 @@ public class Application
 
     private static void createAndShowGUI()
     {
-
-
-        RandomNumberGenerator rng = new RandomNumberGenerator();
-        for (int i = 0; i<10; i++){
-            System.out.println(rng.getRarityRandomInRange(100,50, Rarity.LEGENDARY));
-        }
-
-
         JFrame frame = new JFrame();
         frame.setSize(1800, 1000);
         //frame.setExtendedState( frame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
