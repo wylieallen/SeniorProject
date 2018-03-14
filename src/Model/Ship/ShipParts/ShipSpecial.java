@@ -9,6 +9,7 @@ public class ShipSpecial extends ShipPart{
     public ShipSpecial(int currencyValue, int maxFuel, Rarity rarity){
         super(currencyValue, rarity);
         this.maxFuel = maxFuel;
+        super.setName(rarity + " Ship Special");
     }
 
     public int getmaxFuel() {

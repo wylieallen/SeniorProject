@@ -11,6 +11,7 @@ public class ShipHull extends ShipPart {
         super(currencyValue, rarity);
         this.maxHealth = maxHealth;
         this.inventorySize = inventorySize;
+        super.setName(rarity + " Ship Hull");
     }
 
     public int getmaxHealth() {

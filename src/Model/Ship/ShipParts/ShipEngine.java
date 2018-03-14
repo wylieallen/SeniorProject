@@ -9,6 +9,7 @@ public class ShipEngine extends ShipPart {
     public ShipEngine(int currencyValue, int maxSpeed, Rarity rarity){
         super(currencyValue, rarity);
         this.maxSpeed = maxSpeed;
+        super.setName(rarity + " Ship Engine");
     }
 
     public int getMaxSpeed() {

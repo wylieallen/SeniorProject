@@ -15,12 +15,13 @@ public class HomingProjectile extends Projectile{
     public HomingProjectile(){
         super.setSpeed(50);
         super.setDamage(100);
+        super.setName("Homing");
     }
 
     @Override
     public Projectile cloneProjectile(Pilot pilot, Vector3D trajectory) {
 
-        LinearProjectile clonedProjectile = new LinearProjectile();
+        HomingProjectile clonedProjectile = new HomingProjectile();
 
         clonedProjectile.setProjectileSource(pilot);
         clonedProjectile.setTrajectory(trajectory);

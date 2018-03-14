@@ -2,6 +2,7 @@ package Model.Items;
 
 public class Item {
     private int currencyValue;
+    private String name;
 
     public Item(){}
 
@@ -19,5 +20,9 @@ public class Item {
 
     public void Use(){}
 
-    public String getName(){return this.getClass().getSimpleName();}
+    public String getName(){return name; }
+
+    public void setName(String name){
+        this.name = name;
+    }
 }

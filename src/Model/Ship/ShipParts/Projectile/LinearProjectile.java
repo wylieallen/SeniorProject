@@ -11,6 +11,7 @@ public class LinearProjectile extends Projectile{
     public LinearProjectile(){
         super.setSpeed(50);
         super.setDamage(100);
+        super.setName("Linear");
     }
 
     @Override

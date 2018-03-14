@@ -7,6 +7,7 @@ import Utility.*;
 
 public abstract class Projectile {
 
+    private String name;
     private Vector3D trajectory;
     private Point3D startingPoint;
     private float range = 1000;
@@ -14,6 +15,14 @@ public abstract class Projectile {
     private int damage;
     private Pilot projectileSource;
 
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public Vector3D getTrajectory(){
         return trajectory;

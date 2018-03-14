@@ -14,6 +14,7 @@ public abstract class ShipWeapon extends ShipPart{
         super(currencyValue, rarity);
         this.projectile = projectile;
         weaponCooldown = new SystemTimer();
+        super.setName(rarity + " " + this.projectile.getName() + " Ship Weapon");
     }
 
     public long getCooldown(){
