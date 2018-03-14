@@ -31,6 +31,8 @@ public class TradingPostUberstate extends Uberstate{
     private TradingPost currentTP;
     private Player currentPlayer;
     private int selectedItem = 0;
+    private List<ItemButton> playerItems;
+    private List<ItemButton> tpItems;
     private Overlay playerInventory = new Overlay(new Point());
     private Overlay tpInventory = new Overlay(new Point());
     private Overlay bountyList = new Overlay(new Point());
@@ -41,7 +43,7 @@ public class TradingPostUberstate extends Uberstate{
 
         //todo: Figure out how player and trading post are passed to Uberstate properly. Temporarily adding test player and trading post.
         currentPlayer = new Player();
-        currentPlayer.getMyWallet().increaseCurrencyBalance(200);
+        currentPlayer.getMyWallet().increaseCurrencyBalance(1500);
         Ship ship = new Ship(currentPlayer, new ShipHull(1000, 1000, 30, Rarity.COMMON));
         currentPlayer.getShipHangar().addShip(ship);
         currentPlayer.setActiveShip(ship);
@@ -52,6 +54,9 @@ public class TradingPostUberstate extends Uberstate{
         currentTP.getInventory().addItem(new FuelConsumable(300, 70));
         currentTP.getInventory().addItem(new FuelConsumable(400, 80));
         currentTP.getInventory().addItem(new FuelConsumable(500, 90));
+
+        tpItems = new ArrayList<ItemButton>();
+        playerItems = new ArrayList<ItemButton>();
 
 
         //todo: add space background here
@@ -151,7 +156,7 @@ public class TradingPostUberstate extends Uberstate{
         Overlay playerItemSelected = new Overlay(new Point(WIDTH/5,HEIGHT*3));
         Displayable pisBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLUE, Color.GRAY));
         playerItemSelected.add(pisBackground);
-        playerItemSelected.add(new StringDisplayable( new Point(16, 16), () -> "" + currentPlayer.getActiveShip().getInventory().getItem(selectedItem).getCurrencyValue(), Color.RED, this.font));
+        playerItemSelected.add(new StringDisplayable( new Point(16, 16), () -> "" + currentPlayer.getActiveShip().getInventory().getItem(selectedItem).getCurrencyValue(), Color.RED, font));
 
         Button itemSell = new Button(new Point(16,100),
                 ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.WHITE, Color.GRAY, Color.BLACK, "Sell Item"),
@@ -182,6 +187,7 @@ public class TradingPostUberstate extends Uberstate{
                         this.activeSelectedOverlay = playerItemSelected;
                     });
 
+            playerItems.add(playerItem);
             playerInventory.addClickable(playerItem);
             playerInventory.add(playerItem);
         }
@@ -201,7 +207,7 @@ public class TradingPostUberstate extends Uberstate{
         Overlay tpItemSelected = new Overlay(new Point(WIDTH/5,HEIGHT*3));
         Displayable tpiBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLUE, Color.GRAY));
         tpItemSelected.add(tpiBackground);
-        tpItemSelected.add(new StringDisplayable( new Point(16, 16), () -> "" + currentTP.getInventory().getItem(selectedItem).getCurrencyValue(), Color.RED, this.font));
+        tpItemSelected.add(new StringDisplayable( new Point(16, 16), () -> "" + currentTP.getInventory().getItem(selectedItem).getCurrencyValue(), Color.RED, font));
 
         Button itemBuy = new Button(new Point(16,100),
                 ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.WHITE, Color.GRAY, Color.BLACK, "Buy Item"),
@@ -209,6 +215,22 @@ public class TradingPostUberstate extends Uberstate{
                 ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, "Buy Item"),
                 () ->
                 {
+                    Item item = currentTP.getInventory().getItem(this.selectedItem);
+                    ItemButton button =  tpItems.get(selectedItem);
+                    if(currentPlayer.getMyWallet().getCurrencyBalance() >= item.getCurrencyValue()) {
+                        currentTP.getWallet().increaseCurrencyBalance(item.getCurrencyValue());
+                        currentPlayer.getMyWallet().decreaseCurrencyBalance(item.getCurrencyValue());
+                        currentTP.getInventory().removeItem(item);
+                        currentPlayer.getActiveShip().getInventory().addItem(item);
+                        tpInventory.removeClickable(button);
+                        tpInventory.remove(button);
+                        tpItems.remove(button);
+                        System.out.println("Item bought!");
+                    }
+                    else
+                        System.out.println("You do not have enough money to buy this item!");
+//                    currentTP.getInventory().removeItem(item);
+//                    currentPlayer.getActiveShip().getInventory().addItem(item);
                 });
         tpItemSelected.addClickable(itemBuy);
         tpItemSelected.add(itemBuy);
@@ -231,6 +253,7 @@ public class TradingPostUberstate extends Uberstate{
                         this.activeSelectedOverlay = tpItemSelected;
                     });
 
+            tpItems.add(tpItem);
             tpInventory.addClickable(tpItem);
             tpInventory.add(tpItem);
         }
