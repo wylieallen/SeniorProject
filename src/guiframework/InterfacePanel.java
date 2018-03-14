@@ -1,10 +1,12 @@
 package guiframework;
 
+import com.jogamp.opengl.awt.GLJPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class InterfacePanel extends JPanel implements KeyListener
+public class InterfacePanel extends GLJPanel implements KeyListener
 {
     private Uberstate activeState;
     private Timer renderTimer;
