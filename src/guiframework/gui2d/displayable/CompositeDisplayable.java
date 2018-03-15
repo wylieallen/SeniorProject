@@ -1,4 +1,4 @@
-package guiframework.displayable;
+package guiframework.gui2d.displayable;
 
 import java.awt.*;
 import java.util.Arrays;

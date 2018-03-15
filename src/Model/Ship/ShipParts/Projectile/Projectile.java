@@ -1,8 +1,8 @@
 package Model.Ship.ShipParts.Projectile;
 
 import Model.Pilot.Pilot;
-import Model.Pilot.Player;
-import Utility.*;
+import Utility.Geom3D.Point3D;
+import Utility.Geom3D.Vector3D;
 
 
 public abstract class Projectile {

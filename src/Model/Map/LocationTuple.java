@@ -1,6 +1,6 @@
 package Model.Map;
 
-import Utility.Point3D;
+import Utility.Geom3D.Point3D;
 
 public class LocationTuple<T> {
 

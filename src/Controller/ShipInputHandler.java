@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Pilot.Player;
-import Utility.Vector3D;
+import Utility.Geom3D.Vector3D;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

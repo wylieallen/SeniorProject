@@ -2,8 +2,7 @@ package Model.Pilot;
 
 import Model.Map.Overworld;
 import Model.Map.Zones.BattleZone;
-import Model.Ship.Ship;
-import Utility.Vector3D;
+import Utility.Geom3D.Vector3D;
 
 public class Enemy extends Pilot {
 

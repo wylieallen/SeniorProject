@@ -6,7 +6,7 @@ import Model.Ship.Ship;
 import Model.Ship.ShipHangar;
 import Model.TradingPost.BountyMission;
 import Model.TradingPost.Wallet;
-import Utility.Vector3D;
+import Utility.Geom3D.Vector3D;
 
 public class Player extends Pilot {
 

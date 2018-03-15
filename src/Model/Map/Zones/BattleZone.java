@@ -5,9 +5,9 @@ import Model.Map.LocationTuple;
 import Model.Pilot.*;
 import Model.Powerup.Powerup;
 import Model.Ship.ShipParts.Projectile.Projectile;
-import Utility.*;
+import Utility.Geom3D.Point3D;
+import Utility.Geom3D.Vector3D;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 

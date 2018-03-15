@@ -1,4 +1,4 @@
-package Utility;
+package Utility.Geom3D;
 
 public class Vector3D {
         private float i;

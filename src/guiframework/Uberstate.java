@@ -1,7 +1,7 @@
 package guiframework;
 
-import guiframework.clickable.Clickable;
-import guiframework.displayable.Displayable;
+import guiframework.gui2d.clickable.Clickable;
+import guiframework.gui2d.displayable.Displayable;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
