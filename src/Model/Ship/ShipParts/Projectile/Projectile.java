@@ -4,13 +4,15 @@ import Model.Pilot.Pilot;
 import Model.Pilot.Player;
 import Utility.*;
 
+import static Utility.Config.BASE_PROJECTILE_RANGE;
+
 
 public abstract class Projectile {
 
     private String name;
     private Vector3D trajectory;
     private Point3D startingPoint;
-    private float range = 1000;
+    private float range = BASE_PROJECTILE_RANGE;
     private int speed;
     private int damage;
     private Pilot projectileSource;

@@ -1,7 +1,5 @@
 package Model.Pilot;
 
-import Model.Map.Overworld;
-import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
 import Model.Ship.ShipHangar;
 import Model.TradingPost.BountyMission;
@@ -51,29 +49,9 @@ public class Player extends Pilot {
         System.out.println("Game over");
     }
 
-    @Override
-    public void accelerate(Vector3D unitVector){
-        super.accelerate(unitVector);
-        this.move(unitVector);
-    }
 
-    @Override
-    public void applyFriction(Vector3D unitVector){
-        super.applyFriction(unitVector);
-        this.move(unitVector);
-    }
-
-    @Override
-    public void decelerate(Vector3D unitVector){
-        super.decelerate(unitVector);
-        this.move(unitVector);
-    }
-
-
-    //TODO change move to calculate new position based on old (from updateplayerposition)
+    //Update Collidable?
     @Override
     public void move(Vector3D unitVector) {
-        BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
-        currentZone.updatePlayerPosition(unitVector, this);
     }
 }

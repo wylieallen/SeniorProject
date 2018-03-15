@@ -49,25 +49,24 @@ public abstract class Pilot {
         this.faction = faction;
     }
 
-    public void accelerate(Vector3D unitVector){
-        activeShip.getShipStats().modifyCurrentSpeed(ACCELERATE_RATE);
+    public void increaseShipSpeed(){
+        activeShip.accelerate();
     }
 
-    public void applyFriction(Vector3D unitVector){
-        if (activeShip.getShipStats().getCurrentSpeed() > 0){
-            activeShip.getShipStats().modifyCurrentSpeed(-FRICTION_RATE);
-        }
-        else if (activeShip.getShipStats().getCurrentSpeed() < 0) {
-            activeShip.getShipStats().modifyCurrentSpeed(FRICTION_RATE);
-        }
+    public void applyFriction(){
+        activeShip.applyFriction();
     }
 
-    public void decelerate(Vector3D unitVector){
-        activeShip.getShipStats().modifyCurrentSpeed(-ACCELERATE_RATE);
+    public void decreaseShipSpeed(){
+        activeShip.decelerate();
     }
 
     public void fireWeapon1(){
         activeShip.useWeapon1();
+    }
+
+    public Vector3D getShipDirection(){
+        return activeShip.getFacingDirection();
     }
 
     public void toggleShield(){

@@ -46,11 +46,7 @@ public class HomingProjectile extends Projectile{
         }
         Point3D targetPosition = currentZone.getPositionOf(target);
 
-        float newI = targetPosition.getX() - curPosition.getX();
-        float newJ = targetPosition.getY() - curPosition.getY();
-        float newK = targetPosition.getZ() - curPosition.getZ();
-
-        Vector3D curTrajectory = new Vector3D(newI, newJ, newK);
+        Vector3D curTrajectory = new Vector3D(curPosition, targetPosition);
         curTrajectory.makeUnitVector();
         super.setTrajectory(curTrajectory);
 
