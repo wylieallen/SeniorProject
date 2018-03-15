@@ -4,7 +4,7 @@ import Model.Items.Inventory;
 import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.*;
 import Utility.SystemTimer;
-import Utility.Vector3D;
+import Utility.Geom3D.Vector3D;
 
 import static Utility.Config.*;
 

@@ -6,7 +6,7 @@ import Model.Ship.*;
 import Model.Ship.ShipBuilder.ShipBuilder;
 import Utility.Geom3D.Point3D;
 import Utility.Rarity;
-import Utility.Vector3D;
+import Utility.Geom3D.Vector3D;
 
 import java.io.File;
 import java.io.FileNotFoundException;
