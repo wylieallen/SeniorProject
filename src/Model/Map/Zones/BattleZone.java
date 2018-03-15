@@ -6,10 +6,9 @@ import Model.Pilot.*;
 import Model.Powerup.Powerup;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
-import Utility.*;
-import guiframework.gui3d.SpawnObserver;
+import Utility.Point3D;
 
-import java.io.FileNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;

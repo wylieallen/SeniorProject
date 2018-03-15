@@ -1,8 +1,6 @@
 package Model.Pilot;
-import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
-import Model.Ship.ShipStats;
-import Utility.Vector3D;
+import Utility.Geom3D.Vector3D;
 import static Utility.Config.*;
 
 public abstract class Pilot {

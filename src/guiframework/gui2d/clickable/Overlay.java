@@ -1,6 +1,6 @@
-package guiframework.clickable;
+package guiframework.gui2d.clickable;
 
-import guiframework.displayable.CompositeDisplayable;
+import guiframework.gui2d.displayable.CompositeDisplayable;
 
 import java.awt.*;
 import java.util.Collection;

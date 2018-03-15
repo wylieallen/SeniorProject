@@ -3,10 +3,10 @@ package Model.Ship.ShipParts.WeaponType;
 import Model.Map.Overworld;
 import Model.Map.Zones.BattleZone;
 import Model.Pilot.Pilot;
-import Model.Pilot.Player;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.Ship.ShipParts.ShipWeapon;
 import Utility.*;
+import Utility.Geom3D.Vector3D;
 
 import static Utility.Config.*;
 

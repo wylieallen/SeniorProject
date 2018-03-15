@@ -3,8 +3,8 @@ package Model.Ship.ShipParts.Projectile;
 import Model.Map.Overworld;
 import Model.Map.Zones.BattleZone;
 import Model.Pilot.Pilot;
-import Utility.Point3D;
-import Utility.Vector3D;
+import Utility.Geom3D.Point3D;
+import Utility.Geom3D.Vector3D;
 
 import static Utility.Config.FRAMERATE;
 

@@ -1,6 +1,6 @@
-package guiframework.clickable;
+package guiframework.gui2d.clickable;
 
-import guiframework.displayable.ImageDisplayable;
+import guiframework.gui2d.displayable.ImageDisplayable;
 import guiframework.util.AbstractFunction;
 
 import java.awt.*;

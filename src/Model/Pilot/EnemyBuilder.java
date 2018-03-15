@@ -4,7 +4,7 @@ import Model.Map.LocationTuple;
 import Model.Ship.ShipParts.*;
 import Model.Ship.*;
 import Model.Ship.ShipBuilder.ShipBuilder;
-import Utility.Point3D;
+import Utility.Geom3D.Point3D;
 import Utility.Rarity;
 import Utility.Vector3D;
 
