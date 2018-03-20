@@ -21,20 +21,53 @@ public class ShipInputHandler implements KeyListener {
         {
             player.increaseShipSpeed();
         }
-        else if (keys[KeyEvent.VK_S] == true){
+        else if (keys[KeyEvent.VK_S]){
             player.decreaseShipSpeed();
         }
         else {
             player.applyFriction();
         }
 
-        if (keys[KeyEvent.VK_SPACE] == true){
+        if (keys[KeyEvent.VK_SPACE]){
             player.fireWeapon1();
         }
 
-        if (keys[KeyEvent.VK_E] == true){
+        if (keys[KeyEvent.VK_E]){
             player.toggleShield();
         }
+
+        //Adjust pitch up
+        if (keys[KeyEvent.VK_UP]){
+            player.getActiveShip().setPitchingUp(true);
+        }
+        else{
+            player.getActiveShip().setPitchingUp(false);
+        }
+
+        //Adjust pitch down
+        if (keys[KeyEvent.VK_DOWN]){
+            player.getActiveShip().setPitchingDown(true);
+        }
+        else{
+            player.getActiveShip().setPitchingDown(false);
+        }
+
+        //Adjust Yaw Left
+        if (keys[KeyEvent.VK_LEFT]){
+            player.getActiveShip().setYawingLeft(true);
+        }
+        else{
+            player.getActiveShip().setYawingLeft(false);
+        }
+
+        //Adjust Yaw Right
+        if (keys[KeyEvent.VK_RIGHT]){
+            player.getActiveShip().setYawingRight(true);
+        }
+        else{
+            player.getActiveShip().setYawingRight(false);
+        }
+
     }
 
     @Override
