@@ -3,19 +3,31 @@ package Model.Ship;
 import Model.Items.Inventory;
 import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.*;
+import Model.physics.collidable.BoundingBoxCollidable;
+import Utility.Geom3D.Dimension3D;
+import Utility.Geom3D.Orientation3D;
+import Utility.Geom3D.Point3D;
 import Utility.SystemTimer;
 import Utility.Geom3D.Vector3D;
 
 import static Utility.Config.*;
 
-public class Ship {
+public class Ship extends BoundingBoxCollidable{
 
     final private Pilot myPilot;
     final private ShipStats shipStats;
     final private ShipHull hullSlot;
 
     //Rendering info
+
+    private boolean
+            yawingLeft = false, yawingRight = false,
+            pitchingUp = false, pitchingDown = false,
+            rollingLeft = false, rollingRight = false;
+
     Vector3D facingDirection;
+    private float yawSpeed = 0.5f, pitchSpeed = 0.5f , rollSpeed = 0.5f;
+
 
     //
 
@@ -31,6 +43,17 @@ public class Ship {
     private SystemTimer shieldCooldown;
 
     public Ship(Pilot owner, ShipHull myShip){
+        super(new Point3D(), new Dimension3D(.2f, .2f, 1), new Orientation3D());
+        this.hullSlot = myShip;
+        shipStats = new ShipStats(hullSlot.getmaxHealth());
+        inventory = new Inventory(hullSlot.getInventorySize());
+        myPilot = owner;
+        shieldActivated = false;
+        shieldCooldown = new SystemTimer();
+    }
+
+    public Ship(Pilot owner, ShipHull myShip, Point3D origin, Orientation3D orientation, float base, float height){
+        super(origin, new Dimension3D(base, base, height), orientation);
         this.hullSlot = myShip;
         shipStats = new ShipStats(hullSlot.getmaxHealth());
         inventory = new Inventory(hullSlot.getInventorySize());
@@ -152,5 +175,45 @@ public class Ship {
             myPilot.pilotDied();
         }
     }
+
+    @Override
+    public void update(){
+
+        boolean directionUpdate = false;
+        if(rollingLeft ^ rollingRight)
+        {
+            adjustRoll(rollingRight ? rollSpeed : -rollSpeed);
+            directionUpdate = true;
+        }
+        if(pitchingDown ^ pitchingUp)
+        {
+            adjustPitch(pitchingUp ? -pitchSpeed : pitchSpeed);
+            directionUpdate = true;
+        }
+        if(yawingLeft ^ yawingRight)
+        {
+            adjustYaw(yawingRight ? yawSpeed : -yawSpeed);
+            directionUpdate = true;
+        }
+
+        if (directionUpdate){
+            float yawRads = super.getOrientation().getYaw()/180.0f * 3.1415926535f;
+            float pitchRads = -super.getOrientation().getPitch()/180.0f * 3.1415926535f;
+
+            float i = (float) ((Math.cos(pitchRads) * Math.sin(yawRads)));
+            float j = (float) Math.sin(pitchRads);
+            float k = (float) (Math.cos(pitchRads) * Math.cos(yawRads));
+            facingDirection = new Vector3D(i,j,k);
+        }
+
+
+        //TODO set facing direction
+    }
+
+    //Rendering Methods
+    public void setYawingLeft(boolean yawingLeft) { this.yawingLeft = yawingLeft; }
+    public void setYawingRight(boolean yawingRight) { this.yawingRight = yawingRight; }
+    public void setPitchingUp(boolean pitchingUp) { this.pitchingUp = pitchingUp; }
+    public void setPitchingDown(boolean pitchingDown) { this.pitchingDown = pitchingDown; }
 
 }

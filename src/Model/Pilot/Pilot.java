@@ -1,5 +1,6 @@
 package Model.Pilot;
 import Model.Ship.Ship;
+import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
 import static Utility.Config.*;
 
@@ -47,17 +48,13 @@ public abstract class Pilot {
         this.faction = faction;
     }
 
-    public void increaseShipSpeed(){
-        activeShip.accelerate();
-    }
+    public void increaseShipSpeed(){ activeShip.accelerate(); }
 
     public void applyFriction(){
         activeShip.applyFriction();
     }
 
-    public void decreaseShipSpeed(){
-        activeShip.decelerate();
-    }
+    public void decreaseShipSpeed(){ activeShip.decelerate(); }
 
     public void fireWeapon1(){
         activeShip.useWeapon1();
@@ -73,6 +70,19 @@ public abstract class Pilot {
 
     public abstract void pilotDied();
 
-    public abstract void move(Vector3D unitVector);
+    public Point3D move(Point3D curPosition){
+        Vector3D curTrajectory = getShipDirection();
+        double curSpeed = getCurrentShipSpeed();
+
+        float newX = curPosition.getX() + curTrajectory.getI()*(float)(curSpeed/FRAMERATE);
+        float newY = curPosition.getY() + curTrajectory.getJ()*(float)(curSpeed/FRAMERATE);
+        float newZ = curPosition.getZ() + curTrajectory.getK()*(float)(curSpeed/FRAMERATE);
+
+        Point3D newPosition = new Point3D(newX, newY, newZ);
+
+        return newPosition;
+
+
+    }
 
 }

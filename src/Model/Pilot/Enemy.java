@@ -2,6 +2,7 @@ package Model.Pilot;
 
 import Model.Map.Overworld;
 import Model.Map.Zones.BattleZone;
+import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
 
 public class Enemy extends Pilot {
@@ -18,7 +19,9 @@ public class Enemy extends Pilot {
     }
 
     @Override
-    public void move(Vector3D unitVector) {
-
+    public Point3D move(Point3D curPosition){
+        //Collidable updates?
+        Point3D newPostion = super.move(curPosition);
+        return newPostion;
     }
 }
