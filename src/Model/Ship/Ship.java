@@ -178,18 +178,34 @@ public class Ship extends BoundingBoxCollidable{
 
     @Override
     public void update(){
+
+        boolean directionUpdate = false;
         if(rollingLeft ^ rollingRight)
         {
             adjustRoll(rollingRight ? rollSpeed : -rollSpeed);
+            directionUpdate = true;
         }
         if(pitchingDown ^ pitchingUp)
         {
             adjustPitch(pitchingUp ? -pitchSpeed : pitchSpeed);
+            directionUpdate = true;
         }
         if(yawingLeft ^ yawingRight)
         {
             adjustYaw(yawingRight ? yawSpeed : -yawSpeed);
+            directionUpdate = true;
         }
+
+        if (directionUpdate){
+            float yawRads = super.getOrientation().getYaw()/180.0f * 3.1415926535f;
+            float pitchRads = -super.getOrientation().getPitch()/180.0f * 3.1415926535f;
+
+            float i = (float) ((Math.cos(pitchRads) * Math.sin(yawRads)));
+            float j = (float) Math.sin(pitchRads);
+            float k = (float) (Math.cos(pitchRads) * Math.cos(yawRads));
+            facingDirection = new Vector3D(i,j,k);
+        }
+
 
         //TODO set facing direction
     }
