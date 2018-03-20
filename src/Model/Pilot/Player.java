@@ -4,6 +4,7 @@ import Model.Ship.Ship;
 import Model.Ship.ShipHangar;
 import Model.TradingPost.BountyMission;
 import Model.TradingPost.Wallet;
+import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
 
 public class Player extends Pilot {
@@ -50,8 +51,10 @@ public class Player extends Pilot {
     }
 
 
-    //Update Collidable?
     @Override
-    public void move(Vector3D unitVector) {
+    public Point3D move(Point3D curPosition){
+        //Collidable updates?
+        Point3D newPostion = super.move(curPosition);
+        return newPostion;
     }
 }

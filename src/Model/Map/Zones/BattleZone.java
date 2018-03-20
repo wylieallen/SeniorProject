@@ -86,13 +86,8 @@ public class BattleZone extends Zone {
     public void updatePlayerPositions() {
         for (int i = 0; i < players.size(); i++) {
             Player currentPlayer = players.get(i).getObject();
-            Vector3D unitVector = currentPlayer.getShipDirection();
             Point3D curPosition = players.get(i).getLocation();
-            float newX = curPosition.getX() + unitVector.getI() * (float) (currentPlayer.getCurrentShipSpeed() / FRAMERATE);
-            float newY = curPosition.getY() + unitVector.getJ() * (float) (currentPlayer.getCurrentShipSpeed() / FRAMERATE);
-            float newZ = curPosition.getZ() + unitVector.getK() * (float) (currentPlayer.getCurrentShipSpeed() / FRAMERATE);
-
-            Point3D newPosition = new Point3D(newX, newY, newZ);
+            Point3D newPosition = currentPlayer.move(curPosition);
             players.get(i).setLocation(newPosition);
             System.out.println("Player is currently at Position: " + newPosition.toString() + " With Speed: " + players.get(i).getObject().getCurrentShipSpeed());
         }
@@ -101,13 +96,8 @@ public class BattleZone extends Zone {
     public void updateEnemyPositions() {
         for (int i = 0; i < enemies.size(); i++) {
             Enemy currentEnemy = enemies.get(i).getObject();
-            Vector3D unitVector = currentEnemy.getShipDirection();
             Point3D curPosition = enemies.get(i).getLocation();
-            float newX = curPosition.getX() + unitVector.getI() * (float) (currentEnemy.getCurrentShipSpeed() / FRAMERATE);
-            float newY = curPosition.getY() + unitVector.getJ() * (float) (currentEnemy.getCurrentShipSpeed() / FRAMERATE);
-            float newZ = curPosition.getZ() + unitVector.getK() * (float) (currentEnemy.getCurrentShipSpeed() / FRAMERATE);
-
-            Point3D newPosition = new Point3D(newX, newY, newZ);
+            Point3D newPosition = currentEnemy.move(curPosition);
             enemies.get(i).setLocation(newPosition);
         }
     }
