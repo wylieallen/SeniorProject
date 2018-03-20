@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class ImageFactory
 {
+    //Trading Post Images
     private static final BufferedImage tradingPostLabel = loadImage("resources/Images/label_trading-post.png");
     private static final BufferedImage buyButtonBase = loadImage("resources/Images/button_buy-items_base.png");
     private static final BufferedImage buyButtonHover = loadImage("resources/Images/button_buy-items_hover.png");
@@ -22,6 +23,15 @@ public class ImageFactory
     private static final BufferedImage exitButtonBase = loadImage("resources/Images/button_exit_base.png");
     private static final BufferedImage exitButtonHover = loadImage("resources/Images/button_exit_hover.png");
     private static final BufferedImage exitButtonPress = loadImage("resources/Images/button_exit_press.png");
+
+    //Overworld Images
+    private static final BufferedImage overworldLabel = loadImage("resources/Images/label_overworld.png");
+    private static final BufferedImage tradingPostBase = loadImage("resources/Images/button_trading-post_base.png");
+    private static final BufferedImage tradingPostHover = loadImage("resources/Images/button_trading-post_hover.png");
+    private static final BufferedImage tradingPostPress = loadImage("resources/Images/button_trading-post_press.png");
+    private static final BufferedImage battleZoneBase = loadImage("resources/Images/button_battle-zone_base.png");
+    private static final BufferedImage battleZoneHover = loadImage("resources/Images/button_battle-zone_hover.png");
+    private static final BufferedImage battleZonePress = loadImage("resources/Images/button_battle-zone_press.png");
 
     public static BufferedImage makeBorderedRect(int width, int height, Color bodyColor, Color borderColor)
     {
@@ -131,4 +141,20 @@ public class ImageFactory
     public static BufferedImage getExitButtonPress() {
         return exitButtonPress;
     }
+
+    public static BufferedImage getOverworldLabel() {
+        return overworldLabel;
+    }
+
+    public static BufferedImage getTradingPostBase() {return tradingPostBase;}
+
+    public static BufferedImage getTradingPostHover() {return tradingPostHover;}
+
+    public static BufferedImage getTradingPostPress() {return tradingPostPress;}
+
+    public static BufferedImage getBattleZoneBase() {return battleZoneBase;}
+
+    public static BufferedImage getBattleZoneHover() {return battleZoneHover;}
+
+    public static BufferedImage getBattleZonePress() {return battleZonePress;}
 }
