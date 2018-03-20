@@ -1,7 +1,9 @@
 import guiframework.InterfacePanel;
 import guiframework.OverworldUberstate;
 import guiframework.TradingPostUberstate;
+import guiframework.Uberstate;
 import guiframework.gui2d.clickable.Button;
+import guiframework.gui3d.Renderstate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +40,7 @@ public class Application
 //        uberstate.addClickable(exampleButton);
 //        uberstate.addOverlay(exampleButton);
 
-        InterfacePanel panel = new InterfacePanel(overworldUberstate);
+        InterfacePanel panel = new InterfacePanel(new Uberstate(), new Renderstate(1800, 1000));
         panel.setSize(1800, 1000);
         panel.setBackground(Color.BLACK);
 

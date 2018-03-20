@@ -1,6 +1,7 @@
 package guiframework;
 
 import com.jogamp.opengl.awt.GLJPanel;
+import guiframework.gui3d.Renderstate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,11 +10,15 @@ import java.awt.event.*;
 public class InterfacePanel extends GLJPanel implements KeyListener
 {
     private Uberstate activeState;
+    private Renderstate activeRenderstate;
     private Timer renderTimer;
 
-    public InterfacePanel(Uberstate activeState)
+    public InterfacePanel(Uberstate activeState, Renderstate renderstate)
     {
         this.activeState = activeState;
+        this.activeRenderstate = renderstate;
+
+        this.addGLEventListener(renderstate);
 
         renderTimer = new Timer(17, new ActionListener(){
             public void actionPerformed(ActionEvent e)

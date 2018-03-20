@@ -179,6 +179,8 @@ public class Ship extends BoundingBoxCollidable{
     @Override
     public void update(){
 
+        super.update();
+
         boolean directionUpdate = false;
         if(rollingLeft ^ rollingRight)
         {
