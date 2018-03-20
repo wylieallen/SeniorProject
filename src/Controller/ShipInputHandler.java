@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Pilot.Player;
-import Utility.Vector3D;
+import Utility.Geom3D.Vector3D;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,7 +12,6 @@ public class ShipInputHandler implements KeyListener {
 
     public ShipInputHandler(){
         keys = new boolean[65536];
-        System.out.println("HIHIHIHIHIHI");
     }
 
 
@@ -20,16 +19,13 @@ public class ShipInputHandler implements KeyListener {
     public void processInput(Player player){
         if (keys[KeyEvent.VK_W] == true)
         {
-            Vector3D newVector = new Vector3D(0,1,0);
-            player.accelerate(newVector);
+            player.increaseShipSpeed();
         }
         else if (keys[KeyEvent.VK_S] == true){
-            Vector3D newVector = new Vector3D(0,1,0);
-            player.decelerate(newVector);
+            player.decreaseShipSpeed();
         }
         else {
-            Vector3D newVector = new Vector3D(0,1,0);
-            player.applyFriction(newVector);
+            player.applyFriction();
         }
 
         if (keys[KeyEvent.VK_SPACE] == true){

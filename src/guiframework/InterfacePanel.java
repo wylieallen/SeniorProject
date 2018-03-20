@@ -20,6 +20,8 @@ public class InterfacePanel extends GLJPanel implements KeyListener
             {
                 renderTimer.stop();
 
+                // Herp derp herp derp
+
                 activeState.update();
                 repaint();
 

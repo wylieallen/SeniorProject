@@ -13,11 +13,10 @@ public interface Config {
 
     public static final double PROJECTILE_SPEED_OFFSET = .5;
     public static final double PROJECTILE_DAMAGE_OFFSET = .5;
-    public static final float BASE_PROJECTILE_RANGE = 1000f;
+    public static final float BASE_PROJECTILE_RANGE = 250f;
 
-    public static final int ENERGY_WEAPON_CD = 5;
+    public static final int ENERGY_WEAPON_CD = 2;
     public static final int SHIELD_CD = 12;
-
 
 
 

@@ -4,8 +4,9 @@ import Model.Map.LocationTuple;
 import Model.Ship.ShipParts.*;
 import Model.Ship.*;
 import Model.Ship.ShipBuilder.ShipBuilder;
-import Utility.Point3D;
+import Utility.Geom3D.Point3D;
 import Utility.Rarity;
+import Utility.Geom3D.Vector3D;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -107,6 +108,7 @@ public class EnemyBuilder {
 
             Ship newShip = shipBuilder.buildShip(newEnemy, newEngine, newHull, newShield, newSpecial, newWeapon1, newWeapon2);
             newEnemy.setActiveShip(newShip);
+            newEnemy.getActiveShip().setFacingDirection(new Vector3D(enemyLoc, new Point3D(0,0,0)));
             enemies.add(new LocationTuple<Enemy>(enemyLoc, newEnemy));
         }
         return enemies;

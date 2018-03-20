@@ -12,17 +12,17 @@ import Model.TradingPost.BountyMission;
 import Model.TradingPost.TradingPost;
 import Model.TradingPost.Wallet;
 import Utility.Rarity;
-import guiframework.clickable.Button;
-import guiframework.clickable.ItemButton;
-import guiframework.clickable.Overlay;
-import guiframework.displayable.CompositeDisplayable;
-import guiframework.displayable.Displayable;
-import guiframework.displayable.ImageDisplayable;
-import guiframework.displayable.StringDisplayable;
+import guiframework.gui2d.ImageFactory;
+import guiframework.gui2d.clickable.Button;
+import guiframework.gui2d.clickable.ItemButton;
+import guiframework.gui2d.clickable.Overlay;
+import guiframework.gui2d.displayable.CompositeDisplayable;
+import guiframework.gui2d.displayable.Displayable;
+import guiframework.gui2d.displayable.ImageDisplayable;
+import guiframework.gui2d.displayable.StringDisplayable;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TradingPostUberstate extends Uberstate{
     private static final int HEIGHT = 200;
@@ -71,7 +71,7 @@ public class TradingPostUberstate extends Uberstate{
 
         //Add title box
         ImageDisplayable tpTitle =
-                new ImageDisplayable(new Point(0,0),ImageFactory.getTradingPostLabel());
+                new ImageDisplayable(new Point(0,0), ImageFactory.getTradingPostLabel());
 
         this.addLeftOverlay(tpTitle);
 

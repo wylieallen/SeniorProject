@@ -1,4 +1,4 @@
-package guiframework.clickable;
+package guiframework.gui2d.clickable;
 
 import java.awt.*;
 

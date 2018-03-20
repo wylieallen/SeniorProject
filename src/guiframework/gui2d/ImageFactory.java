@@ -1,4 +1,4 @@
-package guiframework;
+package guiframework.gui2d;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

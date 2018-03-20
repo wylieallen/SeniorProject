@@ -4,6 +4,7 @@ import Model.Items.Inventory;
 import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.*;
 import Utility.SystemTimer;
+import Utility.Geom3D.Vector3D;
 
 import static Utility.Config.*;
 
@@ -12,6 +13,12 @@ public class Ship {
     final private Pilot myPilot;
     final private ShipStats shipStats;
     final private ShipHull hullSlot;
+
+    //Rendering info
+    Vector3D facingDirection;
+
+    //
+
 
     private ShipWeapon weaponSlot1;
     private ShipWeapon weaponSlot2;
@@ -107,6 +114,32 @@ public class Ship {
             shipStats.modifyCurrentShield(-shipStats.getCurrentShield());
         }
     }
+
+    public void setFacingDirection(Vector3D facingDirection) {
+        this.facingDirection = facingDirection;
+    }
+
+    public Vector3D getFacingDirection() {
+        return facingDirection;
+    }
+
+    public void accelerate(){
+        shipStats.modifyCurrentSpeed(ACCELERATE_RATE);
+    }
+
+    public void decelerate(){
+        shipStats.modifyCurrentSpeed(-ACCELERATE_RATE);
+    }
+
+    public void applyFriction(){
+        if (shipStats.getCurrentSpeed() > 0){
+            shipStats.modifyCurrentSpeed(-FRICTION_RATE);
+        }
+        else if (shipStats.getCurrentSpeed() < 0) {
+            shipStats.modifyCurrentSpeed(FRICTION_RATE);
+        }
+    }
+
 
     public boolean shieldActivated(){
         return shieldActivated;

@@ -1,4 +1,6 @@
-package Utility;
+package Utility.Geom3D;
+
+import java.awt.*;
 
 public class Vector3D {
         private float i;
@@ -9,6 +11,12 @@ public class Vector3D {
                 this.i = i;
                 this.j = j;
                 this.k = k;
+        }
+
+        public Vector3D(Point3D start, Point3D destination){
+            this.i = destination.getX() - start.getX();
+            this.j = destination.getY() - start.getY();
+            this.k = destination.getZ() - start.getZ();
         }
 
         public void makeUnitVector(){
