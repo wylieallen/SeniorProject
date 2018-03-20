@@ -98,6 +98,13 @@ public class BoundingBoxCollidable implements Collidable
         collidable.disable();
     }
 
+    public void update()
+    {
+        System.out.println("Ship loc: " + origin.getX() + "," + origin.getY() + "," + origin.getZ());
+        System.out.println("Ship dir: " + orientation.getYaw() + "," + orientation.getPitch() + "," + orientation.getRoll());
+
+    }
+
     private void recalculateBounds()
     {
         float minX, minY, minZ, maxX, maxY, maxZ;

@@ -1,4 +1,4 @@
-package guiframework.gui3d;
+package guiframework.gui3d.Renderable;
 
 import com.jogamp.opengl.GL4;
 
@@ -14,7 +14,7 @@ public interface Renderable
 
     float getWidth();
     float getHeight();
-    float getDepth();
+    float getLength();
 
     void relocate(float x, float y, float z);
 
