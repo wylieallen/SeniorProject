@@ -68,6 +68,7 @@ public class ShipInputHandler implements KeyListener {
             player.getActiveShip().setYawingRight(false);
         }
 
+        player.getActiveShip().update();
     }
 
     @Override

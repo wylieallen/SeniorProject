@@ -190,6 +190,8 @@ public class Ship extends BoundingBoxCollidable{
         {
             adjustYaw(yawingRight ? yawSpeed : -yawSpeed);
         }
+
+        //TODO set facing direction
     }
 
     //Rendering Methods
