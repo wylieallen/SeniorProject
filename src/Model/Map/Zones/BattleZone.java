@@ -89,7 +89,8 @@ public class BattleZone extends Zone {
             Point3D curPosition = players.get(i).getLocation();
             Point3D newPosition = currentPlayer.move(curPosition);
             players.get(i).setLocation(newPosition);
-            System.out.println("Player is currently at Position: " + newPosition.toString() + " With Speed: " + players.get(i).getObject().getCurrentShipSpeed());
+           // System.out.println("Player is currently at Position: " + newPosition.toString() + " With Speed: " + players.get(i).getObject().getCurrentShipSpeed());
+            System.out.println("Facing Direction: I:" + currentPlayer.getShipDirection().getI() + " J: " + currentPlayer.getShipDirection().getJ() + " K: " + currentPlayer.getShipDirection().getK());
         }
     }
 

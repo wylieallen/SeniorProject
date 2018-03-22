@@ -34,7 +34,7 @@ public class ShipBuilder {
 
     //TODO implement Specials
     public ShipSpecial buildRandomSpecial(){
-        return specialBuilder.buildRandomSpecial();
+        return specialBuilder.buildRandomBoostSpecial();
     }
 
     public ShipWeapon buildRandomWeapon(int baseValue, int baseDamage, int baseSpeed, Rarity rarity){

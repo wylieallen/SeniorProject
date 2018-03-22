@@ -108,7 +108,7 @@ public class Ship extends BoundingBoxCollidable{
     }
 
     public void useWeapon1(){
-        if (!shieldActivated) {
+        if (!shieldActivated && weaponSlot1 != null) {
             weaponSlot1.fireWeapon(myPilot);
         }
         else{
@@ -117,7 +117,7 @@ public class Ship extends BoundingBoxCollidable{
     }
 
     public void useWeapon2(){
-        if (!shieldActivated) {
+        if (!shieldActivated && weaponSlot2 != null) {
             weaponSlot2.fireWeapon(myPilot);
         }
         else{
@@ -125,8 +125,19 @@ public class Ship extends BoundingBoxCollidable{
         }
     }
 
-    public void toggleShieldActivated(){
+    public void activateSpecial(){
+        if (specialSlot != null){
+            specialSlot.activate(myPilot);
+        }
+    }
 
+    public void deactivateSpecial(){
+        if (specialSlot != null){
+            specialSlot.deactivate(myPilot);
+        }
+    }
+
+    public void toggleShieldActivated(){
         if (!shieldActivated && shieldCooldown.getElapsedTime() >= SHIELD_CD){
             shieldActivated = true;
             shipStats.modifyCurrentShield(shipStats.getMaxShield());
@@ -204,10 +215,8 @@ public class Ship extends BoundingBoxCollidable{
             float j = (float) Math.sin(pitchRads);
             float k = (float) (Math.cos(pitchRads) * Math.cos(yawRads));
             facingDirection = new Vector3D(i,j,k);
+            facingDirection.makeUnitVector();
         }
-
-
-        //TODO set facing direction
     }
 
     //Rendering Methods

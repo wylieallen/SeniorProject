@@ -17,7 +17,7 @@ public class ShipInputHandler implements KeyListener {
 
     //TODO Get VECTOR direction from camera/view
     public void processInput(Player player){
-        if (keys[KeyEvent.VK_W] == true)
+        if (keys[KeyEvent.VK_W])
         {
             player.increaseShipSpeed();
         }
@@ -28,10 +28,21 @@ public class ShipInputHandler implements KeyListener {
             player.applyFriction();
         }
 
+
+        //Fire Weapon 1
         if (keys[KeyEvent.VK_SPACE]){
             player.fireWeapon1();
         }
 
+        //Use Special
+        if (keys[KeyEvent.VK_SHIFT]){
+            player.activateSpecial();
+        }
+        else{
+            player.deactivateSpecial();
+        }
+
+        //Toggle Shield
         if (keys[KeyEvent.VK_E]){
             player.toggleShield();
         }

@@ -1,5 +1,6 @@
 package Model.Pilot;
 import Model.Ship.Ship;
+import Model.Ship.ShipStats;
 import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
 import static Utility.Config.*;
@@ -17,6 +18,8 @@ public abstract class Pilot {
     public Ship getActiveShip(){
         return this.activeShip;
     }
+
+    public ShipStats getActiveShipStats() { return activeShip.getShipStats(); }
 
     public double getCurrentShipSpeed() {
         return getActiveShip().getShipStats().getCurrentSpeed();
@@ -60,6 +63,14 @@ public abstract class Pilot {
         activeShip.useWeapon1();
     }
 
+    public void fireWeapon2(){
+        activeShip.useWeapon2();
+    }
+
+    public void activateSpecial() { activeShip.activateSpecial(); }
+
+    public void deactivateSpecial() { activeShip.deactivateSpecial(); }
+
     public Vector3D getShipDirection(){
         return activeShip.getFacingDirection();
     }
@@ -71,6 +82,8 @@ public abstract class Pilot {
     public abstract void pilotDied();
 
     public Point3D move(Point3D curPosition){
+
+
         Vector3D curTrajectory = getShipDirection();
         double curSpeed = getCurrentShipSpeed();
 

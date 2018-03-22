@@ -40,6 +40,11 @@ public class ShipStats {
         this.currentSpeed = 0;
     }
 
+    public void setMaxSpeed(double speedFactor){
+        this.maxSpeed = maxSpeed*speedFactor;
+        this.currentSpeed = currentSpeed*speedFactor;
+    }
+
     public int getMaxHealth(){ return maxHealth; }
 
     public int getMaxShield(){

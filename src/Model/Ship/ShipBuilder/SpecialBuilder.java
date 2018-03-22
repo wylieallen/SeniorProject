@@ -1,16 +1,17 @@
 package Model.Ship.ShipBuilder;
 
 import Model.Ship.ShipParts.ShipSpecial;
+import Model.Ship.ShipParts.SpecialType.BoostSpecial;
 import Utility.Rarity;
 
-public class SpecialBuilder {
+public class SpecialBuilder extends PartBuilder{
 
     public SpecialBuilder(){
         super();
     }
 
-    public ShipSpecial buildRandomSpecial(){
-        return new ShipSpecial(0, 0, Rarity.COMMON);
+    public ShipSpecial buildRandomBoostSpecial(){
+        return new BoostSpecial(0, 0, 0, 0, Rarity.COMMON);
     }
 
 
