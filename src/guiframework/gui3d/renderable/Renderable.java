@@ -1,4 +1,4 @@
-package guiframework.gui3d.Renderable;
+package guiframework.gui3d.renderable;
 
 import com.jogamp.opengl.GL4;
 

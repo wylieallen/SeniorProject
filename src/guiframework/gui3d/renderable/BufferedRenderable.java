@@ -1,4 +1,4 @@
-package guiframework.gui3d.Renderable;
+package guiframework.gui3d.renderable;
 
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;

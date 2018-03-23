@@ -25,8 +25,10 @@ public class Ship extends BoundingBoxCollidable{
             pitchingUp = false, pitchingDown = false,
             rollingLeft = false, rollingRight = false;
 
+    private boolean accelerating = false, decelerating = false;
+
     Vector3D facingDirection;
-    private float yawSpeed = 0.5f, pitchSpeed = 0.5f , rollSpeed = 0.5f;
+    private float yawSpeed = 3.0f, pitchSpeed = 3.0f , rollSpeed = 3.0f;
 
 
     //
@@ -219,6 +221,23 @@ public class Ship extends BoundingBoxCollidable{
             facingDirection = new Vector3D(i,j,k);
             facingDirection.makeUnitVector();
         }
+
+        if(accelerating)
+        {
+            accelerate();
+        }
+        if(decelerating)
+        {
+            decelerate();
+        }
+
+        // todo: remove this logic when we're ready to go back to locationtuples
+
+
+
+        this.moveForward((float) shipStats.getCurrentSpeed());
+
+        System.out.println("Speed: " + shipStats.getCurrentSpeed() + " Curloc: " + super.getOrigin().getX() + "," + super.getOrigin().getY() + "," + super.getOrigin().getZ());
     }
 
     //Rendering Methods
@@ -227,4 +246,6 @@ public class Ship extends BoundingBoxCollidable{
     public void setPitchingUp(boolean pitchingUp) { this.pitchingUp = pitchingUp; }
     public void setPitchingDown(boolean pitchingDown) { this.pitchingDown = pitchingDown; }
 
+    public void setAccelerating(boolean b) { this.accelerating = b; }
+    public void setDecelerating(boolean b) { this.decelerating = b; }
 }

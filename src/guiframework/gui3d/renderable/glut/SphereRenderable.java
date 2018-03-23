@@ -1,11 +1,11 @@
-package guiframework.gui3d.Renderable.glut;
+package guiframework.gui3d.renderable.glut;
 
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.util.gl2.GLUT;
-import guiframework.gui3d.Renderable.AbstractRenderable;
+import guiframework.gui3d.renderable.AbstractRenderable;
 
 public class SphereRenderable extends AbstractRenderable
 {

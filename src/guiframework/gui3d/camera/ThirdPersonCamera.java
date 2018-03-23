@@ -1,6 +1,6 @@
 package guiframework.gui3d.camera;
 
-import guiframework.gui3d.Renderable.Renderable;
+import guiframework.gui3d.renderable.Renderable;
 
 public class ThirdPersonCamera extends Camera
 {

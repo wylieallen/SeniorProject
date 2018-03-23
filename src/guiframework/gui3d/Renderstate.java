@@ -1,7 +1,7 @@
 package guiframework.gui3d;
 
-import Model.Pilot.Pilot;
 import Model.Ship.Ship;
+import Model.Ship.ShipParts.ShipEngine;
 import Model.Ship.ShipParts.ShipHull;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
@@ -10,10 +10,10 @@ import Utility.Rarity;
 import com.jogamp.opengl.*;
 import gameview.ShipRenderable;
 import graphicslib3D.Matrix3D;
-import guiframework.gui3d.Renderable.BufferedRenderable;
-import guiframework.gui3d.Renderable.Renderable;
-import guiframework.gui3d.Renderable.glut.ConeRenderable;
-import guiframework.gui3d.Renderable.glut.SphereRenderable;
+import guiframework.gui3d.renderable.BufferedRenderable;
+import guiframework.gui3d.renderable.Renderable;
+import guiframework.gui3d.renderable.glut.ConeRenderable;
+import guiframework.gui3d.renderable.glut.SphereRenderable;
 import guiframework.gui3d.camera.Camera;
 import guiframework.gui3d.camera.ThirdPersonCamera;
 import guiframework.gui3d.model3d.Model3D;
@@ -64,6 +64,7 @@ public class Renderstate implements GLEventListener
         this.height = height;
 
         this.playerShip = new Ship(null, new ShipHull(10, 10, 10, Rarity.COMMON));
+        playerShip.equipEngine( new ShipEngine(10, 8, Rarity.COMMON));
         playerShip.moveForward(-5);
 
         centerPt = new Point(width / 2, height / 2);
@@ -305,5 +306,10 @@ public class Renderstate implements GLEventListener
     public Camera getCamera()
     {
         return camera;
+    }
+
+    public Ship getPlayerShip()
+    {
+        return playerShip;
     }
 }

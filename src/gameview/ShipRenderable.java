@@ -1,9 +1,8 @@
 package gameview;
 
 import Model.Ship.Ship;
-import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
-import guiframework.gui3d.Renderable.glut.ConeRenderable;
+import guiframework.gui3d.renderable.glut.ConeRenderable;
 
 public class ShipRenderable extends ConeRenderable
 {

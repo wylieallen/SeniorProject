@@ -75,12 +75,29 @@ public class InterfacePanel extends GLJPanel implements KeyListener
         switch(e.getKeyCode())
         {
             case KeyEvent.VK_W:
-                activeRenderstate.getCamera().translateForward(0.5f);
+                activeRenderstate.getPlayerShip().setAccelerating(true);
                 break;
 
             case KeyEvent.VK_S:
-                activeRenderstate.getCamera().translateForward(-0.5f);
+                activeRenderstate.getPlayerShip().setDecelerating(true);
                 break;
+
+            case KeyEvent.VK_LEFT:
+                activeRenderstate.getPlayerShip().setYawingLeft(true);
+                break;
+
+            case KeyEvent.VK_RIGHT:
+                activeRenderstate.getPlayerShip().setYawingRight(true);
+                break;
+
+            case KeyEvent.VK_UP:
+                activeRenderstate.getPlayerShip().setPitchingDown(true);
+                break;
+
+            case KeyEvent.VK_DOWN:
+                activeRenderstate.getPlayerShip().setPitchingUp(true);
+                break;
+
         }
         activeState.parseKeyPress(e.getKeyCode());
     }
@@ -88,6 +105,32 @@ public class InterfacePanel extends GLJPanel implements KeyListener
     public void keyReleased(KeyEvent e)
     {
         System.out.println("Key " + e.getKeyChar() + " with keycode " + e.getKeyCode() + " released");
+        switch(e.getKeyCode())
+        {
+            case KeyEvent.VK_W:
+                activeRenderstate.getPlayerShip().setAccelerating(false);
+                break;
+
+            case KeyEvent.VK_S:
+                activeRenderstate.getPlayerShip().setDecelerating(false);
+                break;
+
+            case KeyEvent.VK_LEFT:
+                activeRenderstate.getPlayerShip().setYawingLeft(false);
+                break;
+
+            case KeyEvent.VK_RIGHT:
+                activeRenderstate.getPlayerShip().setYawingRight(false);
+                break;
+
+            case KeyEvent.VK_UP:
+                activeRenderstate.getPlayerShip().setPitchingDown(false);
+                break;
+
+            case KeyEvent.VK_DOWN:
+                activeRenderstate.getPlayerShip().setPitchingUp(false);
+                break;
+        }
         activeState.parseKeyRelease(e.getKeyCode());
     }
 

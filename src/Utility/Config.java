@@ -8,7 +8,7 @@ public interface Config {
     public static final double HEALTH_OFFSET = .5;
     public static final double SHIELD_OFFSET = 1;
 
-    public static final double ACCELERATE_RATE = 5;
+    public static final double ACCELERATE_RATE = 0.2;
     public static final double FRICTION_RATE = 1;
 
     public static final double PROJECTILE_SPEED_OFFSET = .5;
