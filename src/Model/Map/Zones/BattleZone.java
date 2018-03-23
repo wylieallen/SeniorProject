@@ -53,7 +53,7 @@ public class BattleZone extends Zone {
 
     public void addEnemies() {
         EnemyBuilder newEnemyBuilder = new EnemyBuilder();
-        this.enemies = newEnemyBuilder.buildEnemies("resources/Zones/battlezone", "1");
+        this.enemies = newEnemyBuilder.buildEnemies("resources/Zones/battlezone", Integer.toString(zoneID));
     }
 
     public void addProjectile(Projectile projectile) {
@@ -90,7 +90,7 @@ public class BattleZone extends Zone {
             Point3D newPosition = currentPlayer.move(curPosition);
             players.get(i).setLocation(newPosition);
            // System.out.println("Player is currently at Position: " + newPosition.toString() + " With Speed: " + players.get(i).getObject().getCurrentShipSpeed());
-            System.out.println("Facing Direction: I:" + currentPlayer.getShipDirection().getI() + " J: " + currentPlayer.getShipDirection().getJ() + " K: " + currentPlayer.getShipDirection().getK());
+           // System.out.println("Facing Direction: I:" + currentPlayer.getShipDirection().getI() + " J: " + currentPlayer.getShipDirection().getJ() + " K: " + currentPlayer.getShipDirection().getK());
         }
     }
 

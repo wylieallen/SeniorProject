@@ -152,6 +152,7 @@ public class Ship extends BoundingBoxCollidable{
     }
 
     public void setFacingDirection(Vector3D facingDirection) {
+        facingDirection.makeUnitVector();
         this.facingDirection = facingDirection;
     }
 
@@ -237,7 +238,7 @@ public class Ship extends BoundingBoxCollidable{
 
         this.moveForward((float) shipStats.getCurrentSpeed());
 
-        System.out.println("Speed: " + shipStats.getCurrentSpeed() + " Curloc: " + super.getOrigin().getX() + "," + super.getOrigin().getY() + "," + super.getOrigin().getZ());
+        //System.out.println("Speed: " + shipStats.getCurrentSpeed() + " Curloc: " + super.getOrigin().getX() + "," + super.getOrigin().getY() + "," + super.getOrigin().getZ());
     }
 
     //Rendering Methods

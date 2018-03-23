@@ -40,7 +40,7 @@ public class EnemyBuilder {
         List<LocationTuple<Enemy>> enemies = new ArrayList<>();
         int lineIndex = 1;
 
-        while (enemyData.get(lineIndex++) == "ENEMY"){
+        while (enemyData.get(lineIndex++).equals("ENEMY")){
             Enemy newEnemy = new Enemy();
 
             lineIndex++; //SKIP LOCATION

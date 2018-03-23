@@ -21,12 +21,9 @@ public class BoostSpecial extends ShipSpecial {
         if (!activated){
             ShipStats shipStats = pilot.getActiveShipStats();
             shipStats.setMaxSpeed(speedFactor);
-            super.consumeFuel(pilot);
             activated = true;
         }
-        else{
-            super.consumeFuel(pilot);
-        }
+        super.consumeFuel(pilot);
     }
 
     @Override
