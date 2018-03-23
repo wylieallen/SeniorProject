@@ -1,6 +1,8 @@
 package guiframework;
 
 import com.jogamp.opengl.awt.GLJPanel;
+import com.jogamp.opengl.util.FPSAnimator;
+import guiframework.gui2d.Drawstate;
 import guiframework.gui3d.Renderstate;
 
 import javax.swing.*;
@@ -9,32 +11,17 @@ import java.awt.event.*;
 
 public class InterfacePanel extends GLJPanel implements KeyListener
 {
-    private Uberstate activeState;
+    private Drawstate activeState;
     private Renderstate activeRenderstate;
-    private Timer renderTimer;
 
-    public InterfacePanel(Uberstate activeState, Renderstate renderstate)
+    public InterfacePanel(Drawstate activeState, Renderstate renderstate)
     {
         this.activeState = activeState;
         this.activeRenderstate = renderstate;
 
         this.addGLEventListener(renderstate);
 
-        renderTimer = new Timer(17, new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
-                renderTimer.stop();
-
-                // Herp derp herp derp
-
-                activeState.update();
-                repaint();
-
-                renderTimer.restart();
-            }
-        });
-
-        renderTimer.start();
+        new FPSAnimator(this, 60, true).start();
 
         this.addMouseListener(new MouseListener()
         {
@@ -85,6 +72,16 @@ public class InterfacePanel extends GLJPanel implements KeyListener
     public void keyPressed(KeyEvent e)
     {
         System.out.println("Key " + e.getKeyChar() + " with keycode " + e.getKeyCode() + " pressed");
+        switch(e.getKeyCode())
+        {
+            case KeyEvent.VK_W:
+                activeRenderstate.getCamera().translateForward(0.5f);
+                break;
+
+            case KeyEvent.VK_S:
+                activeRenderstate.getCamera().translateForward(-0.5f);
+                break;
+        }
         activeState.parseKeyPress(e.getKeyCode());
     }
 
@@ -108,6 +105,7 @@ public class InterfacePanel extends GLJPanel implements KeyListener
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+        activeState.update();
         activeState.draw((Graphics2D) g);
     }
 

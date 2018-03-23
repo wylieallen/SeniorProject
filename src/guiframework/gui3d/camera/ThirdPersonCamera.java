@@ -27,8 +27,5 @@ public class ThirdPersonCamera extends Camera
 
         super.translateForward(-trailDistance);
         super.translateVertical(-trailDistance/4);
-
-        System.out.println("New camera pt: " + super.getX() + "," + super.getY() + "," + super.getZ());
-        System.out.println("New camera dr: " + super.getYaw() + "," + super.getPitch() + "," + super.getRoll());
     }
 }

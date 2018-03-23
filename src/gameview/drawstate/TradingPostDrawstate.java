@@ -1,4 +1,4 @@
-package guiframework;
+package gameview.drawstate;
 
 import Model.Items.Consumables.FuelConsumable;
 import Model.Items.Consumables.HealthConsumable;
@@ -12,11 +12,11 @@ import Model.TradingPost.BountyMission;
 import Model.TradingPost.TradingPost;
 import Model.TradingPost.Wallet;
 import Utility.Rarity;
+import guiframework.gui2d.Drawstate;
 import guiframework.gui2d.ImageFactory;
 import guiframework.gui2d.clickable.Button;
 import guiframework.gui2d.clickable.ItemButton;
 import guiframework.gui2d.clickable.Overlay;
-import guiframework.gui2d.displayable.CompositeDisplayable;
 import guiframework.gui2d.displayable.Displayable;
 import guiframework.gui2d.displayable.ImageDisplayable;
 import guiframework.gui2d.displayable.StringDisplayable;
@@ -25,7 +25,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TradingPostUberstate extends Uberstate{
+public class TradingPostDrawstate extends Drawstate
+{
     private static final int HEIGHT = 200;
     private static final int WIDTH = 800;
     private static final int MARGIN = 10;
@@ -48,9 +49,9 @@ public class TradingPostUberstate extends Uberstate{
     private Wallet playerWallet;
     private Wallet tpWallet;
 
-    public TradingPostUberstate() {
+    public TradingPostDrawstate() {
 
-        //todo: Figure out how player and trading post are passed to Uberstate properly. Temporarily adding test player and trading post.
+        //todo: Figure out how player and trading post are passed to Drawstate properly. Temporarily adding test player and trading post.
         currentPlayer = new Player();
         currentPlayer.getMyWallet().increaseCurrencyBalance(1500);
         Ship ship = new Ship(currentPlayer, new ShipHull(1000, 1000, 30, Rarity.COMMON));

@@ -301,4 +301,9 @@ public class Renderstate implements GLEventListener
 
     @Override
     public void dispose(GLAutoDrawable drawable) {}
+
+    public Camera getCamera()
+    {
+        return camera;
+    }
 }

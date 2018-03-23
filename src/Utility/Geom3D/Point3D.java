@@ -50,7 +50,7 @@ public class Point3D {
 
         translateX(d * (float) (Math.cos(pitchRads) * Math.sin(yawRads)));
         translateY(d * (float) Math.sin(pitchRads));
-        translateZ(d * (float) (Math.cos(pitchRads) * Math.cos(yawRads)));
+        translateZ(-d * (float) (Math.cos(pitchRads) * Math.cos(yawRads)));
     }
 
     public void translateLateral(Orientation3D orientation, float d)

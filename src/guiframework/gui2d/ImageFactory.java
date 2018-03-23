@@ -25,6 +25,7 @@ public class ImageFactory
     private static final BufferedImage exitButtonPress = loadImage("resources/Images/button_exit_press.png");
 
     //Overworld Images
+    /*
     private static final BufferedImage overworldLabel = loadImage("resources/Images/label_overworld.png");
     private static final BufferedImage tradingPostBase = loadImage("resources/Images/button_trading-post_base.png");
     private static final BufferedImage tradingPostHover = loadImage("resources/Images/button_trading-post_hover.png");
@@ -32,6 +33,7 @@ public class ImageFactory
     private static final BufferedImage battleZoneBase = loadImage("resources/Images/button_battle-zone_base.png");
     private static final BufferedImage battleZoneHover = loadImage("resources/Images/button_battle-zone_hover.png");
     private static final BufferedImage battleZonePress = loadImage("resources/Images/button_battle-zone_press.png");
+    */
 
     public static BufferedImage makeBorderedRect(int width, int height, Color bodyColor, Color borderColor)
     {
@@ -141,6 +143,7 @@ public class ImageFactory
     public static BufferedImage getExitButtonPress() {
         return exitButtonPress;
     }
+    /*
 
     public static BufferedImage getOverworldLabel() {
         return overworldLabel;
@@ -157,4 +160,5 @@ public class ImageFactory
     public static BufferedImage getBattleZoneHover() {return battleZoneHover;}
 
     public static BufferedImage getBattleZonePress() {return battleZonePress;}
+    */
 }

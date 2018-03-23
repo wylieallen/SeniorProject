@@ -1,31 +1,13 @@
-package guiframework;
+package gameview.drawstate;
 
-import Model.Items.Consumables.FuelConsumable;
-import Model.Items.Consumables.HealthConsumable;
-import Model.Items.Consumables.ShieldConsumable;
-import Model.Items.Inventory;
-import Model.Items.Item;
 import Model.Pilot.Player;
-import Model.Ship.Ship;
-import Model.Ship.ShipParts.ShipHull;
-import Model.TradingPost.BountyMission;
 import Model.TradingPost.TradingPost;
-import Model.TradingPost.Wallet;
-import Utility.Rarity;
-import guiframework.gui2d.ImageFactory;
-import guiframework.gui2d.clickable.Button;
-import guiframework.gui2d.clickable.ItemButton;
-import guiframework.gui2d.clickable.Overlay;
-import guiframework.gui2d.displayable.CompositeDisplayable;
-import guiframework.gui2d.displayable.Displayable;
-import guiframework.gui2d.displayable.ImageDisplayable;
-import guiframework.gui2d.displayable.StringDisplayable;
+import guiframework.gui2d.Drawstate;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class OverworldUberstate extends Uberstate{
+public class OverworldDrawstate extends Drawstate
+{
     private static final int HEIGHT = 1000;
     private static final int WIDTH = 1800;
     private static final int MARGIN = 10;
@@ -33,7 +15,7 @@ public class OverworldUberstate extends Uberstate{
     private TradingPost currentTP;
     private Player currentPlayer;
 
-    public OverworldUberstate() {
+    public OverworldDrawstate() {
 //        //Add title box
 //        ImageDisplayable tpTitle =
 //                new ImageDisplayable(new Point(0,0), ImageFactory.getOverworldLabel());
@@ -41,6 +23,7 @@ public class OverworldUberstate extends Uberstate{
 //        this.addCenterOverlay(tpTitle);
 
         //Create and add Trading Post Overlay
+        /*
         Overlay tpOverlay = new Overlay(new Point(0,0));
         Displayable tpBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLACK, Color.BLACK));
         tpOverlay.add(tpBackground);
@@ -77,7 +60,7 @@ public class OverworldUberstate extends Uberstate{
                 new ImageDisplayable(new Point(0,0), ImageFactory.getOverworldLabel());
 
         this.addCenterOverlay(tpTitle);
-
+        */
 
     }
 }
