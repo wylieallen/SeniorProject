@@ -100,7 +100,14 @@ public class TradingPostDrawstate extends Drawstate
                 ImageFactory.getBuyButtonPress(),
                 () ->
                 {
+                    this.selectedItem = 0;
+
                     //Clear TP Items button list
+                    for(int i = 0; i < tpItems.size(); i++) {
+                        ItemButton button = tpItems.get(i);
+                        tpInventoryOverlay.removeClickable(button);
+                        tpInventoryOverlay.remove(button);
+                    }
                     tpItems.clear();
 
                     activeOverlay.remove(activeSelectedOverlay);
@@ -198,7 +205,14 @@ public class TradingPostDrawstate extends Drawstate
                 ImageFactory.getSellButtonPress(),
                 () ->
                 {
+                    this.selectedItem = 0;
+
                     //Clear Player Item button list
+                    for(int i = 0; i < playerItems.size(); i++) {
+                        ItemButton button = playerItems.get(i);
+                        playerInventoryOverlay.removeClickable(button);
+                        playerInventoryOverlay.remove(button);
+                    }
                     playerItems.clear();
 
                     activeOverlay.remove(activeSelectedOverlay);
