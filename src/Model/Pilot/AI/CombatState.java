@@ -24,7 +24,10 @@ public class CombatState implements AIState {
 
         //Test
         if (currentPosition.distance(currentPosition, targetPosition) < 1f){
-            enemy.setAiState(new RoamingState());
+            ai.setAiState(new RoamingState());
+            while (enemy.getCurrentShipSpeed() > 0){
+                enemy.decreaseShipSpeed();
+            }
         }
     }
 }

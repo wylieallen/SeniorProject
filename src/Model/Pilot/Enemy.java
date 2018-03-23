@@ -11,17 +11,16 @@ import Utility.Geom3D.Vector3D;
 public class Enemy extends Pilot {
 
     private AI ai;
-    private AIState aiState;
+
 
     public Enemy(){
         super.setPilotStats(new PilotStats(getMaxLevel()));
         super.setFaction(Faction.REBEL);
         ai = new AI();
-        aiState = new CombatState();
     }
 
     public void setAiState(AIState aiState) {
-        this.aiState = aiState;
+        ai.setAiState(aiState);
     }
 
     @Override
@@ -33,7 +32,7 @@ public class Enemy extends Pilot {
     @Override
     public Point3D move(Point3D curPosition){
 
-        aiState.makeMove(this, ai);
+        ai.makeMove(this);
         Point3D newPostion = super.move(curPosition);
         return newPostion;
     }
