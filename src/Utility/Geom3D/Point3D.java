@@ -43,6 +43,14 @@ public class Point3D {
     public void translateY(float dy) { this.y += dy; }
     public void translateZ(float dz) { this.z += dz; }
 
+
+    public void translateForward(Point3D newPosition){
+        x = newPosition.getX();
+        y = newPosition.getY();
+        z = newPosition.getZ();
+
+    }
+
     public void translateForward(Orientation3D orientation, float d)
     {
         float yawRads = orientation.getYaw()/180.0f * 3.1415926535f;

@@ -1,11 +1,17 @@
 package guiframework.gui3d;
 
+import Controller.ShipInputHandler;
+import Model.Map.Node;
+import Model.Map.Overworld;
+import Model.Map.Zones.BattleZone;
+import Model.Pilot.Player;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.ShipEngine;
 import Model.Ship.ShipParts.ShipHull;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
+import Utility.Geom3D.Vector3D;
 import Utility.Rarity;
 import com.jogamp.opengl.*;
 import gameview.ShipRenderable;
@@ -32,6 +38,8 @@ import static com.jogamp.opengl.GL2ES2.GL_VERTEX_SHADER;
 
 public class Renderstate implements GLEventListener
 {
+
+    private BattleZone myBattleZone;
     private Point centerPt;
     private int width, height;
 
@@ -51,6 +59,8 @@ public class Renderstate implements GLEventListener
 
     private Set<Renderable> renderables;
 
+
+
     public Renderstate(int width, int height)
     {
         this.camera = new Camera();
@@ -63,9 +73,22 @@ public class Renderstate implements GLEventListener
         this.width = width;
         this.height = height;
 
-        this.playerShip = new Ship(null, new ShipHull(10, 10, 10, Rarity.COMMON));
+        //INITIALIZE GAME STUFFS
+        Overworld theOverworld = Overworld.getOverworld();
+        theOverworld.addNode(new Node(new BattleZone(1)));
+
+        myBattleZone = (BattleZone) theOverworld.getZoneAtNode();
+
+        Player newPlayer = new Player();
+
+        this.playerShip = new Ship(newPlayer, new ShipHull(10, 10, 10, Rarity.COMMON));
         playerShip.equipEngine( new ShipEngine(10, 8, Rarity.COMMON));
         playerShip.moveForward(-5);
+        newPlayer.setActiveShip(playerShip);
+        playerShip.setFacingDirection(new Vector3D(0,0,-1));
+
+        myBattleZone.run(newPlayer);
+        //RUN GAME
 
         centerPt = new Point(width / 2, height / 2);
 
@@ -257,7 +280,10 @@ public class Renderstate implements GLEventListener
     public void display(GLAutoDrawable drawable)
     {
         // update model
+
         playerShip.update();
+        myBattleZone.update();
+
 
         // update view
         camera.update();

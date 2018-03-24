@@ -8,9 +8,21 @@ import java.awt.event.KeyListener;
 
 public class ShipInputHandler implements KeyListener {
 
+
+    private static ShipInputHandler instance = null;
+
     private boolean[] keys;
 
-    public ShipInputHandler(){
+
+    public static ShipInputHandler getShipInputHandler(){
+        if (instance == null){
+            instance = new ShipInputHandler();
+        }
+        return instance;
+    }
+
+
+    protected ShipInputHandler(){
         keys = new boolean[65536];
     }
 

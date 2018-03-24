@@ -92,6 +92,7 @@ public abstract class Pilot {
         float newZ = curPosition.getZ() + curTrajectory.getK()*(float)(curSpeed/FRAMERATE);
 
         Point3D newPosition = new Point3D(newX, newY, newZ);
+        activeShip.move(newPosition);
 
         return newPosition;
 

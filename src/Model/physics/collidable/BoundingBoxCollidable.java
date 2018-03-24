@@ -25,6 +25,14 @@ public class BoundingBoxCollidable implements Collidable
         recalculateBounds();
     }
 
+    public void move(Point3D newPosition){
+
+        origin.translateForward(newPosition);
+        minPoint.translateForward(newPosition);
+        maxPoint.translateForward(newPosition);
+
+    }
+
     public void moveForward(float d)
     {
         origin.translateForward(orientation, d);

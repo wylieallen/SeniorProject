@@ -193,7 +193,7 @@ public class Ship extends BoundingBoxCollidable{
     @Override
     public void update(){
 
-        super.update();
+        //super.update();
 
         boolean directionUpdate = false;
         if(rollingLeft ^ rollingRight)
@@ -219,8 +219,7 @@ public class Ship extends BoundingBoxCollidable{
             float i = (float) ((Math.cos(pitchRads) * Math.sin(yawRads)));
             float j = (float) Math.sin(pitchRads);
             float k = (float) (Math.cos(pitchRads) * Math.cos(yawRads));
-            facingDirection = new Vector3D(i,j,k);
-            facingDirection.makeUnitVector();
+            setFacingDirection(new Vector3D(i,j,-k));
         }
 
         if(accelerating)
@@ -235,8 +234,7 @@ public class Ship extends BoundingBoxCollidable{
         // todo: remove this logic when we're ready to go back to locationtuples
 
 
-
-        this.moveForward((float) shipStats.getCurrentSpeed());
+       // this.moveForward((float) shipStats.getCurrentSpeed());
 
         //System.out.println("Speed: " + shipStats.getCurrentSpeed() + " Curloc: " + super.getOrigin().getX() + "," + super.getOrigin().getY() + "," + super.getOrigin().getZ());
     }
