@@ -1,10 +1,9 @@
 package guiframework.gui2d;
 
-import guiframework.gui2d.clickable.Clickable;
+import guiframework.control.clickable.Clickable;
 import guiframework.gui2d.displayable.Displayable;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
@@ -13,9 +12,6 @@ public class Drawstate
     private Set<Displayable> underlays;
     private Set<Displayable> overlays;
     private Set<Collection<? extends Displayable>> displayables;
-
-    private Set<Clickable> clickables;
-    private Clickable selectedClickable = Clickable.NULL;
 
     private OverlayManager overlayManager;
     private UnderlayManager underlayManager;
@@ -27,7 +23,6 @@ public class Drawstate
         underlays = new LinkedHashSet<>();
         displayables = new LinkedHashSet<>();
         overlays = new LinkedHashSet<>();
-        clickables = new LinkedHashSet<>();
         overlayManager = new OverlayManager();
         underlayManager = new UnderlayManager();
     }
@@ -47,9 +42,6 @@ public class Drawstate
         displayables.forEach((collection) -> collection.forEach(Displayable::update));
         overlays.forEach(Displayable::update);
     }
-
-    public void addClickable(Clickable clickable) { clickables.add(clickable); }
-    public void removeClickable(Clickable clickable) { clickables.remove(clickable); }
 
     public void addLeftOverlay(Displayable overlay)
     {
@@ -102,64 +94,6 @@ public class Drawstate
         this.displayables.add(displayables);
     }
     public void removeDisplayables(Collection<? extends Displayable> displayables) { this.displayables.remove(displayables); }
-
-    public void parseKeyPress(int keyCode) { }
-    public void parseKeyRelease(int keyCode) { }
-
-    public void parseMousePress(MouseEvent e)
-    {
-        if(selectedClickable.pointIsOn(e.getPoint()))
-        {
-            selectedClickable.press();
-            return;
-        }
-
-        for(Clickable clickable : clickables)
-        {
-            if(clickable.pointIsOn(e.getPoint()))
-            {
-                selectedClickable.exit();
-                selectedClickable = clickable;
-                selectedClickable.enter();
-                selectedClickable.press();
-                return;
-            }
-        }
-    }
-
-    public void parseMouseDrag(MouseEvent e)
-    {
-        parseMousePress(e);
-    }
-
-    public void parseMouseRelease(MouseEvent e)
-    {
-        selectedClickable.release();
-    }
-
-    public void parseMouseMove(MouseEvent e)
-    {
-        if(selectedClickable.pointIsOn(e.getPoint()))
-        {
-           return;
-        }
-        else
-        {
-            selectedClickable.exit();
-        }
-
-        for(Clickable clickable : clickables)
-        {
-            if(clickable.pointIsOn(e.getPoint()))
-            {
-                selectedClickable = clickable;
-                selectedClickable.enter();
-                return;
-            }
-        }
-
-        selectedClickable = Clickable.NULL;
-    }
 
     public void changeSize(Dimension size)
     {

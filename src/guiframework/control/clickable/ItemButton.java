@@ -1,4 +1,4 @@
-package guiframework.gui2d.clickable;
+package guiframework.control.clickable;
 
 import Model.Items.Item;
 import guiframework.util.AbstractFunction;

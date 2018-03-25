@@ -1,4 +1,4 @@
-package guiframework.gui3d;
+package gameview.observers.spawn;
 
 import Model.Map.LocationTuple;
 import Model.Ship.Ship;

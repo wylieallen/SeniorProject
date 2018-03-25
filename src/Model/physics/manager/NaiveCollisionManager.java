@@ -6,7 +6,7 @@ import Model.physics.collidable.Collidable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class NaiveCollisionManager
+public class NaiveCollisionManager implements CollisionManager
 {
     private Set<CollisionObserver> observers;
     private Set<Collidable> collidables;
@@ -49,6 +49,8 @@ public class NaiveCollisionManager
                 observers.forEach((o) -> o.notifyCollision(a, b));
             }
         }
+
+        logger.clear();
     }
 
     private class CollisionLogger implements CollisionObserver

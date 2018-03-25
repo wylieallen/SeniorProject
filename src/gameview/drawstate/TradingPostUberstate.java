@@ -12,20 +12,23 @@ import Model.TradingPost.BountyMission;
 import Model.TradingPost.TradingPost;
 import Model.TradingPost.Wallet;
 import Utility.Rarity;
+import guiframework.Uberstate;
+import guiframework.control.ClickableControlstate;
 import guiframework.gui2d.Drawstate;
 import guiframework.gui2d.ImageFactory;
-import guiframework.gui2d.clickable.Button;
-import guiframework.gui2d.clickable.ItemButton;
-import guiframework.gui2d.clickable.Overlay;
+import guiframework.control.clickable.Button;
+import guiframework.control.clickable.ItemButton;
+import guiframework.control.clickable.Overlay;
 import guiframework.gui2d.displayable.Displayable;
 import guiframework.gui2d.displayable.ImageDisplayable;
 import guiframework.gui2d.displayable.StringDisplayable;
+import guiframework.gui3d.Renderstate;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TradingPostDrawstate extends Drawstate
+public class TradingPostUberstate extends Uberstate
 {
     private static final int HEIGHT = 200;
     private static final int WIDTH = 800;
@@ -49,8 +52,8 @@ public class TradingPostDrawstate extends Drawstate
     private Wallet playerWallet;
     private Wallet tpWallet;
 
-    public TradingPostDrawstate() {
-
+    public TradingPostUberstate(Renderstate renderstate) {
+        super(new Drawstate(), renderstate, new ClickableControlstate());
         //todo: Figure out how player and trading post are passed to Drawstate properly. Temporarily adding test player and trading post.
         currentPlayer = new Player();
         currentPlayer.getMyWallet().increaseCurrencyBalance(1500);
@@ -91,7 +94,10 @@ public class TradingPostDrawstate extends Drawstate
         ImageDisplayable tpTitle =
                 new ImageDisplayable(new Point(0,0), ImageFactory.getTradingPostLabel());
 
-        this.addLeftOverlay(tpTitle);
+        Drawstate drawstate = getDrawstate();
+        ClickableControlstate controlstate = getControlstate();
+
+        drawstate.addLeftOverlay(tpTitle);
 
         //Add Buy Button
         Button buyButton = new Button(new Point(0, HEIGHT),
@@ -112,12 +118,12 @@ public class TradingPostDrawstate extends Drawstate
 
                     activeOverlay.remove(activeSelectedOverlay);
                     activeOverlay.removeClickable(activeSelectedOverlay);
-                    this.removeAllRightOverlays();
-                    this.removeClickable(activeOverlay);
+                    drawstate.removeAllRightOverlays();
+                    controlstate.remove(activeOverlay);
                     activeOverlay = this.tpInventoryOverlay;
 //                    inactiveOverlay = this.playerInventoryOverlay;
-                    this.addRightOverlay(this.tpInventoryOverlay);
-                    this.addClickable(this.tpInventoryOverlay);
+                    drawstate.addRightOverlay(this.tpInventoryOverlay);
+                    controlstate.add(this.tpInventoryOverlay);
 
                     //Add selected item Overlay
                     Overlay tpItemSelected = new Overlay(new Point(WIDTH/5,HEIGHT*3));
@@ -195,8 +201,8 @@ public class TradingPostDrawstate extends Drawstate
 //                    inacvtiveItems = playerItems;
                 });
 
-        this.addClickable(buyButton);
-        this.addLeftOverlay(buyButton);
+        controlstate.add(buyButton);
+        drawstate.addLeftOverlay(buyButton);
 
         //Add Sell Button
         Button sellButton = new Button(new Point(0, (HEIGHT * 2) + 20),
@@ -217,12 +223,12 @@ public class TradingPostDrawstate extends Drawstate
 
                     activeOverlay.remove(activeSelectedOverlay);
                     activeOverlay.removeClickable(activeSelectedOverlay);
-                    this.removeAllRightOverlays();
-                    this.removeClickable(activeOverlay);
+                    drawstate.removeAllRightOverlays();
+                    controlstate.remove(activeOverlay);
                     activeOverlay = this.playerInventoryOverlay;
 //                    inactiveOverlay = this.tpInventoryOverlay;
-                    this.addRightOverlay(this.playerInventoryOverlay);
-                    this.addClickable(this.playerInventoryOverlay);
+                    drawstate.addRightOverlay(this.playerInventoryOverlay);
+                    controlstate.add(this.playerInventoryOverlay);
 
                     //Add selected item Overlay
                     Overlay playerItemSelected = new Overlay(new Point(WIDTH/5,HEIGHT*3));
@@ -301,8 +307,8 @@ public class TradingPostDrawstate extends Drawstate
 //                    inacvtiveItems = tpItems;
                 });
 
-        this.addClickable(sellButton);
-        this.addLeftOverlay(sellButton);
+        controlstate.add(sellButton);
+        drawstate.addLeftOverlay(sellButton);
 
         //Add Bounty Missions Button
         Button bountyButton = new Button(new Point(0, HEIGHT * 3),
@@ -313,15 +319,15 @@ public class TradingPostDrawstate extends Drawstate
                 {
                     activeOverlay.remove(activeSelectedOverlay);
                     activeOverlay.removeClickable(activeSelectedOverlay);
-                    this.removeAllRightOverlays();
-                    this.addRightOverlay(this.bountyList);
-                    this.removeClickable(activeOverlay);
+                    drawstate.removeAllRightOverlays();
+                    drawstate.addRightOverlay(this.bountyList);
+                    controlstate.remove(activeOverlay);
                     activeOverlay = this.bountyList;
-                    this.addClickable(this.bountyList);
+                    controlstate.add(this.bountyList);
                 });
 
-        this.addClickable(bountyButton);
-        this.addLeftOverlay(bountyButton);
+        controlstate.add(bountyButton);
+        drawstate.addLeftOverlay(bountyButton);
 
         //Add Exit Button
         Button exitButton = new Button(new Point(0, HEIGHT * 4),
@@ -330,8 +336,8 @@ public class TradingPostDrawstate extends Drawstate
                 ImageFactory.getExitButtonPress(),
                 () -> {});
 
-        this.addClickable(exitButton);
-        this.addLeftOverlay(exitButton);
+        controlstate.add(exitButton);
+        drawstate.addLeftOverlay(exitButton);
 
         //Create Player Inventory Overlay
         Overlay playerInventoryOverlay = new Overlay(new Point());

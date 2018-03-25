@@ -1,4 +1,4 @@
-package guiframework.gui2d.clickable;
+package guiframework.control.clickable;
 
 import guiframework.gui2d.displayable.CompositeDisplayable;
 

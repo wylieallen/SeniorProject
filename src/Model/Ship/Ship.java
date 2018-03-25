@@ -249,4 +249,19 @@ public class Ship extends BoundingBoxCollidable{
 
     public void setAccelerating(boolean b) { this.accelerating = b; }
     public void setDecelerating(boolean b) { this.decelerating = b; }
+
+    public void setYawSpeed(float yawSpeed)
+    {
+        this.yawSpeed = yawSpeed;
+    }
+
+    public void setPitchSpeed(float pitchSpeed)
+    {
+        this.pitchSpeed = pitchSpeed;
+    }
+
+    public void ceaseRotation()
+    {
+        this.yawSpeed = this.pitchSpeed = this.rollSpeed = 0;
+    }
 }

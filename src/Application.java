@@ -1,6 +1,9 @@
+import gameview.GameUberstate;
 import guiframework.InterfacePanel;
 import gameview.drawstate.OverworldDrawstate;
-import gameview.drawstate.TradingPostDrawstate;
+import gameview.drawstate.TradingPostUberstate;
+import guiframework.Uberstate;
+import guiframework.control.ClickableControlstate;
 import guiframework.gui2d.Drawstate;
 import guiframework.gui3d.Renderstate;
 
@@ -11,6 +14,8 @@ import java.awt.event.ComponentListener;
 
 public class Application
 {
+    private static final int WIDTH = 1800, HEIGHT = 1000;
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Application::createAndShowGUI);
     }
@@ -18,39 +23,28 @@ public class Application
     private static void createAndShowGUI()
     {
         JFrame frame = new JFrame();
-        frame.setSize(1800, 1000);
+        frame.setSize(WIDTH, HEIGHT);
         //frame.setExtendedState( frame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
 
         frame.setTitle("Senior Project");
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        TradingPostDrawstate tpUberstate = new TradingPostDrawstate();
-        OverworldDrawstate overworldUberstate = new OverworldDrawstate();
-//        Button exampleButton = new Button(new Point(256, 256),
-//                ImageFactory.makeBorderedRect(128, 128, Color.WHITE, Color.GRAY),
-//                ImageFactory.makeBorderedRect(128, 128, Color.RED, Color.GRAY),
-//                ImageFactory.makeBorderedRect(128, 128, Color.ORANGE, Color.GRAY),
-//                () -> {},
-//                () -> {},
-//                () -> {},
-//                () -> {});
-//
-//        drawstate.addClickable(exampleButton);
-//        drawstate.addOverlay(exampleButton);
+        Renderstate renderstate = new Renderstate(WIDTH, HEIGHT);
 
-        Drawstate drawstate = new Drawstate();
+        //TradingPostUberstate tpUberstate = new TradingPostUberstate(renderstate);
+        //OverworldUberstate overworldUberstate = new OverworldUberstate(renderstate);
 
-        InterfacePanel panel = new InterfacePanel(drawstate, new Renderstate(1800, 1000));
-        panel.setSize(1800, 1000);
+        GameUberstate gameUberstate = new GameUberstate(renderstate, new Point(WIDTH / 2, HEIGHT / 2));
+
+        InterfacePanel panel = new InterfacePanel(gameUberstate);
+        panel.setSize(WIDTH, HEIGHT);
         panel.setBackground(Color.BLACK);
 
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
         frame.validate();
         frame.setVisible(true);
-
-        panel.addKeyListener(panel);
 
         frame.addComponentListener(new ComponentListener()
         {
