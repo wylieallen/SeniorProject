@@ -22,7 +22,7 @@ public class EnemyBuilder {
         shipBuilder = new ShipBuilder();
     }
 
-    public List<LocationTuple<Enemy>> buildEnemies(String filepath, String zoneid) {
+    public List<LocationTuple<Pilot>> buildEnemies(String filepath, String zoneid) {
         String filename = filepath + zoneid + "/enemies.txt";
 
         Scanner s = null;
@@ -37,7 +37,7 @@ public class EnemyBuilder {
             enemyData.add(s.nextLine());
         }
 
-        List<LocationTuple<Enemy>> enemies = new ArrayList<>();
+        List<LocationTuple<Pilot>> enemies = new ArrayList<>();
         int lineIndex = 1;
 
         while (enemyData.get(lineIndex++).equals("ENEMY")){
@@ -109,7 +109,7 @@ public class EnemyBuilder {
             Ship newShip = shipBuilder.buildShip(newEnemy, newEngine, newHull, newShield, newSpecial, newWeapon1, newWeapon2);
             newEnemy.setActiveShip(newShip);
             newEnemy.getActiveShip().setFacingDirection(new Vector3D(enemyLoc, new Point3D(0,0,0)));
-            enemies.add(new LocationTuple<Enemy>(enemyLoc, newEnemy));
+            enemies.add(new LocationTuple<Pilot>(enemyLoc, newEnemy));
         }
         return enemies;
     }

@@ -4,25 +4,20 @@ import Model.Items.LootChest;
 import Model.Map.LocationTuple;
 import Model.Pilot.*;
 import Model.Powerup.Powerup;
-import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Utility.Geom3D.Point3D;
-import Utility.Geom3D.Vector3D;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-
-import static Utility.Config.FRAMERATE;
 
 
 public class BattleZone extends Zone {
 
     private int zoneID;
 
-    private List<LocationTuple<Player>> players = new ArrayList<>();
-    private List<LocationTuple<Enemy>> enemies = new ArrayList<>();
+    private LocationTuple<Pilot> player;
+    private List<LocationTuple<Pilot>> pilots = new ArrayList<>();
     private List<LocationTuple<Projectile>> projectiles = new ArrayList<>();
 
     private List<LocationTuple<Powerup>> powerups;
@@ -36,24 +31,23 @@ public class BattleZone extends Zone {
     public void run(Player player) {
         Point3D origin = new Point3D(0f, 0f, 0f);
         addPlayer(origin, player);
-        addEnemies();
+        addPilots();
     }
 
     public void update() {
         updateProjectilePosition();
-        updatePlayerPositions();
-        updateEnemyPositions();
+        updatePilotPositions();
     }
 
 
     public void addPlayer(Point3D location, Player player) {
-        LocationTuple<Player> newPlayer = new LocationTuple<Player>(location, player);
-        players.add(newPlayer);
+        this.player = new LocationTuple<Pilot>(location, player);
+        pilots.add(this.player);
     }
 
-    public void addEnemies() {
+    public void addPilots() {
         EnemyBuilder newEnemyBuilder = new EnemyBuilder();
-        this.enemies = newEnemyBuilder.buildEnemies("resources/Zones/battlezone", Integer.toString(zoneID));
+        pilots.addAll(newEnemyBuilder.buildEnemies("resources/Zones/battlezone", Integer.toString(zoneID)));
     }
 
     public void addProjectile(Projectile projectile) {
@@ -64,14 +58,9 @@ public class BattleZone extends Zone {
     }
 
     public Point3D getPositionOf(Pilot pilot) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getObject() == pilot) {
-                return players.get(i).getLocation();
-            }
-        }
-        for (int i = 0; i < enemies.size(); i++) {
-            if (enemies.get(i).getObject() == pilot) {
-                return enemies.get(i).getLocation();
+        for (int i = 0; i < pilots.size(); i++) {
+            if (pilots.get(i).getObject() == pilot) {
+                return pilots.get(i).getLocation();
             }
         }
 
@@ -79,27 +68,38 @@ public class BattleZone extends Zone {
     }
 
     public Player getPlayer() {
-        return players.get(0).getObject();
+        return (Player) player.getObject();
+    }
+
+    public Pilot getNearestHostileTo(Pilot pilot){
+        Point3D currentPosition = getPositionOf(pilot);
+
+        float minDistance = Float.MAX_VALUE;
+        Pilot nearestHostile = null;
+
+        for (int i = 0; i < pilots.size(); i++){
+            Pilot potentialHostile = pilots.get(i).getObject();
+            Point3D hostilePosition = pilots.get(i).getLocation();
+            float distance = currentPosition.distance(currentPosition, hostilePosition);
+
+            if (pilot.getFaction() != potentialHostile.getFaction() && distance <= potentialHostile.getDetectRange() && distance <= minDistance)
+            {
+                minDistance = distance;
+                nearestHostile = potentialHostile;
+            }
+        }
+        return nearestHostile;
     }
 
 
-    public void updatePlayerPositions() {
-        for (int i = 0; i < players.size(); i++) {
-            Player currentPlayer = players.get(i).getObject();
-            Point3D curPosition = players.get(i).getLocation();
-            Point3D newPosition = currentPlayer.move(curPosition);
-            players.get(i).setLocation(newPosition);
+    public void updatePilotPositions() {
+        for (int i = 0; i < pilots.size(); i++) {
+            Pilot currentPilot = pilots.get(i).getObject();
+            Point3D curPosition = pilots.get(i).getLocation();
+            Point3D newPosition = currentPilot.move(curPosition);
+            pilots.get(i).setLocation(newPosition);
            // System.out.println("Player is currently at Position: " + newPosition.toString() + " With Speed: " + players.get(i).getObject().getCurrentShipSpeed());
            // System.out.println("Facing Direction: I:" + currentPlayer.getShipDirection().getI() + " J: " + currentPlayer.getShipDirection().getJ() + " K: " + currentPlayer.getShipDirection().getK());
-        }
-    }
-
-    public void updateEnemyPositions() {
-        for (int i = 0; i < enemies.size(); i++) {
-            Enemy currentEnemy = enemies.get(i).getObject();
-            Point3D curPosition = enemies.get(i).getLocation();
-            Point3D newPosition = currentEnemy.move(curPosition);
-            enemies.get(i).setLocation(newPosition);
         }
     }
 
@@ -121,9 +121,9 @@ public class BattleZone extends Zone {
 
 
     public void enemyDestroyed(Enemy enemy) {
-        for (int i = 0; i < enemies.size(); i++) {
-            if (enemies.get(i).getObject() == enemy) {
-                LocationTuple<Enemy> deadEnemy = enemies.remove(i);
+        for (int i = 0; i < pilots.size(); i++) {
+            if (pilots.get(i).getObject() == enemy) {
+                LocationTuple<Pilot> deadEnemy = pilots.remove(i);
                 addLootChest(deadEnemy.getLocation());
                 break;
             }

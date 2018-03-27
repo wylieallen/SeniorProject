@@ -11,12 +11,16 @@ public class ShipStats {
     private int currentFuel;
     private double currentSpeed;
 
+    //Used for AI
+    private double detectRange;
+
     public ShipStats(int maxHealth){
         this.maxHealth = maxHealth;
         this.maxShield = 0;
         this.maxFuel = 0;
         this.maxSpeed = 0;
         this.currentHealth = this.maxHealth;
+        detectRange = 100;
     }
 
 
@@ -115,6 +119,14 @@ public class ShipStats {
     }
 
     public double getCurrentSpeed(){ return currentSpeed; }
+
+    public double getDetectRange() {
+        return detectRange;
+    }
+
+    public void setDetectRange(double detectRange) {
+        this.detectRange = detectRange;
+    }
 
     // End Getter/Setters
 

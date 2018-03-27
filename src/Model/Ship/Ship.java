@@ -156,6 +156,15 @@ public class Ship extends BoundingBoxCollidable{
         this.facingDirection = facingDirection;
     }
 
+    public double getDetectRange() {
+        return shipStats.getDetectRange();
+    }
+
+    public void setDetectRange(double detectRange) {
+        shipStats.setDetectRange(detectRange);
+    }
+
+
     public Vector3D getFacingDirection() {
         return facingDirection;
     }

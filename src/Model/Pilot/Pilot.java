@@ -75,6 +75,10 @@ public abstract class Pilot {
         return activeShip.getFacingDirection();
     }
 
+    public double getDetectRange() {
+        return activeShip.getDetectRange();
+    }
+
     public void toggleShield(){
         activeShip.toggleShieldActivated();
     }
