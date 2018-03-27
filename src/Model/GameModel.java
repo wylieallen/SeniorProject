@@ -12,6 +12,7 @@ import Model.physics.collidable.Collidable;
 import Model.physics.checking.CollisionChecker;
 import Model.physics.checking.NaiveCollisionChecker;
 import Utility.Geom3D.Dimension3D;
+import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
 import Utility.Rarity;
 import gameview.observers.spawn.SpawnObserver;
@@ -64,6 +65,7 @@ public class GameModel implements CollisionObserver
     public void spawnProjectile(Body<Projectile> projectile)
     {
         projectiles.add(projectile);
+        updateProjectile(projectile);
         spawnObservers.forEach(s -> s.notifyProjSpawn(projectile));
     }
 
@@ -83,7 +85,7 @@ public class GameModel implements CollisionObserver
 
     public void notifyShipToProj(Body<Ship> ship, Body<Projectile> projectile)
     {
-        ship.get().takeDamage(projectile.get().getDamage());
+        ship.get().takeDamage(-projectile.get().getDamage());
         projectile.get().disable();
     }
 
@@ -180,7 +182,8 @@ public class GameModel implements CollisionObserver
         if(ship.isFiring1())
         {
             spawnProjectile(new Body<Projectile>(
-                    new BoundingBoxCollidable(body.getCollidable().getOrigin(), new Dimension3D(0.2f), body.getCollidable().getOrientation()),
+                    new BoundingBoxCollidable(new Point3D(body.getCollidable().getOrigin()), new Dimension3D(0.2f),
+                            new Orientation3D(body.getCollidable().getOrientation())),
                     new LinearProjectile()
             ));
         }

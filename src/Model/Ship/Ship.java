@@ -315,6 +315,8 @@ public class Ship{
         return (float) shipStats.getCurrentSpeed();
     }
 
+    public void setFiring1(boolean firing1) { this.firing1 = firing1; }
+
     public boolean isFiring1() {
         return firing1;
     }

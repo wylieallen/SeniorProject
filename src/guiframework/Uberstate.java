@@ -35,6 +35,7 @@ public class Uberstate implements GLEventListener
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
     {
         renderstate.reshape(drawable, x, y, width, height);
+        drawstate.changeSize(new Dimension(width, height));
     }
 
     public void dispose(GLAutoDrawable drawable)

@@ -37,10 +37,10 @@ public class PilotingControlstate extends ClickableControlstate
         {
             pivotEnabled = true;
         }
-        else if(buttoncode == MouseEvent.BUTTON2)
+        else if(buttoncode == MouseEvent.BUTTON3)
         {
             // start shooting
-
+            playerShip.setFiring1(true);
         }
     }
 
@@ -53,9 +53,10 @@ public class PilotingControlstate extends ClickableControlstate
             pivotEnabled = false;
             playerShip.ceaseRotation();
         }
-        else if (buttoncode == MouseEvent.BUTTON2)
+        else if (buttoncode == MouseEvent.BUTTON3)
         {
             // stop shooting
+            playerShip.setFiring1(false);
         }
     }
 

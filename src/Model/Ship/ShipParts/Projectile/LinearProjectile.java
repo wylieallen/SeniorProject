@@ -9,7 +9,7 @@ import static Utility.Config.FRAMERATE;
 public class LinearProjectile extends Projectile{
 
     public LinearProjectile(){
-        super.setSpeed(50);
+        super.setSpeed(1.0f);
         super.setDamage(100);
         super.setName("Linear");
     }
@@ -28,7 +28,7 @@ public class LinearProjectile extends Projectile{
     public Point3D move(Point3D curPosition) {
 
         Vector3D curTrajectory = super.getTrajectory();
-        int curSpeed = super.getSpeed();
+        float curSpeed = super.getSpeed();
 
         float newX = curPosition.getX() + curTrajectory.getI()*(float)(curSpeed/FRAMERATE);
         float newY = curPosition.getY() + curTrajectory.getJ()*(float)(curSpeed/FRAMERATE);

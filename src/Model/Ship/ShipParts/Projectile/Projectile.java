@@ -13,11 +13,11 @@ public abstract class Projectile {
     private Vector3D trajectory;
     private Point3D startingPoint;
     private float range = BASE_PROJECTILE_RANGE;
-    private int speed;
+    private float speed;
     private int damage;
     private Pilot projectileSource;
     private boolean expired = false;
-    private float maxDist;
+    private float maxDist = 12.0f;
 
 
     public void setName(String name) {
@@ -40,11 +40,11 @@ public abstract class Projectile {
         this.startingPoint = startingPoint;
     }
 
-    public int getSpeed(){
+    public float getSpeed(){
         return speed;
     }
 
-    public void setSpeed(int speed){
+    public void setSpeed(float speed){
         this.speed = speed;
     }
 
@@ -78,6 +78,7 @@ public abstract class Projectile {
     {
         maxDist -= speed;
         if(maxDist < 0) expired = true;
+        System.out.println(toString() + " " + expired);
     }
 
 }

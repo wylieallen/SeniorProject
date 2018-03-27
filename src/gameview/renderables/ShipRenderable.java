@@ -1,4 +1,4 @@
-package gameview;
+package gameview.renderables;
 
 import Model.Ship.Ship;
 import Model.physics.Body;

@@ -50,7 +50,7 @@ public class HomingProjectile extends Projectile{
         curTrajectory.makeUnitVector();
         super.setTrajectory(curTrajectory);
 
-        int curSpeed = super.getSpeed();
+        float curSpeed = super.getSpeed();
 
         float newX = curPosition.getX() + curTrajectory.getI()*(float)(curSpeed/FRAMERATE);
         float newY = curPosition.getY() + curTrajectory.getJ()*(float)(curSpeed/FRAMERATE);
