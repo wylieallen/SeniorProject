@@ -85,9 +85,8 @@ public abstract class Pilot {
 
     public abstract void pilotDied();
 
-    public Point3D move(Point3D curPosition){
-
-
+    public Point3D move(Point3D curPosition)
+    {
         Vector3D curTrajectory = getShipDirection();
         double curSpeed = getCurrentShipSpeed();
 
@@ -98,8 +97,6 @@ public abstract class Pilot {
         Point3D newPosition = new Point3D(newX, newY, newZ);
 
         return newPosition;
-
-
     }
 
 }

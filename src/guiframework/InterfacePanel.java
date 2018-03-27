@@ -13,10 +13,12 @@ import java.awt.event.*;
 public class InterfacePanel extends GLJPanel
 {
     private Uberstate uberstate;
+    private Uberstate overworld, tradingpost, inflight;
 
     public InterfacePanel(Uberstate uberstate)
     {
         this.uberstate = uberstate;
+        // instantiate overworld, tradingpost, inflight...
 
         this.addGLEventListener(uberstate);
 
@@ -87,6 +89,8 @@ public class InterfacePanel extends GLJPanel
             }
         });
     }
+
+    public void switchToOverworld() { this.uberstate = overworld; }
 
     public void changeSize() { }
 
