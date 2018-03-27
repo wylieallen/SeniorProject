@@ -4,15 +4,16 @@ import Model.Map.LocationTuple;
 import Model.Ship.ShipParts.*;
 import Model.Ship.*;
 import Model.Ship.ShipBuilder.ShipBuilder;
+import Model.physics.Body;
+import Model.physics.collidable.BoundingBoxCollidable;
+import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Point3D;
 import Utility.Rarity;
 import Utility.Geom3D.Vector3D;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class EnemyBuilder {
 
@@ -22,7 +23,7 @@ public class EnemyBuilder {
         shipBuilder = new ShipBuilder();
     }
 
-    public List<LocationTuple<Pilot>> buildEnemies(String filepath, String zoneid) {
+    public Set<Body<Ship>> buildEnemies(String filepath, String zoneid) {
         String filename = filepath + zoneid + "/enemies.txt";
 
         Scanner s = null;
@@ -37,7 +38,7 @@ public class EnemyBuilder {
             enemyData.add(s.nextLine());
         }
 
-        List<LocationTuple<Pilot>> enemies = new ArrayList<>();
+        Set<Body<Ship>> enemies = new HashSet<>();
         int lineIndex = 1;
 
         while (enemyData.get(lineIndex++).equals("ENEMY")){
@@ -109,7 +110,7 @@ public class EnemyBuilder {
             Ship newShip = shipBuilder.buildShip(newEnemy, newEngine, newHull, newShield, newSpecial, newWeapon1, newWeapon2);
             newEnemy.setActiveShip(newShip);
             newEnemy.getActiveShip().setFacingDirection(new Vector3D(enemyLoc, new Point3D(0,0,0)));
-            enemies.add(new LocationTuple<Pilot>(enemyLoc, newEnemy));
+            enemies.add(new Body<Ship>(new BoundingBoxCollidable(enemyLoc, new Dimension3D(0.2f, 0.2f, 1.0f)), newShip));
         }
         return enemies;
     }

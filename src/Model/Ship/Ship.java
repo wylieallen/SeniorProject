@@ -70,6 +70,10 @@ public class Ship{
         shieldCooldown = new SystemTimer();
     }
 
+    public Pilot getMyPilot() {
+        return myPilot;
+    }
+
     public void equipWeapon1(ShipWeapon weapon){
         weaponSlot1 = weapon;
         updateMaxStats();

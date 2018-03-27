@@ -85,18 +85,6 @@ public abstract class Pilot {
 
     public abstract void pilotDied();
 
-    public Point3D move(Point3D curPosition)
-    {
-        Vector3D curTrajectory = getShipDirection();
-        double curSpeed = getCurrentShipSpeed();
-
-        float newX = curPosition.getX() + curTrajectory.getI()*(float)(curSpeed/FRAMERATE);
-        float newY = curPosition.getY() + curTrajectory.getJ()*(float)(curSpeed/FRAMERATE);
-        float newZ = curPosition.getZ() + curTrajectory.getK()*(float)(curSpeed/FRAMERATE);
-
-        Point3D newPosition = new Point3D(newX, newY, newZ);
-
-        return newPosition;
-    }
+    public abstract void move(Point3D curPosition);
 
 }

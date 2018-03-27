@@ -52,9 +52,7 @@ public class Player extends Pilot {
 
 
     @Override
-    public Point3D move(Point3D curPosition){
-        //Collidable updates?
-        Point3D newPostion = super.move(curPosition);
-        return newPostion;
+    public void move(Point3D curPosition){
+        //input handler
     }
 }

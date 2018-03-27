@@ -1,6 +1,7 @@
 package Model.physics;
 
 import Model.physics.collidable.Collidable;
+import Utility.Geom3D.Point3D;
 
 public class Body<T>
 {
@@ -16,4 +17,8 @@ public class Body<T>
     public Collidable getCollidable() { return collidable; }
 
     public T get() { return associate; }
+
+    public Point3D getCenter(){
+        return collidable.getCenter();
+    }
 }
