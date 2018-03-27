@@ -92,6 +92,10 @@ public class InterfacePanel extends GLJPanel
 
     public void switchToOverworld() { this.uberstate = overworld; }
 
+    public void switchToTradingPost() { this.uberstate = tradingpost; }
+
+    public void switchToInflight() { this.uberstate = inflight; }
+
     public void changeSize() { uberstate.changeSize(getSize()); }
 
     @Override

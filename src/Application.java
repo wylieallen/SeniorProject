@@ -1,10 +1,7 @@
 import gameview.GameUberstate;
+import gameview.drawstate.OverworldUberstate;
 import guiframework.InterfacePanel;
-import gameview.drawstate.OverworldDrawstate;
 import gameview.drawstate.TradingPostUberstate;
-import guiframework.Uberstate;
-import guiframework.control.ClickableControlstate;
-import guiframework.gui2d.Drawstate;
 import guiframework.gui3d.Renderstate;
 
 import javax.swing.*;
@@ -32,9 +29,8 @@ public class Application
 
         Renderstate renderstate = new Renderstate(WIDTH, HEIGHT);
 
-        //TradingPostUberstate tpUberstate = new TradingPostUberstate(renderstate);
-        //OverworldUberstate overworldUberstate = new OverworldUberstate(renderstate);
-
+        TradingPostUberstate tpUberstate = new TradingPostUberstate(renderstate);
+        OverworldUberstate overworldUberstate = new OverworldUberstate(renderstate);
         GameUberstate gameUberstate = new GameUberstate(renderstate, new Point(WIDTH / 2, HEIGHT / 2));
 
         InterfacePanel panel = new InterfacePanel(gameUberstate);

@@ -37,6 +37,7 @@ public class TradingPostUberstate extends Uberstate
     private TradingPost currentTP;
     private Player currentPlayer;
     private int selectedItem = 0;
+    private StringDisplayable itemInfo;
     private List<ItemButton> playerItems;
     private List<ItemButton> tpItems;
     private Overlay playerInventoryOverlay = new Overlay(new Point());
@@ -90,12 +91,12 @@ public class TradingPostUberstate extends Uberstate
 //
 //        this.addUnderlay(Displayable.NULL);
 
+        Drawstate drawstate = getDrawstate();
+        ClickableControlstate controlstate = getControlstate();
+
         //Add title box
         ImageDisplayable tpTitle =
                 new ImageDisplayable(new Point(0,0), ImageFactory.getTradingPostLabel());
-
-        Drawstate drawstate = getDrawstate();
-        ClickableControlstate controlstate = getControlstate();
 
         drawstate.addLeftOverlay(tpTitle);
 
@@ -106,6 +107,14 @@ public class TradingPostUberstate extends Uberstate
                 ImageFactory.getBuyButtonPress(),
                 () ->
                 {
+//                    ItemButton itemBuy = new ItemButton(new Item(), new Point(),
+//                            ImageFactory.getBuyButtonBase(),
+//                            ImageFactory.getBuyButtonBase(),
+//                            ImageFactory.getBuyButtonBase(),
+//                            () ->
+//                            {
+//
+//                            });
                     this.selectedItem = 0;
 
                     //Clear TP Items button list
@@ -166,8 +175,11 @@ public class TradingPostUberstate extends Uberstate
                     //Adding tpInventoryOverlay item displayables
                     for(int i = 0; i < tpInventory.getcurrItemsNum(); i++){
                         Item item = tpInventory.getItem(i);
+                        int x = (160*(i%4)) + ((i%4)*MARGIN) + MARGIN;
+                        int y = 100 +(100*(i/4));
+//                        Point point = new Point((160*(i%4)) + ((i%4)*MARGIN) + MARGIN, 100 +(100*(i/4)));
 
-                        ItemButton tpItem = new ItemButton(item, new Point((160*(i%4)) + ((i%4)*MARGIN) + MARGIN, 100 +(100*(i/4))),
+                        ItemButton tpItem = new ItemButton(item, new Point(x, y),
                                 ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
                                 ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, item.getName()),
                                 ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, item.getName()),
@@ -179,6 +191,22 @@ public class TradingPostUberstate extends Uberstate
                                     tpInventoryOverlay.addClickable(tpItemSelected);
                                     tpInventoryOverlay.add(tpItemSelected);
                                     this.activeSelectedOverlay = tpItemSelected;
+                                },
+                                () ->
+                                {
+
+                                },
+                                //enter function: Display Item info
+                                () ->
+                                {
+                                    selectedItem = tpInventory.getIndex(item);
+                                    this.itemInfo = new StringDisplayable(new Point(x+80, (3*y)/2), () -> "" + selectedItem);
+                                    tpInventoryOverlay.add(itemInfo);
+                                },
+                                //exit function
+                                () ->
+                                {
+                                    tpInventoryOverlay.remove(itemInfo);
                                 });
 
                         tpItems.add(tpItem);
@@ -272,8 +300,10 @@ public class TradingPostUberstate extends Uberstate
                     for(int i = 0; i < playerInventory.getcurrItemsNum(); i++){
 
                         Item item = playerInventory.getItem(i);
+                        int x = (160*(i%4)) + ((i%4)*MARGIN) + MARGIN;
+                        int y = 100 +(100*(i/4));
 
-                        ItemButton playerItem = new ItemButton(item, new Point((160*(i%4)) + ((i%4)*MARGIN) + MARGIN, 100 +(100*(i/4))),
+                        ItemButton playerItem = new ItemButton(item, new Point(x, y),
                                 ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
                                 ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, item.getName()),
                                 ImageFactory.makeCenterLabeledRect(160, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, item.getName()),
@@ -285,6 +315,22 @@ public class TradingPostUberstate extends Uberstate
                                     playerInventoryOverlay.addClickable(playerItemSelected);
                                     playerInventoryOverlay.add(playerItemSelected);
                                     this.activeSelectedOverlay = playerItemSelected;
+                                },
+                                () ->
+                                {
+
+                                },
+                                //enter function: Display Item info
+                                () ->
+                                {
+                                    selectedItem = playerInventory.getIndex(item);
+                                    this.itemInfo = new StringDisplayable(new Point(x+80, (3*y)/2), () -> "" + selectedItem);
+                                    playerInventoryOverlay.add(itemInfo);
+                                },
+                                //exit function
+                                () ->
+                                {
+                                    playerInventoryOverlay.remove(itemInfo);
                                 });
 
                         playerItems.add(playerItem);

@@ -2,11 +2,21 @@ package gameview.drawstate;
 
 import Model.Pilot.Player;
 import Model.TradingPost.TradingPost;
+import guiframework.Uberstate;
+import guiframework.control.ClickableControlstate;
 import guiframework.gui2d.Drawstate;
+import guiframework.gui2d.ImageFactory;
+import guiframework.control.clickable.Button;
+import guiframework.control.clickable.ItemButton;
+import guiframework.control.clickable.Overlay;
+import guiframework.gui2d.displayable.Displayable;
+import guiframework.gui2d.displayable.ImageDisplayable;
+import guiframework.gui2d.displayable.StringDisplayable;
+import guiframework.gui3d.Renderstate;
 
 import java.awt.*;
 
-public class OverworldDrawstate extends Drawstate
+public class OverworldUberstate extends Uberstate
 {
     private static final int HEIGHT = 1000;
     private static final int WIDTH = 1800;
@@ -15,15 +25,18 @@ public class OverworldDrawstate extends Drawstate
     private TradingPost currentTP;
     private Player currentPlayer;
 
-    public OverworldDrawstate() {
+    public OverworldUberstate(Renderstate renderstate) {
+        super(new Drawstate(), renderstate, new ClickableControlstate());
+
+        Drawstate drawstate = getDrawstate();
+        ClickableControlstate controlstate = getControlstate();
 //        //Add title box
 //        ImageDisplayable tpTitle =
 //                new ImageDisplayable(new Point(0,0), ImageFactory.getOverworldLabel());
-//
-//        this.addCenterOverlay(tpTitle);
+
+        //drawstate.addCenterOverlay(tpTitle);
 
         //Create and add Trading Post Overlay
-        /*
         Overlay tpOverlay = new Overlay(new Point(0,0));
         Displayable tpBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLACK, Color.BLACK));
         tpOverlay.add(tpBackground);
@@ -32,12 +45,12 @@ public class OverworldDrawstate extends Drawstate
                 ImageFactory.getTradingPostHover(),
                 ImageFactory.getTradingPostPress(),
                 () -> {
-
+                    System.out.println("TradingPost clicked!");
                 });
         tpOverlay.add(tpButton);
         tpOverlay.addClickable(tpButton);
-        this.addLeftOverlay(tpOverlay);
-        this.addClickable(tpOverlay);
+        drawstate.addLeftOverlay(tpOverlay);
+        controlstate.add(tpOverlay);
 
         //Create and add Battle Zone Overlay
         Overlay bzOverlay = new Overlay(new Point(0, 0));
@@ -48,19 +61,19 @@ public class OverworldDrawstate extends Drawstate
                 ImageFactory.getBattleZoneHover(),
                 ImageFactory.getBattleZonePress(),
                 () -> {
-
+                    System.out.println("BattleZone clicked!");
                 });
         bzOverlay.add(bzButton);
         bzOverlay.addClickable(bzButton);
-        this.addRightOverlay(bzOverlay);
-        this.addClickable(bzOverlay);
+        drawstate.addRightOverlay(bzOverlay);
+        controlstate.add(bzOverlay);
 
         //Add title box
         ImageDisplayable tpTitle =
                 new ImageDisplayable(new Point(0,0), ImageFactory.getOverworldLabel());
 
-        this.addCenterOverlay(tpTitle);
-        */
+        drawstate.addCenterOverlay(tpTitle);
+
 
     }
 }
