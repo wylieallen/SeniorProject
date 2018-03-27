@@ -47,6 +47,8 @@ public class Ship{
 
     private boolean shieldActivated;
     private SystemTimer shieldCooldown;
+    private boolean firing1 = false;
+    private boolean firing2 = false;
 
     public Ship(Pilot owner, ShipHull myShip){
         //super(new Point3D(), new Dimension3D(.2f, .2f, 1), new Orientation3D());
@@ -311,5 +313,13 @@ public class Ship{
     public float getSpeed()
     {
         return (float) shipStats.getCurrentSpeed();
+    }
+
+    public boolean isFiring1() {
+        return firing1;
+    }
+
+    public boolean isFiring2() {
+        return firing2;
     }
 }

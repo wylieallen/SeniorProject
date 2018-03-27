@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Ship.Ship;
+import Model.Ship.ShipParts.Projectile.LinearProjectile;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.Ship.ShipParts.ShipEngine;
 import Model.Ship.ShipParts.ShipHull;
@@ -15,6 +16,7 @@ import Utility.Geom3D.Point3D;
 import Utility.Rarity;
 import gameview.observers.spawn.SpawnObserver;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -125,6 +127,8 @@ public class GameModel implements CollisionObserver
         }
 
         projectiles.removeAll(expiredProjectiles);
+
+
     }
 
     private void updateProjectile(Body<Projectile> projectile)
@@ -172,6 +176,19 @@ public class GameModel implements CollisionObserver
         }
 
         body.getCollidable().moveForward(ship.getSpeed());
+
+        if(ship.isFiring1())
+        {
+            spawnProjectile(new Body<Projectile>(
+                    new BoundingBoxCollidable(body.getCollidable().getOrigin(), new Dimension3D(0.2f), body.getCollidable().getOrientation()),
+                    new LinearProjectile()
+            ));
+        }
+
+        if(ship.isFiring2())
+        {
+
+        }
     }
 
     public Body<Ship> getPlayerShip() { return playerShip; }

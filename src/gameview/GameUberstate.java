@@ -13,6 +13,8 @@ import Utility.Rarity;
 import com.jogamp.opengl.GLAutoDrawable;
 import gameview.controlstate.PilotingControlstate;
 import gameview.observers.spawn.SpawnObserver;
+import gameview.renderables.ProjectileRenderable;
+import gameview.renderables.ShipRenderable;
 import guiframework.Uberstate;
 import guiframework.control.ClickableControlstate;
 import guiframework.gui2d.Drawstate;
@@ -100,7 +102,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver
     {
         super.getRenderstate().add(new ShipRenderable(ship));
     }
-    public void notifyProjSpawn(Body<Projectile> projectile) {}
+    public void notifyProjSpawn(Body<Projectile> projectile) { super.getRenderstate().add(new ProjectileRenderable(projectile)); }
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
