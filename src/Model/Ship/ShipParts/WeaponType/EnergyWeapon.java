@@ -8,6 +8,10 @@ import Model.Ship.ShipParts.ShipWeapon;
 import Utility.*;
 import Utility.Geom3D.Vector3D;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import static Utility.Config.*;
 
 public class EnergyWeapon extends ShipWeapon {
@@ -17,11 +21,12 @@ public class EnergyWeapon extends ShipWeapon {
     }
 
     @Override
-    public void fireWeapon(Pilot projectileSource) {
+    public Collection<Projectile> fireWeapon(Pilot projectileSource) {
 
+        Set<Projectile> projectiles = new HashSet<>();
         //TODO STORE vector inside pilot & add that
+
         if (super.getCooldown() > ENERGY_WEAPON_CD){
-            BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
 
             Projectile projectile = super.getProjectile();
             Projectile firedProjectile = projectile.cloneProjectile(projectileSource, new Vector3D(0,1,0));
@@ -29,11 +34,11 @@ public class EnergyWeapon extends ShipWeapon {
             firedProjectile.setProjectileSource(projectileSource);
             firedProjectile.setTrajectory(new Vector3D(0,1,0));
 
-            currentZone.addProjectile(firedProjectile);
+            projectiles.add(firedProjectile);
 
             super.resetCooldown();
         }
 
-
+        return projectiles;
     }
 }

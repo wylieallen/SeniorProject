@@ -92,12 +92,6 @@ public class BoundingBoxCollidable implements Collidable
     public boolean expired() { return expired; }
     public void disable() { expired = true; }
 
-    public void collide(Collidable collidable)
-    {
-        this.disable();
-        collidable.disable();
-    }
-
     private void recalculateBounds()
     {
         float minX, minY, minZ, maxX, maxY, maxZ;

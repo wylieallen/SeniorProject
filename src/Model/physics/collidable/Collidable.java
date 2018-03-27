@@ -16,7 +16,6 @@ public interface Collidable
     Orientation3D getOrientation();
 
     boolean collidesWith(Collidable collidable);
-    void collide(Collidable collidable);
 
     default void update() {}
     boolean expired();

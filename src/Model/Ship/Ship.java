@@ -3,6 +3,7 @@ package Model.Ship;
 import Model.Items.Inventory;
 import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.*;
+import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.physics.collidable.BoundingBoxCollidable;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
@@ -10,9 +11,12 @@ import Utility.Geom3D.Point3D;
 import Utility.SystemTimer;
 import Utility.Geom3D.Vector3D;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import static Utility.Config.*;
 
-public class Ship extends BoundingBoxCollidable{
+public class Ship{
 
     final private Pilot myPilot;
     final private ShipStats shipStats;
@@ -45,7 +49,7 @@ public class Ship extends BoundingBoxCollidable{
     private SystemTimer shieldCooldown;
 
     public Ship(Pilot owner, ShipHull myShip){
-        super(new Point3D(), new Dimension3D(.2f, .2f, 1), new Orientation3D());
+        //super(new Point3D(), new Dimension3D(.2f, .2f, 1), new Orientation3D());
         this.hullSlot = myShip;
         shipStats = new ShipStats(hullSlot.getmaxHealth());
         inventory = new Inventory(hullSlot.getInventorySize());
@@ -55,7 +59,7 @@ public class Ship extends BoundingBoxCollidable{
     }
 
     public Ship(Pilot owner, ShipHull myShip, Point3D origin, Orientation3D orientation, float base, float height){
-        super(origin, new Dimension3D(base, base, height), orientation);
+        //super(origin, new Dimension3D(base, base, height), orientation);
         this.hullSlot = myShip;
         shipStats = new ShipStats(hullSlot.getmaxHealth());
         inventory = new Inventory(hullSlot.getInventorySize());
@@ -109,21 +113,23 @@ public class Ship extends BoundingBoxCollidable{
         return shipStats.isAlive();
     }
 
-    public void useWeapon1(){
+    public Collection<Projectile> useWeapon1(){
         if (!shieldActivated && weaponSlot1 != null) {
-            weaponSlot1.fireWeapon(myPilot);
+            return weaponSlot1.fireWeapon(myPilot);
         }
         else{
             System.out.println("Shield is active, CANNOT fire");
+            return new HashSet<>();
         }
     }
 
-    public void useWeapon2(){
+    public Collection<Projectile> useWeapon2(){
         if (!shieldActivated && weaponSlot2 != null) {
-            weaponSlot2.fireWeapon(myPilot);
+            return weaponSlot2.fireWeapon(myPilot);
         }
         else{
             System.out.println("Shield is active, CANNOT fire");
+            return new HashSet<>();
         }
     }
 
@@ -195,10 +201,17 @@ public class Ship extends BoundingBoxCollidable{
         shipStats.modifyCurrentHealth(amount);
         if (!isAlive())
         {
-            myPilot.pilotDied();
+            //myPilot.pilotDied();
         }
     }
 
+    public boolean expired()
+    {
+        return !isAlive();
+    }
+    public void update() { }
+
+    /*
     @Override
     public void update(){
 
@@ -221,6 +234,8 @@ public class Ship extends BoundingBoxCollidable{
             directionUpdate = true;
         }
 
+
+        // todo: move this block somewhere useful then delete the whole old update() function
         if (directionUpdate){
             float yawRads = super.getOrientation().getYaw()/180.0f * 3.1415926535f;
             float pitchRads = -super.getOrientation().getPitch()/180.0f * 3.1415926535f;
@@ -241,14 +256,12 @@ public class Ship extends BoundingBoxCollidable{
             decelerate();
         }
 
-        // todo: remove this logic when we're ready to go back to locationtuples
-
-
 
         this.moveForward((float) shipStats.getCurrentSpeed());
 
         //System.out.println("Speed: " + shipStats.getCurrentSpeed() + " Curloc: " + super.getOrigin().getX() + "," + super.getOrigin().getY() + "," + super.getOrigin().getZ());
     }
+    */
 
     //Rendering Methods
     public void setYawingLeft(boolean yawingLeft) { this.yawingLeft = yawingLeft; }
@@ -272,5 +285,31 @@ public class Ship extends BoundingBoxCollidable{
     public void ceaseRotation()
     {
         this.yawSpeed = this.pitchSpeed = this.rollSpeed = 0;
+    }
+
+    public boolean getRollingRight() { return rollingRight; }
+    public boolean getRollingLeft() { return rollingLeft; }
+    public boolean getPitchingUp() { return pitchingUp; }
+    public boolean getPitchingDown() { return pitchingDown; }
+    public boolean getYawingLeft() { return yawingLeft; }
+    public boolean getYawingRight() { return yawingRight; }
+
+    public float getRollSpeed() { return rollSpeed; }
+    public float getPitchSpeed() { return pitchSpeed; }
+    public float getYawSpeed() { return yawSpeed; }
+
+    public boolean isAccelerating()
+    {
+        return accelerating;
+    }
+
+    public boolean isDecelerating()
+    {
+        return decelerating;
+    }
+
+    public float getSpeed()
+    {
+        return (float) shipStats.getCurrentSpeed();
     }
 }

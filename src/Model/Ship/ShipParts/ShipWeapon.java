@@ -4,6 +4,8 @@ import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Utility.*;
 
+import java.util.Collection;
+
 public abstract class ShipWeapon extends ShipPart{
 
     private Projectile projectile;
@@ -25,7 +27,7 @@ public abstract class ShipWeapon extends ShipPart{
         weaponCooldown.reset();
     }
 
-    public abstract void fireWeapon(Pilot projectileSource);
+    public abstract Collection<Projectile> fireWeapon(Pilot projectileSource);
 
     public Projectile getProjectile(){
         return projectile;
