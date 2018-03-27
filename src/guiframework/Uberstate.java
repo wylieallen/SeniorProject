@@ -66,4 +66,9 @@ public class Uberstate implements GLEventListener
 
     public void setDrawstate(Drawstate drawstate) { this.drawstate = drawstate; }
     public void setControlstate(ClickableControlstate controlstate) { this.controlstate = controlstate; }
+
+    public void changeSize(Dimension size)
+    {
+        drawstate.changeSize(size);
+    }
 }

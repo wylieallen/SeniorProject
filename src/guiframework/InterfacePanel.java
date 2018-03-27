@@ -92,7 +92,7 @@ public class InterfacePanel extends GLJPanel
 
     public void switchToOverworld() { this.uberstate = overworld; }
 
-    public void changeSize() { }
+    public void changeSize() { uberstate.changeSize(getSize()); }
 
     @Override
     public void paintComponent(Graphics g)
