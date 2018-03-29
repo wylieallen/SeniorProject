@@ -579,12 +579,12 @@ public class TradingPostUberstate extends Uberstate
     private void redrawButtons(){
         //redraw tpInventoryOverlay
         for(int i = 0; i < tpItems.size(); i++) {
-            tpItems.get(i).getOrigin().setLocation((180*(i%4)) + ((i%4)*MARGIN) + MARGIN, 100 +(100*(i/4)));
+            tpItems.get(i).getOrigin().setLocation((180*(i%4)) + ((i%4)*MARGIN) + MARGIN, 125 +(125*(i/4)));
         }
 
         //redraw playerInventoryOverlay
         for(int i = 0; i < playerItems.size(); i++) {
-            playerItems.get(i).getOrigin().setLocation((180*(i%4)) + ((i%4)*MARGIN) + MARGIN, 100+(100*(i/4)));
+            playerItems.get(i).getOrigin().setLocation((180*(i%4)) + ((i%4)*MARGIN) + MARGIN, 125 +(125*(i/4)));
         }
     }
     // Placeholder money example stuff goes here
