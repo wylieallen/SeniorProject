@@ -5,6 +5,7 @@ import Model.Ship.*;
 public class HealthConsumable extends Consumable{
     private int currencyValue;
     private int useValue;
+    private String name = "Health Pack";
 
     public HealthConsumable(int cv, int uv) {
         currencyValue = cv;
@@ -40,6 +41,6 @@ public class HealthConsumable extends Consumable{
     }
 
     public String getName() {
-        return this.getClass().getSimpleName();
+        return name;
     }
 }

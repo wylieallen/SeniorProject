@@ -18,6 +18,9 @@ public class Item {
         currencyValue = cv;
     }
 
+    public void setUseValue(){}
+    public int getUseValue(){return 0;}
+
     public void Use(){}
 
     public String getName(){return name; }
