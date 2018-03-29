@@ -99,9 +99,6 @@ public class BoundingBoxCollidable implements Collidable
         return terminus;
     }
 
-    public boolean expired() { return expired; }
-    public void disable() { expired = true; }
-
     private void recalculateBounds()
     {
         float minX, minY, minZ, maxX, maxY, maxZ;

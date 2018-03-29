@@ -159,8 +159,8 @@ public class BattleZone extends Zone implements CollisionObserver {
     //  COLLISION HANDLING
     public void notifyShipToShip(Body<Ship> a, Body<Ship> b)
     {
-        a.get().takeDamage(-2);
-        b.get().takeDamage(-2);
+        a.get().takeDamage(2);
+        b.get().takeDamage(2);
         System.out.println(a.toString() + " " + a.get().getShipStats().getCurrentHealth() + " " + a.get().getShipStats().getCurrentShield());
         System.out.println(b.toString() + " " + b.get().getShipStats().getCurrentHealth() + " " + b.get().getShipStats().getCurrentShield());
     }
@@ -173,8 +173,10 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     public void notifyShipToProj(Body<Ship> ship, Body<Projectile> projectile)
     {
-        ship.get().takeDamage(-projectile.get().getDamage());
+        ship.get().takeDamage(projectile.get().getDamage());
         projectile.get().disable();
+        System.out.println("Proj dmg: " + projectile.get().getDamage());
+        System.out.println(ship.toString() + " " + ship.get().getShipStats().getCurrentHealth() + " " + ship.get().getShipStats().getCurrentShield() );
     }
 
     public void add(SpawnObserver o) { spawnObservers.add(o); }

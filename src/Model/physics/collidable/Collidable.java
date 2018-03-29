@@ -17,9 +17,6 @@ public interface Collidable
 
     boolean collidesWith(Collidable collidable);
 
-    default void update() {}
-    boolean expired();
-    void disable();
 
     void move(Point3D newPosition);
     void moveForward(float d);
