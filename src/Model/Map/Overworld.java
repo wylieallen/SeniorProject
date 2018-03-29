@@ -37,6 +37,10 @@ public class Overworld {
         return currentNode;
     }
 
+    public Node getNode(int index) { return nodes.get(index); }
+
+    public List<Node> getNodes() { return nodes; }
+
     public Zone getZoneAtNode(){
         return currentNode.getThisZone();
     }

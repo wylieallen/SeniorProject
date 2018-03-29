@@ -36,6 +36,7 @@ public class BattleZone extends Zone implements CollisionObserver {
     private Set<SpawnObserver> spawnObservers;
 
     private int zoneID;
+    private String zoneType = "Battle Zone";
 
     private Body<Ship> player;
     private Set<Body<Ship>> ships;
@@ -55,6 +56,8 @@ public class BattleZone extends Zone implements CollisionObserver {
         this.ships = new HashSet<>();
         this.projectiles = new HashSet<>();
     }
+
+    public String getZoneType() {return zoneType;}
 
     public void run(Body<Ship> playerShip) {
         this.player = playerShip;
