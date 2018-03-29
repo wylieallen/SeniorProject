@@ -17,7 +17,7 @@ public abstract class Projectile {
     private int damage;
     private Pilot projectileSource;
     private boolean expired = false;
-    private float maxDist = 12.0f;
+    private float maxDist = 20.0f;
 
 
     public void setName(String name) {
@@ -62,7 +62,7 @@ public abstract class Projectile {
 
     public abstract Projectile cloneProjectile(Pilot pilot, Vector3D trajectory);
 
-    public abstract Point3D move(Point3D currentPoint);
+    public abstract void move(Point3D currentPoint);
 
     public boolean isActive(Point3D currentPoint){
         if (startingPoint.distance(startingPoint, currentPoint) >= range){
@@ -78,7 +78,7 @@ public abstract class Projectile {
     {
         maxDist -= speed;
         if(maxDist < 0) expired = true;
-        System.out.println(toString() + " " + expired);
+        //System.out.println(toString() + " " + expired);
     }
 
 }

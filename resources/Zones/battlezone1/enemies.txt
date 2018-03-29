@@ -1,15 +1,15 @@
 MAP1
 ENEMY
 	LOCATION
-		2
-		2
-		2
+		1
+		1
+		1
 	RARITY
-		LEGENDARY
+		COMMON
 	SHIP
 		HULL
 			1000
-			100
+			50
 			8
 		ENGINE
 			1000

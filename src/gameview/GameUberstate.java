@@ -1,6 +1,7 @@
 package gameview;
 
 import Model.GameModel;
+import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.Ship.ShipParts.ShipHull;
@@ -38,7 +39,9 @@ public class GameUberstate extends Uberstate implements SpawnObserver
     public GameUberstate(Renderstate renderstate, Point centerPt)
     {
         super(new Drawstate(), renderstate, new ClickableControlstate());
+
         gameModel = new GameModel();
+        gameModel.run();
         playerShip = gameModel.getPlayerShip();
         gameModel.add(this);
 
@@ -46,6 +49,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver
 
         bindKeyPress(KeyEvent.VK_W, () -> playerShip.get().setAccelerating(true));
         bindKeyPress(KeyEvent.VK_S, () -> playerShip.get().setDecelerating(true));
+        bindKeyPress(KeyEvent.VK_SPACE, () -> playerShip.get().setBreaking(true));
         bindKeyPress(KeyEvent.VK_UP, () -> playerShip.get().setPitchingDown(true));
         bindKeyPress(KeyEvent.VK_DOWN, () -> playerShip.get().setPitchingUp(true));
         bindKeyPress(KeyEvent.VK_LEFT, () -> playerShip.get().setYawingLeft(true));
@@ -53,6 +57,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver
 
         bindKeyRelease(KeyEvent.VK_W, () -> playerShip.get().setAccelerating(false));
         bindKeyRelease(KeyEvent.VK_S, () -> playerShip.get().setDecelerating(false));
+        bindKeyRelease(KeyEvent.VK_SPACE, () -> playerShip.get().setBreaking(false));
         bindKeyRelease(KeyEvent.VK_UP, () -> playerShip.get().setPitchingDown(false));
         bindKeyRelease(KeyEvent.VK_DOWN, () -> playerShip.get().setPitchingUp(false));
         bindKeyRelease(KeyEvent.VK_LEFT, () -> playerShip.get().setYawingLeft(false));
@@ -93,9 +98,8 @@ public class GameUberstate extends Uberstate implements SpawnObserver
             renderstate.add(new SphereRenderable(new Point3D(rng.nextFloat() * 250 - 125, rng.nextFloat() * 250 - 125, rng.nextFloat() * 250 - 125 ),
                     new Orientation3D(), 1, 10, 10));
         }
+        gameModel.spawnEnemies();
 
-        gameModel.spawnShip( new Body<>(new BoundingBoxCollidable(new Point3D(10, 10, 10), new Dimension3D(0.2f, 0.2f, 1.0f)),
-                new Ship(null, new ShipHull(10, 10, 10, Rarity.COMMON))));
     }
 
     public void notifyShipSpawn(Body<Ship> ship)

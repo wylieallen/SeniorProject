@@ -8,7 +8,7 @@ public class RoamingState implements AIState {
     public void makeMove(Enemy enemy, AI ai) {
 
 
-        System.out.println("Standby");
+        //System.out.println("Standby");
         ai.setTarget(ai.getNearestPilotTo(enemy));
 
         Point3D currentPosition = ai.getPositionOf(enemy);

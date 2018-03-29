@@ -28,17 +28,14 @@ public class EnergyWeapon extends ShipWeapon {
 
         if (super.getCooldown() > ENERGY_WEAPON_CD){
 
-            Projectile projectile = super.getProjectile();
-            Projectile firedProjectile = projectile.cloneProjectile(projectileSource, new Vector3D(0,1,0));
-
-            firedProjectile.setProjectileSource(projectileSource);
-            firedProjectile.setTrajectory(new Vector3D(0,1,0));
-
-            projectiles.add(firedProjectile);
 
             super.resetCooldown();
         }
 
+        Projectile projectile = super.getProjectile();
+        Projectile firedProjectile = projectile.cloneProjectile(projectileSource, projectileSource.getShipDirection());
+
+        projectiles.add(firedProjectile);
         return projectiles;
     }
 }

@@ -30,8 +30,9 @@ public class Enemy extends Pilot {
     }
 
     @Override
-    public void move(Point3D curPosition){
+    public boolean move(Point3D curPosition){
 
         ai.makeMove(this);
+        return true;
     }
 }

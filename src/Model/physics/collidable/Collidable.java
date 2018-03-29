@@ -21,6 +21,7 @@ public interface Collidable
     boolean expired();
     void disable();
 
+    void move(Point3D newPosition);
     void moveForward(float d);
     void moveLateral(float d);
     void moveVertical(float d);

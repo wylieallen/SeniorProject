@@ -29,7 +29,7 @@ public class Ship{
             pitchingUp = false, pitchingDown = false,
             rollingLeft = false, rollingRight = false;
 
-    private boolean accelerating = false, decelerating = false;
+    private boolean accelerating = false, decelerating = false, breaking = false;
 
     Vector3D facingDirection;
     private float yawSpeed = 3.0f, pitchSpeed = 3.0f , rollSpeed = 3.0f;
@@ -189,13 +189,22 @@ public class Ship{
         shipStats.modifyCurrentSpeed(-ACCELERATE_RATE);
     }
 
+    public void brake() { applyFriction(); }
+
     public void applyFriction(){
-        if (shipStats.getCurrentSpeed() > 0){
+        if (shipStats.getCurrentSpeed() > 0 && shipStats.getCurrentSpeed() != 0){
             shipStats.modifyCurrentSpeed(-FRICTION_RATE);
+            if (shipStats.getCurrentSpeed() < 0){
+                shipStats.modifyCurrentSpeed(-shipStats.getCurrentSpeed());
+            }
         }
-        else if (shipStats.getCurrentSpeed() < 0) {
+        else if (shipStats.getCurrentSpeed() < 0 && shipStats.getCurrentSpeed() != 0) {
             shipStats.modifyCurrentSpeed(FRICTION_RATE);
+            if (shipStats.getCurrentSpeed() > 0){
+                shipStats.modifyCurrentSpeed(-shipStats.getCurrentSpeed());
+            }
         }
+
     }
 
 
@@ -278,6 +287,8 @@ public class Ship{
     public void setAccelerating(boolean b) { this.accelerating = b; }
     public void setDecelerating(boolean b) { this.decelerating = b; }
 
+    public void setBreaking(boolean breaking) { this.breaking = breaking; }
+
     public void setYawSpeed(float yawSpeed)
     {
         this.yawSpeed = yawSpeed;
@@ -309,10 +320,9 @@ public class Ship{
         return accelerating;
     }
 
-    public boolean isDecelerating()
-    {
-        return decelerating;
-    }
+    public boolean isDecelerating() { return decelerating; }
+
+    public boolean isBraking() { return breaking; }
 
     public float getSpeed()
     {

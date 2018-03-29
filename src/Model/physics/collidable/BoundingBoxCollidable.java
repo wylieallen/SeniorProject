@@ -4,6 +4,8 @@ import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 
+import static Utility.Config.FRAMERATE;
+
 public class BoundingBoxCollidable implements Collidable
 {
     private Point3D origin, minPoint, maxPoint;
@@ -22,6 +24,14 @@ public class BoundingBoxCollidable implements Collidable
         this.size = size;
         this.orientation = orientation;
         this.expired = false;
+        recalculateBounds();
+    }
+
+    public void move(Point3D newPosition){
+
+        origin.translateForward(newPosition);
+        minPoint.translateForward(newPosition);
+        maxPoint.translateForward(newPosition);
         recalculateBounds();
     }
 

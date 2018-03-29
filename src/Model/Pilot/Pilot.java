@@ -58,14 +58,14 @@ public abstract class Pilot {
     }
 
     public void decreaseShipSpeed(){ activeShip.decelerate(); }
-
+/*
     public void fireWeapon1(){
         activeShip.useWeapon1();
     }
 
     public void fireWeapon2(){
         activeShip.useWeapon2();
-    }
+    }*/
 
     public void activateSpecial() { activeShip.activateSpecial(); }
 
@@ -85,6 +85,6 @@ public abstract class Pilot {
 
     public abstract void pilotDied();
 
-    public abstract void move(Point3D curPosition);
+    public abstract boolean move(Point3D curPosition);
 
 }

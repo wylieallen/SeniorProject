@@ -17,10 +17,11 @@ public class CombatState implements AIState {
         Vector3D direction = new Vector3D(currentPosition, targetPosition);
 
         enemy.getActiveShip().setFacingDirection(direction);
+       // System.out.println("I: " +direction.getI() + "J: " + direction.getJ() + "K: " + direction.getK());
         enemy.increaseShipSpeed();
 
 
-        System.out.println("Combat State \t" + currentPosition.toString() + " At Speed: " + enemy.getCurrentShipSpeed());
+       // System.out.println("Combat State \t" + currentPosition.toString() + " At Speed: " + enemy.getCurrentShipSpeed());
 
         //Test
         if (currentPosition.distance(currentPosition, targetPosition) < 1f){

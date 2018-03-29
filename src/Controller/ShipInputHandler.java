@@ -31,7 +31,7 @@ public class ShipInputHandler implements KeyListener {
 
         //Fire Weapon 1
         if (keys[KeyEvent.VK_SPACE]){
-            player.fireWeapon1();
+           // player.fireWeapon1();
         }
 
         //Use Special

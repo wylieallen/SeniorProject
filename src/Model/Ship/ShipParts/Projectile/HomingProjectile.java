@@ -37,8 +37,8 @@ public class HomingProjectile extends Projectile{
     }
 
     @Override
-    public Point3D move(Point3D curPosition) {
-        BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
+    public void move(Point3D curPosition) {
+/*        BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
 
         //TODO Find nearest target to lock-on
         if (target == null){
@@ -58,6 +58,6 @@ public class HomingProjectile extends Projectile{
 
         Point3D newPosition = new Point3D(newX, newY, newZ);
 
-        return newPosition;
+        return newPosition;*/
     }
 }
