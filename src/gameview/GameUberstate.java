@@ -102,7 +102,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver
     {
         super.getRenderstate().add(new ShipRenderable(ship));
     }
-    public void notifyProjSpawn(Body<Projectile> projectile) { /*super.getRenderstate().add(new ProjectileRenderable(projectile));*/}
+    public void notifyProjSpawn(Body<Projectile> projectile) { super.getRenderstate().add(new ProjectileRenderable(projectile)); }
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
