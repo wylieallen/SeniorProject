@@ -18,9 +18,6 @@ public class BufferedRenderable extends AbstractRenderable
 
     protected void do_render(GL4 gl, int mv_loc)
     {
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, model.getVBO());
-        gl.glVertexAttribPointer(0, 3, GL4.GL_FLOAT, false, 0, 0);
-        gl.glEnableVertexAttribArray(0);
-        gl.glDrawArrays(GL4.GL_TRIANGLES, 0, model.getVertexData().length / 3);
+        model.render(gl);
     }
 }
