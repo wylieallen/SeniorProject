@@ -11,7 +11,6 @@ public class BoundingBoxCollidable implements Collidable
     private Point3D origin, minPoint, maxPoint;
     private Dimension3D size;
     private Orientation3D orientation;
-    private boolean expired;
 
     public BoundingBoxCollidable(Point3D origin, Dimension3D size)
     {
@@ -23,7 +22,6 @@ public class BoundingBoxCollidable implements Collidable
         this.origin = origin;
         this.size = size;
         this.orientation = orientation;
-        this.expired = false;
         recalculateBounds();
     }
 
@@ -115,7 +113,7 @@ public class BoundingBoxCollidable implements Collidable
                     Point3D vertex = new Point3D(origin);
                     vertex.translateForward(orientation, k * size.getLength());
                     vertex.translateLateral(orientation, i * size.getWidth());
-                    vertex.translateVertical(orientation, -j * size.getHeight());
+                    vertex.translateVertical(orientation, j * size.getHeight());
 
                     if(vertex.getX() < minX) minX = vertex.getX();
                     else if(vertex.getX() > maxX) maxX = vertex.getX();

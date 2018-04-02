@@ -23,10 +23,8 @@ import Utility.Rarity;
 import gameview.observers.spawn.SpawnObserver;
 
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static Utility.Config.FRAMERATE;
 
@@ -55,9 +53,9 @@ public class BattleZone extends Zone implements CollisionObserver {
         this.collisionChecker = new NaiveCollisionChecker();
         collisionChecker.add(this);
         this.spawnObservers = new HashSet<>();
-        this.ships = new HashSet<>();
-        this.projectiles = new HashSet<>();
-        this.lootChests = new HashSet<>();
+        this.ships = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.projectiles = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.lootChests = Collections.newSetFromMap(new ConcurrentHashMap<>());
     }
 
     public String getZoneType() {return zoneType;}
@@ -324,11 +322,11 @@ public class BattleZone extends Zone implements CollisionObserver {
         {
             Collection<Projectile> projectiles = ship.useWeapon1();
             for(Projectile projectile : projectiles) {
-                spawnProjectile(new Body<Projectile>(
-                        new BoundingBoxCollidable(new Point3D(body.getCollidable().getOrigin()), new Dimension3D(.2f),
-                                new Orientation3D(body.getCollidable().getOrientation())),
-                        projectile
-                ));
+                Body<Projectile> projBody = new Body<Projectile>(
+                        new BoundingBoxCollidable(new Point3D(body.getCollidable().getRear()), new Dimension3D(.2f),
+                                new Orientation3D(body.getCollidable().getOrientation())), projectile);
+                projBody.getCollidable().moveForward(body.getCollidable().getSize().getLength());
+                spawnProjectile(projBody);
             }
         }
 

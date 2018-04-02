@@ -5,6 +5,7 @@ import Model.Ship.*;
 public class ShieldConsumable extends Consumable{
     private int currencyValue;
     private int useValue;
+    private String name = "Shield Pack";
 
     public ShieldConsumable(int cv, int uv) {
         currencyValue = cv;
@@ -40,6 +41,6 @@ public class ShieldConsumable extends Consumable{
     }
 
     public String getName() {
-        return this.getClass().getSimpleName();
+        return name;
     }
 }

@@ -5,6 +5,7 @@ import Model.Ship.*;
 public class FuelConsumable extends Consumable{
     private int currencyValue;
     private int useValue;
+    private String name = "Fuel Pack";
 
     public FuelConsumable(int cv, int uv) {
         currencyValue = cv;
@@ -41,6 +42,6 @@ public class FuelConsumable extends Consumable{
 
 
     public String getName() {
-        return this.getClass().getSimpleName();
+        return name;
     }
 }
