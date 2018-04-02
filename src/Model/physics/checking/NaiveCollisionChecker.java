@@ -66,6 +66,7 @@ public class NaiveCollisionChecker implements CollisionChecker
         }
     }
 
+    // todo: this is all wrong, CollisionLogger should be logging all CHECKED collisions but right now it's only logging CONFIRMED collisions
     private class CollisionLogger implements CollisionObserver
     {
         private Set<CollisionTuple> loggedCollisions = new HashSet<>();

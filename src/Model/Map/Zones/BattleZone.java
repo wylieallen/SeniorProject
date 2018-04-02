@@ -308,11 +308,11 @@ public class BattleZone extends Zone implements CollisionObserver {
         {
             Collection<Projectile> projectiles = ship.useWeapon1();
             for(Projectile projectile : projectiles) {
-                spawnProjectile(new Body<Projectile>(
-                        new BoundingBoxCollidable(new Point3D(body.getCollidable().getOrigin()), new Dimension3D(.2f),
-                                new Orientation3D(body.getCollidable().getOrientation())),
-                        projectile
-                ));
+                Body<Projectile> projBody = new Body<Projectile>(
+                        new BoundingBoxCollidable(new Point3D(body.getCollidable().getRear()), new Dimension3D(.2f),
+                                new Orientation3D(body.getCollidable().getOrientation())), projectile);
+                projBody.getCollidable().moveForward(body.getCollidable().getSize().getLength());
+                spawnProjectile(projBody);
             }
         }
 
