@@ -32,7 +32,7 @@ public class ShipBuilder {
         return shieldBuilder.buildRandomShield(baseValue, baseShield, rarity);
     }
 
-    //TODO implement Specials
+    //TODO Build random Specials
     public ShipSpecial buildRandomSpecial(){
         return specialBuilder.buildRandomBoostSpecial();
     }

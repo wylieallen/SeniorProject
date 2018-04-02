@@ -1,5 +1,6 @@
 package Model.physics.checking;
 
+import Model.Items.LootChest;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.physics.Body;
@@ -22,7 +23,7 @@ public class NaiveCollisionChecker implements CollisionChecker
     public void add(CollisionObserver o) { observers.add(o); }
     public void remove(CollisionObserver o) { observers.remove(o); }
 
-    public void processCollisions(Set<Body<Ship>> ships, Set<Body<Projectile>> projectiles)
+    public void processCollisions(Set<Body<Ship>> ships, Set<Body<Projectile>> projectiles, Set<Body<LootChest>> lootChests)
     {
         logger.clear();
 
@@ -64,6 +65,17 @@ public class NaiveCollisionChecker implements CollisionChecker
                 }
             }
         }
+
+        for (Body<Ship> ship : ships){
+            for (Body<LootChest> lootChest : lootChests){
+                if(!ship.get().expired() && !lootChest.get().expired()
+                        && !logger.loggedCollision(ship.getCollidable(), lootChest.getCollidable())
+                        && ship.getCollidable().collidesWith(lootChest.getCollidable()))
+                {
+                    observers.forEach((o) -> o.notifyShipToLoot(ship, lootChest));
+                }
+            }
+        }
     }
 
     private class CollisionLogger implements CollisionObserver
@@ -90,6 +102,7 @@ public class NaiveCollisionChecker implements CollisionChecker
         public void notifyShipToShip(Body<Ship> a, Body<Ship> b) { logCollision(a.getCollidable(), b.getCollidable()); }
         public void notifyShipToProj(Body<Ship> ship, Body<Projectile> proj) { logCollision(ship.getCollidable(), proj.getCollidable());}
         public void notifyProjToProj(Body<Projectile> a, Body<Projectile> b) { logCollision(a.getCollidable(), b.getCollidable());}
+        public void notifyShipToLoot(Body<Ship> a, Body<LootChest> b) { logCollision(a.getCollidable(), b.getCollidable());}
 
         public void logCollision(Collidable a, Collidable b) { loggedCollisions.add(new CollisionTuple(a, b)); }
 

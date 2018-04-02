@@ -39,6 +39,20 @@ public class Inventory {
         return 0;
     }
 
+    public int addItems(List<Item> items){
+        for (int i = 0; i < items.size(); i++){
+            if(isFull()){
+                System.out.println("Inventory is full, cannot add item");
+                return -1;
+            }
+            else{
+                itemList.add(items.get(i));
+            }
+            currentItems++;
+        }
+        return 0;
+    }
+
     public Item removeItem(Item i){
         if(isEmpty()) {
             System.out.println("Inventory is empty, cannot remove item");
@@ -55,4 +69,6 @@ public class Inventory {
     public int getIndex(Item item) {
         return itemList.indexOf(item);
     }
+
+    public List<Item> getItems() { return itemList; }
 }

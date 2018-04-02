@@ -24,7 +24,6 @@ public class EnergyWeapon extends ShipWeapon {
     public Collection<Projectile> fireWeapon(Pilot projectileSource) {
 
         Set<Projectile> projectiles = new HashSet<>();
-        //TODO STORE vector inside pilot & add that
 
         if (super.getCooldown() > ENERGY_WEAPON_CD){
 

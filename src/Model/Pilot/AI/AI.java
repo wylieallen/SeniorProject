@@ -14,15 +14,15 @@ public class AI {
 
     public AI(){
         battleZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
-        aiState = new CombatState();
+        aiState = new RoamingState();
     }
 
     public void setAiState(AIState aiState) {
         this.aiState = aiState;
     }
 
-    public void makeMove(Enemy enemy){
-        aiState.makeMove(enemy, this);
+    public void makeMove(Enemy thisPilot){
+        aiState.makeMove(thisPilot, this);
     }
 
     public void setTarget(Pilot target) {
@@ -38,6 +38,10 @@ public class AI {
 
         //For testing: change later
         return battleZone.getPlayer();
+    }
+
+    public Point3D getNearestLootTo(Pilot pilot){
+        return battleZone.getNearestLootTo(pilot);
     }
 
     public Point3D getPositionOf(Pilot pilot){

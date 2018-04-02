@@ -17,7 +17,7 @@ public abstract class Projectile {
     private int damage;
     private Pilot projectileSource;
     private boolean expired = false;
-    private float maxDist = 20.0f;
+    private float maxDist = BASE_PROJECTILE_RANGE;
 
 
     public void setName(String name) {

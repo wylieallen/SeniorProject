@@ -1,6 +1,7 @@
 package gameview;
 
 import Model.GameModel;
+import Model.Items.LootChest;
 import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
@@ -107,6 +108,9 @@ public class GameUberstate extends Uberstate implements SpawnObserver
         super.getRenderstate().add(new ShipRenderable(ship));
     }
     public void notifyProjSpawn(Body<Projectile> projectile) { super.getRenderstate().add(new ProjectileRenderable(projectile)); }
+
+    //TODO make LootRenderable
+    public void notifyLootSpawn(Body<LootChest> lootChest) { /*super.getRenderstate().add(new LootRenderable(lootChest));*/}
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)

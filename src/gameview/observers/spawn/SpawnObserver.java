@@ -1,5 +1,6 @@
 package gameview.observers.spawn;
 
+import Model.Items.LootChest;
 import Model.Map.LocationTuple;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
@@ -10,4 +11,5 @@ public interface SpawnObserver
     //void notifySpawn(Projectile projectile, LocationTuple<Projectile> projectileLocationTuple);
     void notifyShipSpawn(Body<Ship> ship);
     void notifyProjSpawn(Body<Projectile> projectile);
+    void notifyLootSpawn(Body<LootChest> lootChest);
 }

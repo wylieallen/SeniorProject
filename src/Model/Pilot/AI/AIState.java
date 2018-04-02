@@ -5,6 +5,6 @@ import Model.Pilot.Enemy;
 public interface AIState {
 
 
-    public void makeMove(Enemy enemy, AI ai);
+    public void makeMove(Enemy thisPilot, AI ai);
 
 }

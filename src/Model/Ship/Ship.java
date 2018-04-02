@@ -79,9 +79,17 @@ public class Ship{
         updateMaxStats();
     }
 
+    public float getWeaponSlot1ProjectileSpeed() {
+        return weaponSlot1.getProjectileSpeed();
+    }
+
     public void equipWeapon2(ShipWeapon weapon){
         weaponSlot2 = weapon;
         updateMaxStats();
+    }
+
+    public float getWeaponSlot2ProjectileSpeed() {
+        return weaponSlot2.getProjectileSpeed();
     }
 
     public void equipEngine(ShipEngine engine){

@@ -1,20 +1,42 @@
 package Model.Pilot.AI;
 
 import Model.Pilot.Enemy;
+import Model.Pilot.Pilot;
 import Utility.Geom3D.Point3D;
+import Utility.Geom3D.Vector3D;
 
 public class RoamingState implements AIState {
     @Override
-    public void makeMove(Enemy enemy, AI ai) {
+    public void makeMove(Enemy thisPilot, AI ai) {
 
 
-        //System.out.println("Standby");
-        ai.setTarget(ai.getNearestPilotTo(enemy));
-
-        Point3D currentPosition = ai.getPositionOf(enemy);
-        Point3D targetPosition = ai.getPositionOf(ai.getTarget());
-        if (currentPosition.distance(currentPosition, targetPosition) > 2f){
+        // Return to Combat State if enemy is near
+        Pilot target = ai.getNearestPilotTo(thisPilot);
+        if (target != null){
+            ai.setTarget(target);
             ai.setAiState(new CombatState());
+            return;
         }
+
+        Point3D currentPosition = ai.getPositionOf(thisPilot);
+        Point3D lootPosition = ai.getNearestLootTo(thisPilot);
+
+        // Return to Standby State if no loot is near
+        if (lootPosition == null) {
+            while (thisPilot.getCurrentShipSpeed() > 0) {
+                thisPilot.decreaseShipSpeed();
+            }
+            ai.setAiState(new StandbyState());
+            return;
+        }
+
+        //Set direction to loot
+        Vector3D direction = new Vector3D(currentPosition, lootPosition);
+        thisPilot.getActiveShip().setFacingDirection(direction);
+        thisPilot.increaseShipSpeed();
+
+
+
+
     }
 }

@@ -99,7 +99,7 @@ public class EnemyBuilder {
             lineIndex++; //SKIP WEAPON
             int weap1Cost = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
             int value = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);
-            ShipWeapon newWeapon1 = shipBuilder.buildRandomWeapon(100,100,100,enemyRarity);
+            ShipWeapon newWeapon1 = shipBuilder.buildRandomWeapon(100,100,100, enemyRarity);
 
             lineIndex++; //SKIP WEAPON2
             int weap2Cost = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t\t")[1]);

@@ -15,7 +15,6 @@ public class ShipInputHandler implements KeyListener {
     }
 
 
-    //TODO Get VECTOR direction from camera/view
     public void processInput(Player player){
         if (keys[KeyEvent.VK_W])
         {

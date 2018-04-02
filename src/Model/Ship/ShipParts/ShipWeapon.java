@@ -33,6 +33,8 @@ public abstract class ShipWeapon extends ShipPart{
         return projectile;
     }
 
+    public float getProjectileSpeed() { return projectile.getSpeed(); }
+
     public void setProjectileSource(Pilot projectileSource){
         projectile.setProjectileSource(projectileSource);
     }
