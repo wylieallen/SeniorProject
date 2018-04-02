@@ -41,7 +41,7 @@ public class GameModel
         newPlayer.setActiveShip(myShip);
         myShip.setFacingDirection(new Vector3D(0,0,-1));
         Point3D origin = new Point3D(0f, 0f, 0f);
-        playerShip = new Body<>(new BoundingBoxCollidable(origin, new Dimension3D(7.086f, 1.323f, 12.380f)), myShip);
+        playerShip = new Body<>(origin, new Dimension3D(7.086f, 1.323f, 12.380f), new Orientation3D(), myShip);
     }
 
     public void run(){

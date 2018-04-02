@@ -68,11 +68,17 @@ public class BattleZone extends Zone implements CollisionObserver {
 
 
     public void addEnemies() {
+        /*
         EnemyBuilder newEnemyBuilder = new EnemyBuilder();
         Set<Body<Ship>> enemies = (newEnemyBuilder.buildEnemies("resources/Zones/battlezone", Integer.toString(zoneID)));
         for (Body<Ship> enemy : enemies){
             spawnShip(enemy);
         }
+        */
+        Body<Ship> enemy = new Body<>(new Point3D(10, 10, 10), new Dimension3D(7.086f, 1.323f, 12.380f),
+                new Orientation3D(), new ShipBuilder().buildRandomShip(new Player(), Rarity.COMMON));
+        enemy.get().setFacingDirection(new Vector3D(0, 0, -1));
+        spawnShip(enemy);
     }
 
     //TODO randomly generate lootchests with an item
@@ -83,7 +89,8 @@ public class BattleZone extends Zone implements CollisionObserver {
     public void addProjectile(Projectile projectile) {
         Point3D curLocation = getPositionOf(projectile.getProjectileSource());
         projectile.setStartingPoint(curLocation);
-        Body<Projectile> projectileLocation = new Body<Projectile>(new BoundingBoxCollidable(curLocation, new Dimension3D(0.2f, 0.2f, 1.0f)), projectile);
+        Body<Projectile> projectileLocation = new Body<Projectile>(curLocation,
+                new Dimension3D(0.2f, 0.2f, 1.0f), new Orientation3D(), projectile);
         projectiles.add(projectileLocation);
     }
 
@@ -172,7 +179,7 @@ public class BattleZone extends Zone implements CollisionObserver {
             }
         }
 
-        return nearestLoot.getCollidable().getCenter();
+        return nearestLoot.getCenter();
     }
 
 
@@ -181,7 +188,7 @@ public class BattleZone extends Zone implements CollisionObserver {
             if (currentShip.get().getMyPilot() == enemy) {
 
                 LootChest lootChest = new LootChest(enemy.getActiveShip().getInventory().getItems());
-                Body<LootChest> newLoot = new Body<>(new BoundingBoxCollidable(currentShip.getCenter(), new Dimension3D(1f, 1f, 1.0f)), lootChest);
+                Body<LootChest> newLoot = new Body<>(currentShip.getCenter(), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
                 spawnLootChest(newLoot);
                 ships.remove(currentShip);
                 break;
@@ -266,7 +273,6 @@ public class BattleZone extends Zone implements CollisionObserver {
     private void updateShip(Body<Ship> body)
     {
         Ship ship = body.get();
-        Collidable collidable = body.getCollidable();
         ship.update();
         boolean directionUpdate = false;
         boolean rollingLeft = ship.getRollingLeft(), rollingRight = ship.getRollingRight(),
@@ -276,25 +282,25 @@ public class BattleZone extends Zone implements CollisionObserver {
         if(rollingLeft ^ rollingRight)
         {
             float rollSpeed = ship.getRollSpeed();
-            collidable.adjustRoll(rollingRight ? rollSpeed : -rollSpeed);
+            body.adjustRoll(rollingRight ? rollSpeed : -rollSpeed);
             directionUpdate = true;
         }
         if(pitchingDown ^ pitchingUp)
         {
             float pitchSpeed = ship.getPitchSpeed();
-            collidable.adjustPitch(pitchingUp ? -pitchSpeed : pitchSpeed);
+            body.adjustPitch(pitchingUp ? -pitchSpeed : pitchSpeed);
             directionUpdate = true;
         }
         if(yawingLeft ^ yawingRight)
         {
             float yawSpeed = ship.getYawSpeed();
-            collidable.adjustYaw(yawingRight ? yawSpeed : -yawSpeed);
+            body.adjustYaw(yawingRight ? yawSpeed : -yawSpeed);
             directionUpdate = true;
         }
 
         if (directionUpdate){
-            float yawRads = body.getCollidable().getOrientation().getYaw()/180.0f * 3.1415926535f;
-            float pitchRads = -body.getCollidable().getOrientation().getPitch()/180.0f * 3.1415926535f;
+            float yawRads = body.getOrientation().getYaw()/180.0f * 3.1415926535f;
+            float pitchRads = -body.getOrientation().getPitch()/180.0f * 3.1415926535f;
 
             float i = (float) ((Math.cos(pitchRads) * Math.sin(yawRads)));
             float j = (float) Math.sin(pitchRads);
@@ -323,9 +329,9 @@ public class BattleZone extends Zone implements CollisionObserver {
             Collection<Projectile> projectiles = ship.useWeapon1();
             for(Projectile projectile : projectiles) {
                 Body<Projectile> projBody = new Body<Projectile>(
-                        new BoundingBoxCollidable(new Point3D(body.getCollidable().getRear()), new Dimension3D(.2f),
-                                new Orientation3D(body.getCollidable().getOrientation())), projectile);
-                projBody.getCollidable().moveForward(body.getCollidable().getSize().getLength());
+                        new Point3D(body.getRear()), new Dimension3D(.2f),
+                                new Orientation3D(body.getOrientation()), projectile);
+                projBody.moveForward(body.getSize().getLength());
                 spawnProjectile(projBody);
             }
         }
@@ -340,9 +346,8 @@ public class BattleZone extends Zone implements CollisionObserver {
     public void updateShipPosition(Body<Ship> currentShip) {
 
         Pilot currentPilot = currentShip.get().getMyPilot();
-        Point3D curPosition = currentShip.getCollidable().getOrigin();
         Ship ship = currentPilot.getActiveShip();
-
+        Point3D curPosition = currentShip.getOrigin();
         currentPilot.move(curPosition);
 
         //TEST (Attempt to change pitch/yaw from vector to update AI
@@ -373,7 +378,7 @@ public class BattleZone extends Zone implements CollisionObserver {
 
         Point3D newPosition = new Point3D(newX, newY, newZ);
 
-        currentShip.getCollidable().move(newPosition);
+        currentShip.move(newPosition);
 
         // System.out.println("Player is currently at Position: " + newPosition.toString() + " With Speed: " + players.get(i).getObject().getCurrentShipSpeed());
         // System.out.println("Facing Direction: I:" + currentPlayer.getShipDirection().getI() + " J: " + currentPlayer.getShipDirection().getJ() + " K: " + currentPlayer.getShipDirection().getK());
@@ -390,7 +395,7 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     public void updateProjectilePosition(Body<Projectile> currentProjectile) {
         Projectile curProjectile = currentProjectile.get();
-        Point3D curPosition = currentProjectile.getCollidable().getOrigin();
+        Point3D curPosition = currentProjectile.getOrigin();
         curProjectile.move(curPosition);
 
         Vector3D curTrajectory = curProjectile.getTrajectory();
@@ -401,7 +406,7 @@ public class BattleZone extends Zone implements CollisionObserver {
         float newZ = curPosition.getZ() + curTrajectory.getK()*(float)(curSpeed);
 
         Point3D newPosition = new Point3D(newX, newY, newZ);
-        currentProjectile.getCollidable().move(newPosition);
+        currentProjectile.move(newPosition);
         //System.out.println("Projectile " + curProjectile + " is currently at Position: " + newPosition.toString());
     }
 

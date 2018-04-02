@@ -79,10 +79,8 @@ public class GameUberstate extends Uberstate implements SpawnObserver
         ShipRenderable playerRenderable = new ShipRenderable(playerShip);
 
         renderstate.add(playerRenderable);
-        renderstate.add(new OriginRenderable(playerShip.getCollidable()));
-        renderstate.add(new MinpointRenderable(playerShip.getCollidable()));
-        renderstate.add(new MaxpointRenderable(playerShip.getCollidable()));
-        renderstate.add(new TerminusRenderable(playerShip.getCollidable()));
+        renderstate.add(new MinpointRenderable(playerShip));
+        renderstate.add(new MaxpointRenderable(playerShip));
 
         for(int i = 0; i < 2; i++)
         {
@@ -90,7 +88,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver
             {
                 for(int k = 0; k < 2; k++)
                 {
-                    renderstate.add(new CollidableCornerRenderable(playerShip.getCollidable(), i, j, k));
+                    renderstate.add(new CollidableCornerRenderable(playerShip, i, j, k));
                 }
             }
         }
@@ -111,13 +109,14 @@ public class GameUberstate extends Uberstate implements SpawnObserver
 
         Random rng = new Random();
 
+        /*
         for(int i = 0; i < 1000; i++)
         {
             renderstate.add(new SphereRenderable(new Point3D(rng.nextFloat() * 250 - 125, rng.nextFloat() * 250 - 125, rng.nextFloat() * 250 - 125 ),
                     new Orientation3D(), 1, 10, 10));
         }
-        //gameModel.spawnEnemies();
-
+        */
+        gameModel.spawnEnemies();
     }
 
     public void notifyShipSpawn(Body<Ship> ship)

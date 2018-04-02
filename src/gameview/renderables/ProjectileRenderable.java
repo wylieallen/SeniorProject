@@ -12,13 +12,13 @@ public class ProjectileRenderable extends SphereRenderable
 
     public ProjectileRenderable(Body<Projectile> projectile)
     {
-        super(projectile.getCollidable().getCenter(), projectile.getCollidable().getOrientation(), projectile.getCollidable().getSize().getWidth()/2, 8, 8);
+        super(projectile.getCenter(), projectile.getOrientation(), projectile.getSize().getWidth()/2, 8, 8);
         this.projectile = projectile;
         update();
     }
 
     @Override
-    public void update() { location = projectile.getCollidable().getCenter(); }
+    public void update() { location = projectile.getCenter(); }
 
     @Override
     public float getX() { return location.getX(); }
@@ -30,13 +30,13 @@ public class ProjectileRenderable extends SphereRenderable
     public float getZ() { return location.getZ(); }
 
     @Override
-    public float getYaw() { return projectile.getCollidable().getOrientation().getYaw(); }
+    public float getYaw() { return projectile.getOrientation().getYaw(); }
 
     @Override
-    public float getPitch() { return projectile.getCollidable().getOrientation().getPitch(); }
+    public float getPitch() { return projectile.getOrientation().getPitch(); }
 
     @Override
-    public float getRoll() { return projectile.getCollidable().getOrientation().getRoll(); }
+    public float getRoll() { return projectile.getOrientation().getRoll(); }
 
     @Override
     public boolean expired()

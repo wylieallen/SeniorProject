@@ -32,8 +32,8 @@ public class NaiveCollisionChecker implements CollisionChecker
             for(Body<Ship> b : ships)
             {
                 if(a != b && !a.get().expired() && !b.get().expired()
-                        && !logger.loggedCollision(a.getCollidable(), b.getCollidable())
-                        && a.getCollidable().collidesWith(b.getCollidable()))
+                        && !logger.loggedCollision(a, b)
+                        && a.collidesWith(b))
                 {
                     observers.forEach((o) -> o.notifyShipToShip(a, b));
                 }
@@ -45,8 +45,8 @@ public class NaiveCollisionChecker implements CollisionChecker
             for(Body<Projectile> projectile : projectiles)
             {
                 if(!ship.get().expired() && !projectile.get().expired()
-                        && !logger.loggedCollision(ship.getCollidable(), projectile.getCollidable())
-                        && ship.getCollidable().collidesWith(projectile.getCollidable()))
+                        && !logger.loggedCollision(ship, projectile)
+                        && ship.collidesWith(projectile))
                 {
                     observers.forEach((o) -> o.notifyShipToProj(ship, projectile));
                 }
@@ -58,8 +58,8 @@ public class NaiveCollisionChecker implements CollisionChecker
             for(Body<Projectile> b : projectiles)
             {
                 if(a != b && !a.get().expired() && !b.get().expired()
-                        && !logger.loggedCollision(a.getCollidable(), b.getCollidable())
-                        && a.getCollidable().collidesWith(b.getCollidable()))
+                        && !logger.loggedCollision(a, b)
+                        && a.collidesWith(b))
                 {
                     observers.forEach((o) -> o.notifyProjToProj(a, b));
                 }
@@ -69,8 +69,8 @@ public class NaiveCollisionChecker implements CollisionChecker
         for (Body<Ship> ship : ships){
             for (Body<LootChest> lootChest : lootChests){
                 if(!ship.get().expired() && !lootChest.get().expired()
-                        && !logger.loggedCollision(ship.getCollidable(), lootChest.getCollidable())
-                        && ship.getCollidable().collidesWith(lootChest.getCollidable()))
+                        && !logger.loggedCollision(ship, lootChest)
+                        && ship.collidesWith(lootChest))
                 {
                     observers.forEach((o) -> o.notifyShipToLoot(ship, lootChest));
                 }
@@ -100,10 +100,10 @@ public class NaiveCollisionChecker implements CollisionChecker
             return false;
         }
 
-        public void notifyShipToShip(Body<Ship> a, Body<Ship> b) { logCollision(a.getCollidable(), b.getCollidable()); }
-        public void notifyShipToProj(Body<Ship> ship, Body<Projectile> proj) { logCollision(ship.getCollidable(), proj.getCollidable());}
-        public void notifyProjToProj(Body<Projectile> a, Body<Projectile> b) { logCollision(a.getCollidable(), b.getCollidable());}
-        public void notifyShipToLoot(Body<Ship> a, Body<LootChest> b) { logCollision(a.getCollidable(), b.getCollidable());}
+        public void notifyShipToShip(Body<Ship> a, Body<Ship> b) { logCollision(a, b); }
+        public void notifyShipToProj(Body<Ship> ship, Body<Projectile> proj) { logCollision(ship, proj);}
+        public void notifyProjToProj(Body<Projectile> a, Body<Projectile> b) { logCollision(a, b);}
+        public void notifyShipToLoot(Body<Ship> a, Body<LootChest> b) { logCollision(a, b);}
 
         public void logCollision(Collidable a, Collidable b) { loggedCollisions.add(new CollisionTuple(a, b)); }
 

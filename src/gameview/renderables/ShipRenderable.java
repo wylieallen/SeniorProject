@@ -15,13 +15,13 @@ public class ShipRenderable extends BufferedRenderable
 
     public ShipRenderable(Body<Ship> ship)
     {
-        super(ship.getCollidable().getOrigin(), new Dimension3D(ship.getCollidable().getSize()), ship.getCollidable().getOrientation(), Model3DFactory.getFeisarModel());
+        super(ship.getOrigin(), new Dimension3D(ship.getSize()), ship.getOrientation(), Model3DFactory.getFeisarModel());
         this.ship = ship;
         this.update();
     }
 
     @Override
-    public void update() { location = ship.getCollidable().getOrigin(); }
+    public void update() { location = ship.getOrigin(); }
 
     @Override
     public float getX() { return location.getX(); }
@@ -33,13 +33,13 @@ public class ShipRenderable extends BufferedRenderable
     public float getZ() { return location.getZ(); }
 
     @Override
-    public float getYaw() { return ship.getCollidable().getOrientation().getYaw(); }
+    public float getYaw() { return ship.getOrientation().getYaw(); }
 
     @Override
-    public float getPitch() { return ship.getCollidable().getOrientation().getPitch(); }
+    public float getPitch() { return ship.getOrientation().getPitch(); }
 
     @Override
-    public float getRoll() { return ship.getCollidable().getOrientation().getRoll(); }
+    public float getRoll() { return ship.getOrientation().getRoll(); }
 
     @Override
     public boolean expired()
