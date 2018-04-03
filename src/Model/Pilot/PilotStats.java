@@ -68,25 +68,31 @@ public class PilotStats {
 
     public void modifySkillPoints(int amount) { currentSkillPoints += amount; }
 
-    public void levelFlying(){
+    public Boolean levelFlying(){
         if (currentSkillPoints > 0){
             flying++;
             currentSkillPoints--;
+            return true;
         }
+        return false;
     }
 
-    public void levelCombat(){
+    public Boolean levelCombat(){
         if (currentSkillPoints > 0){
             combat++;
             currentSkillPoints--;
+            return true;
         }
+        return false;
     }
 
-    public void levelCharisma(){
+    public Boolean levelCharisma(){
         if (currentSkillPoints > 0){
             charisma++;
             currentSkillPoints--;
+            return true;
         }
+        return false;
     }
 
 
