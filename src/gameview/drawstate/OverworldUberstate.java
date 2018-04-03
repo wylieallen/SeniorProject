@@ -51,6 +51,9 @@ public class OverworldUberstate extends Uberstate
         overworld.addNode(new Node(new BattleZone(4)));
 
         currentPlayer = new Player();
+        currentPlayer.getPilotStats().levelUp();
+        currentPlayer.getPilotStats().levelUp();
+        currentPlayer.getPilotStats().levelUp();
 
         Drawstate drawstate = getDrawstate();
         ClickableControlstate controlstate = getControlstate();
@@ -142,39 +145,42 @@ public class OverworldUberstate extends Uberstate
                             ImageFactory.makeBorderedRect(800, 800, Color.WHITE, Color.GRAY ));
                     statsView.add(svBackground);
 
+                    statsView.add(new StringDisplayable( new Point(300, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.RED, font));
                     statsView.add(new StringDisplayable( new Point(300, 200), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.RED, font));
-                    Button increaseFly = new Button(new Point(500, 200),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
-                            () -> {
-                                currentPlayer.getPilotStats().levelFlying();
-                            });
-                    statsView.add(increaseFly);
-                    statsView.addClickable(increaseFly);
-
-                    //todo: implement checking for increasing pilot stats.
                     statsView.add(new StringDisplayable( new Point(300, 300), () -> "Combat: " + currentPlayer.getPilotStats().getCombat(), Color.RED, font));
-                    Button increaseCombat = new Button(new Point(500, 300),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
-                            () -> {
-                                currentPlayer.getPilotStats().levelCombat();
-                            });
-                    statsView.add(increaseCombat);
-                    statsView.addClickable(increaseCombat);
-
                     statsView.add(new StringDisplayable( new Point(300, 400), () -> "Charisma: " + currentPlayer.getPilotStats().getCharisma(), Color.RED, font));
-                    Button increaseCharisma = new Button(new Point(500, 400),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
-                            ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
-                            () -> {
-                                currentPlayer.getPilotStats().levelCharisma();
-                            });
-                    statsView.add(increaseCharisma);
-                    statsView.addClickable(increaseCharisma);
+
+                    if(currentPlayer.getPilotStats().getCurrentSkillPoints() > 0) {
+                        Button increaseFly = new Button(new Point(500, 200),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                                () -> {
+                                    currentPlayer.getPilotStats().levelFlying();
+                                });
+                        statsView.add(increaseFly);
+                        statsView.addClickable(increaseFly);
+
+                        Button increaseCombat = new Button(new Point(500, 300),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                                () -> {
+                                    currentPlayer.getPilotStats().levelCombat();
+                                });
+                        statsView.add(increaseCombat);
+                        statsView.addClickable(increaseCombat);
+
+                        Button increaseCharisma = new Button(new Point(500, 400),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                                () -> {
+                                    currentPlayer.getPilotStats().levelCharisma();
+                                });
+                        statsView.add(increaseCharisma);
+                        statsView.addClickable(increaseCharisma);
+                    }
 
                     Button closeStats = new Button(new Point(300, HEIGHT/2),
                             ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Close Stats"),
