@@ -148,7 +148,7 @@ public class OverworldUberstate extends Uberstate
                             ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
                             ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
                             () -> {
-                                currentPlayer.getPilotStats().modifyFlying(1);
+                                currentPlayer.getPilotStats().levelFlying();
                             });
                     statsView.add(increaseFly);
                     statsView.addClickable(increaseFly);
@@ -160,7 +160,7 @@ public class OverworldUberstate extends Uberstate
                             ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
                             ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
                             () -> {
-                                currentPlayer.getPilotStats().modifyCombat(1);
+                                currentPlayer.getPilotStats().levelCombat();
                             });
                     statsView.add(increaseCombat);
                     statsView.addClickable(increaseCombat);
@@ -171,7 +171,7 @@ public class OverworldUberstate extends Uberstate
                             ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
                             ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
                             () -> {
-                                currentPlayer.getPilotStats().modifyCharisma(1);
+                                currentPlayer.getPilotStats().levelCharisma();
                             });
                     statsView.add(increaseCharisma);
                     statsView.addClickable(increaseCharisma);
