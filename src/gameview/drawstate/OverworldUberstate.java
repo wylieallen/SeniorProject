@@ -32,6 +32,8 @@ public class OverworldUberstate extends Uberstate
     private static final int MARGIN = 10;
     private static final Font font = new Font("Arvo", Font.PLAIN, 30);
     private Overworld overworld;
+    private Overlay mapOverlay;
+    private Button upgradeStats;
     private ImageDisplayable nodeInfo;
     private Overlay selectedNode;
     private TradingPost currentTP;
@@ -48,49 +50,21 @@ public class OverworldUberstate extends Uberstate
         overworld.addNode(new Node(new TradingZone(tp1)));
         overworld.addNode(new Node(new BattleZone(4)));
 
+        currentPlayer = new Player();
+
         Drawstate drawstate = getDrawstate();
         ClickableControlstate controlstate = getControlstate();
-//        //Add title box
-//        ImageDisplayable tpTitle =
-//                new ImageDisplayable(new Point(0,0), ImageFactory.getOverworldLabel());
 
-        //drawstate.addCenterOverlay(tpTitle);
 
-        //Create and add Trading Post Overlay
-//        Overlay tpOverlay = new Overlay(new Point(0,0));
-//        Displayable tpBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLACK, Color.BLACK));
-//        tpOverlay.add(tpBackground);
-//        Button tpButton = new Button(new Point(WIDTH/5, (HEIGHT/2)-150),
-//                ImageFactory.getTradingPostBase(),
-//                ImageFactory.getTradingPostHover(),
-//                ImageFactory.getTradingPostPress(),
-//                () -> {
-//                    System.out.println("TradingPost clicked!");
-//                });
-//        tpOverlay.add(tpButton);
-//        tpOverlay.addClickable(tpButton);
-//        drawstate.addLeftOverlay(tpOverlay);
-//        controlstate.add(tpOverlay);
-//
-//        //Create and add Battle Zone Overlay
-//        Overlay bzOverlay = new Overlay(new Point(0, 0));
-//        Displayable bzBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLACK, Color.BLACK));
-//        bzOverlay.add(bzBackground);
-//        Button bzButton = new Button(new Point(WIDTH/5, (HEIGHT/2)-150),
-//                ImageFactory.getBattleZoneBase(),
-//                ImageFactory.getBattleZoneHover(),
-//                ImageFactory.getBattleZonePress(),
-//                () -> {
-//                    System.out.println("BattleZone clicked!");
-//                });
-//        bzOverlay.add(bzButton);
-//        bzOverlay.addClickable(bzButton);
-//        drawstate.addRightOverlay(bzOverlay);
-//        controlstate.add(bzOverlay);
-        Overlay mapOverlay = new Overlay(new Point(0, 0));
+        mapOverlay = new Overlay(new Point(0, 0));
         ImageDisplayable mapBackground = new ImageDisplayable(new Point(0,50),
                 ImageFactory.makeBorderedRect(WIDTH, HEIGHT - 200, Color.BLUE, Color.GRAY));
         mapOverlay.add(mapBackground);
+
+        //Add title box
+        ImageDisplayable overworldTitle =
+                new ImageDisplayable(new Point(WIDTH/2 - 125,0), ImageFactory.getOverworldLabel());
+        mapOverlay.add(overworldTitle);
 
 
         for(int i = 0; i < overworld.getNodes().size(); i++) {
@@ -132,6 +106,7 @@ public class OverworldUberstate extends Uberstate
                     },
                     //Hover: Show node info
                     () -> {
+                        System.out.println("Hovering over " + node.getThisZone().getZoneType());
                         this.nodeInfo = new ImageDisplayable(new Point(x + 50, y + 50),
                                 ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.GRAY, Color.BLACK, "" + node.getThisZone().getZoneType()));
                         mapOverlay.add(nodeInfo);
@@ -147,12 +122,86 @@ public class OverworldUberstate extends Uberstate
         drawstate.addLeftOverlay(mapOverlay);
         controlstate.add(mapOverlay);
 
-        //Add title box
-        ImageDisplayable tpTitle =
-                new ImageDisplayable(new Point(0,0), ImageFactory.getOverworldLabel());
 
-        drawstate.addCenterOverlay(tpTitle);
+        //Add Stats Upgrade button
+        upgradeStats = new Button(new Point(0, 0),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Upgrade Stats"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Upgrade Stats"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Upgrade Stats"),
+                () -> {
+                    //Remove map and upgrade button so it cant be clicked under the stats display
+                    mapOverlay.removeClickable(selectedNode);
+                    mapOverlay.remove(selectedNode);
+                    drawstate.removeOverlay(mapOverlay);
+                    controlstate.remove(mapOverlay);
+                    drawstate.removeOverlay(upgradeStats);
+                    controlstate.remove(upgradeStats);
+
+                    Overlay statsView = new Overlay(new Point(0,0));
+                    ImageDisplayable svBackground = new ImageDisplayable(new Point(0,0),
+                            ImageFactory.makeBorderedRect(800, 800, Color.WHITE, Color.GRAY ));
+                    statsView.add(svBackground);
+
+                    statsView.add(new StringDisplayable( new Point(300, 200), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.RED, font));
+                    Button increaseFly = new Button(new Point(500, 200),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                            () -> {
+                                currentPlayer.getPilotStats().modifyFlying(1);
+                            });
+                    statsView.add(increaseFly);
+                    statsView.addClickable(increaseFly);
+
+                    //todo: implement checking for increasing pilot stats.
+                    statsView.add(new StringDisplayable( new Point(300, 300), () -> "Combat: " + currentPlayer.getPilotStats().getCombat(), Color.RED, font));
+                    Button increaseCombat = new Button(new Point(500, 300),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                            () -> {
+                                currentPlayer.getPilotStats().modifyCombat(1);
+                            });
+                    statsView.add(increaseCombat);
+                    statsView.addClickable(increaseCombat);
+
+                    statsView.add(new StringDisplayable( new Point(300, 400), () -> "Charisma: " + currentPlayer.getPilotStats().getCharisma(), Color.RED, font));
+                    Button increaseCharisma = new Button(new Point(500, 400),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                            ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                            () -> {
+                                currentPlayer.getPilotStats().modifyCharisma(1);
+                            });
+                    statsView.add(increaseCharisma);
+                    statsView.addClickable(increaseCharisma);
+
+                    Button closeStats = new Button(new Point(300, HEIGHT/2),
+                            ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Close Stats"),
+                            ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Close Stats"),
+                            ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Close Stats"),
+                            () -> {
+                                drawstate.removeOverlay(statsView);
+                                controlstate.remove(statsView);
+
+                                //readd map and upgrade stats and title
+                                drawstate.addLeftOverlay(mapOverlay);
+                                controlstate.add(mapOverlay);
+                                drawstate.addRightOverlay(upgradeStats);
+                                controlstate.add(upgradeStats);
+                            });
+                    statsView.add(closeStats);
+                    statsView.addClickable(closeStats);
 
 
+                    drawstate.addCenterOverlay(statsView);
+                    controlstate.add(statsView);
+                });
+
+        drawstate.addRightOverlay(upgradeStats);
+        controlstate.add(upgradeStats);
+
+
+        //drawstate.addCenterOverlay(overworldTitle);
     }
 }
