@@ -5,11 +5,12 @@ import Model.Ship.*;
 public class HealthConsumable extends Consumable{
     private int currencyValue;
     private int useValue;
-    private String name = "Health Pack";
 
     public HealthConsumable(int cv, int uv) {
         currencyValue = cv;
         useValue = uv;
+        super.setName("Health Pack");
+        super.setAttributes("Currency Value: " + currencyValue + "\nHealth Value: " + useValue);
     }
 
     public int getCurrencyValue() {
@@ -38,9 +39,5 @@ public class HealthConsumable extends Consumable{
             stats.modifyCurrentHealth(dif);
         else
             stats.modifyCurrentHealth(useValue);
-    }
-
-    public String getName() {
-        return name;
     }
 }

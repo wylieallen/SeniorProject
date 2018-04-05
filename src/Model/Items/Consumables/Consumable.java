@@ -4,8 +4,6 @@ import Model.Items.Item;
 import Model.Ship.*;
 
 abstract class Consumable extends Item{
-    private int currencyValue;
-    private int useValue;
 
     public abstract int getCurrencyValue();
     public abstract int getUseValue();
@@ -15,5 +13,4 @@ abstract class Consumable extends Item{
 
     public abstract void Use(Ship s);
 
-    public abstract String getName();
 }

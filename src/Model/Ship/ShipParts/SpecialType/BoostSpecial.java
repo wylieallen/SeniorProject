@@ -14,6 +14,7 @@ public class BoostSpecial extends ShipSpecial {
         super(currencyValue, maxFuel, fuelCost, rarity);
         this.speedFactor = speedFactor;
         super.setName(rarity + "Boost Ship Special");
+        super.setAttributes("Currency Value: " + currencyValue + "\nBoost Factor: " + speedFactor);
     }
 
     @Override

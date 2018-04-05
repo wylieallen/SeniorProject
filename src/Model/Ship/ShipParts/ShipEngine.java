@@ -10,6 +10,7 @@ public class ShipEngine extends ShipPart {
         super(currencyValue, rarity);
         this.maxSpeed = maxSpeed;
         super.setName(rarity + " Ship Engine");
+        super.setAttributes("Currency Value: " + currencyValue + "\nMax Speed: " + maxSpeed);
     }
 
     public int getMaxSpeed() {

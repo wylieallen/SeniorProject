@@ -5,11 +5,12 @@ import Model.Ship.*;
 public class ShieldConsumable extends Consumable{
     private int currencyValue;
     private int useValue;
-    private String name = "Shield Pack";
 
     public ShieldConsumable(int cv, int uv) {
         currencyValue = cv;
         useValue = uv;
+        super.setName("Shield Pack");
+        super.setAttributes("Currency Value: " + currencyValue + "\nShield Value: " + useValue);
     }
 
     public int getCurrencyValue() {
@@ -38,9 +39,5 @@ public class ShieldConsumable extends Consumable{
             stats.modifyCurrentShield(dif);
         else
             stats.modifyCurrentShield(useValue);
-    }
-
-    public String getName() {
-        return name;
     }
 }

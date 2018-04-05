@@ -16,8 +16,12 @@ import static Utility.Config.*;
 
 public class EnergyWeapon extends ShipWeapon {
 
+    int weaponCooldown = ENERGY_WEAPON_CD;
+
     public EnergyWeapon(int currencyValue, Projectile projectile, Rarity rarity) {
         super(currencyValue, projectile, rarity);
+        super.setName(rarity + " " + super.getProjectile().getName() + " Ship Energy Weapon");
+        super.setAttributes("Currency Value: " + currencyValue + "\nFiring Rate: " + weaponCooldown + "\nDamage: " + super.getProjectile().getDamage() + "\nSpeed: " + super.getProjectile().getSpeed());
     }
 
     @Override
@@ -25,7 +29,7 @@ public class EnergyWeapon extends ShipWeapon {
 
         Set<Projectile> projectiles = new HashSet<>();
 
-        if (super.getCooldown() > ENERGY_WEAPON_CD){
+        if (super.getCooldown() > weaponCooldown){
 
 
             super.resetCooldown();

@@ -5,11 +5,12 @@ import Model.Ship.*;
 public class FuelConsumable extends Consumable{
     private int currencyValue;
     private int useValue;
-    private String name = "Fuel Pack";
 
     public FuelConsumable(int cv, int uv) {
         currencyValue = cv;
         useValue = uv;
+        super.setName("Fuel Pack");
+        super.setAttributes("Currency Value: " + currencyValue + "\nFuel Value: " + useValue);
     }
 
     public int getCurrencyValue() {
@@ -40,8 +41,4 @@ public class FuelConsumable extends Consumable{
             stats.modifyCurrentFuel(useValue);
     }
 
-
-    public String getName() {
-        return name;
-    }
 }

@@ -3,6 +3,7 @@ package Model.Items;
 public class Item {
     private int currencyValue;
     private String name;
+    private String attributes;
 
     public Item(){}
 
@@ -22,6 +23,10 @@ public class Item {
     public int getUseValue(){return 0;}
 
     public void Use(){}
+
+    public void setAttributes(String attributes) { this.attributes = attributes; }
+
+    public String getAttributes() { return attributes; }
 
     public String getName(){return name; }
 

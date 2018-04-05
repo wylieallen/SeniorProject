@@ -10,6 +10,7 @@ public class ShipShield extends ShipPart {
         super(currencyValue, rarity);
         this.maxShield = maxShield;
         super.setName(rarity + " Ship Shield");
+        super.setAttributes("Currency Value: " + currencyValue + "\nMax Sheild: " + maxShield);
     }
 
     public int getmaxShield() {

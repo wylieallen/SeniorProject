@@ -72,7 +72,7 @@ public class Inventory {
     public String toString(){
         String items = "";
         for (int i = 0; i< itemList.size(); i++){
-            items += itemList.get(i).getName() + "\n";
+            items += itemList.get(i).getName() + "\n";// + itemList.get(i).getAttributes();
         }
         return items;
     }
