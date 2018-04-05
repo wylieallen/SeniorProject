@@ -11,7 +11,6 @@ public class TargetingState implements AIState{
     @Override
     public void makeMove(Enemy thisPilot, AI ai) {
 
-
         Point3D currentPosition = ai.getPositionOf(thisPilot);
 
         //Get data of Target needed for calculation
@@ -21,7 +20,8 @@ public class TargetingState implements AIState{
         float targetSpeed = (float) myTarget.getCurrentShipSpeed();
 
         //Backout if too close
-        if (currentPosition.distance(currentPosition, targetPosition) < 4f){
+        if (currentPosition.distance(currentPosition, targetPosition) < 25f){
+
             ai.setAiState(new StandbyState());
             thisPilot.getActiveShip().setFiring1(false);
             while (thisPilot.getCurrentShipSpeed() > 0){
@@ -42,7 +42,7 @@ public class TargetingState implements AIState{
         thisPilot.getActiveShip().setFacingDirection(direction);
 
         thisPilot.increaseShipSpeed();
-        thisPilot.getActiveShip().setFiring1(true);
+        //thisPilot.getActiveShip().setFiring1(true);
 
     }
 

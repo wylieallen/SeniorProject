@@ -111,7 +111,8 @@ public class EnemyBuilder {
             Ship newShip = shipBuilder.buildShip(newEnemy, newEngine, newHull, newShield, newSpecial, newWeapon1, newWeapon2);
             newEnemy.setActiveShip(newShip);
             newEnemy.getActiveShip().setFacingDirection(new Vector3D(enemyLoc, new Point3D(0,0,0)));
-            enemies.add(new Body<>(enemyLoc, new Dimension3D(0.2f, 0.2f, 1.0f), new Orientation3D(), newShip));
+            enemies.add(new Body<>(enemyLoc, new Dimension3D(7.086f, 1.323f, 12.380f),
+                    new Orientation3D(), newShip));
         }
         return enemies;
     }

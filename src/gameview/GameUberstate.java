@@ -15,6 +15,7 @@ import Utility.Rarity;
 import com.jogamp.opengl.GLAutoDrawable;
 import gameview.controlstate.PilotingControlstate;
 import gameview.observers.spawn.SpawnObserver;
+import gameview.renderables.LootRenderable;
 import gameview.renderables.ProjectileRenderable;
 import gameview.renderables.ShipRenderable;
 import gameview.renderables.debug.*;
@@ -56,6 +57,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver
         bindKeyPress(KeyEvent.VK_DOWN, () -> playerShip.get().setPitchingUp(true));
         bindKeyPress(KeyEvent.VK_LEFT, () -> playerShip.get().setYawingLeft(true));
         bindKeyPress(KeyEvent.VK_RIGHT, () -> playerShip.get().setYawingRight(true));
+        bindKeyPress(KeyEvent.VK_I, () -> System.out.println(playerShip.get().getInventory().toString()));
 
         bindKeyRelease(KeyEvent.VK_W, () -> playerShip.get().setAccelerating(false));
         bindKeyRelease(KeyEvent.VK_S, () -> playerShip.get().setDecelerating(false));
@@ -117,6 +119,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver
         }
         */
         gameModel.spawnEnemies();
+        gameModel.spawnLoot();
     }
 
     public void notifyShipSpawn(Body<Ship> ship)
@@ -126,7 +129,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver
     public void notifyProjSpawn(Body<Projectile> projectile) { super.getRenderstate().add(new ProjectileRenderable(projectile)); }
 
     //TODO make LootRenderable
-    public void notifyLootSpawn(Body<LootChest> lootChest) { /*super.getRenderstate().add(new LootRenderable(lootChest));*/}
+    public void notifyLootSpawn(Body<LootChest> lootChest) { super.getRenderstate().add(new LootRenderable(lootChest));}
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)

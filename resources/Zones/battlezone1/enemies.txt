@@ -1,9 +1,9 @@
 MAP1
 ENEMY
 	LOCATION
-		1
-		1
-		1
+		0
+		0
+		50
 	RARITY
 		COMMON
 	SHIP

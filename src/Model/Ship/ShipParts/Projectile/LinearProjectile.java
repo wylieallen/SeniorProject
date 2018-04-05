@@ -9,7 +9,7 @@ import static Utility.Config.FRAMERATE;
 public class LinearProjectile extends Projectile{
 
     public LinearProjectile(){
-        super.setSpeed(2.0f);
+        super.setSpeed(3.0f);
         super.setDamage(100);
         super.setName("Linear");
     }

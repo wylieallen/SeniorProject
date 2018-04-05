@@ -74,6 +74,7 @@ public class Ship{
         return myPilot;
     }
 
+
     public void equipWeapon1(ShipWeapon weapon){
         weaponSlot1 = weapon;
         updateMaxStats();

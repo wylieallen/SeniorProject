@@ -2,10 +2,7 @@ package Model.Items;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import Model.Items.Consumables.*;
-import Model.Ship.ShipParts.ShipPart;
 
 public class Inventory {
     private List<Item> itemList;
@@ -71,4 +68,12 @@ public class Inventory {
     }
 
     public List<Item> getItems() { return itemList; }
+
+    public String toString(){
+        String items = "";
+        for (int i = 0; i< itemList.size(); i++){
+            items += itemList.get(i).getName() + "\n";
+        }
+        return items;
+    }
 }

@@ -34,7 +34,7 @@ public class CombatState implements AIState {
        // System.out.println("Combat State \t" + currentPosition.toString() + " At Speed: " + enemy.getCurrentShipSpeed());
 
         //Test
-        if (currentPosition.distance(currentPosition, targetPosition) < 40f){
+        if (currentPosition.distance(currentPosition, targetPosition) < 160f){
             ai.setAiState(new TargetingState());
         }
     }
