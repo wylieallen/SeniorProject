@@ -13,7 +13,7 @@ import java.util.List;
 public class Model3DFactory
 {
     private static final int VAO_COUNT = 1;
-    private static final int VBO_COUNT = 6;
+    private static final int VBO_COUNT = 8;
 
     private static final int vao[] = new int[VAO_COUNT];
     private static final int vbo[] = new int[VBO_COUNT];
@@ -21,6 +21,7 @@ public class Model3DFactory
     private static Model3D cubeModel;
     private static Model3D pyrModel;
     private static Model3D feisarModel;
+    private static Model3D projectileModel;
 
     public static void initializeBuffers(GL4 gl)
     {
@@ -35,38 +36,44 @@ public class Model3DFactory
         pyrModel = new Model3D(new Texture3D(gl, vbo[3], pyr_tex_vertices, texObject), new Mesh3D(gl, vbo[1], pyr_vertices));
 
 
-        int feisarTexObject = loadTexture("resources/h2f2/mat.png");//"resources/maps/diffuse.bmp");
-        ImportedModel feisarImport = new ImportedModel("resources/h2f2/h2f3.obj");//Feisar_Tris.obj");
+        feisarModel = makeModel(gl, vbo[4], vbo[5], "resources/h2f2/mat.png", "resources/h2f2/h2f3.obj");//new Model3D(new Texture3D(gl, vbo[4], feisar_tex_vertices, feisarTexObject), new Mesh3D(gl, vbo[5], feisar_vertices));
+        projectileModel = makeModel(gl, vbo[6], vbo[7], "resources/Projectile_Spiky.png", "resources/Projectile_Spiky.obj");
+
+    }
+
+    private static Model3D makeModel(GL4 gl, int texVBO, int meshVBO, String texPath, String meshPath)
+    {
+        int textureObject = loadTexture(texPath);//"resources/maps/diffuse.bmp");
+        ImportedModel importedModel = new ImportedModel(meshPath);//Feisar_Tris.obj");
 
         List<Float> textureVertexList = new ArrayList<>();
-        for(Vertex3D vertex : feisarImport.getVertices())
+        for(Vertex3D vertex : importedModel.getVertices())
         {
             textureVertexList.add((float) vertex.getS());
             textureVertexList.add((float) vertex.getT());
         }
 
-        float[] feisar_tex_vertices = new float[textureVertexList.size()];
+        float[] tex_vertices = new float[textureVertexList.size()];
         for(int i = 0; i < textureVertexList.size(); i++)
         {
-            feisar_tex_vertices[i] = textureVertexList.get(i);
+            tex_vertices[i] = textureVertexList.get(i);
         }
 
-        List<Float> feisarVertexList = new ArrayList<>();
-        for(Vertex3D vertex : feisarImport.getVertices())
+        List<Float> meshVertexList = new ArrayList<>();
+        for(Vertex3D vertex : importedModel.getVertices())
         {
-            feisarVertexList.add((float) vertex.getX());
-            feisarVertexList.add((float) vertex.getY());
-            feisarVertexList.add((float) vertex.getZ());
+            meshVertexList.add((float) vertex.getX());
+            meshVertexList.add((float) vertex.getY());
+            meshVertexList.add((float) vertex.getZ());
         }
 
-        float[] feisar_vertices = new float[feisarVertexList.size()];
-        for(int i = 0; i < feisarVertexList.size(); i++)
+        float[] mesh_vertices = new float[meshVertexList.size()];
+        for(int i = 0; i < meshVertexList.size(); i++)
         {
-            feisar_vertices[i] = feisarVertexList.get(i);
+            mesh_vertices[i] = meshVertexList.get(i);
         }
 
-        feisarModel = new Model3D(new Texture3D(gl, vbo[4], feisar_tex_vertices, feisarTexObject), new Mesh3D(gl, vbo[5], feisar_vertices));
-
+        return new Model3D(new Texture3D(gl, texVBO, tex_vertices, textureObject), new Mesh3D(gl, meshVBO, mesh_vertices));
     }
 
     private static int loadTexture(String filepath)
@@ -84,6 +91,7 @@ public class Model3DFactory
     public static Model3D getCubeModel() { return cubeModel; }
     public static Model3D getPyramidModel() { return pyrModel; }
     public static Model3D getFeisarModel() { return feisarModel; }
+    public static Model3D getProjectileModel() { return projectileModel; }
 
     private static final float[] pyr_vertices = {
             -1.0f, -1.0f, 1.0f,

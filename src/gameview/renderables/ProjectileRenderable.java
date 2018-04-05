@@ -3,16 +3,18 @@ package gameview.renderables;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.physics.Body;
 import Utility.Geom3D.Point3D;
+import guiframework.gui3d.model3d.Model3DFactory;
+import guiframework.gui3d.renderable.BufferedRenderable;
 import guiframework.gui3d.renderable.glut.SphereRenderable;
 
-public class ProjectileRenderable extends SphereRenderable
+public class ProjectileRenderable extends BufferedRenderable
 {
     private Point3D location;
     private Body<Projectile> projectile;
 
     public ProjectileRenderable(Body<Projectile> projectile)
     {
-        super(projectile.getCenter(), projectile.getOrientation(), projectile.getSize().getWidth()/2, 8, 8);
+        super(projectile.getCenter(), projectile.getSize(), projectile.getOrientation(), Model3DFactory.getProjectileModel());
         this.projectile = projectile;
         update();
     }
