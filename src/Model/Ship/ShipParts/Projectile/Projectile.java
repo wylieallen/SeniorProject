@@ -19,6 +19,14 @@ public abstract class Projectile {
     private boolean expired = false;
     private float maxDist = BASE_PROJECTILE_RANGE;
 
+    protected Projectile(String name, float speed, int damage, Vector3D trajectory, Pilot projectileSource)
+    {
+        this.name = name;
+        this.speed = speed;
+        this.damage = damage;
+        this.trajectory = trajectory;
+        this.projectileSource = projectileSource;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -77,7 +85,7 @@ public abstract class Projectile {
     public void update()
     {
         maxDist -= speed;
-        if(maxDist < 0) expired = true;
+        if(maxDist <= 0) expired = true;
         //System.out.println(toString() + " " + expired);
     }
 

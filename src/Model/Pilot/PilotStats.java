@@ -44,6 +44,10 @@ public class PilotStats {
         return level;
     }
 
+    public int getCurrentSkillPoints() {
+        return currentSkillPoints;
+    }
+
     public int getExperience(){ return experience; }
 
     public int getFlying(){

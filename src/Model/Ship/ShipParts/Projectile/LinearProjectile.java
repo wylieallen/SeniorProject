@@ -8,20 +8,14 @@ import static Utility.Config.FRAMERATE;
 
 public class LinearProjectile extends Projectile{
 
-    public LinearProjectile(){
-        super.setSpeed(3.0f);
-        super.setDamage(100);
-        super.setName("Linear");
+    public LinearProjectile(Pilot pilot, Vector3D trajectory){
+        super("Linear", 3.0f, 100, trajectory, pilot);
     }
 
     @Override
     public Projectile cloneProjectile(Pilot pilot, Vector3D trajectory) {
 
-        LinearProjectile clonedProjectile = new LinearProjectile();
-
-        clonedProjectile.setProjectileSource(pilot);
-        clonedProjectile.setTrajectory(trajectory);
-        return clonedProjectile;
+        return new LinearProjectile(pilot, trajectory);
     }
 
     @Override

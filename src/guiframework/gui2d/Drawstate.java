@@ -80,6 +80,7 @@ public class Drawstate
     public void removeOverlay(Displayable overlay)
     {
         overlays.remove(overlay);
+        overlayManager.remove(overlay);
     }
 
     public void addUnderlay(Displayable underlay)
@@ -135,6 +136,13 @@ public class Drawstate
             leftOverlays.add(displayable);
         }
 
+        public void remove(Displayable displayable)
+        {
+            leftOverlays.remove(displayable);
+            centerOverlays.remove(displayable);
+            rightOverlays.remove(displayable);
+        }
+
         public void resetOverlays(Dimension size)
         {
             int centerX;
@@ -147,6 +155,16 @@ public class Drawstate
 
             centerX = edgeBuffer + (getMaxX(leftOverlays) / 2);
             updateLocations(centerX, leftOverlays, size);
+
+            System.out.println("LEFT OVERLAYS");
+            leftOverlays.forEach(System.out::println);
+
+            System.out.println("CENTER OVERLAYS");
+            centerOverlays.forEach(System.out::println);
+
+            System.out.println("RIGHT OVERLAYS");
+            rightOverlays.forEach(System.out::println);
+
         }
 
         private int getMaxX(Collection<Displayable> overlays)
