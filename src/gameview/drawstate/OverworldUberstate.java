@@ -143,16 +143,16 @@ public class OverworldUberstate extends Uberstate
 
                     Overlay statsView = new Overlay(new Point(0,0));
                     ImageDisplayable svBackground = new ImageDisplayable(new Point(0,0),
-                            ImageFactory.makeBorderedRect(1750/3, 900, Color.WHITE, Color.GRAY ));
+                            ImageFactory.makeBorderedRect(600, 900, Color.WHITE, Color.GRAY ));
                     statsView.add(svBackground);
 
-                    statsView.add(new StringDisplayable( new Point(300, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.RED, font));
-                    statsView.add(new StringDisplayable( new Point(300, 200), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.RED, font));
-                    statsView.add(new StringDisplayable( new Point(300, 300), () -> "Combat: " + currentPlayer.getPilotStats().getCombat(), Color.RED, font));
-                    statsView.add(new StringDisplayable( new Point(300, 400), () -> "Charisma: " + currentPlayer.getPilotStats().getCharisma(), Color.RED, font));
+                    statsView.add(new StringDisplayable( new Point(100, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.RED, font));
+                    statsView.add(new StringDisplayable( new Point(100, 200), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.RED, font));
+                    statsView.add(new StringDisplayable( new Point(100, 300), () -> "Combat: " + currentPlayer.getPilotStats().getCombat(), Color.RED, font));
+                    statsView.add(new StringDisplayable( new Point(100, 400), () -> "Charisma: " + currentPlayer.getPilotStats().getCharisma(), Color.RED, font));
 
                     if(currentPlayer.getPilotStats().getCurrentSkillPoints() > 0) {
-                        Button increaseFly = new Button(new Point(500, 200),
+                        Button increaseFly = new Button(new Point(450, 200),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
@@ -162,7 +162,7 @@ public class OverworldUberstate extends Uberstate
                         statsView.add(increaseFly);
                         statsView.addClickable(increaseFly);
 
-                        Button increaseCombat = new Button(new Point(500, 300),
+                        Button increaseCombat = new Button(new Point(450, 300),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
@@ -172,7 +172,7 @@ public class OverworldUberstate extends Uberstate
                         statsView.add(increaseCombat);
                         statsView.addClickable(increaseCombat);
 
-                        Button increaseCharisma = new Button(new Point(500, 400),
+                        Button increaseCharisma = new Button(new Point(450, 400),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
@@ -183,7 +183,7 @@ public class OverworldUberstate extends Uberstate
                         statsView.addClickable(increaseCharisma);
                     }
 
-                    Button closeStats = new Button(new Point(300, HEIGHT/2),
+                    Button closeStats = new Button(new Point(200, HEIGHT/2),
                             ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Close Stats"),
                             ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Close Stats"),
                             ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Close Stats"),
