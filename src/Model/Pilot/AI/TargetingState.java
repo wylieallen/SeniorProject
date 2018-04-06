@@ -42,7 +42,7 @@ public class TargetingState implements AIState{
         thisPilot.getActiveShip().setFacingDirection(direction);
 
         thisPilot.increaseShipSpeed();
-        //thisPilot.getActiveShip().setFiring1(true);
+        thisPilot.getActiveShip().setFiring1(true);
 
     }
 
