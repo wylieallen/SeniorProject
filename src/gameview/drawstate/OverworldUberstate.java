@@ -125,7 +125,6 @@ public class OverworldUberstate extends Uberstate
         drawstate.addLeftOverlay(mapOverlay);
         controlstate.add(mapOverlay);
 
-
         //Add Stats Upgrade button
         upgradeStats = new Button(new Point(1525, 25),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Upgrade Stats"),
@@ -210,6 +209,28 @@ public class OverworldUberstate extends Uberstate
         mapOverlay.add(upgradeStats);
 //        drawstate.addRightOverlay(upgradeStats);
 //        controlstate.add(upgradeStats);
+
+        //Add Hangar button
+        Button hangarButton = new Button(new Point(1300, 25),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Hangar"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Hangar"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Hangar"),
+                () -> {
+
+                });
+        mapOverlay.addClickable(hangarButton);
+        mapOverlay.add(hangarButton);
+
+        //Add Exit button
+        Button exitButton = new Button(new Point(1525, 825),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Exit"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Exit"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Exit"),
+                () -> {
+                    System.exit(0);
+                });
+        mapOverlay.addClickable(exitButton);
+        mapOverlay.add(exitButton);
 
 
         //drawstate.addCenterOverlay(overworldTitle);
