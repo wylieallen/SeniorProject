@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class OverworldUberstate extends Uberstate
 {
     private static final int HEIGHT = 1000;
-    private static final int WIDTH = 1800;
+    private static final int WIDTH = 1750;
     private static final int MARGIN = 10;
     private static final Font font = new Font("Arvo", Font.PLAIN, 30);
     private Overworld overworld;
@@ -60,13 +60,13 @@ public class OverworldUberstate extends Uberstate
 
 
         mapOverlay = new Overlay(new Point(0, 0));
-        ImageDisplayable mapBackground = new ImageDisplayable(new Point(0,50),
-                ImageFactory.makeBorderedRect(WIDTH, HEIGHT - 200, Color.BLUE, Color.GRAY));
+        ImageDisplayable mapBackground = new ImageDisplayable(new Point(0,0),
+                ImageFactory.makeBorderedRect(WIDTH, 900, Color.BLACK, Color.WHITE));
         mapOverlay.add(mapBackground);
 
         //Add title box
         ImageDisplayable overworldTitle =
-                new ImageDisplayable(new Point(WIDTH/2 - 125,0), ImageFactory.getOverworldLabel());
+                new ImageDisplayable(new Point(WIDTH/2 - (ImageFactory.getOverworldLabel().getWidth()/2),25), ImageFactory.getOverworldLabel());
         mapOverlay.add(overworldTitle);
 
 
@@ -76,23 +76,23 @@ public class OverworldUberstate extends Uberstate
             int y = (HEIGHT-150)/2;
             Button nodeButton = new Button(new Point(x, y),
                     ImageFactory.makeBorderedRect(100, 100, Color.WHITE, Color.GRAY),
-                    ImageFactory.makeBorderedRect(100, 100, Color.RED, Color.GRAY),
+                    ImageFactory.makeBorderedRect(100, 100, Color.BLUE, Color.GRAY),
                     ImageFactory.makeBorderedRect(100, 100, Color.YELLOW, Color.GRAY),
                     () -> {
                         mapOverlay.remove(selectedNode);
                         mapOverlay.removeClickable(selectedNode);
-                        selectedNode = new Overlay(new Point(WIDTH-1100,HEIGHT-375));
+                        selectedNode = new Overlay(new Point(WIDTH/2 - 200,HEIGHT-375));
                         ImageDisplayable snBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(400,200, Color.WHITE, Color.GRAY));
                         selectedNode.add(snBackground);
 
 //                        ImageDisplayable nodeDisplay = new ImageDisplayable(new Point(100, 75),
 //                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.GRAY, Color.WHITE, node.getThisZone().getZoneType()));
-                        selectedNode.add(new StringDisplayable( new Point(100, 25), () -> "" + node.getThisZone().getZoneType(), Color.RED, font));
+                        selectedNode.add(new StringDisplayable( new Point(100, 25), () -> "" + node.getThisZone().getZoneType(), Color.BLUE, font));
 
                         Button travelToNode = new Button(new Point(100,125),
-                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.GRAY, Color.WHITE, "Travel to Node"),
+                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLUE, Color.GRAY, Color.WHITE, "Travel to Node"),
                                 ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.GRAY, Color.WHITE, "Travel to Node"),
-                                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.GRAY, Color.WHITE, "Travel to Node"),
+                                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.GRAY, Color.BLACK, "Travel to Node"),
                                 () -> {
                                     System.out.println("Travel to " + node.getThisZone().getZoneType());
                                 });
@@ -127,7 +127,7 @@ public class OverworldUberstate extends Uberstate
 
 
         //Add Stats Upgrade button
-        upgradeStats = new Button(new Point(0, 0),
+        upgradeStats = new Button(new Point(1525, 25),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Upgrade Stats"),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Upgrade Stats"),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Upgrade Stats"),
@@ -135,14 +135,16 @@ public class OverworldUberstate extends Uberstate
                     //Remove map and upgrade button so it cant be clicked under the stats display
                     mapOverlay.removeClickable(selectedNode);
                     mapOverlay.remove(selectedNode);
+//                    mapOverlay.removeClickable(upgradeStats);
+//                    mapOverlay.remove(upgradeStats);
                     drawstate.removeOverlay(mapOverlay);
                     controlstate.remove(mapOverlay);
-                    drawstate.removeOverlay(upgradeStats);
-                    controlstate.remove(upgradeStats);
+//                    drawstate.removeOverlay(upgradeStats);
+//                    controlstate.remove(upgradeStats);
 
                     Overlay statsView = new Overlay(new Point(0,0));
                     ImageDisplayable svBackground = new ImageDisplayable(new Point(0,0),
-                            ImageFactory.makeBorderedRect(800, 800, Color.WHITE, Color.GRAY ));
+                            ImageFactory.makeBorderedRect(1750/3, 900, Color.WHITE, Color.GRAY ));
                     statsView.add(svBackground);
 
                     statsView.add(new StringDisplayable( new Point(300, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.RED, font));
@@ -193,8 +195,8 @@ public class OverworldUberstate extends Uberstate
                                 //readd map and upgrade stats and title
                                 drawstate.addLeftOverlay(mapOverlay);
                                 controlstate.add(mapOverlay);
-                                drawstate.addRightOverlay(upgradeStats);
-                                controlstate.add(upgradeStats);
+//                                drawstate.addRightOverlay(upgradeStats);
+//                                controlstate.add(upgradeStats);
                             });
                     statsView.add(closeStats);
                     statsView.addClickable(closeStats);
@@ -204,8 +206,10 @@ public class OverworldUberstate extends Uberstate
                     controlstate.add(statsView);
                 });
 
-        drawstate.addRightOverlay(upgradeStats);
-        controlstate.add(upgradeStats);
+        mapOverlay.addClickable(upgradeStats);
+        mapOverlay.add(upgradeStats);
+//        drawstate.addRightOverlay(upgradeStats);
+//        controlstate.add(upgradeStats);
 
 
         //drawstate.addCenterOverlay(overworldTitle);
