@@ -10,8 +10,8 @@ public abstract class ShipSpecial extends ShipPart{
     protected boolean activated;
 
 
-    public ShipSpecial(int currencyValue, int maxFuel, int fuelCost, Rarity rarity){
-        super(currencyValue, rarity);
+    public ShipSpecial(String name, int value, String attributes, Rarity rarity, int maxFuel, int fuelCost){
+        super(name, value, attributes, rarity);
         activated = false;
         this.maxFuel = maxFuel;
         this.fuelCost = fuelCost;

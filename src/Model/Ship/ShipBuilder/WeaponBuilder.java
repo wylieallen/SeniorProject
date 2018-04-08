@@ -22,6 +22,6 @@ public class WeaponBuilder extends PartBuilder{
         int currencyValue = super.generateRandom(baseValue, (int) (baseValue*CURRENCY_OFFSET), rarity);
         Projectile projectile = projectileBuilder.buildRandomLinearProjectile(10,10, rarity);
 
-        return new EnergyWeapon(currencyValue, projectile, rarity);
+        return new EnergyWeapon(currencyValue, projectile, rarity, 3);
     }
 }

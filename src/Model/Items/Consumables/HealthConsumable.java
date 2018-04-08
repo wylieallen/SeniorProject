@@ -3,30 +3,9 @@ package Model.Items.Consumables;
 import Model.Ship.*;
 
 public class HealthConsumable extends Consumable{
-    private int currencyValue;
-    private int useValue;
 
     public HealthConsumable(int cv, int uv) {
-        currencyValue = cv;
-        useValue = uv;
-        super.setName("Health Pack");
-        super.setAttributes("Currency Value: " + currencyValue + "\nHealth Value: " + useValue);
-    }
-
-    public int getCurrencyValue() {
-        return currencyValue;
-    }
-
-    public int getUseValue() {
-        return useValue;
-    }
-
-    public void setCurrencyValue(int cv) {
-        currencyValue = cv;
-    }
-
-    public void setUseValue(int uv) {
-        useValue = uv;
+        super("Health Pack", cv, "Currency Value: " + cv + "\nHealth Value: " + uv, uv);
     }
 
     public void Use(Ship s) {
@@ -35,9 +14,9 @@ public class HealthConsumable extends Consumable{
         int mh = stats.getMaxHealth();
         int dif = mh - ch;
 
-        if( ch + useValue > mh)
+        if( ch + getUseValue() > mh)
             stats.modifyCurrentHealth(dif);
         else
-            stats.modifyCurrentHealth(useValue);
+            stats.modifyCurrentHealth(getUseValue());
     }
 }

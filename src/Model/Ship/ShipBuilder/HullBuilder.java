@@ -15,6 +15,6 @@ public class HullBuilder extends PartBuilder {
 
         int currencyValue = super.generateRandom(baseValue, (int) (baseValue*CURRENCY_OFFSET), rarity);
         int maxHealth =  super.generateRandom(baseHealth, (int) (baseHealth*HEALTH_OFFSET), rarity);
-        return new ShipHull(currencyValue, maxHealth, inventorySize, rarity);
+        return new ShipHull(currencyValue, rarity, maxHealth, inventorySize);
     }
 }

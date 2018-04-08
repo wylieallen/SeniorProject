@@ -2,23 +2,18 @@ package Model.Ship.ShipParts;
 import Model.Items.Item;
 import Utility.Rarity;
 
-public abstract class ShipPart extends Item{
-
-    private int currencyValue;
+public abstract class ShipPart extends Item
+{
     private Rarity rarity;
 
-    protected ShipPart(int currency, Rarity rarity){
-        setCurrencyValue(currency);
-        setRarity(rarity);
+    protected ShipPart(String name, int value, String attributes, Rarity rarity)
+    {
+        super(name, value, attributes);
+        this.rarity = rarity;
     }
 
-    public int getCurrencyValue(){
-        return currencyValue;
-    }
-    public void setCurrencyValue(int value){
-        this.currencyValue = value;
-    }
+    public void update() {}
+
     public Rarity getRarity() { return rarity; }
     public void setRarity(Rarity rarity) {this.rarity = rarity; }
-
 }

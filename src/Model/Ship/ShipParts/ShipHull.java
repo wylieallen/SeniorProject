@@ -7,12 +7,13 @@ public class ShipHull extends ShipPart {
     private int maxHealth;
     private int inventorySize;
 
-    public ShipHull(int currencyValue, int maxHealth, int inventorySize, Rarity rarity){
-        super(currencyValue, rarity);
+    public ShipHull(int currencyValue, Rarity rarity, int maxHealth, int inventorySize){
+        super("" + rarity + " Ship Hull",
+                currencyValue,
+                // todo: why are we storing all of this as a String in the Item? Why don't we just query this data and make the string in the view?
+                "Currency Value: " + currencyValue + "\nMax Health: " + maxHealth + "\nInventory Size: " + inventorySize, rarity);
         this.maxHealth = maxHealth;
         this.inventorySize = inventorySize;
-        super.setName(rarity + " Ship Hull");
-        super.setAttributes("Currency Value: " + currencyValue + "\nMax Health: " + maxHealth + "\nInventory Size: " + inventorySize);
     }
 
     public int getmaxHealth() {

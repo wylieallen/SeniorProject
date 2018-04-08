@@ -39,12 +39,12 @@ public class ShipStats {
         this.currentFuel = this.maxFuel;
     }
 
-    public void setMaxSpeed(int maxSpeed){
+    public void scaleMaxSpeed(int maxSpeed){
         this.maxSpeed = maxSpeed;
         this.currentSpeed = 0;
     }
 
-    public void setMaxSpeed(double speedFactor){
+    public void scaleMaxSpeed(double speedFactor){
         this.maxSpeed = maxSpeed*speedFactor;
         this.currentSpeed = currentSpeed*speedFactor;
     }

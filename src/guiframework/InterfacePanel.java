@@ -1,5 +1,8 @@
 package guiframework;
 
+import Model.Map.Zones.BattleZone;
+import Model.Map.Zones.TradingZone;
+import Model.Map.Zones.Zone;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.FPSAnimator;
 import guiframework.control.ClickableControlstate;
@@ -10,9 +13,10 @@ import guiframework.gui3d.Renderstate;
 import java.awt.*;
 import java.awt.event.*;
 
-public class InterfacePanel extends GLJPanel
+public class InterfacePanel extends GLJPanel implements ZoneTransitionObserver
 {
     private Uberstate uberstate;
+    // todo: put this application-specific stuff in a subclass of InterfacePanel
     private Uberstate overworld, tradingpost, inflight;
 
     public InterfacePanel(Uberstate uberstate)
@@ -88,6 +92,24 @@ public class InterfacePanel extends GLJPanel
                 //System.out.println("Key " + e.getKeyChar() + " with keycode " + e.getKeyCode() + " typed");
             }
         });
+    }
+
+    @Override
+    public void notifyTransition(Zone nextZone)
+    {
+        // todo: redo all of this
+        if(nextZone instanceof TradingZone)
+        {
+            switchToTradingPost();
+        }
+        else if (nextZone instanceof BattleZone)
+        {
+            switchToInflight();
+        }
+        else
+        {
+            System.out.println("Unhandled zone type " + nextZone.toString());
+        }
     }
 
     public void switchToOverworld() { this.uberstate = overworld; }

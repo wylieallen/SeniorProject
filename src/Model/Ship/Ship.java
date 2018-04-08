@@ -4,8 +4,6 @@ import Model.Items.Inventory;
 import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.*;
 import Model.Ship.ShipParts.Projectile.Projectile;
-import Model.physics.collidable.BoundingBoxCollidable;
-import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
 import Utility.SystemTimer;
@@ -31,7 +29,7 @@ public class Ship{
 
     private boolean accelerating = false, decelerating = false, breaking = false;
 
-    Vector3D facingDirection;
+    private Vector3D facingDirection;
     private float yawSpeed = 3.0f, pitchSpeed = 3.0f , rollSpeed = 3.0f;
 
 
@@ -111,7 +109,7 @@ public class Ship{
     //TODO add unequip methods
 
     public void updateMaxStats(){
-        if (engineSlot != null) shipStats.setMaxSpeed(engineSlot.getMaxSpeed());
+        if (engineSlot != null) shipStats.scaleMaxSpeed(engineSlot.getMaxSpeed());
         if (specialSlot != null) shipStats.setMaxFuel(specialSlot.getmaxFuel());
         if (shieldSlot != null) shipStats.setMaxShield(shieldSlot.getmaxShield());
     }
@@ -233,7 +231,11 @@ public class Ship{
     {
         return !isAlive();
     }
-    public void update() { }
+    public void update()
+    {
+        weaponSlot1.update();
+        weaponSlot2.update();
+    }
 
     /*
     @Override

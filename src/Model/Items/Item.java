@@ -5,10 +5,11 @@ public class Item {
     private String name;
     private String attributes;
 
-    public Item(){}
-
-    public Item(int cv){
-        currencyValue = cv;
+    public Item(String name, int value, String attributes)
+    {
+        this.currencyValue = value;
+        this.name = name;
+        this.attributes = attributes;
     }
 
     public int getCurrencyValue(){

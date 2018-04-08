@@ -64,7 +64,7 @@ public class TradingPostUberstate extends Uberstate
         //todo: Figure out how player and trading post are passed to Drawstate properly. Temporarily adding test player and trading post.
         currentPlayer = new Player();
         currentPlayer.getMyWallet().increaseCurrencyBalance(1500);
-        Ship ship = new Ship(currentPlayer, new ShipHull(1000, 1000, 30, Rarity.COMMON));
+        Ship ship = new Ship(currentPlayer, new ShipHull(1000, Rarity.COMMON, 1000, 30));
         currentPlayer.getShipHangar().addShip(ship);
         currentPlayer.setActiveShip(ship);
         currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
