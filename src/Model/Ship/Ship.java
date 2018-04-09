@@ -109,7 +109,7 @@ public class Ship{
     //TODO add unequip methods
 
     public void updateMaxStats(){
-        if (engineSlot != null) shipStats.scaleMaxSpeed(engineSlot.getMaxSpeed());
+        if (engineSlot != null) shipStats.setMaxSpeed(engineSlot.getMaxSpeed());
         if (specialSlot != null) shipStats.setMaxFuel(specialSlot.getmaxFuel());
         if (shieldSlot != null) shipStats.setMaxShield(shieldSlot.getmaxShield());
     }
