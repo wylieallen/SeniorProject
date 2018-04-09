@@ -292,8 +292,8 @@ public class BattleZone extends Zone implements CollisionObserver {
         }
 
         if (directionUpdate) {
-            float yawRads = body.getOrientation().getYaw() / 180.0f * 3.1415926535f;
-            float pitchRads = -body.getOrientation().getPitch() / 180.0f * 3.1415926535f;
+            float yawRads = (body.getOrientation().getYaw() / 180.0f) * 3.1415926535f;
+            float pitchRads = (-body.getOrientation().getPitch() / 180.0f) * 3.1415926535f;
 
             float i = (float) ((Math.cos(pitchRads) * Math.sin(yawRads)));
             float j = (float) Math.sin(pitchRads);
@@ -335,28 +335,16 @@ public class BattleZone extends Zone implements CollisionObserver {
     public void updateShipPosition(Body<Ship> currentShip) {
 
         Pilot currentPilot = currentShip.get().getMyPilot();
-        Ship ship = currentPilot.getActiveShip();
         Point3D curPosition = currentShip.getOrigin();
-        //currentPilot.move(curPosition);
+
 
         //TEST (Attempt to change pitch/yaw from vector to update AI
        if (currentPilot.move(curPosition))
        {
-
-            float pitchRads = (float) Math.asin(ship.getFacingDirection().getJ());
-            float newPitch = -pitchRads/3.1415926535f * 180.0f;
-
-
-
-            float yawRadsI = (float) Math.asin(ship.getFacingDirection().getI()/Math.cos(pitchRads));
-            float newYawI = yawRadsI/3.1415926535f * 180.0f;
-
-            float yawRadsK = (float) Math.acos(-ship.getFacingDirection().getK()/Math.cos(pitchRads));
-            float newYawK = yawRadsK/3.1415926535f * 180.0f;
-
-            //currentShip.getCollidable().getOrientation().setYaw(newYawK);
-           currentShip.getOrientation().adjustPitch(newPitch- currentShip.getOrientation().getPitch());
-           currentShip.getOrientation().adjustYaw(newYawI - currentShip.getOrientation().getYaw());
+           Vector3D facingDirection = currentShip.get().getFacingDirection();
+           float pitchRads = (float) Math.asin(facingDirection.getJ());
+           float yawRads = (float) Math.atan2(facingDirection.getI(),-facingDirection.getK());
+           currentShip.setOrientation((pitchRads/3.1415926535f)*-180.0f, (yawRads/3.1415926535f)*180.0f);
         }
 
 

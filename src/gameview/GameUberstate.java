@@ -144,8 +144,6 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         super.getRenderstate().add(new ShipRenderable(ship));
     }
     public void notifyProjSpawn(Body<Projectile> projectile) { super.getRenderstate().add(new ProjectileRenderable(projectile)); }
-
-    //TODO make LootRenderable
     public void notifyLootSpawn(Body<LootChest> lootChest) { super.getRenderstate().add(new LootRenderable(lootChest));}
 
     @Override

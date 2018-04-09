@@ -26,4 +26,5 @@ public interface Collidable
     void adjustYaw(float d);
     void adjustPitch(float d);
     void adjustRoll(float d);
+    void setOrientation(float pitch, float yaw);
 }

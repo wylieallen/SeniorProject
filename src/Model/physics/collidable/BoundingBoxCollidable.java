@@ -72,6 +72,12 @@ public class BoundingBoxCollidable implements Collidable
         recalculateBounds();
     }
 
+    public void setOrientation(float pitch, float yaw){
+        orientation.setPitch(pitch);
+        orientation.setYaw(yaw);
+        recalculateBounds();
+    }
+
     public Point3D getOrigin() { return origin; }
     public Point3D getMinPoint() { return minPoint; }
     public Point3D getMaxPoint() { return maxPoint; }
@@ -97,7 +103,7 @@ public class BoundingBoxCollidable implements Collidable
         return terminus;
     }
 
-    private void recalculateBounds()
+    public void recalculateBounds()
     {
         float minX, minY, minZ, maxX, maxY, maxZ;
         minX = maxX = origin.getX();
