@@ -64,6 +64,7 @@ public class GameModel
     }
 
     public void add(SpawnObserver o) { myBattleZone.add(o); }
+    public void add(CollisionObserver o) { myBattleZone.add(o); }
 
     public void setPlayer(Body<Ship> playerShip)
     {

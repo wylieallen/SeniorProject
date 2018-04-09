@@ -7,6 +7,7 @@ import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.Ship.ShipParts.ShipHull;
 import Model.physics.Body;
+import Model.physics.CollisionObserver;
 import Model.physics.collidable.BoundingBoxCollidable;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
@@ -15,6 +16,7 @@ import Utility.Rarity;
 import com.jogamp.opengl.GLAutoDrawable;
 import gameview.controlstate.PilotingControlstate;
 import gameview.observers.spawn.SpawnObserver;
+import gameview.renderables.ExplosionRenderable;
 import gameview.renderables.LootRenderable;
 import gameview.renderables.ProjectileRenderable;
 import gameview.renderables.ShipRenderable;
@@ -33,7 +35,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
-public class GameUberstate extends Uberstate implements SpawnObserver
+public class GameUberstate extends Uberstate implements SpawnObserver, CollisionObserver
 {
     private PilotingControlstate controlstate;
     private GameModel gameModel;
@@ -46,7 +48,8 @@ public class GameUberstate extends Uberstate implements SpawnObserver
         gameModel = new GameModel();
         gameModel.run();
         playerShip = gameModel.getPlayerShip();
-        gameModel.add(this);
+        gameModel.add((SpawnObserver) this);
+        gameModel.add((CollisionObserver) this);
 
         super.setControlstate(this.controlstate = new PilotingControlstate(playerShip.get(), centerPt));
 
@@ -120,6 +123,20 @@ public class GameUberstate extends Uberstate implements SpawnObserver
         */
         gameModel.spawnEnemies();
         gameModel.spawnLoot();
+    }
+
+    public void notifyShipToLoot(Body<Ship> ship, Body<LootChest> loot) {}
+    public void notifyShipToShip(Body<Ship> a, Body<Ship> b)
+    {
+        getRenderstate().add(new ExplosionRenderable(a.getCenter().getMidpoint(b.getCenter()), 100));
+    }
+    public void notifyShipToProj(Body<Ship> ship, Body<Projectile> projectile)
+    {
+        getRenderstate().add(new ExplosionRenderable(projectile.getCenter(), 150));
+    }
+    public void notifyProjToProj(Body<Projectile> a, Body<Projectile> b)
+    {
+        getRenderstate().add(new ExplosionRenderable(a.getCenter().getMidpoint(b.getCenter()), 20));
     }
 
     public void notifyShipSpawn(Body<Ship> ship)

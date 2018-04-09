@@ -1,6 +1,7 @@
 package Model.Ship.ShipParts;
 
 import Model.Pilot.Pilot;
+import Model.Ship.ShipParts.Projectile.LinearProjectile;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Utility.*;
 
@@ -52,4 +53,5 @@ public class ShipWeapon extends ShipPart{
         return projectile.getProjectileSource();
     }
 
+    public static final ShipWeapon NULL = new ShipWeapon("EMPTY", 0, "", Rarity.COMMON, Projectile.NULL, -1);
 }

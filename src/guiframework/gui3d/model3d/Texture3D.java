@@ -31,9 +31,4 @@ public class Texture3D
         gl.glActiveTexture(GL.GL_TEXTURE0);
         gl.glBindTexture(GL.GL_TEXTURE_2D, textureObject);
     }
-
-    public void render(GL4 gl)
-    {
-
-    }
 }

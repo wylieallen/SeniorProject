@@ -9,7 +9,7 @@ import static Utility.Config.FRAMERATE;
 public class LinearProjectile extends Projectile{
 
     public LinearProjectile(Pilot pilot, Vector3D trajectory){
-        super("Linear", 3.0f, 100, trajectory, pilot);
+        super("Linear", 3.0f, 12, trajectory, pilot);
     }
 
     @Override

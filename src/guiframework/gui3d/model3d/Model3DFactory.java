@@ -13,7 +13,7 @@ import java.util.List;
 public class Model3DFactory
 {
     private static final int VAO_COUNT = 1;
-    private static final int VBO_COUNT = 8;
+    private static final int VBO_COUNT = 10;
 
     private static final int vao[] = new int[VAO_COUNT];
     private static final int vbo[] = new int[VBO_COUNT];
@@ -22,6 +22,7 @@ public class Model3DFactory
     private static Model3D pyrModel;
     private static Model3D feisarModel;
     private static Model3D projectileModel;
+    private static Model3D sparkModel;
 
     public static void initializeBuffers(GL4 gl)
     {
@@ -35,10 +36,9 @@ public class Model3DFactory
         cubeModel = new Model3D(new Texture3D(gl, vbo[2], cube_tex_vertices, texObject), new Mesh3D(gl, vbo[0], cube_vertices));
         pyrModel = new Model3D(new Texture3D(gl, vbo[3], pyr_tex_vertices, texObject), new Mesh3D(gl, vbo[1], pyr_vertices));
 
-
         feisarModel = makeModel(gl, vbo[4], vbo[5], "resources/h2f2/mat.png", "resources/h2f2/h2f3.obj");//new Model3D(new Texture3D(gl, vbo[4], feisar_tex_vertices, feisarTexObject), new Mesh3D(gl, vbo[5], feisar_vertices));
         projectileModel = makeModel(gl, vbo[6], vbo[7], "resources/Projectile_Spiky.png", "resources/Projectile_Spiky.obj");
-
+        sparkModel = new Model3D(new Texture3D(gl, vbo[8], quad_tex_vertices, loadTexture("resources/redspark.png")), new Mesh3D(gl, vbo[9], quad_particle_vertices));
     }
 
     private static Model3D makeModel(GL4 gl, int texVBO, int meshVBO, String texPath, String meshPath)
@@ -92,6 +92,27 @@ public class Model3DFactory
     public static Model3D getPyramidModel() { return pyrModel; }
     public static Model3D getFeisarModel() { return feisarModel; }
     public static Model3D getProjectileModel() { return projectileModel; }
+    public static Model3D getSparkModel() { return sparkModel; }
+
+    private static final float[] quad_particle_vertices = {
+        -0.1f, 0.1f, 0.0f,
+        -0.1f, -0.1f, 0.0f,
+        0.1f, -0.1f, 0.0f,
+
+        -0.1f, 0.1f, 0.0f,
+        0.1f, 0.1f, 0.0f,
+        0.1f, -0.1f, 0.0f
+    };
+
+    private static final float[] quad_tex_vertices = {
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f
+    };
 
     private static final float[] pyr_vertices = {
             -1.0f, -1.0f, 1.0f,

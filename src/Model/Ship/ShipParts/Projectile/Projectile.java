@@ -1,5 +1,6 @@
 package Model.Ship.ShipParts.Projectile;
 
+import Model.Pilot.Enemy;
 import Model.Pilot.Pilot;
 import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
@@ -8,6 +9,17 @@ import static Utility.Config.BASE_PROJECTILE_RANGE;
 
 
 public abstract class Projectile {
+
+    public static final Projectile NULL = new Projectile("NULL", 0, 0, new Vector3D(0, 0, 0), Pilot.NULL)
+    {
+        public void move(Point3D point3D) {};
+
+        @Override
+        public Projectile cloneProjectile(Pilot pilot, Vector3D trajectory)
+        {
+            return this;
+        }
+    };
 
     private String name;
     private Vector3D trajectory;
