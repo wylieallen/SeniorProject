@@ -9,6 +9,9 @@ import java.io.IOException;
 
 public class ImageFactory
 {
+    //All state images
+    private static final BufferedImage spaceBackground = loadImage("resources/Images/space-background.jpeg");
+
     //Trading Post Images
     private static final BufferedImage tradingPostLabel = loadImage("resources/Images/label_trading-post.png");
     private static final BufferedImage buyButtonBase = loadImage("resources/Images/button_buy-items_base.png");
@@ -89,6 +92,10 @@ public class ImageFactory
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static BufferedImage getSpaceBackground(){
+        return spaceBackground;
     }
 
     public static BufferedImage getTradingPostLabel(){

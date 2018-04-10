@@ -33,11 +33,18 @@ public class TradingPostUberstate extends Uberstate
     private static final int HEIGHT = 200;
     private static final int WIDTH = 800;
     private static final int MARGIN = 10;
+    //might change this
+    private static final int ITEMSPERPAGE = 16;
     private static final Font font = new Font("Arvo", Font.PLAIN, 30);
+    private static final Font fontSmall = new Font("Arvo", Font.PLAIN, 20);
     private TradingPost currentTP;
     private Player currentPlayer;
     private int selectedItem = 0;
     private int hoveredItem = 0;
+    private int tpCurrentPageNumber = 1;
+    private int playerCurrentPageNumber = 1;
+    private int tpMaxPage;
+    private int playerMaxPage;
     private int selectedBounty = 0;
     private int hoveredBounty = 0;
     private ImageDisplayable itemInfo;
@@ -51,6 +58,7 @@ public class TradingPostUberstate extends Uberstate
     private Overlay activeOverlay = new Overlay(new Point());
 //    private Overlay inactiveOverlay = new Overlay(new Point());
     private Overlay activeSelectedOverlay = new Overlay(new Point());
+    private Overlay activePageOverlay = new Overlay(new Point());
     private Overlay missionSelected = new Overlay(new Point());
     private Inventory playerInventory;
     private Inventory tpInventory;
@@ -69,6 +77,22 @@ public class TradingPostUberstate extends Uberstate
         currentPlayer.setActiveShip(ship);
         currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
         currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new FuelConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new FuelConsumable(200,50));
 
         BountyMission m = new BountyMission(2000, "Spock");
         m.completeMission();
@@ -99,6 +123,9 @@ public class TradingPostUberstate extends Uberstate
         playerInventory = currentPlayer.getActiveShip().getInventory();
         tpInventory = currentTP.getInventory();
 
+        playerMaxPage = ((playerInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
+        tpMaxPage = ((tpInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
+
         playerWallet = currentPlayer.getMyWallet();
         tpWallet = currentTP.getWallet();
 
@@ -123,6 +150,11 @@ public class TradingPostUberstate extends Uberstate
         Drawstate drawstate = getDrawstate();
         ClickableControlstate controlstate = getControlstate();
 
+        //Add space background
+        ImageDisplayable spaceBackground =
+                new ImageDisplayable(new Point(0,0), ImageFactory.getSpaceBackground());
+        drawstate.addUnderlay(spaceBackground);
+
         //Add title box
         ImageDisplayable tpTitle =
                 new ImageDisplayable(new Point(0,0), ImageFactory.getTradingPostLabel());
@@ -144,7 +176,8 @@ public class TradingPostUberstate extends Uberstate
 //                            {
 //
 //                            });
-                    this.selectedItem = 0;
+                    tpCurrentPageNumber = 1;
+                    selectedItem = 0;
 
                     //Clear TP Items button list
                     for(int i = 0; i < tpItems.size(); i++) {
@@ -156,7 +189,10 @@ public class TradingPostUberstate extends Uberstate
 
                     activeOverlay.remove(activeSelectedOverlay);
                     activeOverlay.removeClickable(activeSelectedOverlay);
-                    drawstate.removeAllRightOverlays();
+                    activeOverlay.remove(activePageOverlay);
+                    activeOverlay.removeClickable(activePageOverlay);
+                    //drawstate.removeAllRightOverlays();
+                    drawstate.removeOverlay(activeOverlay);
                     controlstate.remove(activeOverlay);
                     activeOverlay = this.tpInventoryOverlay;
 //                    inactiveOverlay = this.playerInventoryOverlay;
@@ -176,7 +212,7 @@ public class TradingPostUberstate extends Uberstate
                             () ->
                             {
                                 Item item = tpInventory.getItem(this.selectedItem);
-                                ItemButton button =  tpItems.get(selectedItem);
+                                //ItemButton button =  tpItems.get(selectedItem - (ITEMSPERPAGE*(tpCurrentPageNumber-1)));
                                 if(playerWallet.getCurrencyBalance() >= item.getCurrencyValue()) {
                                     tpInventoryOverlay.removeClickable(tpItemSelected);
                                     activeOverlay.remove(tpItemSelected);
@@ -184,13 +220,71 @@ public class TradingPostUberstate extends Uberstate
                                     playerWallet.decreaseCurrencyBalance(item.getCurrencyValue());
                                     tpInventory.removeItem(item);
                                     playerInventory.addItem(item);
-                                    tpInventoryOverlay.removeClickable(button);
-                                    tpInventoryOverlay.remove(button);
-                                    tpItems.remove(button);
-//                                    inacvtiveItems.add(button);
-//                                    inactiveOverlay.add(button);
-//                                    inactiveOverlay.addClickable(button);
-                                    redrawButtons();
+                                    playerMaxPage = ((playerInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
+                                    tpMaxPage = ((tpInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
+//                                    tpInventoryOverlay.removeClickable(button);
+//                                    tpInventoryOverlay.remove(button);
+//                                    tpItems.remove(button);
+//                                    redrawButtons();
+                                    if(tpItems.size() == 1 && tpCurrentPageNumber > 1)
+                                        tpCurrentPageNumber--;
+
+                                    //redraw buttons on current page
+                                    //Clear TP Items button list
+                                    for(int i = 0; i < tpItems.size(); i++) {
+                                        ItemButton ibutton = tpItems.get(i);
+                                        tpInventoryOverlay.removeClickable(ibutton);
+                                        tpInventoryOverlay.remove(ibutton);
+                                    }
+                                    tpItems.clear();
+
+                                    //add items of new page
+                                    for(int i = ITEMSPERPAGE*(tpCurrentPageNumber-1); i < tpInventory.getcurrItemsNum() && i < (ITEMSPERPAGE*tpCurrentPageNumber); i++){
+                                        Item newitem = tpInventory.getItem(i);
+                                        int pos = i - (ITEMSPERPAGE*(tpCurrentPageNumber-1));
+                                        int x = (180*(pos%4)) + ((pos%4)*MARGIN) + MARGIN;
+                                        int y = 150 + (125*(pos/4));
+
+                                        ItemButton tpItem = new ItemButton(newitem, new Point(x, y),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, newitem.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, newitem.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, newitem.getName()),
+                                                () ->
+                                                {
+                                                    tpInventoryOverlay.removeClickable(tpItemSelected);
+                                                    tpInventoryOverlay.remove(tpItemSelected);
+                                                    selectedItem = tpInventory.getIndex(newitem);
+                                                    tpInventoryOverlay.addClickable(tpItemSelected);
+                                                    tpInventoryOverlay.add(tpItemSelected);
+                                                    this.activeSelectedOverlay = tpItemSelected;
+                                                },
+                                                () ->
+                                                {
+
+                                                },
+                                                //enter function: Display Item info
+                                                () ->
+                                                {
+                                                    hoveredItem = tpInventory.getIndex(newitem) - (ITEMSPERPAGE*(tpCurrentPageNumber-1));
+                                                    int xHover = tpItems.get(hoveredItem).getOrigin().x;
+                                                    int yHover = tpItems.get(hoveredItem).getOrigin().y;
+                                                    this.itemInfo = new ImageDisplayable(new Point(xHover + 90, yHover + (HEIGHT/10)*3),
+                                                            ImageFactory.makeCenterLabeledRect(150, 40, Color.BLUE, Color.GRAY, Color.WHITE, "Use Value: "+newitem.getUseValue()));
+//                                    this.itemInfo = new Overlay(new Point(new Point(xHover + 90, yHover + (HEIGHT/10)*3)));
+//                                    itemInfo.add(new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(300,300, Color.BLUE,Color.GRAY)));
+//                                    itemInfo.add(new StringDisplayable(new Point(0,0), () -> item.getAttributes()));
+                                                    tpInventoryOverlay.add(itemInfo);
+                                                },
+                                                //exit function
+                                                () ->
+                                                {
+                                                    tpInventoryOverlay.remove(itemInfo);
+                                                });
+
+                                        tpItems.add(tpItem);
+                                        tpInventoryOverlay.addClickable(tpItem);
+                                        tpInventoryOverlay.add(tpItem);
+                                    }
                                     System.out.println("Item bought!");
                                 }
                                 else
@@ -202,10 +296,10 @@ public class TradingPostUberstate extends Uberstate
                     tpItemSelected.add(itemBuy);
 
                     //Adding tpInventoryOverlay item displayables
-                    for(int i = 0; i < tpInventory.getcurrItemsNum(); i++){
+                    for(int i = 0; i < tpInventory.getcurrItemsNum() && i < ITEMSPERPAGE; i++){
                         Item item = tpInventory.getItem(i);
                         int x = (180*(i%4)) + ((i%4)*MARGIN) + MARGIN;
-                        int y = 125 +(125*(i/4));
+                        int y = 150 + (125*(i/4));
 
                         ItemButton tpItem = new ItemButton(item, new Point(x, y),
                                 ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
@@ -247,6 +341,167 @@ public class TradingPostUberstate extends Uberstate
                         tpInventoryOverlay.addClickable(tpItem);
                         tpInventoryOverlay.add(tpItem);
                     }
+
+                    //Paging for TP Inventory
+                    Overlay tpPageOverlay = new Overlay(new Point(325,100));
+                    //ImageDisplayable pageNum = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(150,50,Color.WHITE,Color.WHITE));
+                    //pageOverlay.add(pageNum);
+                    tpPageOverlay.add(new StringDisplayable(new Point(40, 5), () -> "Page " + tpCurrentPageNumber,Color.BLACK, fontSmall));
+                    Button tpPageDown = new Button(new Point(0,0),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.RED, Color.WHITE, Color.WHITE, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, "<"),
+                            () ->
+                            {
+                                if(tpCurrentPageNumber > 1) {
+                                    //remove all displayables from previous page
+                                    selectedItem = 0;
+
+                                    //Clear TP Items button list
+                                    for(int i = 0; i < tpItems.size(); i++) {
+                                        ItemButton button = tpItems.get(i);
+                                        tpInventoryOverlay.removeClickable(button);
+                                        tpInventoryOverlay.remove(button);
+                                    }
+                                    tpItems.clear();
+
+                                    //remove selected overlay
+                                    activeOverlay.remove(activeSelectedOverlay);
+                                    activeOverlay.removeClickable(activeSelectedOverlay);
+
+                                    //decrease page number
+                                    tpCurrentPageNumber--;
+
+                                    //add items of new page
+                                    for(int i = ITEMSPERPAGE*(tpCurrentPageNumber-1); i < tpInventory.getcurrItemsNum() && i < (ITEMSPERPAGE*tpCurrentPageNumber); i++){
+                                        Item item = tpInventory.getItem(i);
+                                        int pos = i - (ITEMSPERPAGE*(tpCurrentPageNumber-1));
+                                        int x = (180*(pos%4)) + ((pos%4)*MARGIN) + MARGIN;
+                                        int y = 150 + (125*(pos/4));
+
+                                        ItemButton tpItem = new ItemButton(item, new Point(x, y),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, item.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, item.getName()),
+                                                () ->
+                                                {
+                                                    tpInventoryOverlay.removeClickable(tpItemSelected);
+                                                    tpInventoryOverlay.remove(tpItemSelected);
+                                                    selectedItem = tpInventory.getIndex(item);
+                                                    tpInventoryOverlay.addClickable(tpItemSelected);
+                                                    tpInventoryOverlay.add(tpItemSelected);
+                                                    this.activeSelectedOverlay = tpItemSelected;
+                                                },
+                                                () ->
+                                                {
+
+                                                },
+                                                //enter function: Display Item info
+                                                () ->
+                                                {
+                                                    hoveredItem = tpInventory.getIndex(item) - (ITEMSPERPAGE*(tpCurrentPageNumber-1));
+                                                    int xHover = tpItems.get(hoveredItem).getOrigin().x;
+                                                    int yHover = tpItems.get(hoveredItem).getOrigin().y;
+                                                    this.itemInfo = new ImageDisplayable(new Point(xHover + 90, yHover + (HEIGHT/10)*3),
+                                                            ImageFactory.makeCenterLabeledRect(150, 40, Color.BLUE, Color.GRAY, Color.WHITE, "Use Value: "+item.getUseValue()));
+//                                    this.itemInfo = new Overlay(new Point(new Point(xHover + 90, yHover + (HEIGHT/10)*3)));
+//                                    itemInfo.add(new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(300,300, Color.BLUE,Color.GRAY)));
+//                                    itemInfo.add(new StringDisplayable(new Point(0,0), () -> item.getAttributes()));
+                                                    tpInventoryOverlay.add(itemInfo);
+                                                },
+                                                //exit function
+                                                () ->
+                                                {
+                                                    tpInventoryOverlay.remove(itemInfo);
+                                                });
+
+                                        tpItems.add(tpItem);
+                                        tpInventoryOverlay.addClickable(tpItem);
+                                        tpInventoryOverlay.add(tpItem);
+                                    }
+                                }
+                            });
+                    tpPageOverlay.add(tpPageDown);
+                    tpPageOverlay.addClickable(tpPageDown);
+                    Button tpPageUp = new Button(new Point(112,0),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.RED, Color.WHITE, Color.WHITE, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, ">"),
+                            () ->
+                            {
+                                if(tpCurrentPageNumber < tpMaxPage) {
+                                    //remove all displayables from previous page
+                                    selectedItem = 0;
+
+                                    //Clear TP Items button list
+                                    for(int i = 0; i < tpItems.size(); i++) {
+                                        ItemButton button = tpItems.get(i);
+                                        tpInventoryOverlay.removeClickable(button);
+                                        tpInventoryOverlay.remove(button);
+                                    }
+                                    tpItems.clear();
+
+                                    //remove selected overlay
+                                    activeOverlay.remove(activeSelectedOverlay);
+                                    activeOverlay.removeClickable(activeSelectedOverlay);
+
+                                    //increase page number
+                                    tpCurrentPageNumber++;
+
+                                    //add items of new page
+                                    for(int i = ITEMSPERPAGE*(tpCurrentPageNumber-1); i < tpInventory.getcurrItemsNum() && i < (ITEMSPERPAGE*tpCurrentPageNumber); i++){
+                                        Item item = tpInventory.getItem(i);
+                                        int pos = i - (ITEMSPERPAGE*(tpCurrentPageNumber-1));
+                                        int x = (180*(pos%4)) + ((pos%4)*MARGIN) + MARGIN;
+                                        int y = 150 + (125*(pos/4));
+
+                                        ItemButton tpItem = new ItemButton(item, new Point(x, y),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, item.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, item.getName()),
+                                                () ->
+                                                {
+                                                    tpInventoryOverlay.removeClickable(tpItemSelected);
+                                                    tpInventoryOverlay.remove(tpItemSelected);
+                                                    selectedItem = tpInventory.getIndex(item);
+                                                    tpInventoryOverlay.addClickable(tpItemSelected);
+                                                    tpInventoryOverlay.add(tpItemSelected);
+                                                    this.activeSelectedOverlay = tpItemSelected;
+                                                },
+                                                () ->
+                                                {
+
+                                                },
+                                                //enter function: Display Item info
+                                                () ->
+                                                {
+                                                    hoveredItem = tpInventory.getIndex(item) - (ITEMSPERPAGE*(tpCurrentPageNumber-1));
+                                                    int xHover = tpItems.get(hoveredItem).getOrigin().x;
+                                                    int yHover = tpItems.get(hoveredItem).getOrigin().y;
+                                                    this.itemInfo = new ImageDisplayable(new Point(xHover + 90, yHover + (HEIGHT/10)*3),
+                                                            ImageFactory.makeCenterLabeledRect(150, 40, Color.BLUE, Color.GRAY, Color.WHITE, "Use Value: "+item.getUseValue()));
+//                                    this.itemInfo = new Overlay(new Point(new Point(xHover + 90, yHover + (HEIGHT/10)*3)));
+//                                    itemInfo.add(new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(300,300, Color.BLUE,Color.GRAY)));
+//                                    itemInfo.add(new StringDisplayable(new Point(0,0), () -> item.getAttributes()));
+                                                    tpInventoryOverlay.add(itemInfo);
+                                                },
+                                                //exit function
+                                                () ->
+                                                {
+                                                    tpInventoryOverlay.remove(itemInfo);
+                                                });
+
+                                        tpItems.add(tpItem);
+                                        tpInventoryOverlay.addClickable(tpItem);
+                                        tpInventoryOverlay.add(tpItem);
+                                    }
+                                }
+                            });
+                    tpPageOverlay.add(tpPageUp);
+                    tpPageOverlay.addClickable(tpPageUp);
+                    this.activePageOverlay = tpPageOverlay;
+                    tpInventoryOverlay.add(tpPageOverlay);
+                    tpInventoryOverlay.addClickable(tpPageOverlay);
                 });
 
         controlstate.add(buyButton);
@@ -259,7 +514,8 @@ public class TradingPostUberstate extends Uberstate
                 ImageFactory.getSellButtonPress(),
                 () ->
                 {
-                    this.selectedItem = 0;
+                    playerCurrentPageNumber = 1;
+                    selectedItem = 0;
 
                     //Clear Player Item button list
                     for(int i = 0; i < playerItems.size(); i++) {
@@ -271,7 +527,10 @@ public class TradingPostUberstate extends Uberstate
 
                     activeOverlay.remove(activeSelectedOverlay);
                     activeOverlay.removeClickable(activeSelectedOverlay);
-                    drawstate.removeAllRightOverlays();
+                    activeOverlay.remove(activePageOverlay);
+                    activeOverlay.removeClickable(activePageOverlay);
+                    //drawstate.removeAllRightOverlays();
+                    drawstate.removeOverlay(activeOverlay);
                     controlstate.remove(activeOverlay);
                     activeOverlay = this.playerInventoryOverlay;
 //                    inactiveOverlay = this.tpInventoryOverlay;
@@ -291,7 +550,7 @@ public class TradingPostUberstate extends Uberstate
                             () ->
                             {
                                 Item item = playerInventory.getItem(this.selectedItem);
-                                ItemButton button =  playerItems.get(selectedItem);
+                                //ItemButton button =  playerItems.get(selectedItem);
                                 if(tpWallet.getCurrencyBalance() >= item.getCurrencyValue()) {
                                     playerInventoryOverlay.removeClickable(playerItemSelected);
                                     playerInventoryOverlay.remove(playerItemSelected);
@@ -299,13 +558,72 @@ public class TradingPostUberstate extends Uberstate
                                     tpWallet.decreaseCurrencyBalance(item.getCurrencyValue());
                                     playerInventory.removeItem(item);
                                     tpInventory.addItem(item);
-                                    playerInventoryOverlay.removeClickable(button);
-                                    playerInventoryOverlay.remove(button);
-                                    playerItems.remove(button);
-//                                    tpItems.add(button);
-//                                    tpInventoryOverlay.add(button);
-//                                    inactiveOverlay.addClickable(button);
-                                    redrawButtons();
+                                    playerMaxPage = ((playerInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
+                                    tpMaxPage = ((tpInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
+//                                    playerInventoryOverlay.removeClickable(button);
+//                                    playerInventoryOverlay.remove(button);
+//                                    playerItems.remove(button);
+//                                    redrawButtons();
+                                    if(playerItems.size() == 1 && playerCurrentPageNumber > 1)
+                                        playerCurrentPageNumber--;
+
+                                    //redraw buttons on current page
+                                    //Clear TP Items button list
+                                    for(int i = 0; i < playerItems.size(); i++) {
+                                        ItemButton ibutton = playerItems.get(i);
+                                        playerInventoryOverlay.removeClickable(ibutton);
+                                        playerInventoryOverlay.remove(ibutton);
+                                    }
+                                    playerItems.clear();
+
+                                    //add items of new page
+                                    for(int i = ITEMSPERPAGE*(playerCurrentPageNumber-1); i < playerInventory.getcurrItemsNum() && i < (ITEMSPERPAGE*playerCurrentPageNumber); i++){
+                                        Item newitem = playerInventory.getItem(i);
+                                        int pos = i - (ITEMSPERPAGE*(playerCurrentPageNumber-1));
+                                        int x = (180*(pos%4)) + ((pos%4)*MARGIN) + MARGIN;
+                                        int y = 150 + (125*(pos/4));
+
+                                        ItemButton playerItem = new ItemButton(newitem, new Point(x, y),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, newitem.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, newitem.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, newitem.getName()),
+                                                () ->
+                                                {
+                                                    playerInventoryOverlay.removeClickable(playerItemSelected);
+                                                    playerInventoryOverlay.remove(playerItemSelected);
+                                                    selectedItem = playerInventory.getIndex(newitem);
+                                                    playerInventoryOverlay.addClickable(playerItemSelected);
+                                                    playerInventoryOverlay.add(playerItemSelected);
+                                                    this.activeSelectedOverlay = playerItemSelected;
+                                                },
+                                                () ->
+                                                {
+
+                                                },
+                                                //enter function: Display Item info
+                                                () ->
+                                                {
+                                                    hoveredItem = playerInventory.getIndex(newitem) - (ITEMSPERPAGE*(playerCurrentPageNumber-1));
+                                                    int xHover = playerItems.get(hoveredItem).getOrigin().x;
+                                                    int yHover = playerItems.get(hoveredItem).getOrigin().y;
+                                                    this.itemInfo = new ImageDisplayable(new Point(xHover + 90, yHover + (HEIGHT/10)*3),
+                                                            ImageFactory.makeCenterLabeledRect(150, 40, Color.BLUE, Color.GRAY, Color.WHITE, "Use Value: "+newitem.getUseValue()));
+//                                    this.itemInfo = new Overlay(new Point(new Point(xHover + 90, yHover + (HEIGHT/10)*3)));
+//                                    itemInfo.add(new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(300,300, Color.BLUE,Color.GRAY)));
+//                                    itemInfo.add(new StringDisplayable(new Point(0,0), () -> item.getAttributes()));
+                                                    playerInventoryOverlay.add(itemInfo);
+                                                },
+                                                //exit function
+                                                () ->
+                                                {
+                                                    playerInventoryOverlay.remove(itemInfo);
+                                                });
+
+                                        playerItems.add(playerItem);
+                                        playerInventoryOverlay.addClickable(playerItem);
+                                        playerInventoryOverlay.add(playerItem);
+                                    }
+
                                     System.out.println("Item sold!");
                                 }
                                 else
@@ -317,11 +635,11 @@ public class TradingPostUberstate extends Uberstate
                     playerItemSelected.add(itemSell);
 
                     //Adding playerInventoryOverlay item displayables
-                    for(int i = 0; i < playerInventory.getcurrItemsNum(); i++){
+                    for(int i = 0; i < playerInventory.getcurrItemsNum() && i < ITEMSPERPAGE; i++){
 
                         Item item = playerInventory.getItem(i);
                         int x = (180*(i%4)) + ((i%4)*MARGIN) + MARGIN;
-                        int y = 125 +(125*(i/4));
+                        int y = 150 + (125*(i/4));
 
                         ItemButton playerItem = new ItemButton(item, new Point(x, y),
                                 ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
@@ -363,6 +681,167 @@ public class TradingPostUberstate extends Uberstate
                         playerInventoryOverlay.addClickable(playerItem);
                         playerInventoryOverlay.add(playerItem);
                     }
+
+                    //Paging for Player Inventory
+                    Overlay playerPageOverlay = new Overlay(new Point(325,100));
+                    //ImageDisplayable pageNum = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(150,50,Color.WHITE,Color.WHITE));
+                    //pageOverlay.add(pageNum);
+                    playerPageOverlay.add(new StringDisplayable(new Point(40, 5), () -> "Page " + playerCurrentPageNumber,Color.BLACK, fontSmall));
+                    Button playerPageDown = new Button(new Point(0,0),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.RED, Color.WHITE, Color.WHITE, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, "<"),
+                            () ->
+                            {
+                                if(playerCurrentPageNumber > 1) {
+                                    //remove all displayables from previous page
+                                    selectedItem = 0;
+
+                                    //Clear TP Items button list
+                                    for(int i = 0; i < playerItems.size(); i++) {
+                                        ItemButton button = playerItems.get(i);
+                                        playerInventoryOverlay.removeClickable(button);
+                                        playerInventoryOverlay.remove(button);
+                                    }
+                                    playerItems.clear();
+
+                                    //remove selected overlay
+                                    activeOverlay.remove(activeSelectedOverlay);
+                                    activeOverlay.removeClickable(activeSelectedOverlay);
+
+                                    //decrease page number
+                                    playerCurrentPageNumber--;
+
+                                    //add items of new page
+                                    for(int i = ITEMSPERPAGE*(playerCurrentPageNumber-1); i < playerInventory.getcurrItemsNum() && i < (ITEMSPERPAGE*playerCurrentPageNumber); i++){
+                                        Item item = playerInventory.getItem(i);
+                                        int pos = i - (ITEMSPERPAGE*(playerCurrentPageNumber-1));
+                                        int x = (180*(pos%4)) + ((pos%4)*MARGIN) + MARGIN;
+                                        int y = 150 + (125*(pos/4));
+
+                                        ItemButton playerItem = new ItemButton(item, new Point(x, y),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, item.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, item.getName()),
+                                                () ->
+                                                {
+                                                    playerInventoryOverlay.removeClickable(playerItemSelected);
+                                                    playerInventoryOverlay.remove(playerItemSelected);
+                                                    selectedItem = playerInventory.getIndex(item);
+                                                    playerInventoryOverlay.addClickable(playerItemSelected);
+                                                    playerInventoryOverlay.add(playerItemSelected);
+                                                    this.activeSelectedOverlay = playerItemSelected;
+                                                },
+                                                () ->
+                                                {
+
+                                                },
+                                                //enter function: Display Item info
+                                                () ->
+                                                {
+                                                    hoveredItem = playerInventory.getIndex(item) - (ITEMSPERPAGE*(playerCurrentPageNumber-1));
+                                                    int xHover = playerItems.get(hoveredItem).getOrigin().x;
+                                                    int yHover = playerItems.get(hoveredItem).getOrigin().y;
+                                                    this.itemInfo = new ImageDisplayable(new Point(xHover + 90, yHover + (HEIGHT/10)*3),
+                                                            ImageFactory.makeCenterLabeledRect(150, 40, Color.BLUE, Color.GRAY, Color.WHITE, "Use Value: "+item.getUseValue()));
+//                                    this.itemInfo = new Overlay(new Point(new Point(xHover + 90, yHover + (HEIGHT/10)*3)));
+//                                    itemInfo.add(new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(300,300, Color.BLUE,Color.GRAY)));
+//                                    itemInfo.add(new StringDisplayable(new Point(0,0), () -> item.getAttributes()));
+                                                    playerInventoryOverlay.add(itemInfo);
+                                                },
+                                                //exit function
+                                                () ->
+                                                {
+                                                    playerInventoryOverlay.remove(itemInfo);
+                                                });
+
+                                        playerItems.add(playerItem);
+                                        playerInventoryOverlay.addClickable(playerItem);
+                                        playerInventoryOverlay.add(playerItem);
+                                    }
+                                }
+                            });
+                    playerPageOverlay.add(playerPageDown);
+                    playerPageOverlay.addClickable(playerPageDown);
+                    Button playerPageUp = new Button(new Point(112,0),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.RED, Color.WHITE, Color.WHITE, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, ">"),
+                            () ->
+                            {
+                                if(playerCurrentPageNumber < playerMaxPage) {
+                                    //remove all displayables from previous page
+                                    selectedItem = 0;
+
+                                    //Clear TP Items button list
+                                    for(int i = 0; i < playerItems.size(); i++) {
+                                        ItemButton button = playerItems.get(i);
+                                        playerInventoryOverlay.removeClickable(button);
+                                        playerInventoryOverlay.remove(button);
+                                    }
+                                    playerItems.clear();
+
+                                    //remove selected overlay
+                                    activeOverlay.remove(activeSelectedOverlay);
+                                    activeOverlay.removeClickable(activeSelectedOverlay);
+
+                                    //increase page number
+                                    playerCurrentPageNumber++;
+
+                                    //add items of new page
+                                    for(int i = ITEMSPERPAGE*(playerCurrentPageNumber-1); i < playerInventory.getcurrItemsNum() && i < (ITEMSPERPAGE*playerCurrentPageNumber); i++){
+                                        Item item = playerInventory.getItem(i);
+                                        int pos = i - (ITEMSPERPAGE*(playerCurrentPageNumber-1));
+                                        int x = (180*(pos%4)) + ((pos%4)*MARGIN) + MARGIN;
+                                        int y = 150 + (125*(pos/4));
+
+                                        ItemButton playerItem = new ItemButton(item, new Point(x, y),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.BLUE, Color.GRAY, Color.WHITE, item.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.RED, Color.GRAY, Color.WHITE, item.getName()),
+                                                ImageFactory.makeCenterLabeledRect(180, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, item.getName()),
+                                                () ->
+                                                {
+                                                    playerInventoryOverlay.removeClickable(playerItemSelected);
+                                                    playerInventoryOverlay.remove(playerItemSelected);
+                                                    selectedItem = playerInventory.getIndex(item);
+                                                    playerInventoryOverlay.addClickable(playerItemSelected);
+                                                    playerInventoryOverlay.add(playerItemSelected);
+                                                    this.activeSelectedOverlay = playerItemSelected;
+                                                },
+                                                () ->
+                                                {
+
+                                                },
+                                                //enter function: Display Item info
+                                                () ->
+                                                {
+                                                    hoveredItem = playerInventory.getIndex(item) - (ITEMSPERPAGE*(playerCurrentPageNumber-1));
+                                                    int xHover = playerItems.get(hoveredItem).getOrigin().x;
+                                                    int yHover = playerItems.get(hoveredItem).getOrigin().y;
+                                                    this.itemInfo = new ImageDisplayable(new Point(xHover + 90, yHover + (HEIGHT/10)*3),
+                                                            ImageFactory.makeCenterLabeledRect(150, 40, Color.BLUE, Color.GRAY, Color.WHITE, "Use Value: "+item.getUseValue()));
+//                                    this.itemInfo = new Overlay(new Point(new Point(xHover + 90, yHover + (HEIGHT/10)*3)));
+//                                    itemInfo.add(new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(300,300, Color.BLUE,Color.GRAY)));
+//                                    itemInfo.add(new StringDisplayable(new Point(0,0), () -> item.getAttributes()));
+                                                    playerInventoryOverlay.add(itemInfo);
+                                                },
+                                                //exit function
+                                                () ->
+                                                {
+                                                    playerInventoryOverlay.remove(itemInfo);
+                                                });
+
+                                        playerItems.add(playerItem);
+                                        playerInventoryOverlay.addClickable(playerItem);
+                                        playerInventoryOverlay.add(playerItem);
+                                    }
+                                }
+                            });
+                    playerPageOverlay.add(playerPageUp);
+                    playerPageOverlay.addClickable(playerPageUp);
+                    this.activePageOverlay = playerPageOverlay;
+                    playerInventoryOverlay.add(playerPageOverlay);
+                    playerInventoryOverlay.addClickable(playerPageOverlay);
                 });
 
         controlstate.add(sellButton);
@@ -385,7 +864,8 @@ public class TradingPostUberstate extends Uberstate
 
                     activeOverlay.remove(activeSelectedOverlay);
                     activeOverlay.removeClickable(activeSelectedOverlay);
-                    drawstate.removeAllRightOverlays();
+                    //drawstate.removeAllRightOverlays();
+                    drawstate.removeOverlay(activeOverlay);
                     drawstate.addRightOverlay(this.bountyListOverlay);
                     controlstate.remove(activeOverlay);
                     activeOverlay = this.bountyListOverlay;
@@ -572,43 +1052,84 @@ public class TradingPostUberstate extends Uberstate
         controlstate.add(exitButton);
         drawstate.addLeftOverlay(exitButton);
 
+//        //Paging for TP Inventory
+//        Overlay tpPageOverlay = new Overlay(new Point(325,100));
+//        //ImageDisplayable pageNum = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(150,50,Color.WHITE,Color.WHITE));
+//        //pageOverlay.add(pageNum);
+//        tpPageOverlay.add(new StringDisplayable(new Point(40, 5), () -> "Page " + tpCurrentPageNumber,Color.BLACK, fontSmall));
+//        Button tpPageDown = new Button(new Point(0,0),
+//                ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, "<"),
+//                ImageFactory.makeCenterLabeledRect(38, 50, Color.RED, Color.WHITE, Color.WHITE, "<"),
+//                ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, "<"),
+//                () ->
+//                {
+//                    if(tpCurrentPageNumber > 1)
+//                        tpCurrentPageNumber--;
+//                });
+//        tpPageOverlay.add(tpPageDown);
+//        tpPageOverlay.addClickable(tpPageDown);
+//        Button tpPageUp = new Button(new Point(112,0),
+//                ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, ">"),
+//                ImageFactory.makeCenterLabeledRect(38, 50, Color.RED, Color.WHITE, Color.WHITE, ">"),
+//                ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, ">"),
+//                () ->
+//                {
+//                    //tpMaxPage = ((tpInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
+//                    System.out.println("tpItems: " + tpInventory.getcurrItemsNum());
+//                    System.out.println("tpItems - 1: " + (tpInventory.getcurrItemsNum()-1));
+//                    System.out.println("(tpItems - 1)/16: " + ((tpInventory.getcurrItemsNum()-1)/16));
+//                    System.out.println("(tpItems - 1)/IPP: " + ((tpInventory.getcurrItemsNum()-1)/ITEMSPERPAGE));
+//                    System.out.println("tpMaxPage: " + tpMaxPage);
+//                    System.out.println("playerMaxPage: " + playerMaxPage);
+//                    if(tpCurrentPageNumber < tpMaxPage)
+//                        tpCurrentPageNumber++;
+//                });
+//        tpPageOverlay.add(tpPageUp);
+//        tpPageOverlay.addClickable(tpPageUp);
+//        tpInventoryOverlay.add(tpPageOverlay);
+//        tpInventoryOverlay.addClickable(tpPageOverlay);
+
         //Create Player Inventory Overlay
         Overlay playerInventoryOverlay = new Overlay(new Point());
         Displayable piBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(WIDTH, 900, Color.WHITE, Color.GRAY));
         playerInventoryOverlay.add(piBackground);
-        playerInventoryOverlay.add(new StringDisplayable( new Point(16, 16), () -> "Player Inventory", Color.RED, font));
-        playerInventoryOverlay.add(new StringDisplayable( new Point(16, 64), () -> "Player MONEY: " + playerWallet.getCurrencyBalance(), Color.RED, font));
-        playerInventoryOverlay.add(new StringDisplayable( new Point(WIDTH/2, 64), () -> " Trading Post MONEY: " + tpWallet.getCurrencyBalance(), Color.RED, font));
+        playerInventoryOverlay.add(new StringDisplayable( new Point(16, 0), () -> "Player Inventory", Color.RED, font));
+        playerInventoryOverlay.add(new StringDisplayable( new Point(16, 50), () -> "Player MONEY: " + playerWallet.getCurrencyBalance(), Color.RED, font));
+        playerInventoryOverlay.add(new StringDisplayable( new Point(WIDTH/2, 50), () -> " Trading Post MONEY: " + tpWallet.getCurrencyBalance(), Color.RED, font));
+        //playerInventoryOverlay.add(pageOverlay);
+        //playerInventoryOverlay.addClickable(pageOverlay);
         this.playerInventoryOverlay = playerInventoryOverlay;
 
         //Create TP Inventory Overlay
         Overlay tpInventoryOverlay = new Overlay(new Point());
         Displayable tpBackground = new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(WIDTH, 900, Color.WHITE, Color.GRAY));
         tpInventoryOverlay.add(tpBackground);
-        tpInventoryOverlay.add(new StringDisplayable( new Point(16, 16), () -> "Trading Post Inventory", Color.RED, font));
-        tpInventoryOverlay.add(new StringDisplayable( new Point(16, 64), () -> "Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance(), Color.RED, font));
-        tpInventoryOverlay.add(new StringDisplayable( new Point(WIDTH/2, 64), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance(), Color.RED, font));
+        tpInventoryOverlay.add(new StringDisplayable( new Point(16, 0), () -> "Trading Post Inventory", Color.RED, font));
+        tpInventoryOverlay.add(new StringDisplayable( new Point(16, 50), () -> "Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance(), Color.RED, font));
+        tpInventoryOverlay.add(new StringDisplayable( new Point(WIDTH/2, 50), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance(), Color.RED, font));
+//        tpInventoryOverlay.add(tpPageOverlay);
+//        tpInventoryOverlay.addClickable(tpPageOverlay);
         this.tpInventoryOverlay = tpInventoryOverlay;
 
         //Create Bounty List Overlay
         Overlay bountyListOverlay =  new Overlay(new Point());
         Displayable bountyBackground =  new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(WIDTH, 900, Color.WHITE, Color.GRAY));
         bountyListOverlay.add(bountyBackground);
-        bountyListOverlay.add(new StringDisplayable(new Point(16, 16), () -> "Bounty List", Color.RED, font));
-        bountyListOverlay.add(new StringDisplayable( new Point(16, 64), () -> "Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance(), Color.RED, font));
-        bountyListOverlay.add(new StringDisplayable( new Point(WIDTH/2, 64), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance(), Color.RED, font));
+        bountyListOverlay.add(new StringDisplayable(new Point(16, 0), () -> "Bounty List", Color.RED, font));
+        bountyListOverlay.add(new StringDisplayable( new Point(16, 50), () -> "Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance(), Color.RED, font));
+        bountyListOverlay.add(new StringDisplayable( new Point(WIDTH/2, 50), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance(), Color.RED, font));
         this.bountyListOverlay = bountyListOverlay;
     }
 
     private void redrawButtons(){
         //redraw tpInventoryOverlay
         for(int i = 0; i < tpItems.size(); i++) {
-            tpItems.get(i).getOrigin().setLocation((180*(i%4)) + ((i%4)*MARGIN) + MARGIN, 125 +(125*(i/4)));
+            tpItems.get(i).getOrigin().setLocation((180*(i%4)) + ((i%4)*MARGIN) + MARGIN, 150 + (125*(i/4)));
         }
 
         //redraw playerInventoryOverlay
         for(int i = 0; i < playerItems.size(); i++) {
-            playerItems.get(i).getOrigin().setLocation((180*(i%4)) + ((i%4)*MARGIN) + MARGIN, 125 +(125*(i/4)));
+            playerItems.get(i).getOrigin().setLocation((180*(i%4)) + ((i%4)*MARGIN) + MARGIN, 150 + (125*(i/4)));
         }
     }
     // Placeholder money example stuff goes here
