@@ -51,6 +51,23 @@ public class EnemyBuilder {
             int z = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t")[1]);
             Point3D enemyLoc = new Point3D(x,y,z);
 
+            lineIndex++; //SKIP FACTION
+            String faction = enemyData.get(lineIndex++).split("\t\t")[1];
+            Faction enemyFaction;
+            switch (faction){
+                case "REBEL":
+                    enemyFaction = Faction.REBEL;
+                    break;
+                case "ALLY":
+                    enemyFaction = Faction.ALLY;
+                    break;
+                default:
+                    enemyFaction = Faction.NEUTRAL;
+                    break;
+            }
+            newEnemy.setFaction(enemyFaction);
+
+
             lineIndex++; //SKIP RARITY
             String rarity = enemyData.get(lineIndex++).split("\t\t")[1];
             Rarity enemyRarity;
@@ -74,7 +91,6 @@ public class EnemyBuilder {
 
             //BUILD SHIP RANDOMLY!!!
             Ship newShip = shipBuilder.buildRandomShip(newEnemy, enemyRarity);
-
             newEnemy.setActiveShip(newShip);
             newEnemy.getActiveShip().setFacingDirection(new Vector3D(enemyLoc, new Point3D(0,0,0)));
             enemies.add(new Body<>(enemyLoc, new Dimension3D(7.086f, 1.323f, 12.380f),

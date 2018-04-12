@@ -20,7 +20,7 @@ public class ShipStats {
         this.maxFuel = 0;
         this.maxSpeed = 0;
         this.currentHealth = this.maxHealth;
-        detectRange = 100;
+        detectRange = 300;
     }
 
 

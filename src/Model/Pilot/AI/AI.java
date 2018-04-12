@@ -37,7 +37,7 @@ public class AI {
         Point3D currentPosition = battleZone.getPositionOf(pilot);
 
         //For testing: change later
-        return battleZone.getPlayer();
+        return battleZone.getNearestHostileTo(pilot);
     }
 
     public Point3D getNearestLootTo(Pilot pilot){
