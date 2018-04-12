@@ -1,11 +1,14 @@
 package Model.Ship.ShipBuilder;
 
+import Model.Items.Item;
 import Model.Pilot.Pilot;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.*;
 import Utility.Rarity;
 
-public class ShipBuilder {
+import static Utility.Config.*;
+
+public class ShipBuilder extends PartBuilder{
     private EngineBuilder engineBuilder;
     private HullBuilder hullBuilder;
     private ShieldBuilder shieldBuilder;
@@ -13,6 +16,7 @@ public class ShipBuilder {
     private WeaponBuilder weaponBuilder;
 
     public ShipBuilder(){
+        super();
         engineBuilder = new EngineBuilder();
         hullBuilder = new HullBuilder();
         shieldBuilder = new ShieldBuilder();
@@ -37,8 +41,8 @@ public class ShipBuilder {
         return specialBuilder.buildRandomBoostSpecial();
     }
 
-    public ShipWeapon buildRandomWeapon(int baseValue, int baseDamage, int baseSpeed, Rarity rarity){
-        return weaponBuilder.buildRandomEnergyWeapon(baseValue, baseDamage, baseSpeed, rarity);
+    public ShipWeapon buildRandomWeapon(int baseValue, int baseSpeed, int baseDamage, Rarity rarity){
+        return weaponBuilder.buildRandomEnergyWeapon(baseValue, baseSpeed, baseDamage, rarity);
     }
 
 
@@ -55,13 +59,35 @@ public class ShipBuilder {
 
     public Ship buildRandomShip(Pilot owner, Rarity rarity){
 
-        Ship newShip = new Ship(owner, buildRandomHull(1000,100,8,rarity));
-        newShip.equipEngine(buildRandomEngine(1000,50,rarity));
-        newShip.equipShield(buildRandomShield(1000,50,rarity));
+        int baseValue = rarity.value();
+        Ship newShip = new Ship(owner, buildRandomHull(baseValue, BASE_HULL_HEALTH, BASE_HULL_INVENTORY, rarity));
+        newShip.equipEngine(buildRandomEngine(baseValue, BASE_ENGINE_SPEED, rarity));
+        newShip.equipShield(buildRandomShield(baseValue, BASE_SHIELD_VALUE, rarity));
         newShip.equipSpecial(buildRandomSpecial());
-        newShip.equipWeapon1(buildRandomWeapon(1000, 25, 40, rarity));
-        newShip.equipWeapon2(buildRandomWeapon(1000, 5, 100, rarity));
+        newShip.equipWeapon1(buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity));
+        newShip.equipWeapon2(buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity));
         return newShip;
+    }
+
+    public ShipPart buildRandomPart(int baseValue, Rarity rarity){
+
+        //Equally determine type of part to build
+        int chance = super.generateRandomBetween(1,5);
+        switch (chance){
+            case 1:
+                return buildRandomEngine(baseValue, BASE_ENGINE_SPEED, rarity);
+            case 2:
+                return buildRandomHull(baseValue, BASE_HULL_HEALTH, BASE_HULL_INVENTORY, rarity);
+            case 3:
+                return buildRandomShield(baseValue, BASE_SHIELD_VALUE, rarity);
+            case 4:
+                return buildRandomSpecial();
+            case 5:
+                return buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity);
+            default:
+                return buildRandomEngine(baseValue, BASE_ENGINE_SPEED, rarity);
+
+        }
     }
 
 }

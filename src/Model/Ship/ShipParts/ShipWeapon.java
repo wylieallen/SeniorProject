@@ -53,5 +53,5 @@ public class ShipWeapon extends ShipPart{
         return projectile.getProjectileSource();
     }
 
-    public static final ShipWeapon NULL = new ShipWeapon("EMPTY", 0, "", Rarity.COMMON, Projectile.NULL, -1);
+    //public static final ShipWeapon NULL = new ShipWeapon("EMPTY", 0, "", Rarity.COMMON, Projectile.NULL, -1);
 }

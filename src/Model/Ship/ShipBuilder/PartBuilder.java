@@ -16,5 +16,9 @@ public class PartBuilder {
         return rng.getRarityRandomInRange(baseValue, range, rarity);
     }
 
+    public int generateRandomBetween(int start, int end){
+        return rng.getRandomInBetween(start, end);
+    }
+
 
 }

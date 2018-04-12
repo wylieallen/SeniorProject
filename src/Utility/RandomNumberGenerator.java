@@ -33,4 +33,9 @@ public class RandomNumberGenerator{
         return (int) random;
     }
 
+    public int getRandomInBetween(int start, int end){
+        double random = rng.nextInt(end-start+1) + start;
+        return (int) random;
+    }
+
 }

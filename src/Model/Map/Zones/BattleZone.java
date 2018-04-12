@@ -3,6 +3,7 @@ package Model.Map.Zones;
 import Model.Items.Inventory;
 import Model.Items.Item;
 import Model.Items.LootChest;
+import Model.Items.RandomItemGenerator;
 import Model.Map.LocationTuple;
 import Model.Pilot.*;
 import Model.Powerup.Powerup;
@@ -88,7 +89,7 @@ public class BattleZone extends Zone implements CollisionObserver {
     public void addLootChests() {
 
         List<Item> items = new ArrayList<>();
-        items.add(new ShipBuilder().buildRandomEngine(10,10,Rarity.COMMON));
+        items.add(new RandomItemGenerator().getRandomItem());
         LootChest lootChest = new LootChest(items);
 
         Body<LootChest> newLoot = new Body<>(new Point3D(0,0,25 ), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);

@@ -8,14 +8,14 @@ import static Utility.Config.FRAMERATE;
 
 public class LinearProjectile extends Projectile{
 
-    public LinearProjectile(Pilot pilot, Vector3D trajectory){
+    public LinearProjectile(Pilot pilot, Vector3D trajectory, float speed, int damage){
         super("Linear", 3.0f, 12, trajectory, pilot);
     }
 
     @Override
     public Projectile cloneProjectile(Pilot pilot, Vector3D trajectory) {
 
-        return new LinearProjectile(pilot, trajectory);
+        return new LinearProjectile(pilot, trajectory, super.getSpeed(), super.getDamage());
     }
 
     @Override

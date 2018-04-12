@@ -6,24 +6,11 @@ ENEMY
 		50
 	RARITY
 		COMMON
-	SHIP
-		HULL
-			1000
-			50
-			8
-		ENGINE
-			1000
-			50
-		SHIELD
-			1000
-			200
-		SPECIAL
-			1000
-			150
-		WEAPON1
-			1000
-			5
-		WEAPON2
-			1000
-			10
+ENEMY
+	LOCATION
+		100
+		0
+		50
+	RARITY
+		COMMON
 END
