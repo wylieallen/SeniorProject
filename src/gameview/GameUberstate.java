@@ -122,7 +122,6 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         }
         */
         gameModel.spawnEnemies();
-        gameModel.spawnLoot();
     }
 
     public void notifyShipToLoot(Body<Ship> ship, Body<LootChest> loot) {}

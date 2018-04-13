@@ -21,6 +21,7 @@ import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
+import Utility.RandomNumberGenerator;
 import Utility.Rarity;
 import gameview.observers.spawn.SpawnObserver;
 
@@ -45,6 +46,9 @@ public class BattleZone extends Zone implements CollisionObserver {
     private Set<Body<LootChest>> lootChests;
 
 
+    RandomNumberGenerator rng = new RandomNumberGenerator();
+    RandomItemGenerator rig = new RandomItemGenerator();
+    private int lootChestCooldown = 0;
     private List<LocationTuple<Powerup>> powerups;
 
 
@@ -88,13 +92,23 @@ public class BattleZone extends Zone implements CollisionObserver {
     //TODO randomly generate lootchests with an item
     public void addLootChests() {
 
-        List<Item> items = new ArrayList<>();
-        items.add(new RandomItemGenerator().getRandomItem());
-        LootChest lootChest = new LootChest(items);
+        if (lootChestCooldown == 0){
+            List<Item> items = new ArrayList<>();
 
-        Body<LootChest> newLoot = new Body<>(new Point3D(0,0,25 ), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
-        spawnLootChest(newLoot);
+            int numberItemsToGenerate = rng.getScaling();
+            for (int i =0; i < numberItemsToGenerate; i++){
+                items.add(rig.getRandomItem());
+            }
+            LootChest lootChest = new LootChest(items);
 
+            int x = rng.getRandomInBetween(-100,100);
+            int y = rng.getRandomInBetween(-100,100);
+            int z = rng.getRandomInBetween(-100,100);
+            Body<LootChest> newLoot = new Body<>(new Point3D(x,y,z ), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
+            spawnLootChest(newLoot);
+            lootChestCooldown = 1000;
+        }
+        lootChestCooldown--;
     }
 
     public void addProjectile(Projectile projectile) {
@@ -191,9 +205,13 @@ public class BattleZone extends Zone implements CollisionObserver {
     public void enemyDestroyed(Enemy enemy) {
         for (Body<Ship> currentShip : ships) {
             if (currentShip.get().getMyPilot() == enemy) {
-                LootChest lootChest = new LootChest(enemy.getActiveShip().getInventory().getItems());
-                Body<LootChest> newLoot = new Body<>(currentShip.getCenter(), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
-                spawnLootChest(newLoot);
+                List<Item> itemsToDrop = enemy.getActiveShip().getInventory().getItems();
+                itemsToDrop.addAll(rng.getRandomEquippedParts(enemy.getActiveShip()));
+                LootChest lootChest = new LootChest(itemsToDrop);
+                if (!lootChest.isEmpty()){
+                    Body<LootChest> newLoot = new Body<>(currentShip.getCenter(), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
+                    spawnLootChest(newLoot);
+                }
                 ships.remove(currentShip);
                 break;
             }
@@ -202,8 +220,8 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     //  COLLISION HANDLING
     public void notifyShipToShip(Body<Ship> a, Body<Ship> b) {
-        a.get().takeDamage(2);
-        b.get().takeDamage(2);
+        a.get().takeDamage(10);
+        b.get().takeDamage(10);
         System.out.println(a.toString() + " " + a.get().getShipStats().getCurrentHealth() + " " + a.get().getShipStats().getCurrentShield());
         System.out.println(b.toString() + " " + b.get().getShipStats().getCurrentHealth() + " " + b.get().getShipStats().getCurrentShield());
     }
@@ -216,6 +234,9 @@ public class BattleZone extends Zone implements CollisionObserver {
     public void notifyShipToProj(Body<Ship> ship, Body<Projectile> projectile) {
         ship.get().takeDamage(projectile.get().getDamage());
         projectile.get().disable();
+        if (!(ship.get().isAlive())){
+            projectile.get().getProjectileSource().gainExperience(10);
+        }
         System.out.println("Proj dmg: " + projectile.get().getDamage());
         System.out.println(ship.toString() + " " + ship.get().getShipStats().getCurrentHealth() + " " + ship.get().getShipStats().getCurrentShield());
     }
@@ -238,6 +259,7 @@ public class BattleZone extends Zone implements CollisionObserver {
 //  UPDATE METHODS
 
     public void update() {
+        addLootChests();
         collisionChecker.processCollisions(ships, projectiles, lootChests);
 
         Set<Body<Ship>> expiredShips = new HashSet<>();

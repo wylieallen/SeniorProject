@@ -55,9 +55,6 @@ public class GameModel
         myBattleZone.addEnemies();
     }
 
-    public void spawnLoot(){
-        myBattleZone.addLootChests();
-    }
 
     public void update(){
         myBattleZone.update();

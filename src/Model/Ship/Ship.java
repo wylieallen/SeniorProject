@@ -106,6 +106,32 @@ public class Ship{
         updateMaxStats();
     }
 
+
+    //Ship part GETTERS
+    public ShipEngine getEngineSlot() {
+        return engineSlot;
+    }
+
+    public ShipHull getHullSlot() {
+        return hullSlot;
+    }
+
+    public ShipShield getShieldSlot() {
+        return shieldSlot;
+    }
+
+    public ShipSpecial getSpecialSlot() {
+        return specialSlot;
+    }
+
+    public ShipWeapon getWeaponSlot1() {
+        return weaponSlot1;
+    }
+
+    public ShipWeapon getWeaponSlot2() {
+        return weaponSlot2;
+    }
+
     //TODO add unequip methods
 
     public void updateMaxStats(){

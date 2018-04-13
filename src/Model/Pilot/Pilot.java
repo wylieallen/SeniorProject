@@ -83,6 +83,10 @@ public abstract class Pilot {
         activeShip.toggleShieldActivated();
     }
 
+    public void gainExperience(int amount) {
+        pilotStats.modifyExperience(amount);
+    }
+
     public abstract void pilotDied();
 
     public abstract boolean move(Point3D curPosition);

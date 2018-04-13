@@ -20,6 +20,12 @@ public class LootChest {
         return items;
     }
 
+    public void addItems(List<Item> items) { this.items.addAll(items); }
+
+    public boolean isEmpty(){
+        return items.isEmpty();
+    }
+
     public void disable() { expired = true; }
 
     public boolean expired() { return expired; }

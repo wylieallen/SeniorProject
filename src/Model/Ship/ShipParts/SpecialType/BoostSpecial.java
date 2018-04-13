@@ -10,7 +10,7 @@ public class BoostSpecial extends ShipSpecial {
     private double speedFactor;
 
     public BoostSpecial(int currencyValue, int maxFuel, double speedFactor, int fuelCost, Rarity rarity) {
-        super(rarity + "Boost Ship Special", currencyValue, "Currency Value: " + currencyValue + "\nBoost Factor: " + speedFactor, rarity, maxFuel, fuelCost);
+        super(rarity + " Boost Ship Special", currencyValue, "Currency Value: " + currencyValue + "\nBoost Factor: " + speedFactor, rarity, maxFuel, fuelCost);
         this.speedFactor = speedFactor;
     }
 
