@@ -37,8 +37,8 @@ public class ShipBuilder extends PartBuilder{
     }
 
     //TODO Build random Specials
-    public ShipSpecial buildRandomSpecial(){
-        return specialBuilder.buildRandomBoostSpecial();
+    public ShipSpecial buildRandomSpecial(int baseValue, int baseMaxFuel, int baseUseAmount, int baseFuelCost, Rarity rarity){
+        return specialBuilder.buildRandomSpecial(baseValue, baseMaxFuel, baseUseAmount, baseFuelCost, rarity);
     }
 
     public ShipWeapon buildRandomWeapon(int baseValue, int baseSpeed, int baseDamage, Rarity rarity){
@@ -63,7 +63,7 @@ public class ShipBuilder extends PartBuilder{
         Ship newShip = new Ship(owner, buildRandomHull(baseValue, BASE_HULL_HEALTH, BASE_HULL_INVENTORY, rarity));
         newShip.equipEngine(buildRandomEngine(baseValue, BASE_ENGINE_SPEED, rarity));
         newShip.equipShield(buildRandomShield(baseValue, BASE_SHIELD_VALUE, rarity));
-        newShip.equipSpecial(buildRandomSpecial());
+        newShip.equipSpecial(buildRandomSpecial(baseValue, BASE_MAX_FUEL, BASE_SPECIAL_USE, BASE_FUEL_COST, rarity));
         newShip.equipWeapon1(buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity));
         newShip.equipWeapon2(buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity));
         return newShip;
@@ -81,7 +81,7 @@ public class ShipBuilder extends PartBuilder{
             case 3:
                 return buildRandomShield(baseValue, BASE_SHIELD_VALUE, rarity);
             case 4:
-                return buildRandomSpecial();
+                return buildRandomSpecial(baseValue, BASE_MAX_FUEL, BASE_SPECIAL_USE, BASE_FUEL_COST, rarity);
             case 5:
                 return buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity);
             default:

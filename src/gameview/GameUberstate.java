@@ -61,6 +61,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         bindKeyPress(KeyEvent.VK_LEFT, () -> playerShip.get().setYawingLeft(true));
         bindKeyPress(KeyEvent.VK_RIGHT, () -> playerShip.get().setYawingRight(true));
         bindKeyPress(KeyEvent.VK_I, () -> System.out.println(playerShip.get().getInventory().toString()));
+        bindKeyPress(KeyEvent.VK_SHIFT, () -> playerShip.get().activateSpecial());
 
         bindKeyRelease(KeyEvent.VK_W, () -> playerShip.get().setAccelerating(false));
         bindKeyRelease(KeyEvent.VK_S, () -> playerShip.get().setDecelerating(false));
@@ -69,6 +70,8 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         bindKeyRelease(KeyEvent.VK_DOWN, () -> playerShip.get().setPitchingUp(false));
         bindKeyRelease(KeyEvent.VK_LEFT, () -> playerShip.get().setYawingLeft(false));
         bindKeyRelease(KeyEvent.VK_RIGHT, () -> playerShip.get().setYawingRight(false));
+        bindKeyRelease(KeyEvent.VK_SHIFT, () -> playerShip.get().deactivateSpecial());
+        bindKeyRelease(KeyEvent.VK_E, () -> playerShip.get().toggleShieldActivated());
     }
 
     @Override

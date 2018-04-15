@@ -5,20 +5,24 @@ import Model.Ship.ShipParts.ShipSpecial;
 import Model.Ship.ShipStats;
 import Utility.Rarity;
 
-public class BoostSpecial extends ShipSpecial {
+public class StealthSpecial extends ShipSpecial {
 
-    private double speedFactor;
+    private double stealthFactor;
+    private double oldDetectRange;
 
-    public BoostSpecial(int currencyValue, int maxFuel, double speedFactor, double fuelCost, Rarity rarity) {
-        super(rarity + " Boost Ship Special", currencyValue, "Currency Value: " + currencyValue + "\nBoost Factor: " + speedFactor + "\nMax Fuel: " + maxFuel + "\nFuel Cost: " + fuelCost, rarity, maxFuel, fuelCost);
-        this.speedFactor = speedFactor;
+
+    public StealthSpecial(int currencyValue, int maxFuel, double stealthFactor, double fuelCost, Rarity rarity) {
+        super(rarity + " Stealth Ship Special", currencyValue, "Currency Value: " + currencyValue + "\nStealth Factor: " + stealthFactor  + "\nMax Fuel: " + maxFuel + "\nFuel Cost: " + fuelCost, rarity, maxFuel, fuelCost);
+        this.stealthFactor = stealthFactor;
     }
 
     @Override
     public void activate(Pilot pilot) {
         ShipStats shipStats = pilot.getActiveShipStats();
         if (!activated){
-            shipStats.scaleMaxSpeed(speedFactor);
+            oldDetectRange = shipStats.getDetectRange();
+            double newDetectRange = oldDetectRange - oldDetectRange*stealthFactor;
+            shipStats.setDetectRange(newDetectRange);
             activated = true;
         }
         if (shipStats.getCurrentFuel() >= fuelCost){
@@ -28,14 +32,16 @@ public class BoostSpecial extends ShipSpecial {
         else {
             deactivate(pilot);
         }
+
     }
 
     @Override
     public void deactivate(Pilot pilot) {
         if (activated){
             ShipStats shipStats = pilot.getActiveShipStats();
-            shipStats.scaleMaxSpeed(1/speedFactor);
+            shipStats.setDetectRange(oldDetectRange);
             activated = false;
         }
     }
 }
+

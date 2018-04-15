@@ -198,6 +198,10 @@ public class BattleZone extends Zone implements CollisionObserver {
             }
         }
 
+        if (nearestLoot == null){
+            return null;
+        }
+
         return nearestLoot.getCenter();
     }
 
@@ -342,9 +346,9 @@ public class BattleZone extends Zone implements CollisionObserver {
             Collection<Projectile> projectiles = ship.useWeapon1();
             for (Projectile projectile : projectiles) {
                 Body<Projectile> projBody = new Body<Projectile>(
-                        new Point3D(body.getRear()), new Dimension3D(.2f),
+                        new Point3D(body.getCenter()), new Dimension3D(.2f),
                         new Orientation3D(body.getOrientation()), projectile);
-                projBody.moveForward(body.getSize().getLength());
+                projBody.moveForward(body.getSize().getLength()/2);
                 spawnProjectile(projBody);
             }
         }

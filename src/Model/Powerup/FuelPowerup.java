@@ -13,9 +13,9 @@ public class FuelPowerup extends Powerup{
 
     public void Use(Ship s){
         ShipStats stats = s.getShipStats();
-        int cf = stats.getCurrentFuel();
-        int mf = stats.getMaxFuel();
-        int dif = mf - cf;
+        double cf = stats.getCurrentFuel();
+        double mf = stats.getMaxFuel();
+        double dif = mf - cf;
 
         if( cf + useValue > mf)
             stats.modifyCurrentFuel(dif);

@@ -2,19 +2,22 @@ package Model.Ship.ShipParts;
 
 import Model.Pilot.Pilot;
 import Utility.Rarity;
+import Utility.SystemTimer;
 
 public abstract class ShipSpecial extends ShipPart{
 
     private int maxFuel;
-    private int fuelCost;
+    protected double fuelCost;
     protected boolean activated;
+    private SystemTimer fuelCD;
 
 
-    public ShipSpecial(String name, int value, String attributes, Rarity rarity, int maxFuel, int fuelCost){
+    public ShipSpecial(String name, int value, String attributes, Rarity rarity, int maxFuel, double fuelCost){
         super(name, value, attributes, rarity);
         activated = false;
         this.maxFuel = maxFuel;
         this.fuelCost = fuelCost;
+        this.fuelCD = new SystemTimer();
     }
 
     public abstract void activate(Pilot pilot);
@@ -30,6 +33,9 @@ public abstract class ShipSpecial extends ShipPart{
     }
 
     protected void consumeFuel(Pilot pilot){
-        pilot.getActiveShipStats().modifyCurrentFuel(fuelCost);
+        if (fuelCD.getElapsedTime() >= .2){
+            pilot.getActiveShipStats().modifyCurrentFuel(-fuelCost);
+            fuelCD.reset();
+        }
     }
 }

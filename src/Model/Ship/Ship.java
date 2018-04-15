@@ -188,11 +188,13 @@ public class Ship{
         if (!shieldActivated && shieldCooldown.getElapsedTime() >= SHIELD_CD){
             shieldActivated = true;
             shipStats.modifyCurrentShield(shipStats.getMaxShield());
+            System.out.println("Shield " + shieldActivated);
         }
         else if (shieldActivated){
             shieldCooldown.reset();
             shieldActivated = false;
             shipStats.modifyCurrentShield(-shipStats.getCurrentShield());
+            System.out.println("Shield " + shieldActivated);
         }
     }
 

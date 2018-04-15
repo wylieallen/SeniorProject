@@ -10,9 +10,9 @@ public class FuelConsumable extends Consumable{
 
     public void Use(Ship s) {
         ShipStats stats = s.getShipStats();
-        int cf = stats.getCurrentFuel();
-        int mf = stats.getMaxFuel();
-        int dif = mf - cf;
+        double cf = stats.getCurrentFuel();
+        double mf = stats.getMaxFuel();
+        double dif = mf - cf;
 
         if( cf + getUseValue() > mf)
             stats.modifyCurrentFuel(dif);

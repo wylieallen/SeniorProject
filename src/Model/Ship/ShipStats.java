@@ -4,11 +4,11 @@ public class ShipStats {
 
     private int maxHealth;
     private int maxShield;
-    private int maxFuel;
+    private double maxFuel;
     private double maxSpeed;
     private int currentHealth;
     private int currentShield;
-    private int currentFuel;
+    private double currentFuel;
     private double currentSpeed;
 
     //Used for AI
@@ -55,7 +55,7 @@ public class ShipStats {
         return maxShield;
     }
 
-    public int getMaxFuel(){
+    public double getMaxFuel(){
         return maxFuel;
     }
 
@@ -88,10 +88,13 @@ public class ShipStats {
         }
     }
 
-    public void modifyCurrentFuel(int amount){
+    public void modifyCurrentFuel(double amount){
         currentFuel += amount;
         if (currentFuel > maxFuel){
             currentFuel = maxFuel;
+        }
+        if (currentFuel < 0){
+            currentFuel = 0;
         }
     }
 
@@ -114,7 +117,7 @@ public class ShipStats {
         return currentShield;
     }
 
-    public int getCurrentFuel(){
+    public double getCurrentFuel(){
         return currentFuel;
     }
 
