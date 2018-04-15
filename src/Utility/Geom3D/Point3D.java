@@ -19,6 +19,12 @@ public class Point3D {
         this.z = z;
     }
 
+    public Point3D(Vector3D trajectory, Point3D location, double speed){
+        this.x = location.getX() + trajectory.getI() * (float) (speed);
+        this.y = location.getY() + trajectory.getJ() * (float) (speed);
+        this.z = location.getZ() + trajectory.getK() * (float) (speed);
+    }
+
     public float distance(Point3D pointA, Point3D pointB){
         float xDistance = (float) Math.pow(pointB.getX() - pointA.getX(), 2);
         float yDistance = (float) Math.pow(pointB.getY() - pointA.getY(), 2);

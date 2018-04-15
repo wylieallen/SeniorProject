@@ -2,6 +2,7 @@ package gameview;
 
 import Model.GameModel;
 import Model.Items.LootChest;
+import Model.Map.Zones.Asteroid;
 import Model.Map.Zones.BattleZone;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
@@ -16,10 +17,7 @@ import Utility.Rarity;
 import com.jogamp.opengl.GLAutoDrawable;
 import gameview.controlstate.PilotingControlstate;
 import gameview.observers.spawn.SpawnObserver;
-import gameview.renderables.ExplosionRenderable;
-import gameview.renderables.LootRenderable;
-import gameview.renderables.ProjectileRenderable;
-import gameview.renderables.ShipRenderable;
+import gameview.renderables.*;
 import gameview.renderables.debug.*;
 import guiframework.Uberstate;
 import guiframework.control.ClickableControlstate;
@@ -125,8 +123,10 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         }
         */
         gameModel.spawnEnemies();
+        gameModel.spawnLootChests();
+        gameModel.spawnAsteroids();
     }
-
+    public void notifyAsteroidToShip(Body<Asteroid> asteroid, Body<Ship> ship){ }
     public void notifyShipToLoot(Body<Ship> ship, Body<LootChest> loot) {}
     public void notifyShipToShip(Body<Ship> a, Body<Ship> b)
     {
@@ -147,6 +147,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
     }
     public void notifyProjSpawn(Body<Projectile> projectile) { super.getRenderstate().add(new ProjectileRenderable(projectile)); }
     public void notifyLootSpawn(Body<LootChest> lootChest) { super.getRenderstate().add(new LootRenderable(lootChest));}
+    public void notifyAsteroidSpawn(Body<Asteroid> asteroid) {super.getRenderstate().add(new AsteroidRenderable(asteroid));}
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)

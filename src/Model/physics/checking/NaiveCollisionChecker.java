@@ -1,6 +1,7 @@
 package Model.physics.checking;
 
 import Model.Items.LootChest;
+import Model.Map.Zones.Asteroid;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.physics.Body;
@@ -23,10 +24,11 @@ public class NaiveCollisionChecker implements CollisionChecker
     public void add(CollisionObserver o) { observers.add(o); }
     public void remove(CollisionObserver o) { observers.remove(o); }
 
-    public void processCollisions(Set<Body<Ship>> ships, Set<Body<Projectile>> projectiles, Set<Body<LootChest>> lootChests)
+    public void processCollisions(Set<Body<Ship>> ships, Set<Body<Projectile>> projectiles, Set<Body<LootChest>> lootChests, Set<Body<Asteroid>> asteroids)
     {
         logger.clear();
 
+        //check ship to ship
         for(Body<Ship> a : ships)
         {
             for(Body<Ship> b : ships)
@@ -40,6 +42,7 @@ public class NaiveCollisionChecker implements CollisionChecker
             }
         }
 
+        //check ship to projectile
         for(Body<Ship> ship : ships)
         {
             for(Body<Projectile> projectile : projectiles)
@@ -53,6 +56,7 @@ public class NaiveCollisionChecker implements CollisionChecker
             }
         }
 
+        //Check projectile to projectile
         for(Body<Projectile> a : projectiles)
         {
             for(Body<Projectile> b : projectiles)
@@ -66,6 +70,7 @@ public class NaiveCollisionChecker implements CollisionChecker
             }
         }
 
+        //Check ship to lootchest
         for (Body<Ship> ship : ships){
             for (Body<LootChest> lootChest : lootChests){
                 if(!ship.get().expired() && !lootChest.get().expired()
@@ -73,6 +78,18 @@ public class NaiveCollisionChecker implements CollisionChecker
                         && ship.collidesWith(lootChest))
                 {
                     observers.forEach((o) -> o.notifyShipToLoot(ship, lootChest));
+                }
+            }
+        }
+
+        //check asteroid to asteroid
+        for (Body<Asteroid> asteroid : asteroids){
+            for (Body<Ship> ship : ships){
+                if(!asteroid.get().expired() && !ship.get().expired()
+                        && !logger.loggedCollision(asteroid, ship)
+                        && asteroid.collidesWith(ship))
+                {
+                    observers.forEach((o) -> o.notifyAsteroidToShip(asteroid, ship));
                 }
             }
         }
@@ -104,6 +121,7 @@ public class NaiveCollisionChecker implements CollisionChecker
         public void notifyShipToProj(Body<Ship> ship, Body<Projectile> proj) { logCollision(ship, proj);}
         public void notifyProjToProj(Body<Projectile> a, Body<Projectile> b) { logCollision(a, b);}
         public void notifyShipToLoot(Body<Ship> a, Body<LootChest> b) { logCollision(a, b);}
+        public void notifyAsteroidToShip(Body<Asteroid> asteroid, Body<Ship> ship){ logCollision(asteroid, ship);}
 
         public void logCollision(Collidable a, Collidable b) { loggedCollisions.add(new CollisionTuple(a, b)); }
 

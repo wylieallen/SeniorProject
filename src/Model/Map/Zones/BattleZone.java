@@ -44,11 +44,13 @@ public class BattleZone extends Zone implements CollisionObserver {
     private Set<Body<Ship>> ships;
     private Set<Body<Projectile>> projectiles;
     private Set<Body<LootChest>> lootChests;
+    private Set<Body<Asteroid>> asteroids;
 
 
     RandomNumberGenerator rng = new RandomNumberGenerator();
     RandomItemGenerator rig = new RandomItemGenerator();
     private int lootChestCooldown = 0;
+    private int asteroidCooldown = 0;
     private List<LocationTuple<Powerup>> powerups;
 
 
@@ -62,6 +64,7 @@ public class BattleZone extends Zone implements CollisionObserver {
         this.ships = Collections.newSetFromMap(new ConcurrentHashMap<>());
         this.projectiles = Collections.newSetFromMap(new ConcurrentHashMap<>());
         this.lootChests = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.asteroids = Collections.newSetFromMap(new ConcurrentHashMap<>());
     }
 
     public String getZoneType() {
@@ -89,26 +92,50 @@ public class BattleZone extends Zone implements CollisionObserver {
         spawnShip(enemy);*/
     }
 
-    //TODO randomly generate lootchests with an item
-    public void addLootChests() {
+    public void addLootChest(){
+        List<Item> items = new ArrayList<>();
 
+        int numberItemsToGenerate = rng.getScaling();
+        for (int i =0; i < numberItemsToGenerate; i++){
+            items.add(rig.getRandomItem());
+        }
+        LootChest lootChest = new LootChest(items);
+
+        int areaBound = 500;
+
+        int x = rng.getRandomInBetween(-areaBound,areaBound);
+        int y = rng.getRandomInBetween(-areaBound,areaBound);
+        int z = rng.getRandomInBetween(-areaBound,areaBound);
+        Body<LootChest> newLoot = new Body<>(new Point3D(x,y,z ), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
+        spawnLootChest(newLoot);
+    }
+
+    private void generateRandomChest() {
         if (lootChestCooldown == 0){
-            List<Item> items = new ArrayList<>();
-
-            int numberItemsToGenerate = rng.getScaling();
-            for (int i =0; i < numberItemsToGenerate; i++){
-                items.add(rig.getRandomItem());
-            }
-            LootChest lootChest = new LootChest(items);
-
-            int x = rng.getRandomInBetween(-100,100);
-            int y = rng.getRandomInBetween(-100,100);
-            int z = rng.getRandomInBetween(-100,100);
-            Body<LootChest> newLoot = new Body<>(new Point3D(x,y,z ), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
-            spawnLootChest(newLoot);
+            addLootChest();
             lootChestCooldown = 1000;
         }
         lootChestCooldown--;
+    }
+
+    public void addAsteroid(){
+        int areaBound = 500;
+        int x = rng.getRandomInBetween(-areaBound,areaBound);
+        int y = rng.getRandomInBetween(-areaBound,areaBound);
+        int z = rng.getRandomInBetween(areaBound-100, areaBound+100);
+        Asteroid asteroid = new Asteroid(.1f, new Vector3D(0,0,-1));
+        Body<Asteroid> newAsteroid = new Body<>(new Point3D(x,y,z), new Dimension3D(1f, 1f, 1f), new Orientation3D(), asteroid);
+        spawnAsteroid(newAsteroid);
+    }
+
+    private void generateAsteroid(){
+        if (asteroidCooldown == 0){
+            for (int i = 0; i < 100; i++){
+                addAsteroid();
+            }
+            asteroidCooldown = 500;
+        }
+        asteroidCooldown--;
     }
 
     public void addProjectile(Projectile projectile) {
@@ -143,6 +170,12 @@ public class BattleZone extends Zone implements CollisionObserver {
     public void spawnLootChest(Body<LootChest> lootChest) {
         lootChests.add(lootChest);
         spawnObservers.forEach(s -> s.notifyLootSpawn(lootChest));
+    }
+
+    public void spawnAsteroid(Body<Asteroid> asteroid) {
+        asteroids.add(asteroid);
+        updateAsteroid(asteroid);
+        spawnObservers.forEach(s -> s.notifyAsteroidSpawn(asteroid));
     }
 
     public Point3D getPositionOf(Pilot pilot) {
@@ -252,6 +285,11 @@ public class BattleZone extends Zone implements CollisionObserver {
         lootChests.remove(lootChest);
     }
 
+    //TODO do something
+    public void notifyAsteroidToShip(Body<Asteroid> asteroid, Body<Ship> ship){
+        ship.get().takeDamage(50);
+    }
+
     public void add(SpawnObserver o) {
         spawnObservers.add(o);
     }
@@ -263,8 +301,9 @@ public class BattleZone extends Zone implements CollisionObserver {
 //  UPDATE METHODS
 
     public void update() {
-        addLootChests();
-        collisionChecker.processCollisions(ships, projectiles, lootChests);
+        generateRandomChest();
+        generateAsteroid();
+        collisionChecker.processCollisions(ships, projectiles, lootChests, asteroids);
 
         Set<Body<Ship>> expiredShips = new HashSet<>();
 
@@ -291,6 +330,19 @@ public class BattleZone extends Zone implements CollisionObserver {
         }
 
         projectiles.removeAll(expiredProjectiles);
+
+        Set<Body<Asteroid>> expiredAsteroids = new HashSet<>();
+
+        for (Body<Asteroid> asteroid : asteroids) {
+            if (asteroid.get().expired()) {
+                expiredAsteroids.add(asteroid);
+                continue;
+            } else {
+                updateAsteroid(asteroid);
+            }
+        }
+
+        asteroids.removeAll(expiredAsteroids);
 
     }
 
@@ -359,11 +411,10 @@ public class BattleZone extends Zone implements CollisionObserver {
     }
 
 
-    public void updateShipPosition(Body<Ship> currentShip) {
+    private void updateShipPosition(Body<Ship> currentShip) {
 
         Pilot currentPilot = currentShip.get().getMyPilot();
         Point3D curPosition = currentShip.getOrigin();
-
 
         //TEST (Attempt to change pitch/yaw from vector to update AI
        if (currentPilot.move(curPosition))
@@ -374,16 +425,10 @@ public class BattleZone extends Zone implements CollisionObserver {
            currentShip.setOrientation((pitchRads/3.1415926535f)*-180.0f, (yawRads/3.1415926535f)*180.0f);
         }
 
-
         Vector3D curTrajectory = currentShip.get().getFacingDirection();
         double curSpeed = currentShip.get().getSpeed() / FRAMERATE;
 
-        float newX = curPosition.getX() + curTrajectory.getI() * (float) (curSpeed);
-        float newY = curPosition.getY() + curTrajectory.getJ() * (float) (curSpeed);
-        float newZ = curPosition.getZ() + curTrajectory.getK() * (float) (curSpeed);
-
-        Point3D newPosition = new Point3D(newX, newY, newZ);
-
+        Point3D newPosition = new Point3D(curTrajectory, curPosition, curSpeed);
         currentShip.move(newPosition);
 
         // System.out.println("Player is currently at Position: " + newPosition.toString() + " With Speed: " + players.get(i).getObject().getCurrentShipSpeed());
@@ -398,22 +443,36 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     }
 
-    public void updateProjectilePosition(Body<Projectile> currentProjectile) {
+    private void updateProjectilePosition(Body<Projectile> currentProjectile) {
         Projectile curProjectile = currentProjectile.get();
         Point3D curPosition = currentProjectile.getOrigin();
+
         curProjectile.move(curPosition);
 
         Vector3D curTrajectory = curProjectile.getTrajectory();
         double curSpeed = curProjectile.getSpeed();
 
-        float newX = curPosition.getX() + curTrajectory.getI() * (float) (curSpeed);
-        float newY = curPosition.getY() + curTrajectory.getJ() * (float) (curSpeed);
-        float newZ = curPosition.getZ() + curTrajectory.getK() * (float) (curSpeed);
-
-        Point3D newPosition = new Point3D(newX, newY, newZ);
+        Point3D newPosition = new Point3D(curTrajectory, curPosition, curSpeed);
         currentProjectile.move(newPosition);
         //System.out.println("Projectile " + curProjectile + " is currently at Position: " + newPosition.toString());
     }
+
+    private void updateAsteroid(Body<Asteroid> asteroid){
+        asteroid.get().update();
+        updateAsteroidPosition(asteroid);
+    }
+
+    private void updateAsteroidPosition(Body<Asteroid> currentAsteroid){
+        Asteroid curAsteroid = currentAsteroid.get();
+        Point3D curPosition = currentAsteroid.getOrigin();
+
+        Vector3D curTrajectory = curAsteroid.getTrajectory();
+        double curSpeed = curAsteroid.getSpeed();
+
+        Point3D newPosition = new Point3D(curTrajectory, curPosition, curSpeed);
+        currentAsteroid.move(newPosition);
+    }
+
 
     //  END UPDATE METHODS
 

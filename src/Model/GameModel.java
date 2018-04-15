@@ -34,6 +34,7 @@ public class GameModel
 
     public GameModel()
     {
+        //TODO player needs to be passed in
         //INITIALIZE GAME STUFF
         Player newPlayer = new Player();
         ShipBuilder buildShip = new ShipBuilder();
@@ -53,6 +54,18 @@ public class GameModel
 
     public void spawnEnemies(){
         myBattleZone.addEnemies();
+    }
+
+    public void spawnLootChests() {
+        for (int i = 0; i<1; i++){
+            myBattleZone.addLootChest();
+        }
+    }
+
+    public void spawnAsteroids(){
+        for (int i = 0; i<100; i++){
+            myBattleZone.addAsteroid();
+        }
     }
 
 
