@@ -17,8 +17,8 @@ public class PilotStats {
         this.flying = 1;
         this.combat = 1;
         this.charisma = 1;
-        this.maxSkillPoints = 0;
-        this.currentSkillPoints = 0;
+        this.maxSkillPoints = 1;
+        this.currentSkillPoints = 1;
     }
 
     public PilotStats(int level, int experience, int maxSkillPoints, int currentSkillPoints, int flying, int combat, int charisma){
@@ -98,6 +98,20 @@ public class PilotStats {
         }
         return false;
     }
+
+    public double flyingScaling(){
+        return flying*.04;
+    }
+
+    public double charismaScaling(){
+        return charisma*.04;
+    }
+
+    public double combatScaling(){
+        return combat*.04;
+    }
+
+
 
 
 }

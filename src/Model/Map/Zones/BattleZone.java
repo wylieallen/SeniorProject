@@ -118,12 +118,12 @@ public class BattleZone extends Zone implements CollisionObserver {
         lootChestCooldown--;
     }
 
-    public void addAsteroid(){
+    public void addAsteroid(int i){
         int areaBound = 500;
         int x = rng.getRandomInBetween(-areaBound,areaBound);
         int y = rng.getRandomInBetween(-areaBound,areaBound);
-        int z = rng.getRandomInBetween(areaBound-100, areaBound+100);
-        Asteroid asteroid = new Asteroid(.1f, new Vector3D(0,0,-1));
+        int z = rng.getRandomInBetween(areaBound-100-i, areaBound+100);
+        Asteroid asteroid = new Asteroid(.1f, new Vector3D(0,0,-1), z+areaBound);
         Body<Asteroid> newAsteroid = new Body<>(new Point3D(x,y,z), new Dimension3D(1f, 1f, 1f), new Orientation3D(), asteroid);
         spawnAsteroid(newAsteroid);
     }
@@ -131,7 +131,7 @@ public class BattleZone extends Zone implements CollisionObserver {
     private void generateAsteroid(){
         if (asteroidCooldown == 0){
             for (int i = 0; i < 100; i++){
-                addAsteroid();
+                addAsteroid(0);
             }
             asteroidCooldown = 500;
         }
@@ -269,7 +269,7 @@ public class BattleZone extends Zone implements CollisionObserver {
     }
 
     public void notifyShipToProj(Body<Ship> ship, Body<Projectile> projectile) {
-        ship.get().takeDamage(projectile.get().getDamage());
+        ship.get().takeDamage(projectile.get().getDamage()+ projectile.get().getDamage() * projectile.get().getProjectileSource().getPilotStats().getCombat());
         projectile.get().disable();
         if (!(ship.get().isAlive())){
             projectile.get().getProjectileSource().gainExperience(10);
@@ -287,7 +287,9 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     //TODO do something
     public void notifyAsteroidToShip(Body<Asteroid> asteroid, Body<Ship> ship){
-        ship.get().takeDamage(50);
+        Ship theShip = ship.get();
+        ship.get().takeDamage(0);
+        theShip.getShipStats().modifyCurrentSpeed(-theShip.getSpeed());
     }
 
     public void add(SpawnObserver o) {

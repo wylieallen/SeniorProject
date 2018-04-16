@@ -13,9 +13,10 @@ public class Asteroid {
     private boolean expired = false;
     private float maxDist = 1000f;
 
-    public Asteroid(float speed, Vector3D trajectory){
+    public Asteroid(float speed, Vector3D trajectory, float maxDist){
         this.speed = speed;
         this.trajectory = trajectory;
+        this.maxDist = maxDist;
     }
 
     public float getSpeed(){

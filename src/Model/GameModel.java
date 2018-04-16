@@ -63,8 +63,8 @@ public class GameModel
     }
 
     public void spawnAsteroids(){
-        for (int i = 0; i<100; i++){
-            myBattleZone.addAsteroid();
+        for (int i = 0; i<5000; i++){
+            myBattleZone.addAsteroid(900);
         }
     }
 

@@ -217,11 +217,11 @@ public class Ship{
     }
 
     public void accelerate(){
-        shipStats.modifyCurrentSpeed(ACCELERATE_RATE);
+        shipStats.modifyCurrentSpeed(ACCELERATE_RATE + ACCELERATE_RATE*myPilot.getPilotStats().flyingScaling());
     }
 
     public void decelerate(){
-        shipStats.modifyCurrentSpeed(-ACCELERATE_RATE);
+        shipStats.modifyCurrentSpeed(-ACCELERATE_RATE - ACCELERATE_RATE*myPilot.getPilotStats().flyingScaling());
     }
 
     public void brake() { applyFriction(); }
