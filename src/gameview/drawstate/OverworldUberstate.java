@@ -40,6 +40,7 @@ public class OverworldUberstate extends Uberstate
     private ImageDisplayable nodeInfo;
     private Overlay selectedNode;
     private int selectedShip = 0;
+    private Overlay selectedShipOverlay;
     private TradingPost currentTP;
     private Player currentPlayer;
 
@@ -58,10 +59,14 @@ public class OverworldUberstate extends Uberstate
         currentPlayer.getPilotStats().levelUp();
         currentPlayer.getPilotStats().levelUp();
         currentPlayer.getPilotStats().levelUp();
-        Ship ship1 = new Ship(currentPlayer, new ShipHull(100, Rarity.COMMON, 500, 30));
+        Ship ship1 = new Ship(currentPlayer, new ShipHull(100, Rarity.COMMON, 500, 40));
         Ship ship2 = new Ship(currentPlayer, new ShipHull(200, Rarity.RARE, 750, 40));
+        Ship ship3 = new Ship(currentPlayer, new ShipHull(300, Rarity.EPIC, 1500, 40));
+        Ship ship4 = new Ship(currentPlayer, new ShipHull(400, Rarity.LEGENDARY, 3000, 40));
         currentPlayer.getShipHangar().addShip(ship1);
         currentPlayer.getShipHangar().addShip(ship2);
+        currentPlayer.getShipHangar().addShip(ship3);
+        currentPlayer.getShipHangar().addShip(ship4);
         currentPlayer.setActiveShip(ship1);
 
         Drawstate drawstate = getDrawstate();
@@ -265,8 +270,18 @@ public class OverworldUberstate extends Uberstate
                     int width = shipTitle.getSize().width;
                     shipTitle.getOrigin().setLocation((WIDTH/2)-(width/2), (HEIGHT/2)-250);
                     hangarOverlay.add(shipTitle);
-                    ImageDisplayable currentShip = new ImageDisplayable(new Point((WIDTH/2)-75,(HEIGHT/2)-100), currentPlayer.getActiveShip().getShipImageBlack());
-                    hangarOverlay.add(currentShip);
+                    selectedShipOverlay = new Overlay(new Point(0,0));
+                    if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
+                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
+                        int heightCST = currentShipTitle.getSize().height;
+                        int widthCST = currentShipTitle.getSize().width;
+                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
+                        selectedShipOverlay.add(currentShipTitle);
+                        //hangarOverlay.add(currentShipTitle);
+                    }
+                    ImageDisplayable selectedShipImage = new ImageDisplayable(new Point((WIDTH/2)-75,(HEIGHT/2)-125), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
+                    selectedShipOverlay.add(selectedShipImage);
+                    hangarOverlay.add(selectedShipOverlay);
 
                     //add arrow buttons
                     Button leftArrow = new Button(new Point((WIDTH/2)-300, (HEIGHT/2)-125),
@@ -275,8 +290,23 @@ public class OverworldUberstate extends Uberstate
                             ImageFactory.getArrowLeft(),
                             () -> {
                                 //todo: change if once hangar and activeship logic are changed
-                                if(true)
+                                if(selectedShip > 0) {
                                     selectedShip--;
+                                    hangarOverlay.remove(selectedShipOverlay);
+                                    selectedShipOverlay = new Overlay(new Point(0,0));
+                                    if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
+                                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
+                                        int heightCST = currentShipTitle.getSize().height;
+                                        int widthCST = currentShipTitle.getSize().width;
+                                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
+                                        selectedShipOverlay.add(currentShipTitle);
+                                        //hangarOverlay.add(currentShipTitle);
+                                    }
+                                    selectedShipImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
+                                    selectedShipOverlay.add(selectedShipImage);
+                                    hangarOverlay.add(selectedShipOverlay);
+                                }
+
                             });
                     hangarOverlay.add(leftArrow);
                     hangarOverlay.addClickable(leftArrow);
@@ -287,13 +317,27 @@ public class OverworldUberstate extends Uberstate
                             ImageFactory.getArrowRight(),
                             () -> {
                                 //todo: change if once hangar and activeship logic are changed
-                                if(true)
+                                if(selectedShip < currentPlayer.getShipHangar().hangarSize()-1) {
                                     selectedShip++;
+                                    hangarOverlay.remove(selectedShipOverlay);
+                                    selectedShipOverlay = new Overlay(new Point(0,0));
+                                    if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
+                                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
+                                        int heightCST = currentShipTitle.getSize().height;
+                                        int widthCST = currentShipTitle.getSize().width;
+                                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
+                                        selectedShipOverlay.add(currentShipTitle);
+                                        //hangarOverlay.add(currentShipTitle);
+                                    }
+                                    selectedShipImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
+                                    selectedShipOverlay.add(selectedShipImage);
+                                    hangarOverlay.add(selectedShipOverlay);
+                                }
                             });
                     hangarOverlay.add(rightArrow);
                     hangarOverlay.addClickable(rightArrow);
 
-                    //add arrow buttons
+                    //add other buttons
                     Button setCurrentShip = new Button(new Point((WIDTH/2)-225, (HEIGHT/2)+80),
                             ImageFactory.getSetShipbutton(),
                             ImageFactory.getSetShipbutton(),

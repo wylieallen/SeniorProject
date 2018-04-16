@@ -381,10 +381,10 @@ public class Ship{
     }
 
     //Image getters
-    public BufferedImage getShipImageWhite(){
-        return ImageFactory.getShipImageWhite();
-    }
+//    public BufferedImage getShipImageWhite(){
+//        return ImageFactory.getShipImageWhite();
+//    }
     public BufferedImage getShipImageBlack(){
-        return ImageFactory.getShipImageBlackLarge();
+        return getHullSlot().getShipImage();
     }
 }

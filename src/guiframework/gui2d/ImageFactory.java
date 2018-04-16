@@ -43,8 +43,11 @@ public class ImageFactory
 
     //Item and Ship related images
     private static final BufferedImage shipImageBlack = loadImage("resources/Images/Ship-sprite-1-black-back.png");
-    private static final BufferedImage shipImageBlackLarge = loadImage("resources/Images/Ship-sprite-1-black-back-large.png");
     private static final BufferedImage shipImageWhite= loadImage("resources/Images/Ship-sprite-1.png");
+    private static final BufferedImage legendaryShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-legendary-black-back-large.png");
+    private static final BufferedImage epicShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-epic-black-back-large.png");
+    private static final BufferedImage rareShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-rare-black-back-large.png");
+    private static final BufferedImage commonShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-common-black-back-large.png");
 
 
     public static BufferedImage makeBorderedRect(int width, int height, Color bodyColor, Color borderColor)
@@ -190,8 +193,14 @@ public class ImageFactory
     //ship image methods
     public static BufferedImage getShipImageBlack() {return shipImageBlack;}
 
-    public static BufferedImage getShipImageBlackLarge() {return shipImageBlackLarge;}
-
     public static BufferedImage getShipImageWhite() {return shipImageWhite;}
+
+    public static BufferedImage getLegendaryShipImageBlackLarge() {return legendaryShipImageBlackLarge;}
+
+    public static BufferedImage getEpicShipImageBlackLarge() {return epicShipImageBlackLarge;}
+
+    public static BufferedImage getRareShipImageBlackLarge() {return rareShipImageBlackLarge;}
+
+    public static BufferedImage getCommonShipImageBlackLarge() {return commonShipImageBlackLarge;}
 
 }

@@ -1,6 +1,9 @@
 package Model.Ship.ShipParts;
 
 import Utility.Rarity;
+import guiframework.gui2d.ImageFactory;
+
+import java.awt.image.BufferedImage;
 
 public class ShipHull extends ShipPart {
 
@@ -14,6 +17,21 @@ public class ShipHull extends ShipPart {
                 "Currency Value: " + currencyValue + "\nMax Health: " + maxHealth + "\nInventory Size: " + inventorySize, rarity);
         this.maxHealth = maxHealth;
         this.inventorySize = inventorySize;
+    }
+
+    public BufferedImage getShipImage() {
+        switch (getRarity()) {
+            case COMMON:
+                return ImageFactory.getCommonShipImageBlackLarge();
+            case RARE:
+                return ImageFactory.getRareShipImageBlackLarge();
+            case EPIC:
+                return ImageFactory.getEpicShipImageBlackLarge();
+            case LEGENDARY:
+                return ImageFactory.getLegendaryShipImageBlackLarge();
+            default:
+                return ImageFactory.getCommonShipImageBlackLarge();
+        }
     }
 
     public int getmaxHealth() {

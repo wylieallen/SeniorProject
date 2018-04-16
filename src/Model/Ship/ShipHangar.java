@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ShipHangar {
     private List<Ship> myShips;
+    private int activeShipIndex;
 
     public ShipHangar() {
         myShips = new ArrayList<Ship>();
@@ -16,6 +17,10 @@ public class ShipHangar {
 
     public void removeShip(Ship ship){
         myShips.remove(ship);
+    }
+
+    public Ship getShipAtIndex(int index){
+        return myShips.get(index);
     }
 
     public int hangarSize(){
