@@ -8,7 +8,9 @@ import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
 import Utility.SystemTimer;
 import Utility.Geom3D.Vector3D;
+import guiframework.gui2d.ImageFactory;
 
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -376,5 +378,13 @@ public class Ship{
 
     public boolean isFiring2() {
         return firing2;
+    }
+
+    //Image getters
+    public BufferedImage getShipImageWhite(){
+        return ImageFactory.getShipImageWhite();
+    }
+    public BufferedImage getShipImageBlack(){
+        return ImageFactory.getShipImageBlackLarge();
     }
 }
