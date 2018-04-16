@@ -39,9 +39,9 @@ public class Player extends Pilot {
 
     @Override
     public void setActiveShip(Ship ship) {
-        shipHangar.addShip(getActiveShip());
+        //shipHangar.addShip(getActiveShip());
         super.setActiveShip(ship);
-        shipHangar.removeShip(ship);
+        //shipHangar.removeShip(ship);
     }
 
     @Override

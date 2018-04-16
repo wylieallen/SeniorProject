@@ -35,6 +35,19 @@ public class ImageFactory
     private static final BufferedImage battleZoneBase = loadImage("resources/Images/button_battle-zone_base.png");
     private static final BufferedImage battleZoneHover = loadImage("resources/Images/button_battle-zone_hover.png");
     private static final BufferedImage battleZonePress = loadImage("resources/Images/button_battle-zone_press.png");
+    private static final BufferedImage setShipbutton = loadImage("resources/Images/set_ship_button.png");
+    private static final BufferedImage changePartsButton = loadImage("resources/Images/change_parts_button.png");
+    private static final BufferedImage exitHangarButton = loadImage("resources/Images/exit_hangar_button.png");
+    private static final BufferedImage arrowRight = loadImage("resources/Images/double-arrow-right.png");
+    private static final BufferedImage arrowLeft = loadImage("resources/Images/double-arrow-left.png");
+
+    //Item and Ship related images
+    private static final BufferedImage shipImageBlack = loadImage("resources/Images/Ship-sprite-1-black-back.png");
+    private static final BufferedImage shipImageWhite= loadImage("resources/Images/Ship-sprite-1.png");
+    private static final BufferedImage legendaryShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-legendary-black-back-large.png");
+    private static final BufferedImage epicShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-epic-black-back-large.png");
+    private static final BufferedImage rareShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-rare-black-back-large.png");
+    private static final BufferedImage commonShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-common-black-back-large.png");
 
 
     public static BufferedImage makeBorderedRect(int width, int height, Color bodyColor, Color borderColor)
@@ -166,5 +179,28 @@ public class ImageFactory
     public static BufferedImage getBattleZoneHover() {return battleZoneHover;}
 
     public static BufferedImage getBattleZonePress() {return battleZonePress;}
+
+    public static BufferedImage getSetShipbutton() {return setShipbutton;}
+
+    public static BufferedImage getChangePartsButton() {return changePartsButton;}
+
+    public static BufferedImage getExitHangarButton() {return exitHangarButton;}
+
+    public static BufferedImage getArrowRight() {return arrowRight;}
+
+    public static BufferedImage getArrowLeft(){return arrowLeft;}
+
+    //ship image methods
+    public static BufferedImage getShipImageBlack() {return shipImageBlack;}
+
+    public static BufferedImage getShipImageWhite() {return shipImageWhite;}
+
+    public static BufferedImage getLegendaryShipImageBlackLarge() {return legendaryShipImageBlackLarge;}
+
+    public static BufferedImage getEpicShipImageBlackLarge() {return epicShipImageBlackLarge;}
+
+    public static BufferedImage getRareShipImageBlackLarge() {return rareShipImageBlackLarge;}
+
+    public static BufferedImage getCommonShipImageBlackLarge() {return commonShipImageBlackLarge;}
 
 }

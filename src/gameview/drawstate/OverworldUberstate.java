@@ -7,9 +7,12 @@ import Model.Map.Zones.BattleZone;
 import Model.Map.Zones.TradingZone;
 import Model.Map.Zones.Zone;
 import Model.Pilot.Player;
+import Model.Ship.Ship;
+import Model.Ship.ShipParts.ShipHull;
 import Model.TradingPost.BountyMission;
 import Model.TradingPost.TradingPost;
 import Model.TradingPost.Wallet;
+import Utility.Rarity;
 import guiframework.Uberstate;
 import guiframework.control.ClickableControlstate;
 import guiframework.gui2d.Drawstate;
@@ -36,6 +39,8 @@ public class OverworldUberstate extends Uberstate
     private Button upgradeStats;
     private ImageDisplayable nodeInfo;
     private Overlay selectedNode;
+    private int selectedShip = 0;
+    private Overlay selectedShipOverlay;
     private TradingPost currentTP;
     private Player currentPlayer;
 
@@ -54,15 +59,29 @@ public class OverworldUberstate extends Uberstate
         currentPlayer.getPilotStats().levelUp();
         currentPlayer.getPilotStats().levelUp();
         currentPlayer.getPilotStats().levelUp();
+        Ship ship1 = new Ship(currentPlayer, new ShipHull(100, Rarity.COMMON, 500, 40));
+        Ship ship2 = new Ship(currentPlayer, new ShipHull(200, Rarity.RARE, 750, 40));
+        Ship ship3 = new Ship(currentPlayer, new ShipHull(300, Rarity.EPIC, 1500, 40));
+        Ship ship4 = new Ship(currentPlayer, new ShipHull(400, Rarity.LEGENDARY, 3000, 40));
+        currentPlayer.getShipHangar().addShip(ship1);
+        currentPlayer.getShipHangar().addShip(ship2);
+        currentPlayer.getShipHangar().addShip(ship3);
+        currentPlayer.getShipHangar().addShip(ship4);
+        currentPlayer.setActiveShip(ship1);
 
         Drawstate drawstate = getDrawstate();
         ClickableControlstate controlstate = getControlstate();
 
+        //Add space background
+        ImageDisplayable spaceBackground =
+                new ImageDisplayable(new Point(0,0), ImageFactory.getSpaceBackground());
+        drawstate.addUnderlay(spaceBackground);
 
         mapOverlay = new Overlay(new Point(0, 0));
-        ImageDisplayable mapBackground = new ImageDisplayable(new Point(0,0),
-                ImageFactory.makeBorderedRect(WIDTH, 900, Color.BLACK, Color.WHITE));
-        mapOverlay.add(mapBackground);
+//        ImageDisplayable mapBackground = new ImageDisplayable(new Point(0,0),
+//                //ImageFactory.makeBorderedRect(WIDTH, 900, Color.BLACK, Color.WHITE));
+//                ImageFactory.getSpaceBackground());
+//        mapOverlay.add(mapBackground);
 
         //Add title box
         ImageDisplayable overworldTitle =
@@ -91,7 +110,7 @@ public class OverworldUberstate extends Uberstate
 
                         Button travelToNode = new Button(new Point(100,125),
                                 ImageFactory.makeCenterLabeledRect(200, 50, Color.BLUE, Color.GRAY, Color.WHITE, "Travel to Node"),
-                                ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.GRAY, Color.WHITE, "Travel to Node"),
+                                ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.GRAY, Color.WHITE, "Travel to Node"),
                                 ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.GRAY, Color.BLACK, "Travel to Node"),
                                 () -> {
                                     System.out.println("Travel to " + node.getThisZone().getZoneType());
@@ -128,10 +147,10 @@ public class OverworldUberstate extends Uberstate
         //Add Stats Upgrade button
         upgradeStats = new Button(new Point(1525, 25),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Upgrade Stats"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Upgrade Stats"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.BLACK, Color.BLACK, "Upgrade Stats"),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Upgrade Stats"),
                 () -> {
-                    //Remove map and upgrade button so it cant be clicked under the stats display
+                    //Remove map overlay so it cant be clicked under the stats display
                     mapOverlay.removeClickable(selectedNode);
                     mapOverlay.remove(selectedNode);
 //                    mapOverlay.removeClickable(upgradeStats);
@@ -141,55 +160,55 @@ public class OverworldUberstate extends Uberstate
 //                    drawstate.removeOverlay(upgradeStats);
 //                    controlstate.remove(upgradeStats);
 
-                    Overlay statsView = new Overlay(new Point(0,0));
-                    ImageDisplayable svBackground = new ImageDisplayable(new Point(0,0),
-                            ImageFactory.makeBorderedRect(600, 900, Color.WHITE, Color.GRAY ));
-                    statsView.add(svBackground);
+                    Overlay statsOverlay = new Overlay(new Point(0,0));
+//                    ImageDisplayable svBackground = new ImageDisplayable(new Point(0,0),
+//                            ImageFactory.makeBorderedRect(600, 900, Color.WHITE, Color.GRAY ));
+//                    statsOverlay.add(svBackground);
 
-                    statsView.add(new StringDisplayable( new Point(100, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.RED, font));
-                    statsView.add(new StringDisplayable( new Point(100, 200), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.RED, font));
-                    statsView.add(new StringDisplayable( new Point(100, 300), () -> "Combat: " + currentPlayer.getPilotStats().getCombat(), Color.RED, font));
-                    statsView.add(new StringDisplayable( new Point(100, 400), () -> "Charisma: " + currentPlayer.getPilotStats().getCharisma(), Color.RED, font));
+                    statsOverlay.add(new StringDisplayable( new Point(100, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.GREEN, font));
+                    statsOverlay.add(new StringDisplayable( new Point(100, 200), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.GREEN, font));
+                    statsOverlay.add(new StringDisplayable( new Point(100, 300), () -> "Combat: " + currentPlayer.getPilotStats().getCombat(), Color.GREEN, font));
+                    statsOverlay.add(new StringDisplayable( new Point(100, 400), () -> "Charisma: " + currentPlayer.getPilotStats().getCharisma(), Color.GREEN, font));
 
                     if(currentPlayer.getPilotStats().getCurrentSkillPoints() > 0) {
                         Button increaseFly = new Button(new Point(450, 200),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.GREEN, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
                                 () -> {
                                     currentPlayer.getPilotStats().levelFlying();
                                 });
-                        statsView.add(increaseFly);
-                        statsView.addClickable(increaseFly);
+                        statsOverlay.add(increaseFly);
+                        statsOverlay.addClickable(increaseFly);
 
                         Button increaseCombat = new Button(new Point(450, 300),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.GREEN, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
                                 () -> {
                                     currentPlayer.getPilotStats().levelCombat();
                                 });
-                        statsView.add(increaseCombat);
-                        statsView.addClickable(increaseCombat);
+                        statsOverlay.add(increaseCombat);
+                        statsOverlay.addClickable(increaseCombat);
 
                         Button increaseCharisma = new Button(new Point(450, 400),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.RED, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.makeCenterLabeledRect(50, 50, Color.GREEN, Color.BLACK, Color.BLACK, "+"),
                                 ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
                                 () -> {
                                     currentPlayer.getPilotStats().levelCharisma();
                                 });
-                        statsView.add(increaseCharisma);
-                        statsView.addClickable(increaseCharisma);
+                        statsOverlay.add(increaseCharisma);
+                        statsOverlay.addClickable(increaseCharisma);
                     }
 
                     Button closeStats = new Button(new Point(200, HEIGHT/2),
                             ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Close Stats"),
-                            ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Close Stats"),
+                            ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.BLACK, Color.BLACK, "Close Stats"),
                             ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Close Stats"),
                             () -> {
-                                drawstate.removeOverlay(statsView);
-                                controlstate.remove(statsView);
+                                drawstate.removeOverlay(statsOverlay);
+                                controlstate.remove(statsOverlay);
 
                                 //readd map and upgrade stats and title
                                 drawstate.addLeftOverlay(mapOverlay);
@@ -197,12 +216,12 @@ public class OverworldUberstate extends Uberstate
 //                                drawstate.addRightOverlay(upgradeStats);
 //                                controlstate.add(upgradeStats);
                             });
-                    statsView.add(closeStats);
-                    statsView.addClickable(closeStats);
+                    statsOverlay.add(closeStats);
+                    statsOverlay.addClickable(closeStats);
 
 
-                    drawstate.addCenterOverlay(statsView);
-                    controlstate.add(statsView);
+                    drawstate.addCenterOverlay(statsOverlay);
+                    controlstate.add(statsOverlay);
                 });
 
         mapOverlay.addClickable(upgradeStats);
@@ -213,10 +232,136 @@ public class OverworldUberstate extends Uberstate
         //Add Hangar button
         Button hangarButton = new Button(new Point(1300, 25),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Hangar"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Hangar"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.BLACK, Color.BLACK, "Hangar"),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Hangar"),
                 () -> {
+                    selectedShip = 0;
+                    //remove map overlay
+                    mapOverlay.removeClickable(selectedNode);
+                    mapOverlay.remove(selectedNode);
+                    drawstate.removeOverlay(mapOverlay);
+                    controlstate.remove(mapOverlay);
 
+                    //create hangar overlay
+                    Overlay hangarOverlay = new Overlay(new Point(0,0));
+
+                    //Add exit hangar button
+                    Button exitHangar = new Button(new Point(1425, 25),
+                            ImageFactory.getExitHangarButton(),
+                            ImageFactory.getExitHangarButton(),
+                            ImageFactory.getExitHangarButton(),
+                            () -> {
+                                //remove hangar overlay
+                                drawstate.removeOverlay(hangarOverlay);
+                                controlstate.remove(hangarOverlay);
+
+                                //readd map overlay
+                                drawstate.addLeftOverlay(mapOverlay);
+                                controlstate.add(mapOverlay);
+
+
+                            });
+                    hangarOverlay.add(exitHangar);
+                    hangarOverlay.addClickable(exitHangar);
+
+                    //add ship images
+                    StringDisplayable shipTitle = new StringDisplayable(new Point(0, 0), () -> "Ship " + (selectedShip+1), Color.GREEN, font);
+                    int height = shipTitle.getSize().height;
+                    int width = shipTitle.getSize().width;
+                    shipTitle.getOrigin().setLocation((WIDTH/2)-(width/2), (HEIGHT/2)-250);
+                    hangarOverlay.add(shipTitle);
+                    selectedShipOverlay = new Overlay(new Point(0,0));
+                    if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
+                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
+                        int heightCST = currentShipTitle.getSize().height;
+                        int widthCST = currentShipTitle.getSize().width;
+                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
+                        selectedShipOverlay.add(currentShipTitle);
+                        //hangarOverlay.add(currentShipTitle);
+                    }
+                    ImageDisplayable selectedShipImage = new ImageDisplayable(new Point((WIDTH/2)-75,(HEIGHT/2)-125), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
+                    selectedShipOverlay.add(selectedShipImage);
+                    hangarOverlay.add(selectedShipOverlay);
+
+                    //add arrow buttons
+                    Button leftArrow = new Button(new Point((WIDTH/2)-300, (HEIGHT/2)-125),
+                            ImageFactory.getArrowLeft(),
+                            ImageFactory.getArrowLeft(),
+                            ImageFactory.getArrowLeft(),
+                            () -> {
+                                //todo: change if once hangar and activeship logic are changed
+                                if(selectedShip > 0) {
+                                    selectedShip--;
+                                    hangarOverlay.remove(selectedShipOverlay);
+                                    selectedShipOverlay = new Overlay(new Point(0,0));
+                                    if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
+                                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
+                                        int heightCST = currentShipTitle.getSize().height;
+                                        int widthCST = currentShipTitle.getSize().width;
+                                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
+                                        selectedShipOverlay.add(currentShipTitle);
+                                        //hangarOverlay.add(currentShipTitle);
+                                    }
+                                    selectedShipImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
+                                    selectedShipOverlay.add(selectedShipImage);
+                                    hangarOverlay.add(selectedShipOverlay);
+                                }
+
+                            });
+                    hangarOverlay.add(leftArrow);
+                    hangarOverlay.addClickable(leftArrow);
+
+                    Button rightArrow = new Button(new Point((WIDTH/2)+125, (HEIGHT/2)-125),
+                            ImageFactory.getArrowRight(),
+                            ImageFactory.getArrowRight(),
+                            ImageFactory.getArrowRight(),
+                            () -> {
+                                //todo: change if once hangar and activeship logic are changed
+                                if(selectedShip < currentPlayer.getShipHangar().hangarSize()-1) {
+                                    selectedShip++;
+                                    hangarOverlay.remove(selectedShipOverlay);
+                                    selectedShipOverlay = new Overlay(new Point(0,0));
+                                    if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
+                                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
+                                        int heightCST = currentShipTitle.getSize().height;
+                                        int widthCST = currentShipTitle.getSize().width;
+                                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
+                                        selectedShipOverlay.add(currentShipTitle);
+                                        //hangarOverlay.add(currentShipTitle);
+                                    }
+                                    selectedShipImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
+                                    selectedShipOverlay.add(selectedShipImage);
+                                    hangarOverlay.add(selectedShipOverlay);
+                                }
+                            });
+                    hangarOverlay.add(rightArrow);
+                    hangarOverlay.addClickable(rightArrow);
+
+                    //add other buttons
+                    Button setCurrentShip = new Button(new Point((WIDTH/2)-225, (HEIGHT/2)+80),
+                            ImageFactory.getSetShipbutton(),
+                            ImageFactory.getSetShipbutton(),
+                            ImageFactory.getSetShipbutton(),
+                            () -> {
+                                //todo: change active ship
+                            });
+                    hangarOverlay.add(setCurrentShip);
+                    hangarOverlay.addClickable(setCurrentShip);
+
+                    Button changeParts = new Button(new Point((WIDTH/2)-225, (HEIGHT/2)+170),
+                            ImageFactory.getChangePartsButton(),
+                            ImageFactory.getChangePartsButton(),
+                            ImageFactory.getChangePartsButton(),
+                            () -> {
+                                //todo: add change part overlay
+
+                            });
+                    hangarOverlay.add(changeParts);
+                    hangarOverlay.addClickable(changeParts);
+
+
+                    drawstate.addCenterOverlay(hangarOverlay);
+                    controlstate.add(hangarOverlay);
                 });
         mapOverlay.addClickable(hangarButton);
         mapOverlay.add(hangarButton);
@@ -224,7 +369,7 @@ public class OverworldUberstate extends Uberstate
         //Add Exit button
         Button exitButton = new Button(new Point(1525, 825),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Exit"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.RED, Color.BLACK, Color.BLACK, "Exit"),
+                ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.BLACK, Color.BLACK, "Exit"),
                 ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Exit"),
                 () -> {
                     System.exit(0);
