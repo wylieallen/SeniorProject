@@ -38,7 +38,7 @@ public interface Config {
     public static final int ENERGY_WEAPON_CD = 20;
     public static final int SHIELD_CD = 12;
 
-    public static final float AI_ACCURACY = .80f;
+    public static final float AI_ACCURACY = .25f;
 
     //BATTLEZONE
     public static final int BATTLEZONE_SIZE = 500;

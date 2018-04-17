@@ -15,7 +15,6 @@ public class TargetingState implements AIState{
     private RandomNumberGenerator rng = new RandomNumberGenerator();
     private int accuracyCooldown = 0;
     private int accuracySpeed;
-    private int accuracyWeap;
 
     @Override
     public void makeMove(Enemy thisPilot, AI ai) {
@@ -30,20 +29,21 @@ public class TargetingState implements AIState{
 
 
         //Random chance to flee
-        int chance = rng.getRandomInBetween(1,250);
-        if (chance == 250){
+        int chance = rng.getRandomInBetween(1,300);
+        if (chance == 300){
             ai.setAiState(new StandbyState(750));
             thisPilot.getActiveShip().setFiring1(false);
             while (thisPilot.getCurrentShipSpeed() > 0){
                 thisPilot.decreaseShipSpeed();
             }
+            System.out.println("FLEEING!!!!!!");System.out.println("FLEEING!!!!!!");System.out.println("FLEEING!!!!!!");System.out.println("FLEEING!!!!!!");System.out.println("FLEEING!!!!!!");System.out.println("FLEEING!!!!!!");
             return;
         }
 
         //Backout if too close
         float distance = currentPosition.distance(currentPosition, targetPosition);
-        if (distance < 30f || !myTarget.getActiveShip().isAlive() || distance > myTarget.getDetectRange()){
-            ai.setAiState(new StandbyState());
+        if (distance < 40f || !myTarget.getActiveShip().isAlive() || distance > myTarget.getDetectRange()){
+            ai.setAiState(new StandbyState(300));
             thisPilot.getActiveShip().setFiring1(false);
             while (thisPilot.getCurrentShipSpeed() > 0){
                 thisPilot.decreaseShipSpeed();
@@ -53,34 +53,30 @@ public class TargetingState implements AIState{
 
         //Select weapon to use
         ShipWeapon weaponToUse = thisPilot.getActiveShip().getWeaponSlot1();
+        float weaponSpeed = weaponToUse.getProjectileSpeed();
 
-
-        // *randomize* targetspeed/weaponspeed so Ai is not too OP
+        // *randomize* targetspeed so Ai is not too OP
         float targetSpeed = (float) myTarget.getCurrentShipSpeed();
         float offsetSpeed = Math.abs(targetSpeed - targetSpeed*AI_ACCURACY);
 
-        float weaponSpeed = weaponToUse.getProjectileSpeed();
-        float offsetWeapSpeed = Math.abs(weaponSpeed - weaponSpeed*AI_ACCURACY);
 
         RandomNumberGenerator rng = new RandomNumberGenerator();
 
         if (accuracyCooldown == 0){
             accuracySpeed = rng.getRandomInBetween(-(int) offsetSpeed, (int) offsetSpeed);
-            accuracyWeap = rng.getRandomInBetween(-(int) offsetWeapSpeed, (int) offsetWeapSpeed);
             accuracyCooldown = 500;
         }
         accuracyCooldown--;
 
-        System.out.println("Current speed: " + targetSpeed + "Scaled speed: " + accuracySpeed);
-        System.out.println("Current weap: " + weaponSpeed + "Scaled weap: " + accuracyWeap);
+        //System.out.println("Current speed: " + targetSpeed + " \nScaled speed: " + accuracySpeed + "\n");
 
         float targetSpeedWithAccuracy = targetSpeed+accuracySpeed;
-        float targetWeapSpeedWithAccuracy = weaponSpeed;//+accuracyWeap;
+
 
         //Project target position to get new unit vector
-        float newI = (targetDirection.getI()*targetSpeedWithAccuracy+targetPosition.getX()-currentPosition.getX())/targetWeapSpeedWithAccuracy;
-        float newJ = (targetDirection.getJ()*targetSpeedWithAccuracy+targetPosition.getY()-currentPosition.getY())/targetWeapSpeedWithAccuracy;
-        float newK = (targetDirection.getK()*targetSpeedWithAccuracy+targetPosition.getZ()-currentPosition.getZ())/targetWeapSpeedWithAccuracy;
+        float newI = (targetDirection.getI()*targetSpeedWithAccuracy+targetPosition.getX()-currentPosition.getX())/weaponSpeed;
+        float newJ = (targetDirection.getJ()*targetSpeedWithAccuracy+targetPosition.getY()-currentPosition.getY())/weaponSpeed;
+        float newK = (targetDirection.getK()*targetSpeedWithAccuracy+targetPosition.getZ()-currentPosition.getZ())/weaponSpeed;
 
         Vector3D direction = new Vector3D(newI, newJ, newK);
         thisPilot.getActiveShip().setFacingDirection(direction);

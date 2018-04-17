@@ -27,7 +27,7 @@ public class LootingState implements AIState {
             while (thisPilot.getCurrentShipSpeed() > 0) {
                 thisPilot.decreaseShipSpeed();
             }
-            ai.setAiState(new StandbyState());
+            ai.setAiState(new StandbyState(0));
             return;
         }
 

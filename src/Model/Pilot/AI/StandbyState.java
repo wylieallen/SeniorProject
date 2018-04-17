@@ -12,10 +12,6 @@ public class StandbyState implements AIState{
     private int targetingCooldown;
     private RandomNumberGenerator rng = new RandomNumberGenerator();
 
-    public StandbyState(){
-        this.targetingCooldown = 0;
-    }
-
     public StandbyState(int targetingCooldown){
         this.targetingCooldown = targetingCooldown;
     }
@@ -35,17 +31,18 @@ public class StandbyState implements AIState{
                 ai.setAiState(new CombatState());
                 return;
             }
-        }
 
+        }
         Point3D lootPosition = ai.getNearestLootTo(thisPilot);
         // Return to looting state if loot is near
-        if (lootPosition != null) {
+        if (lootPosition != null && targetingCooldown <= 0) {
             while (thisPilot.getCurrentShipSpeed() > 0) {
                 thisPilot.decreaseShipSpeed();
             }
             ai.setAiState(new LootingState());
             return;
         }
+
 
         if (directionCooldown <= 0 || currentPosition.outOfArea() ){
             //Get a random unit vector

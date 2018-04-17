@@ -259,8 +259,52 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     //  COLLISION HANDLING
     public void notifyShipToShip(Body<Ship> a, Body<Ship> b) {
+
+        float speedOfA = a.get().getSpeed();
+        float speedOfB = b.get().getSpeed();
+
+        //Determine who caused collision
+        if (speedOfA < 0 && speedOfB < 0) {
+            //A caused collision since A is reversing faster than B
+            if (speedOfA <= speedOfB) {
+                a.moveForward(-speedOfA);
+                a.get().getShipStats().modifyCurrentSpeed(-speedOfA * 1.2);
+
+                b.moveForward(speedOfB);
+                b.get().getShipStats().modifyCurrentSpeed(speedOfB * 1.2);
+            }
+            //B caused Collision since B is reversing faster than A
+            else {
+                b.moveForward(-speedOfB);
+                b.get().getShipStats().modifyCurrentSpeed(-speedOfB * 1.2);
+
+                a.moveForward(speedOfA);
+                a.get().getShipStats().modifyCurrentSpeed(speedOfA * 1.2);
+            }
+        }
+
+        else{
+            //A caused collision since A is moving faster than B
+            if (speedOfA >= speedOfB){
+                a.moveForward(-speedOfA);
+                a.get().getShipStats().modifyCurrentSpeed(-speedOfA*1.2);
+
+                b.moveForward(speedOfB);
+                b.get().getShipStats().modifyCurrentSpeed(speedOfB*1.2);
+            }
+            //B caused Collision since B is moving faster than A
+            else {
+                b.moveForward(-speedOfB);
+                b.get().getShipStats().modifyCurrentSpeed(-speedOfB*1.2);
+
+                a.moveForward(speedOfA);
+                a.get().getShipStats().modifyCurrentSpeed(speedOfA*1.2);
+            }
+        }
+
         a.get().takeDamage(10);
         b.get().takeDamage(10);
+
         System.out.println(a.toString() + " " + a.get().getShipStats().getCurrentHealth() + " " + a.get().getShipStats().getCurrentShield());
         System.out.println(b.toString() + " " + b.get().getShipStats().getCurrentHealth() + " " + b.get().getShipStats().getCurrentShield());
     }
@@ -274,7 +318,7 @@ public class BattleZone extends Zone implements CollisionObserver {
         ship.get().takeDamage(projectile.get().getDamage()+ projectile.get().getDamage() * projectile.get().getProjectileSource().getPilotStats().getCombat());
         projectile.get().disable();
         if (!(ship.get().isAlive())){
-            projectile.get().getProjectileSource().gainExperience(10);
+            projectile.get().getProjectileSource().gainExperience(25);
         }
         System.out.println("Proj dmg: " + projectile.get().getDamage());
         System.out.println(ship.toString() + " " + ship.get().getShipStats().getCurrentHealth() + " " + ship.get().getShipStats().getCurrentShield());
@@ -287,7 +331,6 @@ public class BattleZone extends Zone implements CollisionObserver {
         lootChests.remove(lootChest);
     }
 
-    //TODO do something
     public void notifyAsteroidToShip(Body<Asteroid> asteroid, Body<Ship> ship){
         Ship theShip = ship.get();
         ship.get().takeDamage(0);

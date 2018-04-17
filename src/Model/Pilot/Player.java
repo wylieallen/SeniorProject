@@ -53,6 +53,7 @@ public class Player extends Pilot {
 
     @Override
     public boolean move(Point3D curPosition){
+        //super.getActiveShip().setAccelerating(true);
         return false;
         //input handler
     }

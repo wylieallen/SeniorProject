@@ -36,7 +36,6 @@ public class ShipBuilder extends PartBuilder{
         return shieldBuilder.buildRandomShield(baseValue, baseShield, rarity);
     }
 
-    //TODO Build random Specials
     public ShipSpecial buildRandomSpecial(int baseValue, int baseMaxFuel, int baseUseAmount, int baseFuelCost, Rarity rarity){
         return specialBuilder.buildRandomSpecial(baseValue, baseMaxFuel, baseUseAmount, baseFuelCost, rarity);
     }
