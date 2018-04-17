@@ -82,7 +82,7 @@ public class NaiveCollisionChecker implements CollisionChecker
             }
         }
 
-        //check asteroid to asteroid
+        //check asteroid to ship
         for (Body<Asteroid> asteroid : asteroids){
             for (Body<Ship> ship : ships){
                 if(!asteroid.get().expired() && !ship.get().expired()

@@ -14,7 +14,7 @@ public class AI {
 
     public AI(){
         battleZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
-        aiState = new StandbyState();
+        aiState = new StandbyState(1000);
     }
 
     public void setAiState(AIState aiState) {
@@ -34,9 +34,6 @@ public class AI {
     }
 
     public Pilot getNearestPilotTo(Pilot pilot){
-        Point3D currentPosition = battleZone.getPositionOf(pilot);
-
-        //For testing: change later
         return battleZone.getNearestHostileTo(pilot);
     }
 

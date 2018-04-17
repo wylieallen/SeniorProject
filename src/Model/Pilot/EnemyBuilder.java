@@ -9,6 +9,7 @@ import Model.physics.collidable.BoundingBoxCollidable;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
+import Utility.RandomNumberGenerator;
 import Utility.Rarity;
 import Utility.Geom3D.Vector3D;
 
@@ -19,9 +20,35 @@ import java.util.*;
 public class EnemyBuilder {
 
     private ShipBuilder shipBuilder;
+    private RandomNumberGenerator rng;
 
     public EnemyBuilder(){
         shipBuilder = new ShipBuilder();
+        rng = new RandomNumberGenerator();
+    }
+
+    public Set<Body<Ship>> buildEnemies(int numberToGenerate){
+        Set<Body<Ship>> enemies = new HashSet<>();
+        for (int i = 0; i < numberToGenerate; i++){
+            Enemy newEnemy = new Enemy();
+
+            //Decide Rarity
+            Rarity enemyRarity = rng.getRandomRarity();
+
+            //Decide Faction
+            Faction enemyFaction = rng.getRandomFaction();
+
+            //Decide Location
+            Point3D enemyLoc = rng.getRandomLocation();
+
+            //BUILD SHIP RANDOMLY!!!
+            Ship newShip = shipBuilder.buildRandomShip(newEnemy, enemyRarity);
+            newEnemy.setActiveShip(newShip);
+            newEnemy.getActiveShip().setFacingDirection(new Vector3D(enemyLoc, new Point3D(0,0,0)));
+            enemies.add(new Body<>(enemyLoc, new Dimension3D(7.086f, 1.323f, 12.380f),
+                    new Orientation3D(), newShip));
+        }
+        return enemies;
     }
 
     public Set<Body<Ship>> buildEnemies(String filepath, String zoneid) {

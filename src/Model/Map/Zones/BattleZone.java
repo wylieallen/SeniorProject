@@ -29,6 +29,7 @@ import gameview.observers.spawn.SpawnObserver;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Utility.Config.BATTLEZONE_SIZE;
 import static Utility.Config.FRAMERATE;
 
 
@@ -51,6 +52,7 @@ public class BattleZone extends Zone implements CollisionObserver {
     RandomItemGenerator rig = new RandomItemGenerator();
     private int lootChestCooldown = 0;
     private int asteroidCooldown = 0;
+    private int enemyCooldown = 0;
     private List<LocationTuple<Powerup>> powerups;
 
 
@@ -78,18 +80,23 @@ public class BattleZone extends Zone implements CollisionObserver {
     }
 
 
-    public void addEnemies() {
+    public void addEnemies(int numberToGenerate) {
 
         EnemyBuilder newEnemyBuilder = new EnemyBuilder();
-        Set<Body<Ship>> enemies = (newEnemyBuilder.buildEnemies("resources/Zones/battlezone", Integer.toString(zoneID)));
+        //Set<Body<Ship>> enemies = (newEnemyBuilder.buildEnemies("resources/Zones/battlezone", Integer.toString(zoneID)));
+        Set<Body<Ship>> enemies = newEnemyBuilder.buildEnemies(numberToGenerate);
         for (Body<Ship> enemy : enemies) {
             spawnShip(enemy);
         }
 
-/*        Body<Ship> enemy = new Body<>(new Point3D(10, 10, 10), new Dimension3D(7.086f, 1.323f, 12.380f),
-                new Orientation3D(), new ShipBuilder().buildRandomShip(new Player(), Rarity.COMMON));
-        enemy.get().setFacingDirection(new Vector3D(0, 0, -1));
-        spawnShip(enemy);*/
+    }
+
+    private void generateRandomEnemy() {
+        if (enemyCooldown == 0){
+            addEnemies(1);
+            enemyCooldown = 10000;
+        }
+        enemyCooldown--;
     }
 
     public void addLootChest(){
@@ -101,12 +108,8 @@ public class BattleZone extends Zone implements CollisionObserver {
         }
         LootChest lootChest = new LootChest(items);
 
-        int areaBound = 500;
-
-        int x = rng.getRandomInBetween(-areaBound,areaBound);
-        int y = rng.getRandomInBetween(-areaBound,areaBound);
-        int z = rng.getRandomInBetween(-areaBound,areaBound);
-        Body<LootChest> newLoot = new Body<>(new Point3D(x,y,z ), new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
+        Point3D location = rng.getRandomLocation();
+        Body<LootChest> newLoot = new Body<>(location, new Dimension3D(1f, 1f, 1.0f), new Orientation3D(), lootChest);
         spawnLootChest(newLoot);
     }
 
@@ -119,11 +122,10 @@ public class BattleZone extends Zone implements CollisionObserver {
     }
 
     public void addAsteroid(int i){
-        int areaBound = 500;
-        int x = rng.getRandomInBetween(-areaBound,areaBound);
-        int y = rng.getRandomInBetween(-areaBound,areaBound);
-        int z = rng.getRandomInBetween(areaBound-100-i, areaBound+100);
-        Asteroid asteroid = new Asteroid(.1f, new Vector3D(0,0,-1), z+areaBound);
+        int x = rng.getRandomInBetween(-BATTLEZONE_SIZE,BATTLEZONE_SIZE);
+        int y = rng.getRandomInBetween(-BATTLEZONE_SIZE,BATTLEZONE_SIZE);
+        int z = rng.getRandomInBetween(BATTLEZONE_SIZE-i, BATTLEZONE_SIZE);
+        Asteroid asteroid = new Asteroid(.1f, new Vector3D(0,0,-1), z+BATTLEZONE_SIZE);
         Body<Asteroid> newAsteroid = new Body<>(new Point3D(x,y,z), new Dimension3D(1f, 1f, 1f), new Orientation3D(), asteroid);
         spawnAsteroid(newAsteroid);
     }
@@ -131,7 +133,7 @@ public class BattleZone extends Zone implements CollisionObserver {
     private void generateAsteroid(){
         if (asteroidCooldown == 0){
             for (int i = 0; i < 100; i++){
-                addAsteroid(0);
+                addAsteroid(100);
             }
             asteroidCooldown = 500;
         }

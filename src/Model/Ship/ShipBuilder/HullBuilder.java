@@ -21,11 +21,9 @@ public class HullBuilder extends PartBuilder {
             //Build fighter hull
             case 1:
                 health*=2;
-                invenSize/=2;
                 break;
             //Build freighter hull
             case 2:
-                health/=2;
                 invenSize*=2;
                 break;
             default:

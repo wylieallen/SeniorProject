@@ -1,11 +1,15 @@
 package Utility;
 
 import Model.Items.Item;
+import Model.Pilot.Faction;
 import Model.Ship.Ship;
+import Utility.Geom3D.Point3D;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static Utility.Config.BATTLEZONE_SIZE;
 
 public class RandomNumberGenerator{
 
@@ -41,6 +45,46 @@ public class RandomNumberGenerator{
     public int getRandomInBetween(int start, int end){
         double random = rng.nextInt(end-start+1) + start;
         return (int) random;
+    }
+
+    public Rarity getRandomRarity(){
+
+        int rarityDetermine = getRandomInBetween(1,100);
+        //5% chance Legendary
+        if (rarityDetermine > 95){
+            return Rarity.LEGENDARY;
+        }
+        //15% chance Epic
+        else if (rarityDetermine > 80){
+            return Rarity.EPIC;
+        }
+        //30% chance Rare
+        else if (rarityDetermine > 50){
+            return Rarity.RARE;
+        }
+        //50% chance Common
+        else {
+            return Rarity.COMMON;
+        }
+    }
+
+    public Faction getRandomFaction(){
+        int rarityDetermine = getRandomInBetween(1,100);
+        //5% chance ALLY
+        if (rarityDetermine > 95){
+            return Faction.ALLY;
+        }
+        //95% chance ENEMY
+        else {
+            return Faction.REBEL;
+        }
+    }
+
+    public Point3D getRandomLocation(){
+        int x = getRandomInBetween(-BATTLEZONE_SIZE,BATTLEZONE_SIZE);
+        int y = getRandomInBetween(-BATTLEZONE_SIZE,BATTLEZONE_SIZE);
+        int z = getRandomInBetween(-BATTLEZONE_SIZE,BATTLEZONE_SIZE);
+        return new Point3D(x,y,z);
     }
 
     public List<Item> getRandomEquippedParts(Ship ship){

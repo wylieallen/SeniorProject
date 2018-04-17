@@ -53,18 +53,18 @@ public class GameModel
     }
 
     public void spawnEnemies(){
-        myBattleZone.addEnemies();
+        myBattleZone.addEnemies(1);
     }
 
     public void spawnLootChests() {
-        for (int i = 0; i<1; i++){
+        for (int i = 0; i<20; i++){
             myBattleZone.addLootChest();
         }
     }
 
     public void spawnAsteroids(){
         for (int i = 0; i<5000; i++){
-            myBattleZone.addAsteroid(900);
+            myBattleZone.addAsteroid(1000);
         }
     }
 

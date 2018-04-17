@@ -1,5 +1,7 @@
 package Utility.Geom3D;
 
+import static Utility.Config.BATTLEZONE_SIZE;
+
 public class Point3D {
     private float x;
     private float y;
@@ -96,8 +98,10 @@ public class Point3D {
 
     public String toString(){
 
-        String coordinates = "X: " + x + " Y: " + y + " Z: " + z;
-        return coordinates;
+        return "X: " + x + " Y: " + y + " Z: " + z;
     }
 
+    public boolean outOfArea(){
+        return x < -BATTLEZONE_SIZE || y < -BATTLEZONE_SIZE || z < -BATTLEZONE_SIZE || x > BATTLEZONE_SIZE || y > BATTLEZONE_SIZE || z > BATTLEZONE_SIZE;
+    }
 }

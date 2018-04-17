@@ -5,7 +5,7 @@ import Model.Pilot.Pilot;
 import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
 
-public class RoamingState implements AIState {
+public class LootingState implements AIState {
     @Override
     public void makeMove(Enemy thisPilot, AI ai) {
 
@@ -17,6 +17,7 @@ public class RoamingState implements AIState {
             ai.setAiState(new CombatState());
             return;
         }
+
 
         Point3D currentPosition = ai.getPositionOf(thisPilot);
         Point3D lootPosition = ai.getNearestLootTo(thisPilot);
