@@ -16,4 +16,7 @@ public abstract class ShipPart extends Item
 
     public Rarity getRarity() { return rarity; }
     public void setRarity(Rarity rarity) {this.rarity = rarity; }
+
+    @Override
+    public boolean isShipPart(){return true;}
 }

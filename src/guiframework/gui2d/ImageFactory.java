@@ -29,6 +29,11 @@ public class ImageFactory
 
     //Overworld Images
     private static final BufferedImage overworldLabel = loadImage("resources/Images/label_overworld.png");
+    private static final BufferedImage hangarMenuButton = loadImage("resources/Images/hangar_menu_button.png");
+    private static final BufferedImage skillsMenuButton = loadImage("resources/Images/skills_menu_button_.png");
+    private static final BufferedImage exitGameButton = loadImage("resources/Images/exit_game_button.png");
+    private static final BufferedImage enterNodeButton = loadImage("resources/Images/enter_node_button.png");
+    private static final BufferedImage nodeButton = loadImage("resources/Images/node_button.png");
     private static final BufferedImage tradingPostBase = loadImage("resources/Images/button_trading-post_base.png");
     private static final BufferedImage tradingPostHover = loadImage("resources/Images/button_trading-post_hover.png");
     private static final BufferedImage tradingPostPress = loadImage("resources/Images/button_trading-post_press.png");
@@ -40,6 +45,7 @@ public class ImageFactory
     private static final BufferedImage exitHangarButton = loadImage("resources/Images/exit_hangar_button.png");
     private static final BufferedImage arrowRight = loadImage("resources/Images/double-arrow-right.png");
     private static final BufferedImage arrowLeft = loadImage("resources/Images/double-arrow-left.png");
+    private static final BufferedImage backToHangarButton = loadImage("resources/Images/back_to_hangar_button.png");
 
     //Item and Ship related images
     private static final BufferedImage shipImageBlack = loadImage("resources/Images/Ship-sprite-1-black-back.png");
@@ -168,6 +174,16 @@ public class ImageFactory
         return overworldLabel;
     }
 
+    public static BufferedImage getHangarMenuButton() {return hangarMenuButton;}
+
+    public static BufferedImage getSkillsMenuButton() {return  skillsMenuButton;}
+
+    public static BufferedImage getExitGameButton() {return exitGameButton;}
+
+    public static BufferedImage getEnterNodeButton(){return enterNodeButton;}
+
+    public static BufferedImage getNodeButton() {return nodeButton;}
+
     public static BufferedImage getTradingPostBase() {return tradingPostBase;}
 
     public static BufferedImage getTradingPostHover() {return tradingPostHover;}
@@ -189,6 +205,8 @@ public class ImageFactory
     public static BufferedImage getArrowRight() {return arrowRight;}
 
     public static BufferedImage getArrowLeft(){return arrowLeft;}
+
+    public static BufferedImage getBackToHangarButton(){return backToHangarButton;}
 
     //ship image methods
     public static BufferedImage getShipImageBlack() {return shipImageBlack;}

@@ -6,9 +6,14 @@ import Model.Map.Overworld;
 import Model.Map.Zones.BattleZone;
 import Model.Map.Zones.TradingZone;
 import Model.Map.Zones.Zone;
+import Model.Pilot.Pilot;
 import Model.Pilot.Player;
 import Model.Ship.Ship;
-import Model.Ship.ShipParts.ShipHull;
+import Model.Ship.ShipBuilder.ShipBuilder;
+import Model.Ship.ShipParts.*;
+import Model.Ship.ShipParts.Projectile.LinearProjectile;
+import Model.Ship.ShipParts.SpecialType.BoostSpecial;
+import Model.Ship.ShipParts.WeaponType.EnergyWeapon;
 import Model.TradingPost.BountyMission;
 import Model.TradingPost.TradingPost;
 import Model.TradingPost.Wallet;
@@ -36,7 +41,7 @@ public class OverworldUberstate extends Uberstate
     private static final Font font = new Font("Arvo", Font.PLAIN, 30);
     private Overworld overworld;
     private Overlay mapOverlay;
-    private Button upgradeStats;
+    private Button skillsMenu;
     private ImageDisplayable nodeInfo;
     private Overlay selectedNode;
     private int selectedShip = 0;
@@ -59,10 +64,16 @@ public class OverworldUberstate extends Uberstate
         currentPlayer.getPilotStats().levelUp();
         currentPlayer.getPilotStats().levelUp();
         currentPlayer.getPilotStats().levelUp();
-        Ship ship1 = new Ship(currentPlayer, new ShipHull(100, Rarity.COMMON, 500, 40));
-        Ship ship2 = new Ship(currentPlayer, new ShipHull(200, Rarity.RARE, 750, 40));
-        Ship ship3 = new Ship(currentPlayer, new ShipHull(300, Rarity.EPIC, 1500, 40));
-        Ship ship4 = new Ship(currentPlayer, new ShipHull(400, Rarity.LEGENDARY, 3000, 40));
+//        Ship ship1 = new Ship(currentPlayer, new ShipHull(100, Rarity.COMMON, 500, 40));
+//        ship1.equipEngine(new ShipEngine(100,100, Rarity.COMMON));
+//        ship1.equipShield(new ShipShield(100,100, Rarity.COMMON));
+//        ship1.equipSpecial(new BoostSpecial(100, 100,100,100, Rarity.COMMON));
+//        ship1.getWeaponSlot1(new EnergyWeapon(100, new LinearProjectile(currentPlayer,)));
+        ShipBuilder buildShip = new ShipBuilder();
+        Ship ship1 = buildShip.buildRandomShip(currentPlayer, Rarity.COMMON);
+        Ship ship2 = buildShip.buildRandomShip(currentPlayer, Rarity.RARE);
+        Ship ship3 = buildShip.buildRandomShip(currentPlayer, Rarity.EPIC);
+        Ship ship4 = buildShip.buildRandomShip(currentPlayer, Rarity.LEGENDARY);
         currentPlayer.getShipHangar().addShip(ship1);
         currentPlayer.getShipHangar().addShip(ship2);
         currentPlayer.getShipHangar().addShip(ship3);
@@ -91,12 +102,12 @@ public class OverworldUberstate extends Uberstate
 
         for(int i = 0; i < overworld.getNodes().size(); i++) {
             Node node = overworld.getNode(i);
-            int x = MARGIN*4 + (WIDTH/overworld.getNodes().size())*i;
-            int y = (HEIGHT-150)/2;
+            int x = MARGIN*12 + (WIDTH/overworld.getNodes().size())*i;
+            int y = (HEIGHT/2)-125;
             Button nodeButton = new Button(new Point(x, y),
-                    ImageFactory.makeBorderedRect(100, 100, Color.WHITE, Color.GRAY),
-                    ImageFactory.makeBorderedRect(100, 100, Color.BLUE, Color.GRAY),
-                    ImageFactory.makeBorderedRect(100, 100, Color.YELLOW, Color.GRAY),
+                    ImageFactory.getNodeButton(),
+                    ImageFactory.getNodeButton(),
+                    ImageFactory.getNodeButton(),
                     () -> {
                         mapOverlay.remove(selectedNode);
                         mapOverlay.removeClickable(selectedNode);
@@ -145,20 +156,20 @@ public class OverworldUberstate extends Uberstate
         controlstate.add(mapOverlay);
 
         //Add Stats Upgrade button
-        upgradeStats = new Button(new Point(1525, 25),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Upgrade Stats"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.BLACK, Color.BLACK, "Upgrade Stats"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Upgrade Stats"),
+        skillsMenu = new Button(new Point(1400, 25),
+                ImageFactory.getSkillsMenuButton(),
+                ImageFactory.getSkillsMenuButton(),
+                ImageFactory.getSkillsMenuButton(),
                 () -> {
                     //Remove map overlay so it cant be clicked under the stats display
                     mapOverlay.removeClickable(selectedNode);
                     mapOverlay.remove(selectedNode);
-//                    mapOverlay.removeClickable(upgradeStats);
-//                    mapOverlay.remove(upgradeStats);
+//                    mapOverlay.removeClickable(skillsMenu);
+//                    mapOverlay.remove(skillsMenu);
                     drawstate.removeOverlay(mapOverlay);
                     controlstate.remove(mapOverlay);
-//                    drawstate.removeOverlay(upgradeStats);
-//                    controlstate.remove(upgradeStats);
+//                    drawstate.removeOverlay(skillsMenu);
+//                    controlstate.remove(skillsMenu);
 
                     Overlay statsOverlay = new Overlay(new Point(0,0));
 //                    ImageDisplayable svBackground = new ImageDisplayable(new Point(0,0),
@@ -213,8 +224,8 @@ public class OverworldUberstate extends Uberstate
                                 //readd map and upgrade stats and title
                                 drawstate.addLeftOverlay(mapOverlay);
                                 controlstate.add(mapOverlay);
-//                                drawstate.addRightOverlay(upgradeStats);
-//                                controlstate.add(upgradeStats);
+//                                drawstate.addRightOverlay(skillsMenu);
+//                                controlstate.add(skillsMenu);
                             });
                     statsOverlay.add(closeStats);
                     statsOverlay.addClickable(closeStats);
@@ -224,16 +235,16 @@ public class OverworldUberstate extends Uberstate
                     controlstate.add(statsOverlay);
                 });
 
-        mapOverlay.addClickable(upgradeStats);
-        mapOverlay.add(upgradeStats);
-//        drawstate.addRightOverlay(upgradeStats);
-//        controlstate.add(upgradeStats);
+        mapOverlay.addClickable(skillsMenu);
+        mapOverlay.add(skillsMenu);
+//        drawstate.addRightOverlay(skillsMenu);
+//        controlstate.add(skillsMenu);
 
         //Add Hangar button
-        Button hangarButton = new Button(new Point(1300, 25),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Hangar"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.BLACK, Color.BLACK, "Hangar"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Hangar"),
+        Button hangarButton = new Button(new Point(1050, 25),
+                ImageFactory.getHangarMenuButton(),
+                ImageFactory.getHangarMenuButton(),
+                ImageFactory.getHangarMenuButton(),
                 () -> {
                     selectedShip = 0;
                     //remove map overlay
@@ -272,12 +283,12 @@ public class OverworldUberstate extends Uberstate
                     hangarOverlay.add(shipTitle);
                     selectedShipOverlay = new Overlay(new Point(0,0));
                     if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
-                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
-                        int heightCST = currentShipTitle.getSize().height;
-                        int widthCST = currentShipTitle.getSize().width;
-                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
-                        selectedShipOverlay.add(currentShipTitle);
-                        //hangarOverlay.add(currentShipTitle);
+                        StringDisplayable activeShipTitle = new StringDisplayable(new Point(0, 0), () -> "Active Ship" , Color.GREEN, font);
+                        int heightAST = activeShipTitle.getSize().height;
+                        int widthAST = activeShipTitle.getSize().width;
+                        activeShipTitle.getOrigin().setLocation((WIDTH/2)-(widthAST/2), (HEIGHT/2)-200);
+                        selectedShipOverlay.add(activeShipTitle);
+                        //hangarOverlay.add(activeShipTitle);
                     }
                     ImageDisplayable selectedShipImage = new ImageDisplayable(new Point((WIDTH/2)-75,(HEIGHT/2)-125), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
                     selectedShipOverlay.add(selectedShipImage);
@@ -289,18 +300,17 @@ public class OverworldUberstate extends Uberstate
                             ImageFactory.getArrowLeft(),
                             ImageFactory.getArrowLeft(),
                             () -> {
-                                //todo: change if once hangar and activeship logic are changed
                                 if(selectedShip > 0) {
                                     selectedShip--;
                                     hangarOverlay.remove(selectedShipOverlay);
                                     selectedShipOverlay = new Overlay(new Point(0,0));
                                     if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
-                                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
-                                        int heightCST = currentShipTitle.getSize().height;
-                                        int widthCST = currentShipTitle.getSize().width;
-                                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
-                                        selectedShipOverlay.add(currentShipTitle);
-                                        //hangarOverlay.add(currentShipTitle);
+                                        StringDisplayable activeShipTitle = new StringDisplayable(new Point(0, 0), () -> "Active Ship" , Color.GREEN, font);
+                                        int heightAST = activeShipTitle.getSize().height;
+                                        int widthAST = activeShipTitle.getSize().width;
+                                        activeShipTitle.getOrigin().setLocation((WIDTH/2)-(widthAST/2), (HEIGHT/2)-200);
+                                        selectedShipOverlay.add(activeShipTitle);
+                                        //hangarOverlay.add(activeShipTitle);
                                     }
                                     selectedShipImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
                                     selectedShipOverlay.add(selectedShipImage);
@@ -316,18 +326,17 @@ public class OverworldUberstate extends Uberstate
                             ImageFactory.getArrowRight(),
                             ImageFactory.getArrowRight(),
                             () -> {
-                                //todo: change if once hangar and activeship logic are changed
                                 if(selectedShip < currentPlayer.getShipHangar().hangarSize()-1) {
                                     selectedShip++;
                                     hangarOverlay.remove(selectedShipOverlay);
                                     selectedShipOverlay = new Overlay(new Point(0,0));
                                     if(currentPlayer.getActiveShip() == currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
-                                        StringDisplayable currentShipTitle = new StringDisplayable(new Point(0, 0), () -> "Current Ship" , Color.GREEN, font);
-                                        int heightCST = currentShipTitle.getSize().height;
-                                        int widthCST = currentShipTitle.getSize().width;
-                                        currentShipTitle.getOrigin().setLocation((WIDTH/2)-(widthCST/2), (HEIGHT/2)-200);
-                                        selectedShipOverlay.add(currentShipTitle);
-                                        //hangarOverlay.add(currentShipTitle);
+                                        StringDisplayable activeShipTitle = new StringDisplayable(new Point(0, 0), () -> "Active Ship" , Color.GREEN, font);
+                                        int heightAST = activeShipTitle.getSize().height;
+                                        int widthAST = activeShipTitle.getSize().width;
+                                        activeShipTitle.getOrigin().setLocation((WIDTH/2)-(widthAST/2), (HEIGHT/2)-200);
+                                        selectedShipOverlay.add(activeShipTitle);
+                                        //hangarOverlay.add(activeShipTitle);
                                     }
                                     selectedShipImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
                                     selectedShipOverlay.add(selectedShipImage);
@@ -338,23 +347,103 @@ public class OverworldUberstate extends Uberstate
                     hangarOverlay.addClickable(rightArrow);
 
                     //add other buttons
-                    Button setCurrentShip = new Button(new Point((WIDTH/2)-225, (HEIGHT/2)+80),
+                    Button setActiveShip = new Button(new Point((WIDTH/2)-225, (HEIGHT/2)+80),
                             ImageFactory.getSetShipbutton(),
                             ImageFactory.getSetShipbutton(),
                             ImageFactory.getSetShipbutton(),
                             () -> {
-                                //todo: change active ship
+                                //If selected ship isnt active ship, make it active ship
+                                if(currentPlayer.getActiveShip() != currentPlayer.getShipHangar().getShipAtIndex(selectedShip)) {
+                                    currentPlayer.setActiveShip(currentPlayer.getShipHangar().getShipAtIndex(selectedShip));
+
+                                    //Add active ship title
+                                    StringDisplayable activeShipTitle = new StringDisplayable(new Point(0, 0), () -> "Active Ship" , Color.GREEN, font);
+                                    int heightAST = activeShipTitle.getSize().height;
+                                    int widthAST = activeShipTitle.getSize().width;
+                                    activeShipTitle.getOrigin().setLocation((WIDTH/2)-(widthAST/2), (HEIGHT/2)-200);
+                                    selectedShipOverlay.add(activeShipTitle);
+                                }
                             });
-                    hangarOverlay.add(setCurrentShip);
-                    hangarOverlay.addClickable(setCurrentShip);
+                    hangarOverlay.add(setActiveShip);
+                    hangarOverlay.addClickable(setActiveShip);
 
                     Button changeParts = new Button(new Point((WIDTH/2)-225, (HEIGHT/2)+170),
                             ImageFactory.getChangePartsButton(),
                             ImageFactory.getChangePartsButton(),
                             ImageFactory.getChangePartsButton(),
                             () -> {
-                                //todo: add change part overlay
+                                //remove hangar overlay and add changeParts overlay
+                                drawstate.removeOverlay(hangarOverlay);
+                                controlstate.remove(hangarOverlay);
 
+                                Overlay changePartsOverlay = new Overlay(new Point(0,0));
+
+                                //Add current ship image and title
+                                StringDisplayable partsShipTitle = new StringDisplayable(new Point(0, 0), () -> "Ship " + (selectedShip+1), Color.GREEN, font);
+                                int widthPST = partsShipTitle.getSize().width;
+                                int heightPST = partsShipTitle.getSize().height;
+                                partsShipTitle.getOrigin().setLocation(180-(widthPST/2),0);
+                                changePartsOverlay.add(partsShipTitle);
+                                changePartsOverlay.add(new ImageDisplayable(new Point(180-75,100), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack()));
+
+                                //Add current ship stats strings
+                                StringDisplayable maxHealth = new StringDisplayable(new Point(0,0), () -> "Max Health: " + currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipStats().getMaxHealth(), Color.GREEN, font);
+                                int widthMH = maxHealth.getSize().width;
+                                int heightMH = maxHealth.getSize().height;
+                                maxHealth.getOrigin().setLocation(180-(widthMH/2),300);
+                                changePartsOverlay.add(maxHealth);
+                                StringDisplayable maxSpeed = new StringDisplayable(new Point(0,0), () -> "Max Speed: " + currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipStats().getMaxSpeed(),Color.GREEN, font);
+                                int widthMS = maxSpeed.getSize().width;
+                                int heightMS = maxSpeed.getSize().height;
+                                maxSpeed.getOrigin().setLocation(180-(widthMS/2),400);
+                                changePartsOverlay.add(maxSpeed);
+                                StringDisplayable maxShield = new StringDisplayable(new Point(0,0), () -> "Max Shield: " + currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipStats().getMaxShield(),Color.GREEN, font);
+                                int widthMSH = maxShield.getSize().width;
+                                int heightMSH = maxShield.getSize().height;
+                                maxShield.getOrigin().setLocation(180-(widthMSH/2),500);
+                                changePartsOverlay.add(maxShield);
+                                StringDisplayable maxFuel = new StringDisplayable(new Point(0,0), () -> "Max Fuel: " + currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipStats().getMaxFuel(),Color.GREEN, font);
+                                int widthMF = maxFuel.getSize().width;
+                                int heightMF = maxFuel.getSize().height;
+                                maxFuel.getOrigin().setLocation(180-(widthMF/2),600);
+                                changePartsOverlay.add(maxFuel);
+                                StringDisplayable damage = new StringDisplayable(new Point(0,0), () -> "Damage: " + currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getWeaponSlot1().getProjectile().getDamage(),Color.GREEN, font);
+                                int widthDA = damage.getSize().width;
+                                int heightDA = damage.getSize().height;
+                                damage.getOrigin().setLocation(180-(widthDA/2),700);
+                                changePartsOverlay.add(damage);
+
+                                //add divider lines and current ship part images
+                                ImageDisplayable dividerLineLeft = new ImageDisplayable(new Point(400,0), ImageFactory.makeBorderedRect(10,900,Color.GREEN, Color.GREEN));
+                                changePartsOverlay.add(dividerLineLeft);
+
+                                //add current ship parts images and titles
+                                StringDisplayable currentEngine = new StringDisplayable(new Point(0,0), () -> "Engine",Color.GREEN, font);
+                                int widthCE = currentEngine.getSize().width;
+                                currentEngine.getOrigin().setLocation(600-(widthCE/2),0);
+                                changePartsOverlay.add(currentEngine);
+                                StringDisplayable currentShield = new StringDisplayable(new Point(0,0), () -> "Shield");
+                                StringDisplayable currentSpecial = new StringDisplayable(new Point(0,0), () -> "Special");
+                                StringDisplayable currentWeapon = new StringDisplayable(new Point(0,0), () -> "Weapon");
+
+                                Button backToHangarButton = new Button(new Point(10, HEIGHT-200),
+                                        ImageFactory.getBackToHangarButton(),
+                                        ImageFactory.getBackToHangarButton(),
+                                        ImageFactory.getBackToHangarButton(),
+                                        () -> {
+                                            //remove changeParts overlay and readd hangar overlay
+                                            drawstate.removeOverlay(changePartsOverlay);
+                                            controlstate.remove(changePartsOverlay);
+
+                                            drawstate.addCenterOverlay(hangarOverlay);
+                                            controlstate.add(hangarOverlay);
+                                        });
+                                changePartsOverlay.add(backToHangarButton);
+                                changePartsOverlay.addClickable(backToHangarButton);
+
+
+                                drawstate.addLeftOverlay(changePartsOverlay);
+                                controlstate.add(changePartsOverlay);
                             });
                     hangarOverlay.add(changeParts);
                     hangarOverlay.addClickable(changeParts);
@@ -367,10 +456,10 @@ public class OverworldUberstate extends Uberstate
         mapOverlay.add(hangarButton);
 
         //Add Exit button
-        Button exitButton = new Button(new Point(1525, 825),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Exit"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.BLACK, Color.BLACK, "Exit"),
-                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Exit"),
+        Button exitButton = new Button(new Point(1400, 800),
+                ImageFactory.getExitGameButton(),
+                ImageFactory.getExitGameButton(),
+                ImageFactory.getExitGameButton(),
                 () -> {
                     System.exit(0);
                 });
