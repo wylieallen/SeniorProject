@@ -5,6 +5,9 @@ import Model.Map.Zones.BattleZone;
 import Model.Pilot.Pilot;
 import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
+import guiframework.gui2d.ImageFactory;
+
+import java.awt.image.BufferedImage;
 
 import static Utility.Config.FRAMERATE;
 
@@ -55,4 +58,7 @@ public class HomingProjectile extends Projectile{
 
         return newPosition;*/
     }
+
+    //todo: add switch statement for different rarity images
+    public BufferedImage getImage() {return ImageFactory.getCommonHomingWeaponImage();}
 }

@@ -4,7 +4,9 @@ import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.Projectile.LinearProjectile;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Utility.*;
+import guiframework.gui2d.ImageFactory;
 
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -54,4 +56,7 @@ public class ShipWeapon extends ShipPart{
     }
 
     //public static final ShipWeapon NULL = new ShipWeapon("EMPTY", 0, "", Rarity.COMMON, Projectile.NULL, -1);
+
+    //todo: add switch statement for different rarity images
+    public BufferedImage getImage() {return projectile.getImage();}
 }

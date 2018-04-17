@@ -29,6 +29,11 @@ public class ImageFactory
 
     //Overworld Images
     private static final BufferedImage overworldLabel = loadImage("resources/Images/label_overworld.png");
+    private static final BufferedImage hangarMenuButton = loadImage("resources/Images/hangar_menu_button.png");
+    private static final BufferedImage skillsMenuButton = loadImage("resources/Images/skills_menu_button_.png");
+    private static final BufferedImage exitGameButton = loadImage("resources/Images/exit_game_button.png");
+    private static final BufferedImage enterNodeButton = loadImage("resources/Images/enter_node_button.png");
+    private static final BufferedImage nodeButton = loadImage("resources/Images/node_button.png");
     private static final BufferedImage tradingPostBase = loadImage("resources/Images/button_trading-post_base.png");
     private static final BufferedImage tradingPostHover = loadImage("resources/Images/button_trading-post_hover.png");
     private static final BufferedImage tradingPostPress = loadImage("resources/Images/button_trading-post_press.png");
@@ -40,6 +45,7 @@ public class ImageFactory
     private static final BufferedImage exitHangarButton = loadImage("resources/Images/exit_hangar_button.png");
     private static final BufferedImage arrowRight = loadImage("resources/Images/double-arrow-right.png");
     private static final BufferedImage arrowLeft = loadImage("resources/Images/double-arrow-left.png");
+    private static final BufferedImage backToHangarButton = loadImage("resources/Images/back_to_hangar_button.png");
 
     //Item and Ship related images
     private static final BufferedImage shipImageBlack = loadImage("resources/Images/Ship-sprite-1-black-back.png");
@@ -48,7 +54,15 @@ public class ImageFactory
     private static final BufferedImage epicShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-epic-black-back-large.png");
     private static final BufferedImage rareShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-rare-black-back-large.png");
     private static final BufferedImage commonShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-common-black-back-large.png");
+    private static final BufferedImage commonEngineImage = loadImage("resources/Images/ship-engine-sprite-common.jpg");
+    private static final BufferedImage commonShieldImage = loadImage("resources/Images/ship-shield-sprite-common.png");
+    private static final BufferedImage commonBoostSpecialImage = loadImage("resources/Images/ship-boost-special-sprite-comm.png");
+    private static final BufferedImage commonHealingSpecialImage = loadImage("resources/Images/ship-healing-special-sprite-co.png");
+    private static final BufferedImage commmonStealthSpecialImage = loadImage("resources/Images/ship-stealth-special-sprite-co.png");
+    private static final BufferedImage commonHomingWeaponImage = loadImage("resources/Images/ship-homing-weapon-sprite-common.png");
+    private static final BufferedImage commonLinearWeaponImage = loadImage("resources/Images/ship-linear-weapon-sprite-common.png");
 
+    private static final BufferedImage notFoundImage = loadImage("resources/Images/image-not-found-image.jpg");
 
     public static BufferedImage makeBorderedRect(int width, int height, Color bodyColor, Color borderColor)
     {
@@ -168,6 +182,16 @@ public class ImageFactory
         return overworldLabel;
     }
 
+    public static BufferedImage getHangarMenuButton() {return hangarMenuButton;}
+
+    public static BufferedImage getSkillsMenuButton() {return  skillsMenuButton;}
+
+    public static BufferedImage getExitGameButton() {return exitGameButton;}
+
+    public static BufferedImage getEnterNodeButton(){return enterNodeButton;}
+
+    public static BufferedImage getNodeButton() {return nodeButton;}
+
     public static BufferedImage getTradingPostBase() {return tradingPostBase;}
 
     public static BufferedImage getTradingPostHover() {return tradingPostHover;}
@@ -190,6 +214,8 @@ public class ImageFactory
 
     public static BufferedImage getArrowLeft(){return arrowLeft;}
 
+    public static BufferedImage getBackToHangarButton(){return backToHangarButton;}
+
     //ship image methods
     public static BufferedImage getShipImageBlack() {return shipImageBlack;}
 
@@ -202,5 +228,22 @@ public class ImageFactory
     public static BufferedImage getRareShipImageBlackLarge() {return rareShipImageBlackLarge;}
 
     public static BufferedImage getCommonShipImageBlackLarge() {return commonShipImageBlackLarge;}
+
+    public static BufferedImage getCommonEngineImage() {return commonEngineImage;}
+
+    public static BufferedImage getCommonShieldImage() {return commonShieldImage;}
+
+    public static BufferedImage getCommonBoostSpecialImage() {return commonBoostSpecialImage;}
+
+    public static BufferedImage getCommonHealingSpecialImage() {return commonHealingSpecialImage;}
+
+    public static BufferedImage getCommonStealthSpecialImage() {return commmonStealthSpecialImage;}
+
+    public static BufferedImage getCommonHomingWeaponImage() {return commonHomingWeaponImage;}
+
+    public static BufferedImage getCommonLinearWeaponImage(){return commonLinearWeaponImage;}
+
+    //item image methods
+    public static BufferedImage getNotFoundImage() {return notFoundImage;}
 
 }

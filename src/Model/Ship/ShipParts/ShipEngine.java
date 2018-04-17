@@ -1,6 +1,9 @@
 package Model.Ship.ShipParts;
 
 import Utility.Rarity;
+import guiframework.gui2d.ImageFactory;
+
+import java.awt.image.BufferedImage;
 
 public class ShipEngine extends ShipPart {
 
@@ -18,4 +21,7 @@ public class ShipEngine extends ShipPart {
     public void setMaxSpeed(int maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
+
+    //todo: add switch statement for different rarity images
+    public BufferedImage getImage() {return ImageFactory.getCommonEngineImage();}
 }

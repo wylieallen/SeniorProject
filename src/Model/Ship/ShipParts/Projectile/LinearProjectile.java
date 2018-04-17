@@ -3,6 +3,9 @@ package Model.Ship.ShipParts.Projectile;
 import Model.Pilot.Pilot;
 import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
+import guiframework.gui2d.ImageFactory;
+
+import java.awt.image.BufferedImage;
 
 import static Utility.Config.FRAMERATE;
 
@@ -26,4 +29,7 @@ public class LinearProjectile extends Projectile{
 */
 
     }
+
+    //todo: add switch statement for different rarity images
+    public BufferedImage getImage() {return ImageFactory.getCommonLinearWeaponImage();}
 }
