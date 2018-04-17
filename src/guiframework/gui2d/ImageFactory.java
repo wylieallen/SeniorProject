@@ -54,7 +54,15 @@ public class ImageFactory
     private static final BufferedImage epicShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-epic-black-back-large.png");
     private static final BufferedImage rareShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-rare-black-back-large.png");
     private static final BufferedImage commonShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-common-black-back-large.png");
+    private static final BufferedImage commonEngineImage = loadImage("resources/Images/ship-engine-sprite-common.jpg");
+    private static final BufferedImage commonShieldImage = loadImage("resources/Images/ship-shield-sprite-common.png");
+    private static final BufferedImage commonBoostSpecialImage = loadImage("resources/Images/ship-boost-special-sprite-comm.png");
+    private static final BufferedImage commonHealingSpecialImage = loadImage("resources/Images/ship-healing-special-sprite-co.png");
+    private static final BufferedImage commmonStealthSpecialImage = loadImage("resources/Images/ship-stealth-special-sprite-co.png");
+    private static final BufferedImage commonHomingWeaponImage = loadImage("resources/Images/ship-homing-weapon-sprite-common.png");
+    private static final BufferedImage commonLinearWeaponImage = loadImage("resources/Images/ship-linear-weapon-sprite-common.png");
 
+    private static final BufferedImage notFoundImage = loadImage("resources/Images/image-not-found-image.jpg");
 
     public static BufferedImage makeBorderedRect(int width, int height, Color bodyColor, Color borderColor)
     {
@@ -220,5 +228,22 @@ public class ImageFactory
     public static BufferedImage getRareShipImageBlackLarge() {return rareShipImageBlackLarge;}
 
     public static BufferedImage getCommonShipImageBlackLarge() {return commonShipImageBlackLarge;}
+
+    public static BufferedImage getCommonEngineImage() {return commonEngineImage;}
+
+    public static BufferedImage getCommonShieldImage() {return commonShieldImage;}
+
+    public static BufferedImage getCommonBoostSpecialImage() {return commonBoostSpecialImage;}
+
+    public static BufferedImage getCommonHealingSpecialImage() {return commonHealingSpecialImage;}
+
+    public static BufferedImage getCommonStealthSpecialImage() {return commmonStealthSpecialImage;}
+
+    public static BufferedImage getCommonHomingWeaponImage() {return commonHomingWeaponImage;}
+
+    public static BufferedImage getCommonLinearWeaponImage(){return commonLinearWeaponImage;}
+
+    //item image methods
+    public static BufferedImage getNotFoundImage() {return notFoundImage;}
 
 }

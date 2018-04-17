@@ -1,5 +1,9 @@
 package Model.Items;
 
+import guiframework.gui2d.ImageFactory;
+
+import java.awt.image.BufferedImage;
+
 public class Item {
     private int currencyValue;
     private String name;
@@ -34,6 +38,8 @@ public class Item {
     public void setName(String name){
         this.name = name;
     }
+
+    public BufferedImage getImage() {return ImageFactory.getNotFoundImage();}
 
     public boolean isShipPart(){return false;}
 }

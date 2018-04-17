@@ -46,6 +46,10 @@ public class OverworldUberstate extends Uberstate
     private Overlay selectedNode;
     private int selectedShip = 0;
     private Overlay selectedShipOverlay;
+    private ImageDisplayable currentEngineImage;
+    private ImageDisplayable currentShieldImage;
+    private ImageDisplayable currentSpecialImage;
+    private ImageDisplayable currentWeaponImage;
     private TradingPost currentTP;
     private Player currentPlayer;
 
@@ -420,11 +424,34 @@ public class OverworldUberstate extends Uberstate
                                 //add current ship parts images and titles
                                 StringDisplayable currentEngine = new StringDisplayable(new Point(0,0), () -> "Engine",Color.GREEN, font);
                                 int widthCE = currentEngine.getSize().width;
-                                currentEngine.getOrigin().setLocation(600-(widthCE/2),0);
+                                currentEngine.getOrigin().setLocation(525-(widthCE/2),0);
                                 changePartsOverlay.add(currentEngine);
-                                StringDisplayable currentShield = new StringDisplayable(new Point(0,0), () -> "Shield");
-                                StringDisplayable currentSpecial = new StringDisplayable(new Point(0,0), () -> "Special");
-                                StringDisplayable currentWeapon = new StringDisplayable(new Point(0,0), () -> "Weapon");
+                                currentEngineImage = new ImageDisplayable(new Point(525-75,75), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getEngineSlot().getImage());
+                                changePartsOverlay.add(currentEngineImage);
+
+                                StringDisplayable currentShield = new StringDisplayable(new Point(0,0), () -> "Shield",Color.GREEN, font);
+                                int widthCS = currentShield.getSize().width;
+                                currentShield.getOrigin().setLocation(525-(widthCS/2),225);
+                                changePartsOverlay.add(currentShield);
+                                currentShieldImage = new ImageDisplayable(new Point(525-75,300), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShieldSlot().getImage());
+                                changePartsOverlay.add(currentShieldImage);
+
+                                StringDisplayable currentSpecial = new StringDisplayable(new Point(0,0), () -> "Special",Color.GREEN, font);
+                                int widthCSP = currentSpecial.getSize().width;
+                                currentSpecial.getOrigin().setLocation(525-(widthCSP/2),450);
+                                changePartsOverlay.add(currentSpecial);
+                                currentSpecialImage = new ImageDisplayable(new Point(525-75,525), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getSpecialSlot().getImage());
+                                changePartsOverlay.add(currentSpecialImage);
+
+                                StringDisplayable currentWeapon = new StringDisplayable(new Point(0,0), () -> "Weapon",Color.GREEN, font);
+                                int widthCW = currentWeapon.getSize().width;
+                                currentWeapon.getOrigin().setLocation(525-(widthCW/2),675);
+                                changePartsOverlay.add(currentWeapon);
+                                currentWeaponImage = new ImageDisplayable(new Point(525-75,750), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getWeaponSlot1().getImage());
+                                changePartsOverlay.add(currentWeaponImage);
+
+                                ImageDisplayable dividerLineRight = new ImageDisplayable(new Point(650,0), ImageFactory.makeBorderedRect(10,900,Color.GREEN, Color.GREEN));
+                                changePartsOverlay.add(dividerLineRight);
 
                                 Button backToHangarButton = new Button(new Point(10, HEIGHT-200),
                                         ImageFactory.getBackToHangarButton(),

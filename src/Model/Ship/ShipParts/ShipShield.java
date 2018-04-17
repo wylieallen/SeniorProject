@@ -1,6 +1,9 @@
 package Model.Ship.ShipParts;
 
 import Utility.Rarity;
+import guiframework.gui2d.ImageFactory;
+
+import java.awt.image.BufferedImage;
 
 public class ShipShield extends ShipPart {
 
@@ -18,4 +21,7 @@ public class ShipShield extends ShipPart {
     public void setmaxShield(int maxShield) {
         this.maxShield = maxShield;
     }
+
+    //todo: add switch statement for different rarity images
+    public BufferedImage getImage() {return ImageFactory.getCommonShieldImage();}
 }

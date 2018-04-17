@@ -4,6 +4,9 @@ import Model.Pilot.Pilot;
 import Model.Ship.ShipParts.ShipSpecial;
 import Model.Ship.ShipStats;
 import Utility.Rarity;
+import guiframework.gui2d.ImageFactory;
+
+import java.awt.image.BufferedImage;
 
 public class BoostSpecial extends ShipSpecial {
 
@@ -38,4 +41,7 @@ public class BoostSpecial extends ShipSpecial {
             activated = false;
         }
     }
+
+    //todo: add switch statement for different rarity images
+    public BufferedImage getImage() {return ImageFactory.getCommonBoostSpecialImage();}
 }
