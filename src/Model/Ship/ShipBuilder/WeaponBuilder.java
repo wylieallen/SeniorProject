@@ -19,7 +19,7 @@ public class WeaponBuilder extends PartBuilder{
 
     public ShipWeapon buildRandomEnergyWeapon(int baseValue, int baseSpeed, int baseDamage,  Rarity rarity){
 
-        int chance = super.generateRandomBetween(1,2);
+        int chance = super.generateRandomBetween(1,3);
         Projectile projectile;
         int cooldown;
 
@@ -44,11 +44,11 @@ public class WeaponBuilder extends PartBuilder{
     }
 
     public Projectile buildStrongProjectile(int baseSpeed, int baseDamage, Rarity rarity){
-        return projectileBuilder.buildRandomProjectile((int) (baseSpeed*.70),baseDamage*2, rarity);
+        return projectileBuilder.buildRandomProjectile((int) (baseSpeed*.70),(int) (baseDamage*2), rarity);
     }
 
     public Projectile buildFastProjectile(int baseSpeed, int baseDamage, Rarity rarity){
-        return projectileBuilder.buildRandomProjectile((int) (baseSpeed*1.5),baseDamage/2, rarity);
+        return projectileBuilder.buildRandomProjectile((int) (baseSpeed*1.4),(int) (baseDamage*.6), rarity);
     }
 
     public Projectile buildNormalProjectile(int baseSpeed, int baseDamage, Rarity rarity){

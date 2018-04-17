@@ -5,7 +5,7 @@ public interface Config {
 
     public static final double CURRENCY_OFFSET = .5;
     public static final double SPEED_OFFSET = .4;
-    public static final double HEALTH_OFFSET = .5;
+    public static final double HEALTH_OFFSET = .35;
     public static final double SHIELD_OFFSET = 1;
     public static final double INVENTORY_OFFSET = .2;
 
@@ -24,8 +24,8 @@ public interface Config {
 
     //PROJECTILES
     public static final double PROJECTILE_SPEED_OFFSET = .5;
-    public static final double PROJECTILE_DAMAGE_OFFSET = 5;
-    public static final float BASE_PROJECTILE_RANGE = 300f;
+    public static final double PROJECTILE_DAMAGE_OFFSET = .4;
+    public static final float BASE_PROJECTILE_RANGE = 250f;
 
     //SPECIALS
     public static final int BASE_MAX_FUEL = 100;
@@ -39,6 +39,10 @@ public interface Config {
     public static final int SHIELD_CD = 12;
 
     public static final float AI_ACCURACY = .25f;
+
+    //CONSUMABLE
+    public static final int BASE_CONSUMABLE_USE = 20;
+    public static final double CONSUMABLE_USE_OFFSET = .5;
 
     //BATTLEZONE
     public static final int BATTLEZONE_SIZE = 500;

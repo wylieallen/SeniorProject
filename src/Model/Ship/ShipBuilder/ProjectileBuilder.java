@@ -25,7 +25,7 @@ public class ProjectileBuilder extends PartBuilder {
 
         int projectileDamage = super.generateRandom(baseDamage, (int) (baseDamage*PROJECTILE_DAMAGE_OFFSET), rarity);
         int projectileSpeed = super.generateRandom(baseSpeed, (int) (baseSpeed*PROJECTILE_SPEED_OFFSET), rarity);
-
+        //System.out.println("Rarity: " + rarity + "\tWeapon damage: " + projectileDamage + "\tWeapon speed: " + projectileSpeed);
         return new LinearProjectile(null, null, projectileSpeed, projectileDamage);
     }
 

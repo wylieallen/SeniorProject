@@ -32,7 +32,7 @@ public class RandomNumberGenerator{
                 multiplier = 2;
                 break;
             case LEGENDARY:
-                multiplier = 3;
+                multiplier = 4;
                 break;
             default:
                 multiplier = 1;
