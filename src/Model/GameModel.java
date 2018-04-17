@@ -53,7 +53,7 @@ public class GameModel
     }
 
     public void spawnEnemies(){
-        myBattleZone.addEnemies(1);
+        myBattleZone.addEnemies(3);
     }
 
     public void spawnLootChests() {

@@ -1,9 +1,12 @@
 package Model.Ship.ShipParts;
 
+import Model.Pilot.Player;
+import Model.Ship.Ship;
 import Utility.Rarity;
 import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class ShipHull extends ShipPart {
 
@@ -11,12 +14,14 @@ public class ShipHull extends ShipPart {
     private int inventorySize;
 
     public ShipHull(int currencyValue, Rarity rarity, int maxHealth, int inventorySize){
-        super("" + rarity + " Ship Hull",
-                currencyValue,
-                // todo: why are we storing all of this as a String in the Item? Why don't we just query this data and make the string in the view?
-                "Currency Value: " + currencyValue + "\nMax Health: " + maxHealth + "\nInventory Size: " + inventorySize, rarity);
+        super("" + rarity + " Hull", currencyValue, rarity);
         this.maxHealth = maxHealth;
         this.inventorySize = inventorySize;
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("Currency Value: " + currencyValue);
+        attributes.add("Max Health: " + maxHealth);
+        attributes.add("Inventory Size: " + inventorySize);
+        super.setAttributes(attributes);
     }
 
     public BufferedImage getShipImage() {
@@ -42,6 +47,12 @@ public class ShipHull extends ShipPart {
 
     public void setmaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
+    }
+
+    @Override
+    public void equip(Ship ship) {
+        Player owner = (Player) ship.getMyPilot();
+        owner.getShipHangar().addShip(new Ship(owner, this));
     }
 }
 

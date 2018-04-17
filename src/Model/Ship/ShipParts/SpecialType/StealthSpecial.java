@@ -7,6 +7,7 @@ import Utility.Rarity;
 import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class StealthSpecial extends ShipSpecial {
 
@@ -15,8 +16,14 @@ public class StealthSpecial extends ShipSpecial {
 
 
     public StealthSpecial(int currencyValue, int maxFuel, double stealthFactor, double fuelCost, Rarity rarity) {
-        super(rarity + " Stealth Ship Special", currencyValue, "Currency Value: " + currencyValue + "\nStealth Factor: " + stealthFactor  + "\nMax Fuel: " + maxFuel + "\nFuel Cost: " + fuelCost, rarity, maxFuel, fuelCost);
+        super(rarity + " Stealth Special", currencyValue, rarity, maxFuel, fuelCost);
         this.stealthFactor = stealthFactor;
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("Currency Value: " + currencyValue);
+        attributes.add("Stealth Factor: " + stealthFactor);
+        attributes.add("Max Fuel: " + maxFuel);
+        attributes.add("Fuel Cost: " + fuelCost);
+        super.setAttributes(attributes);
     }
 
     @Override

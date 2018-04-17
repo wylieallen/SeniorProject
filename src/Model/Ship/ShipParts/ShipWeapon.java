@@ -1,6 +1,7 @@
 package Model.Ship.ShipParts;
 
 import Model.Pilot.Pilot;
+import Model.Ship.Ship;
 import Model.Ship.ShipParts.Projectile.LinearProjectile;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Utility.*;
@@ -17,9 +18,9 @@ public class ShipWeapon extends ShipPart{
     private int baseCooldown, currentCooldown;
 
 
-    public ShipWeapon(String name, int value, String attributes, Rarity rarity, Projectile projectile, int cooldown)
+    public ShipWeapon(String name, int value, Rarity rarity, Projectile projectile, int cooldown)
     {
-        super(name, value, attributes, rarity);
+        super(name, value, rarity);
         this.projectile = projectile;
         this.baseCooldown = cooldown;
         currentCooldown = 0;
@@ -40,6 +41,11 @@ public class ShipWeapon extends ShipPart{
     }
 
     public void update() { if(currentCooldown > 0) --currentCooldown; }
+
+    @Override
+    public void equip(Ship ship) {
+        ship.equipWeapon1(this);
+    }
 
     public Projectile getProjectile(){
         return projectile;

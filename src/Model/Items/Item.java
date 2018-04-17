@@ -3,17 +3,18 @@ package Model.Items;
 import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Item {
     private int currencyValue;
     private String name;
-    private String attributes;
+    private ArrayList<String> attributes;
 
-    public Item(String name, int value, String attributes)
+    public Item(String name, int value)
     {
         this.currencyValue = value;
         this.name = name;
-        this.attributes = attributes;
     }
 
     public int getCurrencyValue(){
@@ -29,9 +30,9 @@ public class Item {
 
     public void Use(){}
 
-    public void setAttributes(String attributes) { this.attributes = attributes; }
+    public void setAttributes(ArrayList<String> attributes) { this.attributes = attributes; }
 
-    public String getAttributes() { return attributes; }
+    public ArrayList<String> getAttributes() { return attributes; }
 
     public String getName(){return name; }
 

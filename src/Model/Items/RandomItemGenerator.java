@@ -7,6 +7,8 @@ import Model.Ship.ShipBuilder.ShipBuilder;
 import Utility.RandomNumberGenerator;
 import Utility.Rarity;
 
+import java.util.ArrayList;
+
 import static Utility.Config.*;
 
 public class RandomItemGenerator {
@@ -35,7 +37,12 @@ public class RandomItemGenerator {
         }
         //70% chance trash loot
         else{
-            return new Item("trashLoot", rarity.value(), "Currency Value: " + rarity.value());
+            Item trashLoot = new Item("trashLoot", rarity.value());
+            ArrayList<String> attributes = new ArrayList<>();
+            attributes.add("Currency Value: " + rarity.value());
+            trashLoot.setAttributes(attributes);
+            return trashLoot;
+
         }
     }
 

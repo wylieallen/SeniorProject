@@ -7,14 +7,21 @@ import Utility.Rarity;
 import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class BoostSpecial extends ShipSpecial {
 
     private double speedFactor;
 
     public BoostSpecial(int currencyValue, int maxFuel, double speedFactor, double fuelCost, Rarity rarity) {
-        super(rarity + " Boost Ship Special", currencyValue, "Currency Value: " + currencyValue + "\nBoost Factor: " + speedFactor + "\nMax Fuel: " + maxFuel + "\nFuel Cost: " + fuelCost, rarity, maxFuel, fuelCost);
+        super(rarity + " Boost Special", currencyValue, rarity, maxFuel, fuelCost);
         this.speedFactor = speedFactor;
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("Currency Value: " + currencyValue);
+        attributes.add("Boost Factor: " + speedFactor);
+        attributes.add("Max Fuel: " + maxFuel);
+        attributes.add("Fuel Cost: " + fuelCost);
+        super.setAttributes(attributes);
     }
 
     @Override

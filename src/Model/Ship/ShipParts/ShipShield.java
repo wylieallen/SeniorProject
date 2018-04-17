@@ -1,17 +1,23 @@
 package Model.Ship.ShipParts;
 
+import Model.Ship.Ship;
 import Utility.Rarity;
 import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class ShipShield extends ShipPart {
 
     private int maxShield;
 
     public ShipShield(int currencyValue, int maxShield, Rarity rarity){
-        super(rarity + " Ship Shield", currencyValue, "Currency Value: " + currencyValue + "\nMax Sheild: " + maxShield, rarity);
+        super(rarity + " Shield", currencyValue, rarity);
         this.maxShield = maxShield;
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("Currency Value: " + currencyValue);
+        attributes.add("Max Shield: " + maxShield);
+        super.setAttributes(attributes);
     }
 
     public int getmaxShield() {
@@ -24,4 +30,9 @@ public class ShipShield extends ShipPart {
 
     //todo: add switch statement for different rarity images
     public BufferedImage getImage() {return ImageFactory.getCommonShieldImage();}
+
+    @Override
+    public void equip(Ship ship) {
+        ship.equipShield(this);
+    }
 }

@@ -1,6 +1,7 @@
 package Model.Ship.ShipParts;
 
 import Model.Pilot.Pilot;
+import Model.Ship.Ship;
 import Utility.Rarity;
 import Utility.SystemTimer;
 
@@ -12,8 +13,8 @@ public abstract class ShipSpecial extends ShipPart{
     private SystemTimer fuelCD;
 
 
-    public ShipSpecial(String name, int value, String attributes, Rarity rarity, int maxFuel, double fuelCost){
-        super(name, value, attributes, rarity);
+    public ShipSpecial(String name, int value, Rarity rarity, int maxFuel, double fuelCost){
+        super(name, value, rarity);
         activated = false;
         this.maxFuel = maxFuel;
         this.fuelCost = fuelCost;
@@ -37,5 +38,10 @@ public abstract class ShipSpecial extends ShipPart{
             pilot.getActiveShipStats().modifyCurrentFuel(-fuelCost);
             fuelCD.reset();
         }
+    }
+
+    @Override
+    public void equip(Ship ship) {
+        ship.equipSpecial(this);
     }
 }

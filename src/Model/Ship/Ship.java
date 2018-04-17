@@ -76,7 +76,11 @@ public class Ship{
 
 
     public void equipWeapon1(ShipWeapon weapon){
+        if (weaponSlot1 != null){
+            inventory.addItem(weaponSlot1);
+        }
         weaponSlot1 = weapon;
+        inventory.removeItem(weapon);
         updateMaxStats();
     }
 
@@ -85,7 +89,11 @@ public class Ship{
     }
 
     public void equipWeapon2(ShipWeapon weapon){
+        if (weaponSlot2 != null){
+            inventory.addItem(weaponSlot2);
+        }
         weaponSlot2 = weapon;
+        inventory.removeItem(weapon);
         updateMaxStats();
     }
 
@@ -94,17 +102,29 @@ public class Ship{
     }
 
     public void equipEngine(ShipEngine engine){
+        if (engineSlot != null){
+            inventory.addItem(engineSlot);
+        }
         engineSlot = engine;
+        inventory.removeItem(engine);
         updateMaxStats();
     }
 
     public void equipShield(ShipShield shield){
+        if (shieldSlot != null){
+            inventory.addItem(shieldSlot);
+        }
         shieldSlot = shield;
+        inventory.removeItem(shield);
         updateMaxStats();
     }
 
     public void equipSpecial(ShipSpecial special){
+        if (specialSlot != null){
+            inventory.addItem(specialSlot);
+        }
         specialSlot = special;
+        inventory.removeItem(special);
         updateMaxStats();
     }
 
@@ -134,7 +154,6 @@ public class Ship{
         return weaponSlot2;
     }
 
-    //TODO add unequip methods
 
     public void updateMaxStats(){
         if (engineSlot != null) shipStats.setMaxSpeed(engineSlot.getMaxSpeed());
