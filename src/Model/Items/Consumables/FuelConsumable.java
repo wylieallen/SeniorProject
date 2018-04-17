@@ -3,12 +3,13 @@ package Model.Items.Consumables;
 import Model.Ship.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FuelConsumable extends Consumable{
 
     public FuelConsumable(int value, int uv) {
         super("Fuel Pack", value, uv);
-        ArrayList<String> attributes = new ArrayList<>();
+        List<String> attributes = new ArrayList<>();
         attributes.add("Currency Value: " + value);
         attributes.add("Fuel Value: " + uv);
         super.setAttributes(attributes);

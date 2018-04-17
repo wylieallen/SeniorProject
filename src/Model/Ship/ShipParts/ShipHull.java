@@ -7,6 +7,7 @@ import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShipHull extends ShipPart {
 
@@ -17,7 +18,7 @@ public class ShipHull extends ShipPart {
         super("" + rarity + " Hull", currencyValue, rarity);
         this.maxHealth = maxHealth;
         this.inventorySize = inventorySize;
-        ArrayList<String> attributes = new ArrayList<>();
+        List<String> attributes = new ArrayList<>();
         attributes.add("Currency Value: " + currencyValue);
         attributes.add("Max Health: " + maxHealth);
         attributes.add("Inventory Size: " + inventorySize);

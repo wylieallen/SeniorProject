@@ -6,6 +6,7 @@ import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShipEngine extends ShipPart {
 
@@ -14,7 +15,7 @@ public class ShipEngine extends ShipPart {
     public ShipEngine(int currencyValue, int maxSpeed, Rarity rarity){
         super(rarity + " Engine", currencyValue, rarity);
         this.maxSpeed = maxSpeed;
-        ArrayList<String> attributes = new ArrayList<>();
+        List<String> attributes = new ArrayList<>();
         attributes.add("Currency Value: " + currencyValue);
         attributes.add("Max Speed: " + maxSpeed);
         super.setAttributes(attributes);

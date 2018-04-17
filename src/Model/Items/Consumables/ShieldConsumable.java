@@ -3,12 +3,13 @@ package Model.Items.Consumables;
 import Model.Ship.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShieldConsumable extends Consumable{
 
     public ShieldConsumable(int cv, int uv) {
         super("Shield Pack", cv, uv);
-        ArrayList<String> attributes = new ArrayList<>();
+        List<String> attributes = new ArrayList<>();
         attributes.add("Currency Value: " + cv);
         attributes.add("Shield Value: " + uv);
         super.setAttributes(attributes);

@@ -8,6 +8,7 @@ import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HealSpecial extends ShipSpecial {
 
@@ -16,7 +17,7 @@ public class HealSpecial extends ShipSpecial {
     public HealSpecial(int currencyValue, int maxFuel, double healPercent, double fuelCost, Rarity rarity) {
         super(rarity + " Heal Special", currencyValue, rarity, maxFuel, fuelCost);
         this.healPercent = healPercent;
-        ArrayList<String> attributes = new ArrayList<>();
+        List<String> attributes = new ArrayList<>();
         attributes.add("Currency Value: " + currencyValue);
         attributes.add("Heal Percent: " + healPercent);
         attributes.add("Max Fuel: " + maxFuel);

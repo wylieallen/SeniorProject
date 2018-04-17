@@ -5,11 +5,12 @@ import guiframework.gui2d.ImageFactory;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Item {
     private int currencyValue;
     private String name;
-    private ArrayList<String> attributes;
+    private List<String> attributes;
 
     public Item(String name, int value)
     {
@@ -30,9 +31,9 @@ public class Item {
 
     public void Use(){}
 
-    public void setAttributes(ArrayList<String> attributes) { this.attributes = attributes; }
+    public void setAttributes(List<String> attributes) { this.attributes = attributes; }
 
-    public ArrayList<String> getAttributes() { return attributes; }
+    public List<String> getAttributes() { return attributes; }
 
     public String getName(){return name; }
 

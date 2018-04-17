@@ -6,6 +6,7 @@ import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShipShield extends ShipPart {
 
@@ -14,7 +15,7 @@ public class ShipShield extends ShipPart {
     public ShipShield(int currencyValue, int maxShield, Rarity rarity){
         super(rarity + " Shield", currencyValue, rarity);
         this.maxShield = maxShield;
-        ArrayList<String> attributes = new ArrayList<>();
+        List<String> attributes = new ArrayList<>();
         attributes.add("Currency Value: " + currencyValue);
         attributes.add("Max Shield: " + maxShield);
         super.setAttributes(attributes);

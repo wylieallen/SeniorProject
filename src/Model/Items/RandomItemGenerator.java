@@ -8,6 +8,7 @@ import Utility.RandomNumberGenerator;
 import Utility.Rarity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static Utility.Config.*;
 
@@ -38,7 +39,7 @@ public class RandomItemGenerator {
         //70% chance trash loot
         else{
             Item trashLoot = new Item("trashLoot", rarity.value());
-            ArrayList<String> attributes = new ArrayList<>();
+            List<String> attributes = new ArrayList<>();
             attributes.add("Currency Value: " + rarity.value());
             trashLoot.setAttributes(attributes);
             return trashLoot;

@@ -5,12 +5,13 @@ import Model.Ship.ShipParts.ShipWeapon;
 import Utility.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EnergyWeapon extends ShipWeapon {
 
     public EnergyWeapon(int currencyValue, Projectile projectile, Rarity rarity, int cooldown) {
         super(rarity + " " + projectile.getName() + " Energy Weapon", currencyValue, rarity, projectile, cooldown);
-        ArrayList<String> attributes = new ArrayList<>();
+        List<String> attributes = new ArrayList<>();
         attributes.add("Currency Value: " + currencyValue);
         attributes.add("Firing Rate: " + cooldown);
         attributes.add("Projectile Damage: " + projectile.getDamage());
