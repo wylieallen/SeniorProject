@@ -13,17 +13,17 @@ public class ImageFactory
     private static final BufferedImage spaceBackground = loadImage("resources/Images/space-background.jpeg");
 
     //Trading Post Images
-    private static final BufferedImage tradingPostLabel = loadImage("resources/Images/label_trading-post.png");
-    private static final BufferedImage buyButtonBase = loadImage("resources/Images/button_buy-items_base.png");
+    private static final BufferedImage tradingPostLabel = loadImage("resources/Images/tp_title_base.png");
+    private static final BufferedImage buyButtonBase = loadImage("resources/Images/buy_button_base_new.png");
     private static final BufferedImage buyButtonHover = loadImage("resources/Images/button_buy-items_hover.png");
     private static final BufferedImage buyButtonPress = loadImage("resources/Images/button_buy-items_press.png");
-    private static final BufferedImage sellButtonBase = loadImage("resources/Images/button_sell-items_base.png");
+    private static final BufferedImage sellButtonBase = loadImage("resources/Images/sell_button_base_new.png");
     private static final BufferedImage sellButtonHover = loadImage("resources/Images/button_sell-items_hover.png");
     private static final BufferedImage sellButtonPress = loadImage("resources/Images/button_sell-items_press.png");
-    private static final BufferedImage bountyButtonBase = loadImage("resources/Images/button_bounty-missions_base.png");
+    private static final BufferedImage bountyButtonBase = loadImage("resources/Images/bounty_button_base_new.png");
     private static final BufferedImage bountyButtonHover = loadImage("resources/Images/button_bounty-missions_hover.png");
     private static final BufferedImage bountyButtonPress = loadImage("resources/Images/button_bounty-missions_press.png");
-    private static final BufferedImage exitButtonBase = loadImage("resources/Images/button_exit_base.png");
+    private static final BufferedImage exitButtonBase = loadImage("resources/Images/exit_tp_base_new.png");
     private static final BufferedImage exitButtonHover = loadImage("resources/Images/button_exit_hover.png");
     private static final BufferedImage exitButtonPress = loadImage("resources/Images/button_exit_press.png");
 
@@ -63,6 +63,9 @@ public class ImageFactory
     private static final BufferedImage commonLinearWeaponImage = loadImage("resources/Images/ship-linear-weapon-sprite-common.png");
 
     private static final BufferedImage notFoundImage = loadImage("resources/Images/image-not-found-image.jpg");
+    private static final BufferedImage commonFuelPackImage = loadImage("resources/Images/fuel-cell-sprite-black-back.png");
+    private static final BufferedImage commonHealthPackImage = loadImage("resources/Images/health-pack-sprite-black-back.png");
+    private static final BufferedImage commonShieldPackImage = loadImage("resources/Images/shield-pack-sprite-black-back.png");
 
     public static BufferedImage makeBorderedRect(int width, int height, Color bodyColor, Color borderColor)
     {
@@ -245,5 +248,11 @@ public class ImageFactory
 
     //item image methods
     public static BufferedImage getNotFoundImage() {return notFoundImage;}
+
+    public static BufferedImage getCommonFuelPackImage() {return commonFuelPackImage;}
+
+    public static BufferedImage getCommonHealthPackImage() {return commonHealthPackImage;}
+
+    public static BufferedImage getCommonShieldPackImage() {return commonShieldPackImage;}
 
 }

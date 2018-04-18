@@ -1,7 +1,9 @@
 package Model.Items.Consumables;
 
 import Model.Ship.*;
+import guiframework.gui2d.ImageFactory;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,4 +28,7 @@ public class HealthConsumable extends Consumable{
         else
             stats.modifyCurrentHealth(getUseValue());
     }
+
+    //todo: add switch statement for different rarity images
+    public BufferedImage getImage() {return ImageFactory.getCommonHealthPackImage();}
 }

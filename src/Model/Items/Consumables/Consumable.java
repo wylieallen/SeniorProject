@@ -2,7 +2,9 @@ package Model.Items.Consumables;
 
 import Model.Items.Item;
 import Model.Ship.*;
+import guiframework.gui2d.ImageFactory;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 abstract class Consumable extends Item
@@ -18,4 +20,6 @@ abstract class Consumable extends Item
     public void setUseValue(int uv) { useValue = uv; }
 
     public abstract void Use(Ship s);
+
+    public abstract BufferedImage getImage();
 }
