@@ -58,6 +58,7 @@ public class ShipHull extends ShipPart {
         ShipBuilder builder = new ShipBuilder();
         builder.addRandomParts(newShip);
         owner.getShipHangar().addShip(newShip);
+        ship.getInventory().removeItem(this);
     }
 }
 
