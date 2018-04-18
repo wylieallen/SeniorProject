@@ -14,7 +14,7 @@ public class AI {
 
     public AI(){
         battleZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
-        aiState = new StandbyState(1000);
+        aiState = new StandbyState(500);
     }
 
     public void setAiState(AIState aiState) {

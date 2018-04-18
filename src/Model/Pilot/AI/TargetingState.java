@@ -15,6 +15,9 @@ public class TargetingState implements AIState{
     private RandomNumberGenerator rng = new RandomNumberGenerator();
     private int accuracyCooldown = 0;
     private int accuracySpeed;
+    private int xOffset;
+    private int yOffset;
+    private int zOffset;
 
     @Override
     public void makeMove(Enemy thisPilot, AI ai) {
@@ -29,8 +32,8 @@ public class TargetingState implements AIState{
 
 
         //Random chance to flee
-        int chance = rng.getRandomInBetween(1,300);
-        if (chance == 300){
+        int chance = rng.getRandomInBetween(1,500);
+        if (chance == 500){
             ai.setAiState(new StandbyState(750));
             thisPilot.getActiveShip().setFiring1(false);
             while (thisPilot.getCurrentShipSpeed() > 0){
@@ -64,6 +67,12 @@ public class TargetingState implements AIState{
 
         if (accuracyCooldown == 0){
             accuracySpeed = rng.getRandomInBetween(-(int) offsetSpeed, (int) offsetSpeed);
+            int positionOffset = (int) (20f - AI_ACCURACY*20f);
+
+            System.out.println("Position offset: " + positionOffset);
+            xOffset = rng.getRandomInBetween(-positionOffset, positionOffset);
+            yOffset = rng.getRandomInBetween(-positionOffset, positionOffset);
+            zOffset = rng.getRandomInBetween(-positionOffset, positionOffset);
             accuracyCooldown = 500;
         }
         accuracyCooldown--;
@@ -72,11 +81,12 @@ public class TargetingState implements AIState{
 
         float targetSpeedWithAccuracy = targetSpeed+accuracySpeed;
 
-
         //Project target position to get new unit vector
-        float newI = (targetDirection.getI()*targetSpeedWithAccuracy+targetPosition.getX()-currentPosition.getX())/weaponSpeed;
-        float newJ = (targetDirection.getJ()*targetSpeedWithAccuracy+targetPosition.getY()-currentPosition.getY())/weaponSpeed;
-        float newK = (targetDirection.getK()*targetSpeedWithAccuracy+targetPosition.getZ()-currentPosition.getZ())/weaponSpeed;
+        float newI = (targetDirection.getI()*targetSpeedWithAccuracy+(targetPosition.getX()+xOffset)-currentPosition.getX())/weaponSpeed;
+        float newJ = (targetDirection.getJ()*targetSpeedWithAccuracy+(targetPosition.getY()+yOffset)-currentPosition.getY())/weaponSpeed;
+        float newK = (targetDirection.getK()*targetSpeedWithAccuracy+(targetPosition.getZ()+zOffset)-currentPosition.getZ())/weaponSpeed;
+
+
 
         Vector3D direction = new Vector3D(newI, newJ, newK);
         thisPilot.getActiveShip().setFacingDirection(direction);

@@ -70,11 +70,11 @@ public class RandomNumberGenerator{
 
     public Faction getRandomFaction(){
         int rarityDetermine = getRandomInBetween(1,100);
-        //5% chance ALLY
-        if (rarityDetermine > 95){
+        //10% chance ALLY
+        if (rarityDetermine > 90){
             return Faction.ALLY;
         }
-        //95% chance ENEMY
+        //90% chance ENEMY
         else {
             return Faction.REBEL;
         }

@@ -316,7 +316,9 @@ public class BattleZone extends Zone implements CollisionObserver {
     }
 
     public void notifyShipToProj(Body<Ship> ship, Body<Projectile> projectile) {
-        ship.get().takeDamage(projectile.get().getDamage()+ projectile.get().getDamage() * projectile.get().getProjectileSource().getPilotStats().getCombat());
+        if (ship.get() != projectile.get().getProjectileSource().getActiveShip()){
+            ship.get().takeDamage(projectile.get().getDamage()+ projectile.get().getDamage() * projectile.get().getProjectileSource().getPilotStats().getCombat());
+        }
         projectile.get().disable();
         if (!(ship.get().isAlive())){
             projectile.get().getProjectileSource().gainExperience(25);
@@ -349,6 +351,7 @@ public class BattleZone extends Zone implements CollisionObserver {
 //  UPDATE METHODS
 
     public void update() {
+        //generateRandomEnemy();
         generateRandomChest();
         generateAsteroid();
         collisionChecker.processCollisions(ships, projectiles, lootChests, asteroids);

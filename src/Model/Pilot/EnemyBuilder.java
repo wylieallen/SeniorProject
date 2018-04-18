@@ -37,6 +37,7 @@ public class EnemyBuilder {
 
             //Decide Faction
             Faction enemyFaction = rng.getRandomFaction();
+            newEnemy.setFaction(enemyFaction);
 
             //Decide Location
             Point3D enemyLoc = rng.getRandomLocation();
