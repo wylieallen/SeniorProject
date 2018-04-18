@@ -13,7 +13,7 @@ import static Utility.Config.BASE_PROJECTILE_RANGE;
 
 public abstract class Projectile {
 
-/*    public static final Projectile NULL = new Projectile("NULL", 0, 0, new Vector3D(0, 0, 0), Pilot.NULL)
+    public static final Projectile NULL = new Projectile("NULL", 1, 0, new Vector3D(0, 0, 0), Pilot.NULL)
     {
         public void move(Point3D point3D) {};
 
@@ -22,7 +22,7 @@ public abstract class Projectile {
         {
             return this;
         }
-    };*/
+    };
 
     private String name;
     private Vector3D trajectory;

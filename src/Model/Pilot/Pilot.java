@@ -1,8 +1,11 @@
 package Model.Pilot;
 import Model.Ship.Ship;
+import Model.Ship.ShipParts.ShipHull;
 import Model.Ship.ShipStats;
 import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
+import Utility.Rarity;
+
 import static Utility.Config.*;
 
 public abstract class Pilot {
@@ -10,6 +13,28 @@ public abstract class Pilot {
     private PilotStats pilotStats;
     private int maxLevel;
     private Faction faction;
+
+    public static Pilot NULL = new Pilot(Faction.NEUTRAL)
+    {
+        public void pilotDied() {}
+
+        @Override
+        public boolean move(Point3D curPosition)
+        {
+            return false;
+        }
+    };
+
+    public Pilot(Faction faction, PilotStats pilotStats)
+    {
+        this.faction = faction;
+        this.pilotStats = pilotStats;
+    }
+
+    public Pilot(Faction faction)
+    {
+        this(faction, new PilotStats(1));
+    }
 
     public void setActiveShip(Ship ship){
         this.activeShip = ship;

@@ -13,9 +13,8 @@ public class Enemy extends Pilot {
     private AI ai;
 
 
-    public Enemy(){
-        super.setPilotStats(new PilotStats(getMaxLevel()));
-        super.setFaction(Faction.REBEL);
+    public Enemy(int level){
+        super(Faction.REBEL, new PilotStats(level));
         ai = new AI();
     }
 
@@ -25,8 +24,9 @@ public class Enemy extends Pilot {
 
     @Override
     public void pilotDied() {
+        // todo:
         BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
-        currentZone.enemyDestroyed(this);
+        //currentZone.enemyDestroyed(this);
     }
 
     @Override

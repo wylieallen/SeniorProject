@@ -14,8 +14,7 @@ public class Player extends Pilot {
     private BountyMission currentBountyMission;
 
     public Player(){
-        super.setPilotStats(new PilotStats(1));
-        super.setFaction(Faction.ALLY);
+        super(Faction.ALLY);
         shipHangar = new ShipHangar();
         myWallet = new Wallet(0);
         currentBountyMission = null;

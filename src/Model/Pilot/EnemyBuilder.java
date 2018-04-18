@@ -30,7 +30,7 @@ public class EnemyBuilder {
     public Set<Body<Ship>> buildEnemies(int numberToGenerate){
         Set<Body<Ship>> enemies = new HashSet<>();
         for (int i = 0; i < numberToGenerate; i++){
-            Enemy newEnemy = new Enemy();
+            Enemy newEnemy = new Enemy(0);
 
             //Decide Rarity
             Rarity enemyRarity = rng.getRandomRarity();
@@ -70,7 +70,7 @@ public class EnemyBuilder {
         int lineIndex = 1;
 
         while (enemyData.get(lineIndex++).equals("ENEMY")){
-            Enemy newEnemy = new Enemy();
+            Enemy newEnemy = new Enemy(0);
 
             lineIndex++; //SKIP LOCATION
             int x = Integer.parseInt(enemyData.get(lineIndex++).split("\t\t")[1]);
