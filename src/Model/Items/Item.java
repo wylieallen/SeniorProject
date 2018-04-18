@@ -1,5 +1,6 @@
 package Model.Items;
 
+import Model.Ship.Ship;
 import guiframework.gui2d.ImageFactory;
 
 import java.awt.image.BufferedImage;
@@ -44,4 +45,6 @@ public class Item {
     public BufferedImage getImage() {return ImageFactory.getNotFoundImage();}
 
     public boolean isShipPart(){return false;}
+
+    public void equip(Ship s){}
 }

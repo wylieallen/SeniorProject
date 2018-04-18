@@ -13,8 +13,8 @@ public class EnergyWeapon extends ShipWeapon {
         super(rarity + " " + projectile.getName() + " Energy Weapon", currencyValue, rarity, projectile, cooldown);
         List<String> attributes = new ArrayList<>();
         attributes.add("Currency Value: " + currencyValue);
-        attributes.add("Firing Rate: " + cooldown);
         attributes.add("Projectile Damage: " + projectile.getDamage());
+        attributes.add("Firing Rate: " + cooldown);
         attributes.add("Projectile Speed: " + projectile.getSpeed());
         super.setAttributes(attributes);
     }

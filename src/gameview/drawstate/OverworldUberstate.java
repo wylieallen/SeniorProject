@@ -1,6 +1,10 @@
 package gameview.drawstate;
 
+import Model.Items.Consumables.HealthConsumable;
+import Model.Items.Consumables.ShieldConsumable;
 import Model.Items.Inventory;
+import Model.Items.Item;
+import Model.Items.RandomItemGenerator;
 import Model.Map.Node;
 import Model.Map.Overworld;
 import Model.Map.Zones.BattleZone;
@@ -32,20 +36,27 @@ import guiframework.gui3d.Renderstate;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OverworldUberstate extends Uberstate
 {
+    private static final Font font = new Font("Arvo", Font.PLAIN, 30);
     private static final int HEIGHT = 1000;
     private static final int WIDTH = 1750;
     private static final int MARGIN = 10;
-    private static final Font font = new Font("Arvo", Font.PLAIN, 30);
+    //todo: might change items per page
+    private static final int ITEMSPERPAGE = 10;
+    private int selectedShip = 0;
+    private int selectedPart = 0;
+    private int partsCount = 0;
+    private List<Button> playerItems;
     private Overworld overworld;
     private Overlay mapOverlay;
     private Button skillsMenu;
     private ImageDisplayable nodeInfo;
     private Overlay selectedNode;
-    private int selectedShip = 0;
     private Overlay selectedShipOverlay;
+    private Overlay selectedPartOverlay;
     private ImageDisplayable currentEngineImage;
     private ImageDisplayable currentShieldImage;
     private ImageDisplayable currentSpecialImage;
@@ -83,6 +94,31 @@ public class OverworldUberstate extends Uberstate
         currentPlayer.getShipHangar().addShip(ship3);
         currentPlayer.getShipHangar().addShip(ship4);
         currentPlayer.setActiveShip(ship1);
+
+        RandomItemGenerator RIG = new RandomItemGenerator();
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.COMMON));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.LEGENDARY));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
+        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
+//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+        for(int i =0; i < 10; i++)
+            currentPlayer.getActiveShip().getInventory().addItem(RIG.getRandomItem());
+
+        playerItems = new ArrayList<Button>();
 
         Drawstate drawstate = getDrawstate();
         ClickableControlstate controlstate = getControlstate();
@@ -452,6 +488,147 @@ public class OverworldUberstate extends Uberstate
 
                                 ImageDisplayable dividerLineRight = new ImageDisplayable(new Point(650,0), ImageFactory.makeBorderedRect(10,900,Color.GREEN, Color.GREEN));
                                 changePartsOverlay.add(dividerLineRight);
+
+                                //Add player inventory displayables
+                                Inventory playerInventory = currentPlayer.getActiveShip().getInventory();
+                                StringDisplayable inventoryTitle = new StringDisplayable(new Point(0,0),() ->"Player Inventory: " + playerInventory.getcurrItemsNum() + "Items",Color.GREEN, font );
+                                int widthIT = inventoryTitle.getSize().width;
+                                inventoryTitle.getOrigin().setLocation((650)+((WIDTH-650)/2)-(widthIT/2), 0);
+                                changePartsOverlay.add(inventoryTitle);
+
+                                selectedPartOverlay = new Overlay(new Point(0,0));
+                                ImageDisplayable spBackground = new ImageDisplayable(new Point(0,0),
+                                        ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));
+                                ImageDisplayable itemName = new ImageDisplayable(new Point(0,0),
+                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, playerInventory.getItem(selectedPart).getName()));
+                                ImageDisplayable itemInfo = new ImageDisplayable(new Point(0,55),
+                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, playerInventory.getItem(selectedPart).getAttributes().get(1)));
+                                selectedPartOverlay.add(spBackground);
+                                selectedPartOverlay.add(itemName);
+                                selectedPartOverlay.add(itemInfo);
+
+
+                                Button equipPart = new Button(new Point(0, 110),
+                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
+                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
+                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
+                                        () -> {
+                                            System.out.println("Equip Button pressed!");
+                                            Item partEquip = playerInventory.getItem(selectedPart);
+                                            //Equip part
+                                            //Note: This also removes part from inventory and puts unequiped part into inventory
+                                            partEquip.equip(currentPlayer.getShipHangar().getShipAtIndex(selectedShip));
+
+                                            changePartsOverlay.remove(selectedPartOverlay);
+                                            changePartsOverlay.removeClickable(selectedPartOverlay);
+
+                                            //remove and readd current ship part images
+                                            currentEngineImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getEngineSlot().getImage());
+                                            currentShieldImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShieldSlot().getImage());
+                                            currentSpecialImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getSpecialSlot().getImage());
+                                            currentWeaponImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getWeaponSlot1().getImage());
+
+                                            //clear buttons and parts count and make new ones
+                                            for(int j = 0; j < playerItems.size(); j++) {
+                                                Button pButton = playerItems.get(j);
+                                                changePartsOverlay.remove(pButton);
+                                                changePartsOverlay.removeClickable(pButton);
+                                            }
+                                            playerItems.clear();
+                                            partsCount = 0;
+
+                                            for(int i = 0; i <  playerInventory.getcurrItemsNum() && partsCount < ITEMSPERPAGE; i++) {
+                                                if(playerInventory.getItem(i).isShipPart()){
+                                                    int x = 700 + (200*(partsCount%5)) + ((partsCount%5)*MARGIN) + MARGIN;
+                                                    int y = 150 + (350*(partsCount/5));;
+                                                    Item part = playerInventory.getItem(i);
+                                                    Button partButton = new Button(new Point(x, y),
+                                                            part.getImage(),
+                                                            part.getImage(),
+                                                            part.getImage(),
+                                                            () -> {
+                                                                changePartsOverlay.remove(selectedPartOverlay);
+                                                                changePartsOverlay.removeClickable(selectedPartOverlay);
+
+                                                                selectedPart = playerInventory.getIndex(part);
+
+                                                                selectedPartOverlay.getOrigin().setLocation(x-25,y+120);
+                                                                spBackground.setImage(ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));
+                                                                itemName.setImage(ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getName()));
+                                                                itemInfo.setImage(ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getAttributes().get(1)));
+
+                                                                changePartsOverlay.add(selectedPartOverlay);
+                                                                changePartsOverlay.addClickable(selectedPartOverlay);
+                                                            });
+                                                    changePartsOverlay.add(partButton);
+                                                    changePartsOverlay.addClickable(partButton);
+                                                    playerItems.add(partButton);
+                                                    partsCount++;
+                                                }
+                                            }
+                                        });
+                                selectedPartOverlay.add(equipPart);
+                                selectedPartOverlay.addClickable(equipPart);
+
+                                for(int i = 0; i <  playerInventory.getcurrItemsNum() && partsCount < ITEMSPERPAGE; i++) {
+                                    if(playerInventory.getItem(i).isShipPart()){
+                                        int x = 700 + (200*(partsCount%5)) + ((partsCount%5)*MARGIN) + MARGIN;
+                                        int y = 150 + (350*(partsCount/5));;
+                                        Item part = playerInventory.getItem(i);
+                                        Button partButton = new Button(new Point(x, y),
+                                                part.getImage(),
+                                                part.getImage(),
+                                                part.getImage(),
+                                                () -> {
+                                                    changePartsOverlay.remove(selectedPartOverlay);
+                                                    changePartsOverlay.removeClickable(selectedPartOverlay);
+
+                                                    selectedPart = playerInventory.getIndex(part);
+
+                                                    selectedPartOverlay.getOrigin().setLocation(x-25,y+120);
+                                                    spBackground.setImage(ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));
+                                                    itemName.setImage(ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getName()));
+                                                    itemInfo.setImage(ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getAttributes().get(1)));
+//                                                    selectedPartOverlay = new Overlay(new Point(x-25,y+120));
+//                                                    ImageDisplayable spBackground = new ImageDisplayable(new Point(0,0),
+//                                                            ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));
+//                                                    ImageDisplayable itemName = new ImageDisplayable(new Point(0,0),
+//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getName()));
+//                                                    ImageDisplayable itemInfo = new ImageDisplayable(new Point(0,55),
+//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getAttributes().get(1)));
+//                                                    Button equipPart = new Button(new Point(0, 110),
+//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
+//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
+//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
+//                                                            () -> {
+//                                                                //Equip part
+//                                                                //Note: This also removes part from inventory and puts unequiped part into inventory
+//                                                                part.equip();
+//
+//                                                                //clear buttons and make new ones
+//                                                                for(int j = 0; j < playerItems.size(); j++) {
+//                                                                    Button pButton = playerItems.get(j);
+//                                                                    changePartsOverlay.remove(pButton);
+//                                                                    changePartsOverlay.removeClickable(pButton);
+//                                                                }
+//                                                                playerItems.clear();
+//
+//                                                            });
+//                                                    selectedPartOverlay.add(spBackground);
+//                                                    selectedPartOverlay.add(itemName);
+//                                                    selectedPartOverlay.add(itemInfo);
+//                                                    selectedPartOverlay.add(equipPart);
+//                                                    selectedPartOverlay.addClickable(equipPart);
+
+                                                    changePartsOverlay.add(selectedPartOverlay);
+                                                    changePartsOverlay.addClickable(selectedPartOverlay);
+                                                });
+                                        changePartsOverlay.add(partButton);
+                                        changePartsOverlay.addClickable(partButton);
+                                        playerItems.add(partButton);
+                                        partsCount++;
+                                    }
+                                }
 
                                 Button backToHangarButton = new Button(new Point(10, HEIGHT-200),
                                         ImageFactory.getBackToHangarButton(),
