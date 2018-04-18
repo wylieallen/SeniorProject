@@ -4,6 +4,8 @@ import Model.Items.Item;
 import Model.Pilot.Pilot;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.*;
+import Model.Ship.ShipParts.Projectile.HomingProjectile;
+import Model.Ship.ShipParts.WeaponType.EnergyWeapon;
 import Utility.Rarity;
 
 import static Utility.Config.*;
@@ -64,7 +66,7 @@ public class ShipBuilder extends PartBuilder{
         newShip.equipShield(buildRandomShield(baseValue, BASE_SHIELD_VALUE, rarity));
         newShip.equipSpecial(buildRandomSpecial(baseValue, BASE_MAX_FUEL, BASE_SPECIAL_USE, BASE_FUEL_COST, rarity));
         newShip.equipWeapon1(buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity));
-        newShip.equipWeapon2(buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity));
+        newShip.equipWeapon2(new EnergyWeapon(0, new HomingProjectile(null, null, 3, 20), Rarity.LEGENDARY, 10));
         return newShip;
     }
 

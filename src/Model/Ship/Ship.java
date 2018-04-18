@@ -391,6 +391,8 @@ public class Ship{
 
     public void setFiring1(boolean firing1) { this.firing1 = firing1; }
 
+    public void setFiring2(boolean firing2) { this.firing2 = firing2; }
+
     public boolean isFiring1() {
         return firing1;
     }

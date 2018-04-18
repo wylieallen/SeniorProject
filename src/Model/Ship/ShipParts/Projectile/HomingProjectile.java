@@ -15,15 +15,14 @@ public class HomingProjectile extends Projectile{
 
     private Pilot target;
 
-    public HomingProjectile(Pilot pilot, Vector3D trajectory)
-    {
-        super("Homing", 50, 100, trajectory, pilot);
+    public HomingProjectile(Pilot pilot, Vector3D trajectory, float speed, int damage){
+        super("Homing", speed, damage, trajectory, pilot);
     }
 
     @Override
     public Projectile cloneProjectile(Pilot pilot, Vector3D trajectory) {
 
-        return new HomingProjectile(pilot, trajectory);
+        return new HomingProjectile(pilot, trajectory, super.getSpeed(), super.getDamage());
     }
 
     public void setTarget(Pilot target){
@@ -35,28 +34,20 @@ public class HomingProjectile extends Projectile{
     }
 
     @Override
-    public void move(Point3D curPosition) {
-/*        BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
+    public void move(Point3D currentPosition) {
+       BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
 
-        //TODO Find nearest target to lock-on
+        //Find nearest target to lock-on
         if (target == null){
-
+            target = currentZone.getNearestHostileTo(getProjectileSource());
         }
-        Point3D targetPosition = currentZone.getPositionOf(target);
+        else {
+            Point3D targetPosition = currentZone.getPositionOf(target);
+            Vector3D direction = new Vector3D(currentPosition, targetPosition);
+            direction.makeUnitVector();
+            setTrajectory(direction);
+        }
 
-        Vector3D curTrajectory = new Vector3D(curPosition, targetPosition);
-        curTrajectory.makeUnitVector();
-        super.setTrajectory(curTrajectory);
-
-        float curSpeed = super.getSpeed();
-
-        float newX = curPosition.getX() + curTrajectory.getI()*(float)(curSpeed/FRAMERATE);
-        float newY = curPosition.getY() + curTrajectory.getJ()*(float)(curSpeed/FRAMERATE);
-        float newZ = curPosition.getZ() + curTrajectory.getK()*(float)(curSpeed/FRAMERATE);
-
-        Point3D newPosition = new Point3D(newX, newY, newZ);
-
-        return newPosition;*/
     }
 
     //todo: add switch statement for different rarity images

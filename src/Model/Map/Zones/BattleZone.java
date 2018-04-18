@@ -191,6 +191,7 @@ public class BattleZone extends Zone implements CollisionObserver {
         return new Point3D(0, 0, 0);
     }
 
+
     public Player getPlayer() {
         return (Player) player.get().getMyPilot();
     }
@@ -453,7 +454,14 @@ public class BattleZone extends Zone implements CollisionObserver {
         }
 
         if (ship.isFiring2()) {
-
+            Collection<Projectile> projectiles = ship.useWeapon2();
+            for (Projectile projectile : projectiles) {
+                Body<Projectile> projBody = new Body<Projectile>(
+                        new Point3D(body.getCenter()), new Dimension3D(.2f),
+                        new Orientation3D(body.getOrientation()), projectile);
+                projBody.moveForward(body.getSize().getLength()/2);
+                spawnProjectile(projBody);
+            }
         }
     }
 
