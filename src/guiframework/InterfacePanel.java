@@ -17,6 +17,7 @@ public class InterfacePanel extends GLJPanel implements ZoneTransitionObserver
 {
     private Uberstate uberstate;
     // todo: put this application-specific stuff in a subclass of InterfacePanel
+    // todo: add startUberstate here
     private Uberstate overworld, tradingpost, inflight;
 
     public InterfacePanel(Uberstate uberstate)

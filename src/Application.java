@@ -1,5 +1,6 @@
 import gameview.GameUberstate;
 import gameview.drawstate.OverworldUberstate;
+import gameview.drawstate.StartUberstate;
 import guiframework.InterfacePanel;
 import gameview.drawstate.TradingPostUberstate;
 import guiframework.gui3d.Renderstate;
@@ -31,9 +32,10 @@ public class Application
 
         TradingPostUberstate tpUberstate = new TradingPostUberstate(renderstate);
         OverworldUberstate overworldUberstate = new OverworldUberstate(renderstate);
+        StartUberstate startUberstate = new StartUberstate(renderstate);
         GameUberstate gameUberstate = new GameUberstate(renderstate, new Point(WIDTH / 2, HEIGHT / 2));
 
-        InterfacePanel panel = new InterfacePanel(tpUberstate);
+        InterfacePanel panel = new InterfacePanel(startUberstate);
         panel.setSize(WIDTH, HEIGHT);
         panel.setBackground(Color.BLACK);
 

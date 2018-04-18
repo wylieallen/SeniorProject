@@ -137,7 +137,7 @@ public class OverworldUberstate extends Uberstate
         //Add title box
         ImageDisplayable overworldTitle =
                 new ImageDisplayable(new Point(WIDTH/2 - (ImageFactory.getOverworldLabel().getWidth()/2),25), ImageFactory.getOverworldLabel());
-        mapOverlay.add(overworldTitle);
+        //mapOverlay.add(overworldTitle);
 
 
         for(int i = 0; i < overworld.getNodes().size(); i++) {
@@ -415,6 +415,16 @@ public class OverworldUberstate extends Uberstate
                                 //remove hangar overlay and add changeParts overlay
                                 drawstate.removeOverlay(hangarOverlay);
                                 controlstate.remove(hangarOverlay);
+
+                                //clear buttons list and parts count
+//                                for(int j = 0; j < playerItems.size(); j++) {
+//                                    Button pButton = playerItems.get(j);
+//                                    changePartsOverlay.remove(pButton);
+//                                    changePartsOverlay.removeClickable(pButton);
+//                                }
+                                playerItems.clear();
+                                partsCount = 0;
+                                selectedPart = 0;
 
                                 Overlay changePartsOverlay = new Overlay(new Point(0,0));
 
