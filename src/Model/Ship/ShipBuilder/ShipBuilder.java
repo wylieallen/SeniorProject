@@ -5,6 +5,8 @@ import Model.Pilot.Pilot;
 import Model.Ship.Ship;
 import Model.Ship.ShipParts.*;
 import Model.Ship.ShipParts.Projectile.HomingProjectile;
+import Model.Ship.ShipParts.Projectile.LinearProjectile;
+import Model.Ship.ShipParts.SpecialType.BoostSpecial;
 import Model.Ship.ShipParts.WeaponType.EnergyWeapon;
 import Utility.Rarity;
 
@@ -66,8 +68,19 @@ public class ShipBuilder extends PartBuilder{
         newShip.equipShield(buildRandomShield(baseValue, BASE_SHIELD_VALUE, rarity));
         newShip.equipSpecial(buildRandomSpecial(baseValue, BASE_MAX_FUEL, BASE_SPECIAL_USE, BASE_FUEL_COST, rarity));
         newShip.equipWeapon1(buildRandomWeapon(baseValue, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE, rarity));
-        newShip.equipWeapon2(new EnergyWeapon(0, new HomingProjectile(null, null, 3, 20), Rarity.LEGENDARY, 10));
+        newShip.equipWeapon2(new EnergyWeapon(0, new HomingProjectile(null, null, 3, 15), Rarity.LEGENDARY, 10));
         return newShip;
+    }
+
+    public void addRandomParts(Ship ship) {
+        Rarity rarity = Rarity.COMMON;
+        int value = rarity.value();
+
+        ship.equipShield(new ShipShield(value, BASE_SHIELD_VALUE, rarity));
+        ship.equipEngine(new ShipEngine(value, BASE_ENGINE_SPEED, rarity));
+        ship.equipSpecial(new BoostSpecial(value, BASE_MAX_FUEL, BASE_SPECIAL_USE*.05, BASE_FUEL_COST*.20, rarity));
+        ship.equipWeapon1(new EnergyWeapon(value, new LinearProjectile(null, null, BASE_WEAPON_SPEED, BASE_WEAPON_DAMAGE), rarity, BASE_WEAPON_COOLDOWN));
+        ship.equipWeapon2(new EnergyWeapon(0, new HomingProjectile(null, null, 3, 15), Rarity.LEGENDARY, 10));
     }
 
     public ShipPart buildRandomPart(int baseValue, Rarity rarity){

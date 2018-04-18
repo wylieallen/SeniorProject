@@ -2,6 +2,7 @@ package Model.Ship.ShipParts;
 
 import Model.Pilot.Player;
 import Model.Ship.Ship;
+import Model.Ship.ShipBuilder.ShipBuilder;
 import Utility.Rarity;
 import guiframework.gui2d.ImageFactory;
 
@@ -53,7 +54,10 @@ public class ShipHull extends ShipPart {
     @Override
     public void equip(Ship ship) {
         Player owner = (Player) ship.getMyPilot();
-        owner.getShipHangar().addShip(new Ship(owner, this));
+        Ship newShip = new Ship(owner, this);
+        ShipBuilder builder = new ShipBuilder();
+        builder.addRandomParts(newShip);
+        owner.getShipHangar().addShip(newShip);
     }
 }
 
