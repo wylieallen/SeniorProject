@@ -319,7 +319,7 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     public void notifyShipToProj(Body<Ship> ship, Body<Projectile> projectile) {
         if (ship.get() != projectile.get().getProjectileSource().getActiveShip()){
-            ship.get().takeDamage(projectile.get().getDamage()+ projectile.get().getDamage() * (int) projectile.get().getProjectileSource().getPilotStats().combatScaling());
+            ship.get().takeDamage((int) (projectile.get().getDamage()+ (projectile.get().getDamage() * projectile.get().getProjectileSource().getPilotStats().combatScaling())));
         }
         projectile.get().disable();
         if (!(ship.get().isAlive())){
