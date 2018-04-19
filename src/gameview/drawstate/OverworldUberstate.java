@@ -658,7 +658,7 @@ public class OverworldUberstate extends Uberstate
 //                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, playerInventory.getItem(selectedPart).getName()));
 //                                ImageDisplayable itemInfo = new ImageDisplayable(new Point(0, 55),
 //                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, playerInventory.getItem(selectedPart).getAttributes().get(1)));
-                                selectedPartOverlay.add(spBackground);
+                                //selectedPartOverlay.add(spBackground);
                                 selectedPartOverlay.add(itemName);
                                 selectedPartOverlay.add(itemInfo);
 
@@ -677,7 +677,7 @@ public class OverworldUberstate extends Uberstate
                                             changePartsOverlay.remove(selectedPartOverlay);
                                             changePartsOverlay.removeClickable(selectedPartOverlay);
 
-                                            //remove and readd current ship part images
+                                            //reset current ship part images
                                             currentEngineImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getEngineSlot().getImage());
                                             currentShieldImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShieldSlot().getImage());
                                             currentSpecialImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getSpecialSlot().getImage());
