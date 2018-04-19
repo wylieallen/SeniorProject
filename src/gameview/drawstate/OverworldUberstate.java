@@ -46,6 +46,7 @@ public class OverworldUberstate extends Uberstate
     private static final int MARGIN = 10;
     //todo: might change items per page
     private static final int ITEMSPERPAGE = 10;
+    private static final int SKILLCAP = 10;
     private int selectedShip = 0;
     private int selectedPart = 0;
     private int partsCount = 0;
@@ -195,7 +196,7 @@ public class OverworldUberstate extends Uberstate
         drawstate.addLeftOverlay(mapOverlay);
         controlstate.add(mapOverlay);
 
-        //Add Stats Upgrade button
+        //Add Skills Menu button
         skillsMenu = new Button(new Point(1400, 25),
                 ImageFactory.getSkillsMenuButton(),
                 ImageFactory.getSkillsMenuButton(),
@@ -211,55 +212,103 @@ public class OverworldUberstate extends Uberstate
 //                    drawstate.removeOverlay(skillsMenu);
 //                    controlstate.remove(skillsMenu);
 
-                    Overlay statsOverlay = new Overlay(new Point(0,0));
+                    Overlay skillsMenuOverlay = new Overlay(new Point(0,0));
 //                    ImageDisplayable svBackground = new ImageDisplayable(new Point(0,0),
 //                            ImageFactory.makeBorderedRect(600, 900, Color.WHITE, Color.GRAY ));
-//                    statsOverlay.add(svBackground);
+//                    skillsMenuOverlay.add(svBackground);
 
-                    statsOverlay.add(new StringDisplayable( new Point(100, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.GREEN, font));
-                    statsOverlay.add(new StringDisplayable( new Point(100, 200), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.GREEN, font));
-                    statsOverlay.add(new StringDisplayable( new Point(100, 300), () -> "Combat: " + currentPlayer.getPilotStats().getCombat(), Color.GREEN, font));
-                    statsOverlay.add(new StringDisplayable( new Point(100, 400), () -> "Charisma: " + currentPlayer.getPilotStats().getCharisma(), Color.GREEN, font));
+                    int flyingLevel = currentPlayer.getPilotStats().getFlying();
+                    int combatLevel = currentPlayer.getPilotStats().getCombat();
+                    int charismaLevel = currentPlayer.getPilotStats().getCombat();
+
+                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.GREEN, font));
+                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 200), () -> "Flying: " + flyingLevel, Color.GREEN, font));
+                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 300), () -> "Combat: " + combatLevel, Color.GREEN, font));
+                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 400), () -> "Charisma: " + charismaLevel, Color.GREEN, font));
+
+                    //add skill level square images
+                    List<ImageDisplayable> flyingLevels = new ArrayList<ImageDisplayable>();
+                    List<ImageDisplayable> combatLevels = new ArrayList<ImageDisplayable>();
+                    List<ImageDisplayable> charismaLevels = new ArrayList<ImageDisplayable>();
+
+                    for(int i = 0; i < SKILLCAP; i++) {
+                        //add flying square
+
+                        //add combat square
+
+                        //add charisma square
+                    }
 
                     if(currentPlayer.getPilotStats().getCurrentSkillPoints() > 0) {
                         Button increaseFly = new Button(new Point(450, 200),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.GREEN, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.getSkillIncreaseButton(),
+                                ImageFactory.getSkillIncreaseButton(),
+                                ImageFactory.getSkillIncreaseButton(),
                                 () -> {
                                     currentPlayer.getPilotStats().levelFlying();
                                 });
-                        statsOverlay.add(increaseFly);
-                        statsOverlay.addClickable(increaseFly);
+                        skillsMenuOverlay.add(increaseFly);
+                        skillsMenuOverlay.addClickable(increaseFly);
 
                         Button increaseCombat = new Button(new Point(450, 300),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.GREEN, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.getSkillIncreaseButton(),
+                                ImageFactory.getSkillIncreaseButton(),
+                                ImageFactory.getSkillIncreaseButton(),
                                 () -> {
                                     currentPlayer.getPilotStats().levelCombat();
                                 });
-                        statsOverlay.add(increaseCombat);
-                        statsOverlay.addClickable(increaseCombat);
+                        skillsMenuOverlay.add(increaseCombat);
+                        skillsMenuOverlay.addClickable(increaseCombat);
 
                         Button increaseCharisma = new Button(new Point(450, 400),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.WHITE, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.GREEN, Color.BLACK, Color.BLACK, "+"),
-                                ImageFactory.makeCenterLabeledRect(50, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "+"),
+                                ImageFactory.getSkillIncreaseButton(),
+                                ImageFactory.getSkillIncreaseButton(),
+                                ImageFactory.getSkillIncreaseButton(),
                                 () -> {
                                     currentPlayer.getPilotStats().levelCharisma();
                                 });
-                        statsOverlay.add(increaseCharisma);
-                        statsOverlay.addClickable(increaseCharisma);
+                        skillsMenuOverlay.add(increaseCharisma);
+                        skillsMenuOverlay.addClickable(increaseCharisma);
                     }
 
-                    Button closeStats = new Button(new Point(200, HEIGHT/2),
-                            ImageFactory.makeCenterLabeledRect(200, 50, Color.WHITE, Color.BLACK, Color.BLACK, "Close Stats"),
-                            ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.BLACK, Color.BLACK, "Close Stats"),
-                            ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.BLACK, Color.BLACK, "Close Stats"),
+                    //add skill info buttons
+                    Button flyInfo = new Button(new Point(525, 200),
+                            ImageFactory.getSkillInfoButton(),
+                            ImageFactory.getSkillInfoButton(),
+                            ImageFactory.getSkillInfoButton(),
                             () -> {
-                                drawstate.removeOverlay(statsOverlay);
-                                controlstate.remove(statsOverlay);
+
+                            });
+                    skillsMenuOverlay.add(flyInfo);
+                    skillsMenuOverlay.addClickable(flyInfo);
+
+                    Button combatInfo = new Button(new Point(525, 300),
+                            ImageFactory.getSkillInfoButton(),
+                            ImageFactory.getSkillInfoButton(),
+                            ImageFactory.getSkillInfoButton(),
+                            () -> {
+
+                            });
+                    skillsMenuOverlay.add(combatInfo);
+                    skillsMenuOverlay.addClickable(combatInfo);
+
+                    Button charismaInfo = new Button(new Point(525, 400),
+                            ImageFactory.getSkillInfoButton(),
+                            ImageFactory.getSkillInfoButton(),
+                            ImageFactory.getSkillInfoButton(),
+                            () -> {
+
+                            });
+                    skillsMenuOverlay.add(charismaInfo);
+                    skillsMenuOverlay.addClickable(charismaInfo);
+
+                    Button closeSkills = new Button(new Point(1350, 25),
+                            ImageFactory.getExitSkillsMenuButton(),
+                            ImageFactory.getExitSkillsMenuButton(),
+                            ImageFactory.getExitSkillsMenuButton(),
+                            () -> {
+                                drawstate.removeOverlay(skillsMenuOverlay);
+                                controlstate.remove(skillsMenuOverlay);
 
                                 //readd map and upgrade stats and title
                                 drawstate.addLeftOverlay(mapOverlay);
@@ -267,12 +316,12 @@ public class OverworldUberstate extends Uberstate
 //                                drawstate.addRightOverlay(skillsMenu);
 //                                controlstate.add(skillsMenu);
                             });
-                    statsOverlay.add(closeStats);
-                    statsOverlay.addClickable(closeStats);
+                    skillsMenuOverlay.add(closeSkills);
+                    skillsMenuOverlay.addClickable(closeSkills);
 
 
-                    drawstate.addCenterOverlay(statsOverlay);
-                    controlstate.add(statsOverlay);
+                    drawstate.addLeftOverlay(skillsMenuOverlay);
+                    controlstate.add(skillsMenuOverlay);
                 });
 
         mapOverlay.addClickable(skillsMenu);

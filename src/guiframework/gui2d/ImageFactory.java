@@ -34,6 +34,10 @@ public class ImageFactory
     private static final BufferedImage overworldLabel = loadImage("resources/Images/label_overworld.png");
     private static final BufferedImage hangarMenuButton = loadImage("resources/Images/hangar_menu_button.png");
     private static final BufferedImage skillsMenuButton = loadImage("resources/Images/skills_menu_button_.png");
+    private static final BufferedImage exitSkillsMenuButton = loadImage("resources/Images/exit_skills_button.png");
+    private static final BufferedImage closeSkillInfoButton = loadImage("resources/Images/close_skill_info_button.png");
+    private static final BufferedImage skillInfoButton = loadImage("resources/Images/skill_info_button.png");
+    private static final BufferedImage skillIncreaseButton = loadImage("resources/Images/skill_up_button.png");
     private static final BufferedImage exitGameButton = loadImage("resources/Images/exit_game_button.png");
     private static final BufferedImage enterNodeButton = loadImage("resources/Images/enter_node_button.png");
     private static final BufferedImage nodeButton = loadImage("resources/Images/node_button.png");
@@ -197,6 +201,14 @@ public class ImageFactory
     public static BufferedImage getHangarMenuButton() {return hangarMenuButton;}
 
     public static BufferedImage getSkillsMenuButton() {return  skillsMenuButton;}
+
+    public static BufferedImage getExitSkillsMenuButton() {return exitSkillsMenuButton;}
+
+    public static BufferedImage getCloseSkillInfoButton() {return closeSkillInfoButton;}
+
+    public static BufferedImage getSkillInfoButton() {return skillInfoButton;}
+
+    public static BufferedImage getSkillIncreaseButton() {return skillIncreaseButton;}
 
     public static BufferedImage getExitGameButton() {return exitGameButton;}
 

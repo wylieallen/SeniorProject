@@ -6,6 +6,7 @@ public class PilotStats {
     private int experience;
     private int maxSkillPoints;
     private int currentSkillPoints;
+    private final int SKILLCAP = 10;
 
     private int flying;
     private int combat;
@@ -33,9 +34,9 @@ public class PilotStats {
 
 
     public void levelUp(){
-        level++;
-        maxSkillPoints++;
-        currentSkillPoints++;
+            level++;
+            maxSkillPoints++;
+            currentSkillPoints++;
     }
 
     // Getters and Setters
@@ -73,7 +74,7 @@ public class PilotStats {
     public void modifySkillPoints(int amount) { currentSkillPoints += amount; }
 
     public Boolean levelFlying(){
-        if (currentSkillPoints > 0){
+        if (currentSkillPoints > 0 && flying < SKILLCAP){
             flying++;
             currentSkillPoints--;
             return true;
@@ -82,7 +83,7 @@ public class PilotStats {
     }
 
     public Boolean levelCombat(){
-        if (currentSkillPoints > 0){
+        if (currentSkillPoints > 0 && combat < SKILLCAP){
             combat++;
             currentSkillPoints--;
             return true;
@@ -91,7 +92,7 @@ public class PilotStats {
     }
 
     public Boolean levelCharisma(){
-        if (currentSkillPoints > 0){
+        if (currentSkillPoints > 0 && charisma < SKILLCAP){
             charisma++;
             currentSkillPoints--;
             return true;
