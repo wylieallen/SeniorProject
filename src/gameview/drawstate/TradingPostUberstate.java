@@ -227,12 +227,14 @@ public class TradingPostUberstate extends Uberstate
                             () ->
                             {
                                 Item item = tpInventory.getItem(this.selectedItem);
-                                //ItemButton button =  tpItems.get(selectedItem - (ITEMSPERPAGE*(tpCurrentPageNumber-1)));
-                                if(playerWallet.getCurrencyBalance() >= item.getCurrencyValue()) {
+                                //scale item price down based on players charisma level
+                                int scaledPriceDown = (int) (item.getCurrencyValue()*(1-currentPlayer.getPilotStats().charismaScaling()));
+                                System.out.println(scaledPriceDown);
+                                if(playerWallet.getCurrencyBalance() >= scaledPriceDown) {
                                     tpInventoryOverlay.removeClickable(tpItemSelected);
                                     activeOverlay.remove(tpItemSelected);
-                                    tpWallet.increaseCurrencyBalance(item.getCurrencyValue());
-                                    playerWallet.decreaseCurrencyBalance(item.getCurrencyValue());
+                                    tpWallet.increaseCurrencyBalance(scaledPriceDown);
+                                    playerWallet.decreaseCurrencyBalance(scaledPriceDown);
                                     tpInventory.removeItem(item);
                                     playerInventory.addItem(item);
                                     playerMaxPage = ((playerInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
@@ -270,11 +272,13 @@ public class TradingPostUberstate extends Uberstate
                                                     tpInventoryOverlay.remove(tpItemSelected);
                                                     selectedItem = tpInventory.getIndex(newitem);
 
+                                                    int scaledPrice = (int)(newitem.getCurrencyValue()*(1-currentPlayer.getPilotStats().charismaScaling()));
+
                                                     //reposition tpItemSelected then add back
                                                     tpItemSelected.getOrigin().setLocation(x-50,y+120);
                                                     tpiBackground.setImage(ImageFactory.makeBorderedRect(ITEMINFOWIDTH, 220,Color.WHITE, Color.GREEN));
                                                     tpItemName.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, newitem.getName()));
-                                                    tpItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, newitem.getAttributes().get(0)));
+                                                    tpItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, newitem.getAttributes().get(0) + "(" + scaledPrice + ")"));
                                                     tpItemInfo.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, newitem.getAttributes().get(1)));
 
                                                     tpInventoryOverlay.addClickable(tpItemSelected);
@@ -334,11 +338,13 @@ public class TradingPostUberstate extends Uberstate
                                     tpInventoryOverlay.remove(tpItemSelected);
                                     selectedItem = tpInventory.getIndex(item);
 
+                                    int scaledPrice = (int)(item.getCurrencyValue()*(1-currentPlayer.getPilotStats().charismaScaling()));
+
                                     //reposition tpItemSelected then add back
                                     tpItemSelected.getOrigin().setLocation(x-50,y+120);
                                     tpiBackground.setImage(ImageFactory.makeBorderedRect(ITEMINFOWIDTH, 220,Color.WHITE, Color.GREEN));
                                     tpItemName.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getName()));
-                                    tpItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0)));
+                                    tpItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0) + "(" + scaledPrice + ")"));
                                     tpItemInfo.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(1)));
 
                                     tpInventoryOverlay.addClickable(tpItemSelected);
@@ -420,11 +426,13 @@ public class TradingPostUberstate extends Uberstate
                                                     tpInventoryOverlay.remove(tpItemSelected);
                                                     selectedItem = tpInventory.getIndex(item);
 
+                                                    int scaledPrice = (int)(item.getCurrencyValue()*(1-currentPlayer.getPilotStats().charismaScaling()));
+
                                                     //reposition tpItemSelected then add back
                                                     tpItemSelected.getOrigin().setLocation(x-50,y+120);
                                                     tpiBackground.setImage(ImageFactory.makeBorderedRect(ITEMINFOWIDTH, 220,Color.WHITE, Color.GREEN));
                                                     tpItemName.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getName()));
-                                                    tpItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0)));
+                                                    tpItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0) + "(" + scaledPrice + ")"));
                                                     tpItemInfo.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(1)));
 
                                                     tpInventoryOverlay.addClickable(tpItemSelected);
@@ -504,11 +512,13 @@ public class TradingPostUberstate extends Uberstate
                                                     tpInventoryOverlay.remove(tpItemSelected);
                                                     selectedItem = tpInventory.getIndex(item);
 
+                                                    int scaledPrice = (int)(item.getCurrencyValue()*(1-currentPlayer.getPilotStats().charismaScaling()));
+
                                                     //reposition tpItemSelected then add back
                                                     tpItemSelected.getOrigin().setLocation(x-50,y+120);
                                                     tpiBackground.setImage(ImageFactory.makeBorderedRect(ITEMINFOWIDTH, 220,Color.WHITE, Color.GREEN));
                                                     tpItemName.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getName()));
-                                                    tpItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0)));
+                                                    tpItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0) + "(" + scaledPrice + ")"));
                                                     tpItemInfo.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(1)));
 
                                                     tpInventoryOverlay.addClickable(tpItemSelected);
@@ -605,12 +615,14 @@ public class TradingPostUberstate extends Uberstate
                             () ->
                             {
                                 Item item = playerInventory.getItem(this.selectedItem);
-                                //ItemButton button =  playerItems.get(selectedItem);
-                                if(tpWallet.getCurrencyBalance() >= item.getCurrencyValue()) {
+                                //scale item price up based on players charisma level
+                                int scaledPriceUp = (int) (item.getCurrencyValue()*(1+currentPlayer.getPilotStats().charismaScaling()));
+                                System.out.println(scaledPriceUp);
+                                if(tpWallet.getCurrencyBalance() >= scaledPriceUp) {
                                     playerInventoryOverlay.removeClickable(playerItemSelected);
                                     playerInventoryOverlay.remove(playerItemSelected);
-                                    playerWallet.increaseCurrencyBalance(item.getCurrencyValue());
-                                    tpWallet.decreaseCurrencyBalance(item.getCurrencyValue());
+                                    playerWallet.increaseCurrencyBalance(scaledPriceUp);
+                                    tpWallet.decreaseCurrencyBalance(scaledPriceUp);
                                     playerInventory.removeItem(item);
                                     tpInventory.addItem(item);
                                     playerMaxPage = ((playerInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
@@ -648,11 +660,13 @@ public class TradingPostUberstate extends Uberstate
                                                     playerInventoryOverlay.remove(playerItemSelected);
                                                     selectedItem = playerInventory.getIndex(newitem);
 
+                                                    int scaledPrice = (int) (newitem.getCurrencyValue()*(1+currentPlayer.getPilotStats().charismaScaling()));
+
                                                     //reposition playerItemSelected then add back
                                                     playerItemSelected.getOrigin().setLocation(x-50,y+120);
                                                     playerItemBackground.setImage(ImageFactory.makeBorderedRect(ITEMINFOWIDTH, 220,Color.WHITE, Color.GREEN));
                                                     playerItemName.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, newitem.getName()));
-                                                    playerItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, newitem.getAttributes().get(0)));
+                                                    playerItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, newitem.getAttributes().get(0) + "(" + scaledPrice + ")"));
                                                     playerItemInfo.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, newitem.getAttributes().get(1)));
 
                                                     playerInventoryOverlay.addClickable(playerItemSelected);
@@ -714,11 +728,13 @@ public class TradingPostUberstate extends Uberstate
                                     playerInventoryOverlay.remove(playerItemSelected);
                                     selectedItem = playerInventory.getIndex(item);
 
+                                    int scaledPrice = (int) (item.getCurrencyValue()*(1+currentPlayer.getPilotStats().charismaScaling()));
+
                                     //reposition playerItemSelected then add back
                                     playerItemSelected.getOrigin().setLocation(x-50,y+120);
                                     playerItemBackground.setImage(ImageFactory.makeBorderedRect(ITEMINFOWIDTH, 220,Color.WHITE, Color.GREEN));
                                     playerItemName.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getName()));
-                                    playerItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0)));
+                                    playerItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0) + "(" + scaledPrice + ")"));
                                     playerItemInfo.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(1)));
 
                                     playerInventoryOverlay.addClickable(playerItemSelected);
@@ -800,11 +816,13 @@ public class TradingPostUberstate extends Uberstate
                                                     playerInventoryOverlay.remove(playerItemSelected);
                                                     selectedItem = playerInventory.getIndex(item);
 
+                                                    int scaledPrice = (int) (item.getCurrencyValue()*(1+currentPlayer.getPilotStats().charismaScaling()));
+
                                                     //reposition playerItemSelected then add back
                                                     playerItemSelected.getOrigin().setLocation(x-50,y+120);
                                                     playerItemBackground.setImage(ImageFactory.makeBorderedRect(ITEMINFOWIDTH, 220,Color.WHITE, Color.GREEN));
                                                     playerItemName.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getName()));
-                                                    playerItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0)));
+                                                    playerItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0) + "(" + scaledPrice + ")"));
                                                     playerItemInfo.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(1)));
 
                                                     playerInventoryOverlay.addClickable(playerItemSelected);
@@ -884,11 +902,13 @@ public class TradingPostUberstate extends Uberstate
                                                     playerInventoryOverlay.remove(playerItemSelected);
                                                     selectedItem = playerInventory.getIndex(item);
 
+                                                    int scaledPrice = (int) (item.getCurrencyValue()*(1+currentPlayer.getPilotStats().charismaScaling()));
+
                                                     //reposition playerItemSelected then add back
                                                     playerItemSelected.getOrigin().setLocation(x-50,y+120);
                                                     playerItemBackground.setImage(ImageFactory.makeBorderedRect(ITEMINFOWIDTH, 220,Color.WHITE, Color.GREEN));
                                                     playerItemName.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getName()));
-                                                    playerItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0)));
+                                                    playerItemPrice.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(0) + "(" + scaledPrice + ")"));
                                                     playerItemInfo.setImage(ImageFactory.makeCenterLabeledRect(ITEMINFOWIDTH,55,Color.GREEN,Color.GREEN,Color.BLACK, item.getAttributes().get(1)));
 
                                                     playerInventoryOverlay.addClickable(playerItemSelected);
