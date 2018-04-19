@@ -112,7 +112,7 @@ public class TradingPostUberstate extends Uberstate
         }
 
 
-        currentTP = new TradingPost(new Inventory(20), new Wallet(500), new ArrayList<BountyMission>());
+        currentTP = new TradingPost(new Inventory(20), new Wallet(50000), new ArrayList<BountyMission>());
 //        currentTP.getInventory().addItem(new FuelConsumable(300, 70));
 //        currentTP.getInventory().addItem(new FuelConsumable(400, 80));
 //        currentTP.getInventory().addItem(new FuelConsumable(500, 90));
@@ -133,7 +133,7 @@ public class TradingPostUberstate extends Uberstate
         RandomItemGenerator RIG = new RandomItemGenerator();
         for(int i =0; i < 40; i++) {
             currentTP.getInventory().addItem(RIG.getRandomItem());
-            currentPlayer.getActiveShip().getInventory().addItem(RIG.getRandomItem());
+            currentPlayer.getActiveShip().getInventory().addItem(RIG.getRandomConsumable(Rarity.COMMON));
         }
 
         currentTP.getBountyList().add(new BountyMission(1000, 20,"Klingon"));
@@ -1047,7 +1047,7 @@ public class TradingPostUberstate extends Uberstate
                             turnInMission.add(playerBountyInfo);
 
                             StringDisplayable bountyReward = new StringDisplayable(new Point(0, 300),
-                                    () -> "Reward: "  + playerMission.getCurrencyValue(),Color.GREEN, font);
+                                    () -> "Reward: $"  + playerMission.getCurrencyValue(),Color.GREEN, font);
                             turnInMission.add(bountyReward);
                             StringDisplayable missionStatus = new StringDisplayable(new Point(0, 450),() -> "Mission Status: Complete" ,Color.GREEN, font);
                             turnInMission.add(missionStatus);
@@ -1070,7 +1070,7 @@ public class TradingPostUberstate extends Uberstate
                                             int y = 125*i + 125 + (i * MARGIN);
                                             Overlay bountyListing = new Overlay(new Point());
                                             StringDisplayable bountyInfo = new StringDisplayable(new Point(MARGIN, y),
-                                                    () -> "Kill " + mission.getEnemyCount() + " " + mission.getEnemyType() + ": " + mission.getCurrencyValue(),Color.GREEN, font);
+                                                    () -> "Kill " + mission.getEnemyCount() + " " + mission.getEnemyType() + ": $" + mission.getCurrencyValue(),Color.GREEN, font);
                                             bountyListing.add(bountyInfo);
 //                                            ImageDisplayable missionBorder = new ImageDisplayable(new Point(MARGIN,y),ImageFactory.getBountyMissionBorderImage());
 //                                            bountyListing.add(missionBorder);
@@ -1146,7 +1146,7 @@ public class TradingPostUberstate extends Uberstate
                             incompleteMission.add(bountyInfo);
 
                             StringDisplayable bountyReward = new StringDisplayable(new Point(0, 300),
-                                    () -> "Reward: "  + currentMission.getCurrencyValue(),Color.GREEN, font);
+                                    () -> "Reward: $"  + currentMission.getCurrencyValue(),Color.GREEN, font);
                             incompleteMission.add(bountyReward);
 
                             StringDisplayable missionStatus = new StringDisplayable(new Point(0, 450),() -> "Mission Status: Incomplete" ,Color.GREEN, font);
@@ -1166,7 +1166,7 @@ public class TradingPostUberstate extends Uberstate
                             int y = 125*i + 125 + (i * MARGIN);
                             Overlay bountyListing = new Overlay(new Point());
                             StringDisplayable bountyInfo = new StringDisplayable(new Point(MARGIN, y),
-                                    () -> "Kill " + mission.getEnemyCount() + " " + mission.getEnemyType() + ": " + mission.getCurrencyValue(),Color.GREEN, font);
+                                    () -> "Kill " + mission.getEnemyCount() + " " + mission.getEnemyType() + ": $" + mission.getCurrencyValue(),Color.GREEN, font);
                             bountyListing.add(bountyInfo);
 
                             Button acceptMissionButton = new Button(new Point(500, y),

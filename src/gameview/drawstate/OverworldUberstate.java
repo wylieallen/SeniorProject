@@ -167,17 +167,17 @@ public class OverworldUberstate extends Uberstate
                         mapOverlay.remove(selectedNode);
                         mapOverlay.removeClickable(selectedNode);
                         selectedNode = new Overlay(new Point(WIDTH/2 - 200,HEIGHT-375));
-                        ImageDisplayable snBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(400,200, Color.WHITE, Color.GRAY));
+                        ImageDisplayable snBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(400,200, Color.GREEN, Color.GREEN));
                         selectedNode.add(snBackground);
 
 //                        ImageDisplayable nodeDisplay = new ImageDisplayable(new Point(100, 75),
 //                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.GRAY, Color.WHITE, node.getThisZone().getZoneType()));
-                        selectedNode.add(new StringDisplayable( new Point(100, 25), () -> "" + node.getThisZone().getZoneType(), Color.BLUE, font));
+                        selectedNode.add(new StringDisplayable( new Point(100, 25), () -> "" + node.getThisZone().getZoneType(), Color.BLACK, font));
 
                         Button travelToNode = new Button(new Point(100,125),
-                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLUE, Color.GRAY, Color.WHITE, "Travel to Node"),
-                                ImageFactory.makeCenterLabeledRect(200, 50, Color.GREEN, Color.GRAY, Color.WHITE, "Travel to Node"),
-                                ImageFactory.makeCenterLabeledRect(200, 50, Color.YELLOW, Color.GRAY, Color.BLACK, "Travel to Node"),
+                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.BLACK, Color.GREEN, "Travel to Node"),
+                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.BLACK, Color.WHITE, "Travel to Node"),
+                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.BLACK, Color.GREEN, "Travel to Node"),
                                 () -> {
                                     System.out.println("Travel to " + node.getThisZone().getZoneType());
                                 });
@@ -648,7 +648,7 @@ public class OverworldUberstate extends Uberstate
 
                                 //Add player inventory displayables
                                 Inventory playerInventory = currentPlayer.getActiveShip().getInventory();
-                                StringDisplayable inventoryTitle = new StringDisplayable(new Point(0,0),() ->"Player Inventory: " + playerInventory.getcurrItemsNum() + "Items",Color.GREEN, font );
+                                StringDisplayable inventoryTitle = new StringDisplayable(new Point(0,0),() ->"Player Inventory",Color.GREEN, font );
                                 int widthIT = inventoryTitle.getSize().width;
                                 inventoryTitle.getOrigin().setLocation((650)+((WIDTH-650)/2)-(widthIT/2), 0);
                                 changePartsOverlay.add(inventoryTitle);
