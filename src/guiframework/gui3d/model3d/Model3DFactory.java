@@ -32,7 +32,7 @@ public class Model3DFactory
 
         gl.glGenBuffers(vbo.length, vbo, 0);
 
-        int texObject = loadTexture("resources/bison.jpg");
+        int texObject = loadTexture("resources/lootchest.jpg");
 
         cubeModel = new Model3D(new Texture3D(gl, vbo[2], cube_tex_vertices, texObject), new Mesh3D(gl, vbo[0], cube_vertices));
         pyrModel = new Model3D(new Texture3D(gl, vbo[3], pyr_tex_vertices, texObject), new Mesh3D(gl, vbo[1], pyr_vertices));
