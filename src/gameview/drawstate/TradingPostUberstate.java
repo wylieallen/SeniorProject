@@ -36,7 +36,7 @@ public class TradingPostUberstate extends Uberstate
     //might change this
     private static final int ITEMSPERPAGE = 12;
     private static final int ITEMSPERLINE = 6;
-    private static final int ITEMLEFTOFFSET = 400;
+    private static final int ITEMLEFTOFFSET = 0;
     private static final int YMARGIN = 350;
     private static final int YINITIAL = 200;
     private static final int ITEMINFOWIDTH = 250;
@@ -56,7 +56,7 @@ public class TradingPostUberstate extends Uberstate
     private ImageDisplayable bountyInfo;
     private List<ItemButton> playerItems;
     private List<ItemButton> tpItems;
-    private List<Button> bountyButtons;
+    private List<Overlay> bountyMissions;
     private Overlay playerInventoryOverlay = new Overlay(new Point());
     private Overlay tpInventoryOverlay = new Overlay(new Point());
     private Overlay bountyListOverlay = new Overlay(new Point());
@@ -136,7 +136,7 @@ public class TradingPostUberstate extends Uberstate
 
         playerItems = new ArrayList<ItemButton>();
         tpItems = new ArrayList<ItemButton>();
-        bountyButtons = new ArrayList<Button>();
+        bountyMissions = new ArrayList<Overlay>();
 
 //        activeItems = new ArrayList<ItemButton>();
 //        inacvtiveItems = new ArrayList<ItemButton>();
@@ -321,7 +321,7 @@ public class TradingPostUberstate extends Uberstate
                     //Adding tpInventoryOverlay item displayables
                     for(int i = 0; i < tpInventory.getcurrItemsNum() && i < ITEMSPERPAGE; i++){
                         Item item = tpInventory.getItem(i);
-                        int x = (180*(i%ITEMSPERLINE)) + ((i%ITEMSPERLINE)*MARGIN) + MARGIN;
+                        int x = ITEMLEFTOFFSET + (180*(i%ITEMSPERLINE)) + ((i%ITEMSPERLINE)*MARGIN) + MARGIN;
                         int y = YINITIAL + (YMARGIN*(i/ITEMSPERLINE));
 
                         ItemButton tpItem = new ItemButton(item, new Point(x, y),
@@ -374,14 +374,14 @@ public class TradingPostUberstate extends Uberstate
                     }
 
                     //Paging for TP Inventory
-                    Overlay tpPageOverlay = new Overlay(new Point(325,100));
+                    Overlay tpPageOverlay = new Overlay(new Point(490,100));
                     //ImageDisplayable pageNum = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(150,50,Color.WHITE,Color.WHITE));
                     //pageOverlay.add(pageNum);
-                    tpPageOverlay.add(new StringDisplayable(new Point(40, 5), () -> "Page " + tpCurrentPageNumber,Color.GREEN, fontSmall));
+                    tpPageOverlay.add(new StringDisplayable(new Point(40, 5), () -> " Page " + tpCurrentPageNumber,Color.GREEN, fontSmall));
                     Button tpPageDown = new Button(new Point(0,0),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, "<"),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.GREEN, Color.WHITE, Color.WHITE, "<"),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.BLACK, Color.BLACK, Color.GREEN, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.GREEN, Color.GREEN, Color.BLACK, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.BLACK, Color.BLACK, Color.GREEN, "<"),
                             () ->
                             {
                                 if(tpCurrentPageNumber > 1) {
@@ -463,9 +463,9 @@ public class TradingPostUberstate extends Uberstate
                     tpPageOverlay.add(tpPageDown);
                     tpPageOverlay.addClickable(tpPageDown);
                     Button tpPageUp = new Button(new Point(112,0),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, ">"),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.GREEN, Color.WHITE, Color.WHITE, ">"),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.BLACK, Color.BLACK, Color.GREEN, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.GREEN, Color.GREEN, Color.BLACK, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.BLACK, Color.BLACK, Color.GREEN, ">"),
                             () ->
                             {
                                 if(tpCurrentPageNumber < tpMaxPage) {
@@ -701,7 +701,7 @@ public class TradingPostUberstate extends Uberstate
                     for(int i = 0; i < playerInventory.getcurrItemsNum() && i < ITEMSPERPAGE; i++){
 
                         Item item = playerInventory.getItem(i);
-                        int x = (180*(i%ITEMSPERLINE)) + ((i%ITEMSPERLINE)*MARGIN) + MARGIN;
+                        int x = ITEMLEFTOFFSET + (180*(i%ITEMSPERLINE)) + ((i%ITEMSPERLINE)*MARGIN) + MARGIN;
                         int y = YINITIAL + (YMARGIN*(i/ITEMSPERLINE));
 
                         ItemButton playerItem = new ItemButton(item, new Point(x, y),
@@ -754,14 +754,14 @@ public class TradingPostUberstate extends Uberstate
                     }
 
                     //Paging for Player Inventory
-                    Overlay playerPageOverlay = new Overlay(new Point(325,100));
+                    Overlay playerPageOverlay = new Overlay(new Point(490,100));
                     //ImageDisplayable pageNum = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(150,50,Color.WHITE,Color.WHITE));
                     //pageOverlay.add(pageNum);
-                    playerPageOverlay.add(new StringDisplayable(new Point(40, 5), () -> "Page " + playerCurrentPageNumber,Color.GREEN, fontSmall));
+                    playerPageOverlay.add(new StringDisplayable(new Point(40, 5), () -> " Page " + playerCurrentPageNumber,Color.GREEN, fontSmall));
                     Button playerPageDown = new Button(new Point(0,0),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, "<"),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.GREEN, Color.WHITE, Color.WHITE, "<"),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.BLACK, Color.BLACK, Color.GREEN, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.GREEN, Color.GREEN, Color.BLACK, "<"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.BLACK, Color.BLACK, Color.GREEN, "<"),
                             () ->
                             {
                                 if(playerCurrentPageNumber > 1) {
@@ -843,9 +843,9 @@ public class TradingPostUberstate extends Uberstate
                     playerPageOverlay.add(playerPageDown);
                     playerPageOverlay.addClickable(playerPageDown);
                     Button playerPageUp = new Button(new Point(112,0),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.WHITE, Color.WHITE, Color.BLACK, ">"),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.GREEN, Color.WHITE, Color.WHITE, ">"),
-                            ImageFactory.makeCenterLabeledRect(38, 50, Color.ORANGE, Color.WHITE, Color.BLACK, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.BLACK, Color.BLACK, Color.GREEN, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.GREEN, Color.GREEN, Color.BLACK, ">"),
+                            ImageFactory.makeCenterLabeledRect(38, 50, Color.BLACK, Color.BLACK, Color.GREEN, ">"),
                             () ->
                             {
                                 if(playerCurrentPageNumber < playerMaxPage) {
@@ -941,13 +941,13 @@ public class TradingPostUberstate extends Uberstate
                 ImageFactory.getBountyButtonBase(),
                 () ->
                 {
-                    //Clear bounty button list
-                    for(int i = 0; i < bountyButtons.size(); i++) {
-                        Button button = bountyButtons.get(i);
-                        bountyListOverlay.removeClickable(button);
-                        bountyListOverlay.remove(button);
+                    //Clear bounty list
+                    for(int i = 0; i < bountyMissions.size(); i++) {
+                        Overlay overlay = bountyMissions.get(i);
+                        bountyListOverlay.removeClickable(overlay);
+                        bountyListOverlay.remove(overlay);
                     }
-                    bountyButtons.clear();
+                    bountyMissions.clear();
 
                     activeOverlay.remove(activeSelectedOverlay);
                     activeOverlay.removeClickable(activeSelectedOverlay);
@@ -962,62 +962,69 @@ public class TradingPostUberstate extends Uberstate
                     if(currentPlayer.getCurrentBountyMission() != null){
                         BountyMission playerMission = currentPlayer.getCurrentBountyMission();
                         if(playerMission.isCompleted()) {
-                            Button turnInMission = new Button(new Point(MARGIN,HEIGHT ),
-                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT, Color.WHITE, Color.GRAY, Color.BLACK, "Turn in Mission"),
-                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT, Color.GREEN, Color.GRAY, Color.WHITE, "Turn in Mission"),
-                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT, Color.ORANGE, Color.GRAY, Color.BLACK, "Turn in Mission"),
+                            Overlay turnInMission = new Overlay(new Point());
+                            StringDisplayable playerBountyInfo = new StringDisplayable(new Point(0, 150),
+                                    () -> "Current Mission: Destroy " + playerMission.getEnemyCount() + " " + playerMission.getEnemyType(),Color.GREEN, font);
+                            turnInMission.add(playerBountyInfo);
+
+                            StringDisplayable bountyReward = new StringDisplayable(new Point(0, 300),
+                                    () -> "Reward: "  + playerMission.getCurrencyValue(),Color.GREEN, font);
+                            turnInMission.add(bountyReward);
+                            StringDisplayable missionStatus = new StringDisplayable(new Point(0, 450),() -> "Mission Status: Complete" ,Color.GREEN, font);
+                            turnInMission.add(missionStatus);
+
+                            Button turnInButton = new Button(new Point(0,600),
+                                    ImageFactory.getTurnInMissionButton(),
+                                    ImageFactory.getTurnInMissionButton(),
+                                    ImageFactory.getTurnInMissionButton(),
                                     () ->
                                     {
                                         playerWallet.increaseCurrencyBalance(playerMission.getCurrencyValue());
                                         currentPlayer.setCurrentBountyMission(null);
-                                        bountyListOverlay.remove(bountyButtons.get(0));
-                                        bountyListOverlay.removeClickable(bountyButtons.get(0));;
-                                        bountyButtons.clear();
+                                        bountyListOverlay.remove(turnInMission);
+                                        bountyListOverlay.removeClickable(turnInMission);;
+                                        bountyMissions.clear();
 
                                         for(int i = 0; i < currentTP.getBountyList().size(); i++) {
                                             BountyMission mission = currentTP.getBountyList().get(i);
                                             int x = (160*(i%8)) + ((i%8)*MARGIN) + MARGIN;
                                             int y = 125*i + 125 + (i * MARGIN);
+                                            Overlay bountyListing = new Overlay(new Point());
+                                            StringDisplayable bountyInfo = new StringDisplayable(new Point(MARGIN, y),
+                                                    () -> "Kill " + mission.getEnemyCount() + " " + mission.getEnemyType() + ": " + mission.getCurrencyValue(),Color.GREEN, font);
+                                            bountyListing.add(bountyInfo);
+//                                            ImageDisplayable missionBorder = new ImageDisplayable(new Point(MARGIN,y),ImageFactory.getBountyMissionBorderImage());
+//                                            bountyListing.add(missionBorder);
 
-                                            Button bountyListing = new Button(new Point(MARGIN, y),
-                                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT/2, Color.WHITE, Color.GRAY, Color.BLACK, mission.getEnemyType()),
-                                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT/2, Color.GREEN, Color.GRAY, Color.WHITE, mission.getEnemyType()),
-                                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT/2, Color.ORANGE, Color.GRAY, Color.BLACK, mission.getEnemyType()),
+                                            Button acceptMissionButton = new Button(new Point(500, y),
+                                                    ImageFactory.getAcceptBountyMissionButton(),
+                                                    ImageFactory.getAcceptBountyMissionButton(),
+                                                    ImageFactory.getAcceptBountyMissionButton(),
                                                     () ->
                                                     {
-                                                        bountyListOverlay.remove(missionSelected);
-                                                        bountyListOverlay.removeClickable(missionSelected);
+                                                        //Remove all listings and add mission accepted
+                                                        for (Overlay overlay: bountyMissions) {
+                                                            bountyListOverlay.remove(overlay);
+                                                            bountyListOverlay.removeClickable(overlay);
+                                                        }
+                                                        currentPlayer.setCurrentBountyMission(mission);
 
-                                                        //Add selected mission Overlay
-                                                        Overlay missionSelected = new Overlay(new Point(WIDTH/5,HEIGHT*3));
-                                                        Displayable msBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLUE, Color.GRAY));
-                                                        missionSelected.add(msBackground);
-                                                        missionSelected.add(new StringDisplayable( new Point(16, 16), () -> "Reward: " + mission.getCurrencyValue(), Color.GREEN, font));
+                                                        //todo: add string for current mission
+//                                                        ImageDisplayable missionAccepted = new ImageDisplayable(new Point(MARGIN, HEIGHT),
+//                                                                ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT, Color.GREEN, Color.GRAY, Color.WHITE, "Mission Accepted!"));
+//                                                        bountyListOverlay.add(missionAccepted);
 
-                                                        Button getMission = new Button(new Point(16,100),
-                                                                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.WHITE, Color.GRAY, Color.BLACK, "Accept"),
-                                                                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.GREEN, Color.GRAY, Color.WHITE, "Accept"),
-                                                                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, "Accept"),
-                                                                () ->
-                                                                {
-                                                                    bountyListOverlay.remove(missionSelected);
-                                                                    bountyListOverlay.removeClickable(missionSelected);
+                                                        BountyMission currentMission = currentPlayer.getCurrentBountyMission();
+                                                        Overlay missionAccepted = new Overlay(new Point());
+//                                                        StringDisplayable currentBountyInfo = new StringDisplayable(new Point(MARGIN, 125),
+//                                                                () -> "Kill " + currentMission.getEnemyCount() + " " + currentMission.getEnemyType() + ": " + currentMission.getCurrencyValue(),Color.GREEN, font);
+//                                                        missionAccepted.add(currentBountyInfo);
+                                                        StringDisplayable missionAcceptedStatus = new StringDisplayable(new Point(400, 150),() -> "Mission Accepted!" ,Color.GREEN, font);
+                                                        missionAccepted.add(missionAcceptedStatus);
+                                                        bountyMissions.add(missionAccepted);
+                                                        bountyListOverlay.add(missionAccepted);
 
-                                                                    for (Button button: bountyButtons) {
-                                                                        bountyListOverlay.remove(button);
-                                                                        bountyListOverlay.removeClickable(button);
-                                                                    }
-                                                                    currentPlayer.setCurrentBountyMission(mission);
-
-                                                                    ImageDisplayable incompleteMission = new ImageDisplayable(new Point(MARGIN, HEIGHT),
-                                                                            ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT, Color.GREEN, Color.GRAY, Color.WHITE, "Mission Accepted!"));
-                                                                    bountyListOverlay.add(incompleteMission);
-                                                                });
-                                                        missionSelected.addClickable(getMission);
-                                                        missionSelected.add(getMission);
-                                                        this.missionSelected = missionSelected;
-                                                        bountyListOverlay.add(missionSelected);
-                                                        bountyListOverlay.addClickable(missionSelected);
+//
                                                     },
                                                     () ->
                                                     {
@@ -1026,30 +1033,47 @@ public class TradingPostUberstate extends Uberstate
                                                     //enter function: Display mission info
                                                     () ->
                                                     {
-                                                        hoveredBounty = currentTP.getBountyList().indexOf(mission);
-                                                        int yHover = bountyButtons.get(hoveredBounty).getOrigin().y;
-                                                        this.bountyInfo = new ImageDisplayable(new Point(WIDTH - MARGIN - 80, yHover + HEIGHT/4),
-                                                                ImageFactory.makeCenterLabeledRect(80, HEIGHT/10, Color.BLUE, Color.GRAY, Color.WHITE, "" + mission.getCurrencyValue()));
-                                                        bountyListOverlay.add(bountyInfo);
+//                                                        hoveredBounty = currentTP.getBountyList().indexOf(mission);
+//                                                        int yHover = bountyMissions.get(hoveredBounty).getOrigin().y;
+//                                                        this.bountyInfo = new ImageDisplayable(new Point(WIDTH - MARGIN - 80, yHover + HEIGHT/4),
+//                                                                ImageFactory.makeCenterLabeledRect(80, HEIGHT/10, Color.BLUE, Color.GRAY, Color.WHITE, "" + mission.getCurrencyValue()));
+//                                                        bountyListOverlay.add(bountyInfo);
                                                     },
                                                     //exit function
                                                     () ->
                                                     {
-                                                        bountyListOverlay.remove(bountyInfo);
+//                                                        bountyListOverlay.remove(bountyInfo);
                                                     });
-
-                                            bountyButtons.add(bountyListing);
+                                            bountyListing.add(acceptMissionButton);
+                                            bountyListing.addClickable(acceptMissionButton);
+                                            bountyMissions.add(bountyListing);
                                             bountyListOverlay.addClickable(bountyListing);
                                             bountyListOverlay.add(bountyListing);
                                         }
                                     });
-                            bountyButtons.add(turnInMission);
+                            turnInMission.add(turnInButton);
+                            turnInMission.addClickable(turnInButton);
+                            bountyMissions.add(turnInMission);
                             bountyListOverlay.add(turnInMission);
                             bountyListOverlay.addClickable(turnInMission);
                         }
                         else {
-                            ImageDisplayable incompleteMission = new ImageDisplayable(new Point(MARGIN, HEIGHT),
-                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT, Color.GREEN, Color.GRAY, Color.WHITE, "Your current mission is incomplete"));
+                            //todo: add current mission string
+                            BountyMission currentMission = currentPlayer.getCurrentBountyMission();
+                            Overlay incompleteMission = new Overlay(new Point());
+
+                            StringDisplayable bountyInfo = new StringDisplayable(new Point(0, 150),
+                                    () -> "Current Mission: Destroy " + currentMission.getEnemyCount() + " " + currentMission.getEnemyType(),Color.GREEN, font);
+                            incompleteMission.add(bountyInfo);
+
+                            StringDisplayable bountyReward = new StringDisplayable(new Point(0, 300),
+                                    () -> "Reward: "  + currentMission.getCurrencyValue(),Color.GREEN, font);
+                            incompleteMission.add(bountyReward);
+
+                            StringDisplayable missionStatus = new StringDisplayable(new Point(0, 450),() -> "Mission Status: Incomplete" ,Color.GREEN, font);
+                            incompleteMission.add(missionStatus);
+
+                            bountyMissions.add(incompleteMission);
                             bountyListOverlay.add(incompleteMission);
                         }
                     }
@@ -1061,41 +1085,36 @@ public class TradingPostUberstate extends Uberstate
                             BountyMission mission = currentTP.getBountyList().get(i);
                             int x = MARGIN;
                             int y = 125*i + 125 + (i * MARGIN);
+                            Overlay bountyListing = new Overlay(new Point());
+                            StringDisplayable bountyInfo = new StringDisplayable(new Point(MARGIN, y),
+                                    () -> "Kill " + mission.getEnemyCount() + " " + mission.getEnemyType() + ": " + mission.getCurrencyValue(),Color.GREEN, font);
+                            bountyListing.add(bountyInfo);
 
-                            Button bountyListing = new Button(new Point(x, y),
-                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT/2, Color.WHITE, Color.GRAY, Color.BLACK, mission.getEnemyType()),
-                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT/2, Color.GREEN, Color.GRAY, Color.WHITE, mission.getEnemyType()),
-                                    ImageFactory.makeCenterLabeledRect(WIDTH - (MARGIN*2), HEIGHT/2, Color.ORANGE, Color.GRAY, Color.BLACK, mission.getEnemyType()),
+                            Button acceptMissionButton = new Button(new Point(500, y),
+                                    ImageFactory.getAcceptBountyMissionButton(),
+                                    ImageFactory.getAcceptBountyMissionButton(),
+                                    ImageFactory.getAcceptBountyMissionButton(),
                                     () ->
                                     {
-                                        bountyListOverlay.remove(missionSelected);
-                                        bountyListOverlay.removeClickable(missionSelected);
+                                        //Remove all listings and add mission accepted
+                                        for (Overlay overlay: bountyMissions) {
+                                            bountyListOverlay.remove(overlay);
+                                            bountyListOverlay.removeClickable(overlay);
+                                        }
+                                        currentPlayer.setCurrentBountyMission(mission);
 
-                                        //Add selected mission Overlay
-                                        Overlay missionSelected = new Overlay(new Point(WIDTH/5,HEIGHT*3));
-                                        Displayable msBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(WIDTH/2, HEIGHT, Color.BLUE, Color.GRAY));
-                                        missionSelected.add(msBackground);
-                                        missionSelected.add(new StringDisplayable( new Point(16, 16), () -> "Reward: " + mission.getCurrencyValue(), Color.GREEN, font));
+                                        //todo: add string for current mission
+                                        BountyMission currentMission = currentPlayer.getCurrentBountyMission();
+                                        Overlay missionAccepted = new Overlay(new Point());
+//                                        StringDisplayable currentBountyInfo = new StringDisplayable(new Point(MARGIN, 125),
+//                                                () -> "Kill " + currentMission.getEnemyCount() + " " + currentMission.getEnemyType() + ": " + currentMission.getCurrencyValue(),Color.GREEN, font);
+//                                        missionAccepted.add(currentBountyInfo);
+                                        StringDisplayable missionStatus = new StringDisplayable(new Point(400, 150),() -> "Mission Accepted!" ,Color.GREEN, font);
+                                        missionAccepted.add(missionStatus);
+                                        bountyMissions.add(missionAccepted);
+                                        bountyListOverlay.add(missionAccepted);
 
-                                        Button getMission = new Button(new Point(16,100),
-                                                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.WHITE, Color.GRAY, Color.BLACK, "Accept"),
-                                                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.GREEN, Color.GRAY, Color.WHITE, "Accept"),
-                                                ImageFactory.makeCenterLabeledRect(WIDTH/5, HEIGHT/5, Color.ORANGE, Color.GRAY, Color.BLACK, "Accept"),
-                                                () ->
-                                                {
-                                                    bountyListOverlay.remove(missionSelected);
-                                                    bountyListOverlay.removeClickable(missionSelected);
-
-                                                    for (Button button: bountyButtons) {
-                                                        bountyListOverlay.remove(button);
-                                                        bountyListOverlay.removeClickable(button);
-                                                    }
-                                                });
-                                        missionSelected.addClickable(getMission);
-                                        missionSelected.add(getMission);
-                                        this.missionSelected = missionSelected;
-                                        bountyListOverlay.add(missionSelected);
-                                        bountyListOverlay.addClickable(missionSelected);
+//
                                     },
                                     () ->
                                     {
@@ -1104,19 +1123,20 @@ public class TradingPostUberstate extends Uberstate
                                     //enter function: Display mission info
                                     () ->
                                     {
-                                        hoveredBounty = currentTP.getBountyList().indexOf(mission);
-                                        int yHover = bountyButtons.get(hoveredBounty).getOrigin().y;
-                                        this.bountyInfo = new ImageDisplayable(new Point(WIDTH - MARGIN - 80, yHover + HEIGHT/4),
-                                                ImageFactory.makeCenterLabeledRect(80, HEIGHT/10, Color.BLUE, Color.GRAY, Color.WHITE, "" + mission.getCurrencyValue()));
-                                        bountyListOverlay.add(bountyInfo);
+//                                        hoveredBounty = currentTP.getBountyList().indexOf(mission);
+//                                        int yHover = bountyMissions.get(hoveredBounty).getOrigin().y;
+//                                        this.bountyInfo = new ImageDisplayable(new Point(WIDTH - MARGIN - 80, yHover + HEIGHT/4),
+//                                                ImageFactory.makeCenterLabeledRect(80, HEIGHT/10, Color.BLUE, Color.GRAY, Color.WHITE, "" + mission.getCurrencyValue()));
+//                                        bountyListOverlay.add(bountyInfo);
                                     },
                                     //exit function
                                     () ->
                                     {
-                                        bountyListOverlay.remove(bountyInfo);
+//                                        bountyListOverlay.remove(bountyInfo);
                                     });
-
-                            bountyButtons.add(bountyListing);
+                            bountyListing.add(acceptMissionButton);
+                            bountyListing.addClickable(acceptMissionButton);
+                            bountyMissions.add(bountyListing);
                             bountyListOverlay.addClickable(bountyListing);
                             bountyListOverlay.add(bountyListing);
                         }
@@ -1177,11 +1197,13 @@ public class TradingPostUberstate extends Uberstate
 //        tpInventoryOverlay.addClickable(tpPageOverlay);
 
         //Create Player Inventory Overlay
-        Overlay playerInventoryOverlay = new Overlay(new Point(315,0));
+        Overlay playerInventoryOverlay = new Overlay(new Point(0,0));
         Displayable piBackground = new ImageDisplayable(new Point(315, 0), ImageFactory.makeBorderedRect(WIDTH, 900, Color.WHITE, Color.GRAY));
         //playerInventoryOverlay.add(piBackground);
-        StringDisplayable piTitle = new StringDisplayable( new Point(450, 0), () -> "Player Inventory", Color.GREEN, font);
-        StringDisplayable playerWalletTitle = new StringDisplayable( new Point(50, 0), () -> "Wallet: $" + playerWallet.getCurrencyBalance(), Color.GREEN, font);
+        StringDisplayable piTitle = new StringDisplayable( new Point(375, 0), () -> "Player Inventory", Color.GREEN, font);
+//        int widthPI = piTitle.getSize().width;
+//        piTitle.getOrigin().setLocation(500+(widthPI/2),0);
+        StringDisplayable playerWalletTitle = new StringDisplayable( new Point(0, 0), () -> "Wallet: $" + playerWallet.getCurrencyBalance(), Color.GREEN, font);
         playerInventoryOverlay.add(piTitle);
         playerInventoryOverlay.add(playerWalletTitle);
         //playerInventoryOverlay.add(new StringDisplayable( new Point(WIDTH/2, 50), () -> " Trading Post MONEY: " + tpWallet.getCurrencyBalance(), Color.GREEN, font));
@@ -1190,10 +1212,10 @@ public class TradingPostUberstate extends Uberstate
         this.playerInventoryOverlay = playerInventoryOverlay;
 
         //Create TP Inventory Overlay
-        Overlay tpInventoryOverlay = new Overlay(new Point(315,0));
+        Overlay tpInventoryOverlay = new Overlay(new Point(0,0));
         Displayable tpBackground = new ImageDisplayable(new Point(315, 0), ImageFactory.makeBorderedRect(WIDTH, 900, Color.WHITE, Color.GRAY));
         //tpInventoryOverlay.add(tpBackground);
-        StringDisplayable tpiTitle = new StringDisplayable( new Point(400, 0), () -> "Trading Post Inventory", Color.GREEN, font);
+        StringDisplayable tpiTitle = new StringDisplayable( new Point(300, 0), () -> "Trading Post Inventory", Color.GREEN, font);
         tpInventoryOverlay.add(tpiTitle);
         tpInventoryOverlay.add(playerWalletTitle);
         //tpInventoryOverlay.add(new StringDisplayable( new Point(16, 50), () -> "Wallet: $" + currentPlayer.getMyWallet().getCurrencyBalance(), Color.GREEN, font));
@@ -1208,6 +1230,7 @@ public class TradingPostUberstate extends Uberstate
         //bountyListOverlay.add(bountyBackground);
         StringDisplayable blTitle = new StringDisplayable(new Point(400, 0), () -> "Bounty List", Color.GREEN, font);
         bountyListOverlay.add(blTitle);
+        bountyListOverlay.add(playerWalletTitle);
         //bountyListOverlay.add(new StringDisplayable( new Point(16, 50), () -> "Player MONEY: " + currentPlayer.getMyWallet().getCurrencyBalance(), Color.GREEN, font));
         //bountyListOverlay.add(new StringDisplayable( new Point(WIDTH/2, 50), () -> " Trading Post MONEY: " + currentTP.getWallet().getCurrencyBalance(), Color.GREEN, font));
         this.bountyListOverlay = bountyListOverlay;

@@ -35,7 +35,7 @@ public class Application
         StartUberstate startUberstate = new StartUberstate(renderstate);
         GameUberstate gameUberstate = new GameUberstate(renderstate, new Point(WIDTH / 2, HEIGHT / 2));
 
-        InterfacePanel panel = new InterfacePanel(gameUberstate);
+        InterfacePanel panel = new InterfacePanel(tpUberstate);
         panel.setSize(WIDTH, HEIGHT);
         panel.setBackground(Color.BLACK);
 

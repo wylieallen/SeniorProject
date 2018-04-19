@@ -23,6 +23,9 @@ public class ImageFactory
     private static final BufferedImage bountyButtonBase = loadImage("resources/Images/bounty_button_base_new.png");
     private static final BufferedImage bountyButtonHover = loadImage("resources/Images/button_bounty-missions_hover.png");
     private static final BufferedImage bountyButtonPress = loadImage("resources/Images/button_bounty-missions_press.png");
+    private static final BufferedImage turnInMissionButton = loadImage("resources/Images/turn_in_mission_button.png");
+    private static final BufferedImage acceptBountyMissionButton = loadImage("resources/Images/accept_mission_button.png");
+    private static final BufferedImage bountyMissionBorderImage = loadImage("resources/Images/bounty_mission_border.png");
     private static final BufferedImage exitButtonBase = loadImage("resources/Images/exit_tp_base_new.png");
     private static final BufferedImage exitButtonHover = loadImage("resources/Images/button_exit_hover.png");
     private static final BufferedImage exitButtonPress = loadImage("resources/Images/button_exit_press.png");
@@ -167,6 +170,12 @@ public class ImageFactory
     public static BufferedImage getBountyButtonPress() {
         return bountyButtonPress;
     }
+
+    public static BufferedImage getTurnInMissionButton(){return turnInMissionButton;}
+
+    public static BufferedImage getAcceptBountyMissionButton() {return acceptBountyMissionButton;}
+
+    public static BufferedImage getBountyMissionBorderImage() {return bountyMissionBorderImage;}
 
     public static BufferedImage getExitButtonBase() {
         return exitButtonBase;
