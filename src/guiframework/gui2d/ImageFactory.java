@@ -37,6 +37,9 @@ public class ImageFactory
     private static final BufferedImage exitSkillsMenuButton = loadImage("resources/Images/exit_skills_button.png");
     private static final BufferedImage closeSkillInfoButton = loadImage("resources/Images/close_skill_info_button.png");
     private static final BufferedImage skillInfoButton = loadImage("resources/Images/skill_info_button.png");
+    private static final BufferedImage flySkillInfo = loadImage("resources/Images/fly_skill_info.png");
+    private static final BufferedImage comSkillInfo = loadImage("resources/Images/com_skill_info.png");
+    private static final BufferedImage charSkillInfo = loadImage("resources/Images/char_skill_info.png");
     private static final BufferedImage skillIncreaseButton = loadImage("resources/Images/skill_up_button.png");
     private static final BufferedImage exitGameButton = loadImage("resources/Images/exit_game_button.png");
     private static final BufferedImage enterNodeButton = loadImage("resources/Images/enter_node_button.png");
@@ -57,10 +60,10 @@ public class ImageFactory
     //Item and Ship related images
     private static final BufferedImage shipImageBlack = loadImage("resources/Images/Ship-sprite-1-black-back.png");
     private static final BufferedImage shipImageWhite= loadImage("resources/Images/Ship-sprite-1.png");
-    private static final BufferedImage legendaryShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-legendary-black-back-large.png");
-    private static final BufferedImage epicShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-epic-black-back-large.png");
-    private static final BufferedImage rareShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-rare-black-back-large.png");
-    private static final BufferedImage commonShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-common-black-back-large.png");
+    private static final BufferedImage legendaryShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-legendary.png");
+    private static final BufferedImage epicShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-epic.png");
+    private static final BufferedImage rareShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-rare.png");
+    private static final BufferedImage commonShipImageBlackLarge = loadImage("resources/Images/Ship-sprite-common.png");
     private static final BufferedImage commonEngineImage = loadImage("resources/Images/ship-engine-sprite-common.jpg");
     private static final BufferedImage commonShieldImage = loadImage("resources/Images/ship-shield-sprite-common.png");
     private static final BufferedImage commonBoostSpecialImage = loadImage("resources/Images/ship-boost-special-sprite-comm.png");
@@ -207,6 +210,12 @@ public class ImageFactory
     public static BufferedImage getCloseSkillInfoButton() {return closeSkillInfoButton;}
 
     public static BufferedImage getSkillInfoButton() {return skillInfoButton;}
+
+    public static BufferedImage getFlySkillInfo() {return  flySkillInfo;}
+
+    public static BufferedImage getComSkillInfo() {return comSkillInfo;}
+
+    public static BufferedImage getCharSkillInfo() {return charSkillInfo;}
 
     public static BufferedImage getSkillIncreaseButton() {return skillIncreaseButton;}
 

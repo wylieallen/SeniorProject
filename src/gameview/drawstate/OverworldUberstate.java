@@ -46,7 +46,7 @@ public class OverworldUberstate extends Uberstate
     private static final int MARGIN = 10;
     //todo: might change items per page
     private static final int ITEMSPERPAGE = 10;
-    private static final int SKILLCAP = 10;
+    private static final int SKILLCAP = 25;
     private int selectedShip = 0;
     private int selectedPart = 0;
     private int partsCount = 0;
@@ -116,8 +116,12 @@ public class OverworldUberstate extends Uberstate
 //        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
 //        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
 //        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
-        for(int i =0; i < 10; i++)
-            currentPlayer.getActiveShip().getInventory().addItem(RIG.getRandomItem());
+        for(int i =0; i < 10; i++) {
+            ship1.getInventory().addItem(RIG.getRandomItem());
+            ship2.getInventory().addItem(RIG.getRandomItem());
+            ship3.getInventory().addItem(RIG.getRandomItem());
+            ship4.getInventory().addItem(RIG.getRandomItem());
+        }
 
         playerItems = new ArrayList<Button>();
 
@@ -217,14 +221,10 @@ public class OverworldUberstate extends Uberstate
 //                            ImageFactory.makeBorderedRect(600, 900, Color.WHITE, Color.GRAY ));
 //                    skillsMenuOverlay.add(svBackground);
 
-                    int flyingLevel = currentPlayer.getPilotStats().getFlying();
-                    int combatLevel = currentPlayer.getPilotStats().getCombat();
-                    int charismaLevel = currentPlayer.getPilotStats().getCombat();
-
-                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 100), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.GREEN, font));
-                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 200), () -> "Flying: " + flyingLevel, Color.GREEN, font));
-                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 300), () -> "Combat: " + combatLevel, Color.GREEN, font));
-                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 400), () -> "Charisma: " + charismaLevel, Color.GREEN, font));
+                    skillsMenuOverlay.add(new StringDisplayable( new Point(800, 150), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.GREEN, font));
+                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 300), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.GREEN, font));
+                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 450), () -> "Combat: " + currentPlayer.getPilotStats().getCombat(), Color.GREEN, font));
+                    skillsMenuOverlay.add(new StringDisplayable( new Point(100, 600), () -> "Charisma: " + currentPlayer.getPilotStats().getCharisma(), Color.GREEN, font));
 
                     //add skill level square images
                     List<ImageDisplayable> flyingLevels = new ArrayList<ImageDisplayable>();
@@ -233,70 +233,158 @@ public class OverworldUberstate extends Uberstate
 
                     for(int i = 0; i < SKILLCAP; i++) {
                         //add flying square
+                        ImageDisplayable flySquare = new ImageDisplayable(new Point(300+(i*50),300),
+                                ImageFactory.makeBorderedRect(50,50, Color.WHITE, Color.BLACK));
+
+                        if(i < currentPlayer.getPilotStats().getFlying() )
+                            flySquare.setImage(ImageFactory.makeBorderedRect(50,50, Color.GREEN, Color.BLACK));
+
+                        skillsMenuOverlay.add(flySquare);
+                        flyingLevels.add(flySquare);
 
                         //add combat square
+                        ImageDisplayable combatSquare = new ImageDisplayable(new Point(300+(i*50),450),
+                                ImageFactory.makeBorderedRect(50,50, Color.WHITE, Color.BLACK));
+
+                        if(i < currentPlayer.getPilotStats().getCombat() )
+                            combatSquare.setImage(ImageFactory.makeBorderedRect(50,50, Color.GREEN, Color.BLACK));
+
+                        skillsMenuOverlay.add(combatSquare);
+                        combatLevels.add(combatSquare);
 
                         //add charisma square
+                        ImageDisplayable charismaSquare = new ImageDisplayable(new Point(300+(i*50),600),
+                                ImageFactory.makeBorderedRect(50,50, Color.WHITE, Color.BLACK));
+
+                        if(i < currentPlayer.getPilotStats().getCharisma() )
+                            charismaSquare.setImage(ImageFactory.makeBorderedRect(50,50, Color.GREEN, Color.BLACK));
+
+                        skillsMenuOverlay.add(charismaSquare);
+                        charismaLevels.add(charismaSquare);
                     }
 
-                    if(currentPlayer.getPilotStats().getCurrentSkillPoints() > 0) {
-                        Button increaseFly = new Button(new Point(450, 200),
-                                ImageFactory.getSkillIncreaseButton(),
-                                ImageFactory.getSkillIncreaseButton(),
-                                ImageFactory.getSkillIncreaseButton(),
-                                () -> {
-                                    currentPlayer.getPilotStats().levelFlying();
-                                });
-                        skillsMenuOverlay.add(increaseFly);
-                        skillsMenuOverlay.addClickable(increaseFly);
 
-                        Button increaseCombat = new Button(new Point(450, 300),
-                                ImageFactory.getSkillIncreaseButton(),
-                                ImageFactory.getSkillIncreaseButton(),
-                                ImageFactory.getSkillIncreaseButton(),
-                                () -> {
-                                    currentPlayer.getPilotStats().levelCombat();
-                                });
-                        skillsMenuOverlay.add(increaseCombat);
-                        skillsMenuOverlay.addClickable(increaseCombat);
+                    Button increaseFly = new Button(new Point(1600, 300),
+                            ImageFactory.getSkillIncreaseButton(),
+                            ImageFactory.getSkillIncreaseButton(),
+                            ImageFactory.getSkillIncreaseButton(),
+                            () -> {
+                                currentPlayer.getPilotStats().levelFlying();
+                                skillsMenuOverlay.remove(flyingLevels.get(currentPlayer.getPilotStats().getFlying()-1));
+                                flyingLevels.get(currentPlayer.getPilotStats().getFlying()-1).setImage(ImageFactory.makeBorderedRect(50,50, Color.GREEN, Color.BLACK));
+                                skillsMenuOverlay.add(flyingLevels.get(currentPlayer.getPilotStats().getFlying()-1));
+                            });
+                    skillsMenuOverlay.add(increaseFly);
+                    skillsMenuOverlay.addClickable(increaseFly);
 
-                        Button increaseCharisma = new Button(new Point(450, 400),
-                                ImageFactory.getSkillIncreaseButton(),
-                                ImageFactory.getSkillIncreaseButton(),
-                                ImageFactory.getSkillIncreaseButton(),
-                                () -> {
-                                    currentPlayer.getPilotStats().levelCharisma();
-                                });
-                        skillsMenuOverlay.add(increaseCharisma);
-                        skillsMenuOverlay.addClickable(increaseCharisma);
-                    }
+                    Button increaseCombat = new Button(new Point(1600, 450),
+                            ImageFactory.getSkillIncreaseButton(),
+                            ImageFactory.getSkillIncreaseButton(),
+                            ImageFactory.getSkillIncreaseButton(),
+                            () -> {
+                                currentPlayer.getPilotStats().levelCombat();
+                                skillsMenuOverlay.remove(combatLevels.get(currentPlayer.getPilotStats().getCombat()-1));
+                                combatLevels.get(currentPlayer.getPilotStats().getCombat()-1).setImage(ImageFactory.makeBorderedRect(50,50, Color.GREEN, Color.BLACK));
+                                skillsMenuOverlay.add(combatLevels.get(currentPlayer.getPilotStats().getCombat()-1));
+                            });
+                    skillsMenuOverlay.add(increaseCombat);
+                    skillsMenuOverlay.addClickable(increaseCombat);
+
+                    Button increaseCharisma = new Button(new Point(1600, 600),
+                            ImageFactory.getSkillIncreaseButton(),
+                            ImageFactory.getSkillIncreaseButton(),
+                            ImageFactory.getSkillIncreaseButton(),
+                            () -> {
+                                currentPlayer.getPilotStats().levelCharisma();
+                                skillsMenuOverlay.remove(charismaLevels.get(currentPlayer.getPilotStats().getCharisma()-1));
+                                charismaLevels.get(currentPlayer.getPilotStats().getCharisma()-1).setImage(ImageFactory.makeBorderedRect(50,50, Color.GREEN, Color.BLACK));
+                                skillsMenuOverlay.add(charismaLevels.get(currentPlayer.getPilotStats().getCharisma()-1));
+                            });
+                    skillsMenuOverlay.add(increaseCharisma);
+                    skillsMenuOverlay.addClickable(increaseCharisma);
 
                     //add skill info buttons
-                    Button flyInfo = new Button(new Point(525, 200),
+                    Button flyInfo = new Button(new Point(1675, 300),
                             ImageFactory.getSkillInfoButton(),
                             ImageFactory.getSkillInfoButton(),
                             ImageFactory.getSkillInfoButton(),
                             () -> {
-
+                                Overlay flyInfoOverlay = new Overlay(new Point(0,0));
+                                ImageDisplayable flyInfoText = new ImageDisplayable(new Point(0,0), ImageFactory.getFlySkillInfo());
+                                int widthFIT = flyInfoText.getSize().width;
+                                flyInfoText.getOrigin().setLocation((1750/2)-(widthFIT/2), 100);
+                                flyInfoOverlay.add(flyInfoText);
+                                Button closeFlyInfo = new Button(new Point(0, 0),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        () -> {
+                                            skillsMenuOverlay.remove(flyInfoOverlay);
+                                            skillsMenuOverlay.removeClickable(flyInfoOverlay);
+                                        });
+                                int widthCFI = closeFlyInfo.getSize().width;
+                                closeFlyInfo.getOrigin().setLocation((1750/2)-(widthCFI/2), 700);
+                                flyInfoOverlay.add(closeFlyInfo);
+                                flyInfoOverlay.addClickable(closeFlyInfo);
+                                skillsMenuOverlay.add(flyInfoOverlay);
+                                skillsMenuOverlay.addClickable(flyInfoOverlay);
                             });
                     skillsMenuOverlay.add(flyInfo);
                     skillsMenuOverlay.addClickable(flyInfo);
 
-                    Button combatInfo = new Button(new Point(525, 300),
+                    Button combatInfo = new Button(new Point(1675, 450),
                             ImageFactory.getSkillInfoButton(),
                             ImageFactory.getSkillInfoButton(),
                             ImageFactory.getSkillInfoButton(),
                             () -> {
-
+                                Overlay combatInfoOverlay = new Overlay(new Point(0,0));
+                                ImageDisplayable combatInfoText = new ImageDisplayable(new Point(0,0), ImageFactory.getComSkillInfo());
+                                int widthFIT = combatInfoText.getSize().width;
+                                combatInfoText.getOrigin().setLocation((1750/2)-(widthFIT/2), 100);
+                                combatInfoOverlay.add(combatInfoText);
+                                Button closeFlyInfo = new Button(new Point(0, 0),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        () -> {
+                                            skillsMenuOverlay.remove(combatInfoOverlay);
+                                            skillsMenuOverlay.removeClickable(combatInfoOverlay);
+                                        });
+                                int widthCFI = closeFlyInfo.getSize().width;
+                                closeFlyInfo.getOrigin().setLocation((1750/2)-(widthCFI/2), 700);
+                                combatInfoOverlay.add(closeFlyInfo);
+                                combatInfoOverlay.addClickable(closeFlyInfo);
+                                skillsMenuOverlay.add(combatInfoOverlay);
+                                skillsMenuOverlay.addClickable(combatInfoOverlay);
                             });
                     skillsMenuOverlay.add(combatInfo);
                     skillsMenuOverlay.addClickable(combatInfo);
 
-                    Button charismaInfo = new Button(new Point(525, 400),
+                    Button charismaInfo = new Button(new Point(1675, 600),
                             ImageFactory.getSkillInfoButton(),
                             ImageFactory.getSkillInfoButton(),
                             ImageFactory.getSkillInfoButton(),
                             () -> {
+                                Overlay charismaInfoOverlay = new Overlay(new Point(0,0));
+                                ImageDisplayable charismaInfoText = new ImageDisplayable(new Point(0,0), ImageFactory.getCharSkillInfo());
+                                int widthFIT = charismaInfoText.getSize().width;
+                                charismaInfoText.getOrigin().setLocation((1750/2)-(widthFIT/2), 100);
+                                charismaInfoOverlay.add(charismaInfoText);
+                                Button closeFlyInfo = new Button(new Point(0, 0),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        ImageFactory.getCloseSkillInfoButton(),
+                                        () -> {
+                                            skillsMenuOverlay.remove(charismaInfoOverlay);
+                                            skillsMenuOverlay.removeClickable(charismaInfoOverlay);
+                                        });
+                                int widthCFI = closeFlyInfo.getSize().width;
+                                closeFlyInfo.getOrigin().setLocation((1750/2)-(widthCFI/2), 700);
+                                charismaInfoOverlay.add(closeFlyInfo);
+                                charismaInfoOverlay.addClickable(closeFlyInfo);
+                                skillsMenuOverlay.add(charismaInfoOverlay);
+                                skillsMenuOverlay.addClickable(charismaInfoOverlay);
+
 
                             });
                     skillsMenuOverlay.add(charismaInfo);
@@ -555,22 +643,30 @@ public class OverworldUberstate extends Uberstate
                                 inventoryTitle.getOrigin().setLocation((650)+((WIDTH-650)/2)-(widthIT/2), 0);
                                 changePartsOverlay.add(inventoryTitle);
 
-                                selectedPartOverlay = new Overlay(new Point(0,0));
-                                ImageDisplayable spBackground = new ImageDisplayable(new Point(0,0),
-                                        ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));
-                                ImageDisplayable itemName = new ImageDisplayable(new Point(0,0),
-                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, playerInventory.getItem(selectedPart).getName()));
-                                ImageDisplayable itemInfo = new ImageDisplayable(new Point(0,55),
-                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, playerInventory.getItem(selectedPart).getAttributes().get(1)));
+
+                                System.out.println(selectedPart);
+                                selectedPartOverlay = new Overlay(new Point(0, 0));
+                                ImageDisplayable spBackground = new ImageDisplayable(new Point(0, 0),
+                                        ImageFactory.makeBorderedRect(200, 165, Color.GREEN, Color.GREEN));
+                                ImageDisplayable itemName = new ImageDisplayable(new Point(0, 0),
+                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, ""));
+                                ImageDisplayable itemInfo = new ImageDisplayable(new Point(0, 55),
+                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, ""));
+//                                ImageDisplayable spBackground = new ImageDisplayable(new Point(0, 0),
+//                                        ImageFactory.makeBorderedRect(200, 165, Color.WHITE, Color.GREEN));
+//                                ImageDisplayable itemName = new ImageDisplayable(new Point(0, 0),
+//                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, playerInventory.getItem(selectedPart).getName()));
+//                                ImageDisplayable itemInfo = new ImageDisplayable(new Point(0, 55),
+//                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, playerInventory.getItem(selectedPart).getAttributes().get(1)));
                                 selectedPartOverlay.add(spBackground);
                                 selectedPartOverlay.add(itemName);
                                 selectedPartOverlay.add(itemInfo);
 
 
                                 Button equipPart = new Button(new Point(0, 110),
-                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
-                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
-                                        ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
+                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, "Equip"),
+                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.WHITE, "Equip"),
+                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, "Equip"),
                                         () -> {
                                             System.out.println("Equip Button pressed!");
                                             Item partEquip = playerInventory.getItem(selectedPart);
@@ -588,7 +684,7 @@ public class OverworldUberstate extends Uberstate
                                             currentWeaponImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getWeaponSlot1().getImage());
 
                                             //clear buttons and parts count and make new ones
-                                            for(int j = 0; j < playerItems.size(); j++) {
+                                            for (int j = 0; j < playerItems.size(); j++) {
                                                 Button pButton = playerItems.get(j);
                                                 changePartsOverlay.remove(pButton);
                                                 changePartsOverlay.removeClickable(pButton);
@@ -596,10 +692,11 @@ public class OverworldUberstate extends Uberstate
                                             playerItems.clear();
                                             partsCount = 0;
 
-                                            for(int i = 0; i <  playerInventory.getcurrItemsNum() && partsCount < ITEMSPERPAGE; i++) {
-                                                if(playerInventory.getItem(i).isShipPart()){
-                                                    int x = 700 + (200*(partsCount%5)) + ((partsCount%5)*MARGIN) + MARGIN;
-                                                    int y = 150 + (350*(partsCount/5));;
+                                            for (int i = 0; i < playerInventory.getcurrItemsNum() && partsCount < ITEMSPERPAGE; i++) {
+                                                if (playerInventory.getItem(i).isShipPart()) {
+                                                    int x = 700 + (200 * (partsCount % 5)) + ((partsCount % 5) * MARGIN) + MARGIN;
+                                                    int y = 150 + (350 * (partsCount / 5));
+                                                    ;
                                                     Item part = playerInventory.getItem(i);
                                                     Button partButton = new Button(new Point(x, y),
                                                             part.getImage(),
@@ -611,10 +708,10 @@ public class OverworldUberstate extends Uberstate
 
                                                                 selectedPart = playerInventory.getIndex(part);
 
-                                                                selectedPartOverlay.getOrigin().setLocation(x-25,y+120);
-                                                                spBackground.setImage(ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));
-                                                                itemName.setImage(ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getName()));
-                                                                itemInfo.setImage(ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getAttributes().get(1)));
+                                                                selectedPartOverlay.getOrigin().setLocation(x - 25, y + 120);
+                                                                spBackground.setImage(ImageFactory.makeBorderedRect(200, 165, Color.GREEN, Color.GREEN));
+                                                                itemName.setImage(ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, part.getName()));
+                                                                itemInfo.setImage(ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, part.getAttributes().get(1)));
 
                                                                 changePartsOverlay.add(selectedPartOverlay);
                                                                 changePartsOverlay.addClickable(selectedPartOverlay);
@@ -629,10 +726,12 @@ public class OverworldUberstate extends Uberstate
                                 selectedPartOverlay.add(equipPart);
                                 selectedPartOverlay.addClickable(equipPart);
 
-                                for(int i = 0; i <  playerInventory.getcurrItemsNum() && partsCount < ITEMSPERPAGE; i++) {
-                                    if(playerInventory.getItem(i).isShipPart()){
-                                        int x = 700 + (200*(partsCount%5)) + ((partsCount%5)*MARGIN) + MARGIN;
-                                        int y = 150 + (350*(partsCount/5));;
+
+                                for (int i = 0; i < playerInventory.getcurrItemsNum() && partsCount < ITEMSPERPAGE; i++) {
+                                    if (playerInventory.getItem(i).isShipPart()) {
+                                        int x = 700 + (200 * (partsCount % 5)) + ((partsCount % 5) * MARGIN) + MARGIN;
+                                        int y = 150 + (350 * (partsCount / 5));
+                                        ;
                                         Item part = playerInventory.getItem(i);
                                         Button partButton = new Button(new Point(x, y),
                                                 part.getImage(),
@@ -644,10 +743,10 @@ public class OverworldUberstate extends Uberstate
 
                                                     selectedPart = playerInventory.getIndex(part);
 
-                                                    selectedPartOverlay.getOrigin().setLocation(x-25,y+120);
-                                                    spBackground.setImage(ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));
-                                                    itemName.setImage(ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getName()));
-                                                    itemInfo.setImage(ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getAttributes().get(1)));
+                                                    selectedPartOverlay.getOrigin().setLocation(x - 25, y + 120);
+                                                    spBackground.setImage(ImageFactory.makeBorderedRect(200, 165, Color.GREEN, Color.GREEN));
+                                                    itemName.setImage(ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, part.getName()));
+                                                    itemInfo.setImage(ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, part.getAttributes().get(1)));
 //                                                    selectedPartOverlay = new Overlay(new Point(x-25,y+120));
 //                                                    ImageDisplayable spBackground = new ImageDisplayable(new Point(0,0),
 //                                                            ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));

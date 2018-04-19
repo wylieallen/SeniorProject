@@ -26,7 +26,7 @@ public class ShipHull extends ShipPart {
         super.setAttributes(attributes);
     }
 
-    public BufferedImage getShipImage() {
+    public BufferedImage getImage() {
         switch (getRarity()) {
             case COMMON:
                 return ImageFactory.getCommonShipImageBlackLarge();

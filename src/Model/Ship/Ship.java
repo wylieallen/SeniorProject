@@ -409,6 +409,6 @@ public class Ship{
 //        return ImageFactory.getShipImageWhite();
 //    }
     public BufferedImage getShipImageBlack(){
-        return getHullSlot().getShipImage();
+        return getHullSlot().getImage();
     }
 }

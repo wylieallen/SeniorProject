@@ -6,7 +6,7 @@ public class PilotStats {
     private int experience;
     private int maxSkillPoints;
     private int currentSkillPoints;
-    private final int SKILLCAP = 10;
+    private final int SKILLCAP = 25;
 
     private int flying;
     private int combat;
