@@ -53,6 +53,7 @@ public class BattleZone extends Zone implements CollisionObserver {
     private int lootChestCooldown = 0;
     private int asteroidCooldown = 0;
     private int enemyCooldown = 0;
+    private int numAsteroid = 0;
     private List<LocationTuple<Powerup>> powerups;
 
 
@@ -73,9 +74,10 @@ public class BattleZone extends Zone implements CollisionObserver {
         return zoneType;
     }
 
-    public void run(Body<Ship> playerShip) {
+    public void run(Body<Ship> playerShip, int numAsteroid) {
         this.player = playerShip;
         spawnShip(player);
+        this.numAsteroid = numAsteroid;
         //addEnemies();
     }
 
@@ -132,7 +134,7 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     private void generateAsteroid(){
         if (asteroidCooldown == 0){
-            for (int i = 0; i < 100; i++){
+            for (int i = 0; i < .02*numAsteroid; i++){
                 addAsteroid(100);
             }
             asteroidCooldown = 500;
@@ -536,5 +538,17 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     public Body<Ship> getPlayerShip() {
         return player;
+    }
+
+    public boolean isGameOver(){
+        if (!player.get().isAlive()){
+            return true;
+        }
+        for (Body<Ship> ship: ships){
+            if (ship.get().getMyPilot().getFaction() != player.get().getMyPilot().getFaction()){
+                return false;
+            }
+        }
+        return true;
     }
 }

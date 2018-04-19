@@ -56,10 +56,9 @@ public class Ship{
         shipStats = new ShipStats(hullSlot.getmaxHealth());
         inventory = new Inventory(hullSlot.getInventorySize());
         myPilot = owner;
-        owner.setActiveShip(this);
         shieldActivated = false;
         shieldCooldown = new SystemTimer();
-        this.facingDirection = new Vector3D(0, 0, 0);
+        this.facingDirection = new Vector3D(0, 0, -1);
     }
 
     public Ship(Pilot owner, ShipHull myShip, Point3D origin, Orientation3D orientation, float base, float height){
@@ -71,7 +70,7 @@ public class Ship{
         owner.setActiveShip(this);
         shieldActivated = false;
         shieldCooldown = new SystemTimer();
-        this.facingDirection = new Vector3D(0, 0, 0);
+        this.facingDirection = new Vector3D(0, 0, -1);
     }
 
     public Pilot getMyPilot() {

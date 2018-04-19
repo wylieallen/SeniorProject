@@ -4,7 +4,9 @@ import Model.GameModel;
 import Model.Items.LootChest;
 import Model.Map.Zones.Asteroid;
 import Model.Map.Zones.BattleZone;
+import Model.Pilot.Player;
 import Model.Ship.Ship;
+import Model.Ship.ShipBuilder.ShipBuilder;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.Ship.ShipParts.ShipHull;
 import Model.physics.Body;
@@ -13,6 +15,7 @@ import Model.physics.collidable.BoundingBoxCollidable;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
+import Utility.Geom3D.Vector3D;
 import Utility.Rarity;
 import com.jogamp.opengl.GLAutoDrawable;
 import gameview.controlstate.PilotingControlstate;
@@ -43,7 +46,17 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
     {
         super(new Drawstate(), renderstate, new ClickableControlstate());
 
-        gameModel = new GameModel();
+
+        //TODO make player & zoneID passed in by GameUberstate constructor
+        Player newPlayer = new Player();
+        ShipBuilder buildShip = new ShipBuilder();
+        Ship myShip = buildShip.buildRandomShip(newPlayer, Rarity.COMMON);
+        newPlayer.setActiveShip(myShip);
+        int battlezoneID = 1;
+        // END
+
+
+        gameModel = new GameModel(newPlayer, battlezoneID);
         gameModel.run();
         playerShip = gameModel.getPlayerShip();
         gameModel.add((SpawnObserver) this);

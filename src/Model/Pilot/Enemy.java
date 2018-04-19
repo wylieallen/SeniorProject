@@ -24,9 +24,8 @@ public class Enemy extends Pilot {
 
     @Override
     public void pilotDied() {
-        // todo:
         BattleZone currentZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
-        //currentZone.enemyDestroyed(this);
+        currentZone.enemyDestroyed(this);
     }
 
     @Override

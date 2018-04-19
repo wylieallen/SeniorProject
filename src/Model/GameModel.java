@@ -3,6 +3,8 @@ package Model;
 import Model.Map.Node;
 import Model.Map.Overworld;
 import Model.Map.Zones.BattleZone;
+import Model.Pilot.Enemy;
+import Model.Pilot.Faction;
 import Model.Pilot.Player;
 import Model.Ship.Ship;
 import Model.Ship.ShipBuilder.ShipBuilder;
@@ -23,63 +25,95 @@ import Utility.Geom3D.Vector3D;
 import Utility.Rarity;
 import gameview.observers.spawn.SpawnObserver;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
-public class GameModel
-{
+public class GameModel {
     private Body<Ship> playerShip;
     private BattleZone myBattleZone;
+    private int zoneID;
+    private int numEnemy;
+    private int numLootChest;
+    private int numAsteroid;
 
-    public GameModel()
-    {
-        //TODO player needs to be passed in
+    public GameModel(Player player, int battlezoneID) {
         //INITIALIZE GAME STUFF
-        Player newPlayer = new Player();
-        ShipBuilder buildShip = new ShipBuilder();
-        Ship myShip = buildShip.buildRandomShip(newPlayer, Rarity.COMMON);
-        newPlayer.setActiveShip(myShip);
-        myShip.setFacingDirection(new Vector3D(0,0,-1));
+        this.zoneID = battlezoneID;
         Point3D origin = new Point3D(0f, 0f, 0f);
-        playerShip = new Body<>(origin, new Dimension3D(7.086f, 1.323f, 12.380f), new Orientation3D(), myShip);
+        this.playerShip = new Body<>(origin, new Dimension3D(7.086f, 1.323f, 12.380f), new Orientation3D(), player.getActiveShip());
+        parseZoneID();
     }
 
-    public void run(){
+
+    private void parseZoneID() {
+        String filename = "resources/Zones/battlezones/zone" + Integer.toString(zoneID) + ".txt";
+
+        Scanner s = null;
+        try {
+            s = new Scanner(new File(filename));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        List<String> enemyData = new ArrayList<>();
+        while (s.hasNextLine()) {
+            enemyData.add(s.nextLine());
+        }
+
+        int lineIndex = 1;
+        lineIndex++; //SKIP ENEMY
+        numEnemy = Integer.parseInt(enemyData.get(lineIndex++).split("\t")[1]);
+
+        lineIndex++; //SKIP LOOTCHEST
+        numLootChest = Integer.parseInt(enemyData.get(lineIndex++).split("\t")[1]);
+
+        lineIndex++; //SKIP ASTEROID
+        numAsteroid = Integer.parseInt(enemyData.get(lineIndex++).split("\t")[1]);
+    }
+
+
+    public void run() {
         Overworld theOverworld = Overworld.getOverworld();
-        theOverworld.addNode(new Node(new BattleZone(1)));
+        theOverworld.addNode(new Node(new BattleZone(zoneID)));
         myBattleZone = (BattleZone) theOverworld.getZoneAtNode();
-        myBattleZone.run(playerShip);
+        myBattleZone.run(playerShip, numAsteroid);
     }
 
-    public void spawnEnemies(){
-        myBattleZone.addEnemies(5);
+    public void spawnEnemies() {
+        myBattleZone.addEnemies(numEnemy);
     }
 
     public void spawnLootChests() {
-        for (int i = 0; i<20; i++){
+        for (int i = 0; i < numLootChest; i++) {
             myBattleZone.addLootChest();
         }
     }
 
-    public void spawnAsteroids(){
-        for (int i = 0; i<5000; i++){
+    public void spawnAsteroids() {
+        for (int i = 0; i < numAsteroid; i++) {
             myBattleZone.addAsteroid(1000);
         }
     }
 
 
-    public void update(){
+    public void update() {
         myBattleZone.update();
     }
 
-    public void add(SpawnObserver o) { myBattleZone.add(o); }
-    public void add(CollisionObserver o) { myBattleZone.add(o); }
+    public void add(SpawnObserver o) {
+        myBattleZone.add(o);
+    }
 
-    public void setPlayer(Body<Ship> playerShip)
-    {
+    public void add(CollisionObserver o) {
+        myBattleZone.add(o);
+    }
+
+    public void setPlayer(Body<Ship> playerShip) {
         this.playerShip = playerShip;
     }
 
-    public Body<Ship> getPlayerShip() { return playerShip; }
+    public Body<Ship> getPlayerShip() {
+        return playerShip;
+    }
 }
