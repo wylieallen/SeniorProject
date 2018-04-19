@@ -38,7 +38,7 @@ public interface Config {
     public static final int ENERGY_WEAPON_CD = 20;
     public static final int SHIELD_CD = 12;
 
-    public static final float AI_ACCURACY = .25f;
+    public static final float AI_ACCURACY = .65f;
 
     //CONSUMABLE
     public static final int BASE_CONSUMABLE_USE = 20;
