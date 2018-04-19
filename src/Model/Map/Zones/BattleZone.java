@@ -4,7 +4,6 @@ import Model.Items.Inventory;
 import Model.Items.Item;
 import Model.Items.LootChest;
 import Model.Items.RandomItemGenerator;
-import Model.Map.LocationTuple;
 import Model.Pilot.*;
 import Model.Powerup.Powerup;
 import Model.Ship.Ship;
@@ -54,7 +53,7 @@ public class BattleZone extends Zone implements CollisionObserver {
     private int asteroidCooldown = 0;
     private int enemyCooldown = 0;
     private int numAsteroid = 0;
-    private List<LocationTuple<Powerup>> powerups;
+    //private List<LocationTuple<Powerup>> powerups;
 
 
     public BattleZone(int zoneID) {

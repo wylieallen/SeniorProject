@@ -54,7 +54,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
             newPlayer.setActiveShip(myShip);
 
         }
-        int battlezoneID = 1;
+        int battlezoneID = 2;
         // END
 
         gameModel = new GameModel(newPlayer, battlezoneID);
@@ -116,7 +116,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         }
 
         renderstate.setCamera(new ThirdPersonCamera(playerRenderable, 16));
-
+/*
         renderstate.add( new BufferedRenderable(new Point3D(0, -2, 0),
                 new Dimension3D(2), new Orientation3D(), Model3DFactory.getCubeModel()));
 
@@ -124,9 +124,9 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
                 new Dimension3D(2), new Orientation3D(), Model3DFactory.getPyramidModel()));
 
         renderstate.add(new ConeRenderable(new Point3D(1, 1, -8),
-                0.5f, 2, new Orientation3D(180, 0, 0), 10));
+                0.5f, 2, new Orientation3D(180, 0, 0), 10));*/
 
-        renderstate.add(new SphereRenderable(new Point3D(2, 4, -4),
+        renderstate.add(new SphereRenderable(new Point3D(0, 0, 0),
                 new Orientation3D(), 2, 10, 10));
 
         Random rng = new Random();
@@ -150,7 +150,9 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
     }
     public void notifyShipToProj(Body<Ship> ship, Body<Projectile> projectile)
     {
-        getRenderstate().add(new ExplosionRenderable(projectile.getCenter(), 150));
+        if (ship.get() != projectile.get().getProjectileSource().getActiveShip()) {
+            getRenderstate().add(new ExplosionRenderable(projectile.getCenter(), 150));
+        }
     }
     public void notifyProjToProj(Body<Projectile> a, Body<Projectile> b)
     {

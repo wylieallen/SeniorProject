@@ -67,13 +67,13 @@ public class TargetingState implements AIState{
 
         if (accuracyCooldown == 0){
             accuracySpeed = rng.getRandomInBetween(-(int) offsetSpeed, (int) offsetSpeed);
-            int positionOffset = (int) (20f - AI_ACCURACY*20f);
+            int positionOffset = (int) (17f - AI_ACCURACY*17f);
 
             System.out.println("Position offset: " + positionOffset);
             xOffset = rng.getRandomInBetween(-positionOffset, positionOffset);
             yOffset = rng.getRandomInBetween(-positionOffset, positionOffset);
             zOffset = rng.getRandomInBetween(-positionOffset, positionOffset);
-            accuracyCooldown = 500;
+            accuracyCooldown = 250;
         }
         accuracyCooldown--;
 
