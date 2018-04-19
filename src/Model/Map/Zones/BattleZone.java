@@ -553,4 +553,9 @@ public class BattleZone extends Zone implements CollisionObserver {
         }
         return true;
     }
+
+    public int shipsRemaining()
+    {
+        return ships.size();
+    }
 }

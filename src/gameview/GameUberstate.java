@@ -3,19 +3,15 @@ package gameview;
 import Model.GameModel;
 import Model.Items.LootChest;
 import Model.Map.Zones.Asteroid;
-import Model.Map.Zones.BattleZone;
 import Model.Pilot.Player;
 import Model.Ship.Ship;
 import Model.Ship.ShipBuilder.ShipBuilder;
 import Model.Ship.ShipParts.Projectile.Projectile;
-import Model.Ship.ShipParts.ShipHull;
 import Model.physics.Body;
 import Model.physics.CollisionObserver;
-import Model.physics.collidable.BoundingBoxCollidable;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
-import Utility.Geom3D.Vector3D;
 import Utility.Rarity;
 import com.jogamp.opengl.GLAutoDrawable;
 import gameview.controlstate.PilotingControlstate;
@@ -38,23 +34,28 @@ import java.util.Random;
 
 public class GameUberstate extends Uberstate implements SpawnObserver, CollisionObserver
 {
+    private TransitionObserver transitionObserver;
     private PilotingControlstate controlstate;
     private GameModel gameModel;
     private Body<Ship> playerShip;
 
-    public GameUberstate(Renderstate renderstate, Point centerPt)
+    public GameUberstate(TransitionObserver transitionObserver, Renderstate renderstate, Point centerPt, Player newPlayer, boolean initialized)
     {
         super(new Drawstate(), renderstate, new ClickableControlstate());
 
+        this.transitionObserver = transitionObserver;
 
         //TODO make player & zoneID passed in by GameUberstate constructor
-        Player newPlayer = new Player();
-        ShipBuilder buildShip = new ShipBuilder();
-        Ship myShip = buildShip.buildRandomShip(newPlayer, Rarity.COMMON);
-        newPlayer.setActiveShip(myShip);
+        if(!initialized)
+        {
+            newPlayer = new Player();
+            ShipBuilder buildShip = new ShipBuilder();
+            Ship myShip = buildShip.buildRandomShip(newPlayer, Rarity.COMMON);
+            newPlayer.setActiveShip(myShip);
+
+        }
         int battlezoneID = 1;
         // END
-
 
         gameModel = new GameModel(newPlayer, battlezoneID);
         gameModel.run();
@@ -175,6 +176,10 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
     public void display(GLAutoDrawable drawable)
     {
         gameModel.update();
+        if(gameModel.gameIsOver())
+        {
+            transitionObserver.switchToOverworld();
+        }
         super.display(drawable);
     }
 }

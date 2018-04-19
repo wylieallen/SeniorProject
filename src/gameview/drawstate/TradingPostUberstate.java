@@ -13,6 +13,7 @@ import Model.TradingPost.BountyMission;
 import Model.TradingPost.TradingPost;
 import Model.TradingPost.Wallet;
 import Utility.Rarity;
+import gameview.TransitionObserver;
 import guiframework.Uberstate;
 import guiframework.control.ClickableControlstate;
 import guiframework.gui2d.Drawstate;
@@ -73,14 +74,19 @@ public class TradingPostUberstate extends Uberstate
     private Wallet playerWallet;
     private Wallet tpWallet;
 
-    public TradingPostUberstate(Renderstate renderstate) {
+    private TransitionObserver transitionObserver;
+
+    public TradingPostUberstate(TransitionObserver transitionObserver, Renderstate renderstate, Player player, boolean initialized) {
         super(new Drawstate(), renderstate, new ClickableControlstate());
         //todo: Figure out how player and trading post are passed to Drawstate properly. Temporarily adding test player and trading post.
-        currentPlayer = new Player();
-        currentPlayer.getMyWallet().increaseCurrencyBalance(1500);
-        Ship ship = new Ship(currentPlayer, new ShipHull(1000, Rarity.COMMON, 1000, 30));
-        currentPlayer.getShipHangar().addShip(ship);
-        currentPlayer.setActiveShip(ship);
+        currentPlayer = player;
+        this.transitionObserver = transitionObserver;
+        if(!initialized)
+        {
+            currentPlayer.getMyWallet().increaseCurrencyBalance(1500);
+            Ship ship = new Ship(currentPlayer, new ShipHull(1000, Rarity.COMMON, 1000, 30));
+            currentPlayer.getShipHangar().addShip(ship);
+            currentPlayer.setActiveShip(ship);
 //        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
 //        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
 //        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
@@ -100,9 +106,11 @@ public class TradingPostUberstate extends Uberstate
 //        currentPlayer.getActiveShip().getInventory().addItem(new FuelConsumable(100,20));
 //        currentPlayer.getActiveShip().getInventory().addItem(new FuelConsumable(200,50));
 
-        BountyMission m = new BountyMission(2000, 10, "Spock");
-        m.completeMission();
-        currentPlayer.setCurrentBountyMission(m);
+            BountyMission m = new BountyMission(2000, 10, "Spock");
+            m.completeMission();
+            currentPlayer.setCurrentBountyMission(m);
+        }
+
 
         currentTP = new TradingPost(new Inventory(20), new Wallet(500), new ArrayList<BountyMission>());
 //        currentTP.getInventory().addItem(new FuelConsumable(300, 70));

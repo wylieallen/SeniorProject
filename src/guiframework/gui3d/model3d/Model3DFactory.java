@@ -42,7 +42,7 @@ public class Model3DFactory
         sparkModel = new Model3D(new Texture3D(gl, vbo[8], quad_tex_vertices, loadTexture("resources/redspark.png")), new Mesh3D(gl, vbo[9], quad_particle_vertices));
 
         //TODO FIGURE OUT HOW TO MAKE THEM BIG
-        asteroidModel = makeModel(gl, vbo[10], vbo[11], "resources/rock.png", "resources/asteroid.obj");
+        asteroidModel = makeModel(gl, vbo[10], vbo[11], "resources/rock.png", "resources/asteroid2.obj");
 
 
     }

@@ -3,8 +3,13 @@ package guiframework;
 import Model.Map.Zones.BattleZone;
 import Model.Map.Zones.TradingZone;
 import Model.Map.Zones.Zone;
+import Model.Pilot.Player;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.FPSAnimator;
+import gameview.GameUberstate;
+import gameview.TransitionObserver;
+import gameview.drawstate.OverworldUberstate;
+import gameview.drawstate.TradingPostUberstate;
 import guiframework.control.ClickableControlstate;
 import guiframework.control.Controlstate;
 import guiframework.gui2d.Drawstate;
@@ -13,21 +18,25 @@ import guiframework.gui3d.Renderstate;
 import java.awt.*;
 import java.awt.event.*;
 
-public class InterfacePanel extends GLJPanel implements ZoneTransitionObserver
+public class InterfacePanel extends GLJPanel implements TransitionObserver
 {
+    private Player player;
+    private Point centerPt;
     private Uberstate uberstate;
     // todo: put this application-specific stuff in a subclass of InterfacePanel
     // todo: add startUberstate here
-    private Uberstate overworld, tradingpost, inflight;
 
-    public InterfacePanel(Uberstate uberstate)
+    public InterfacePanel(Renderstate renderstate, Point centerPt, Player player)
     {
-        this.uberstate = uberstate;
-        // instantiate overworld, tradingpost, inflight...
+        this.uberstate =  new GameUberstate(this, renderstate, new Point(WIDTH / 2, HEIGHT / 2), player, false);
+
+        this.player = player;
+
+        this.centerPt = centerPt;
 
         this.addGLEventListener(uberstate);
 
-        new FPSAnimator(this, 60, true).start();
+        //new FPSAnimator(this, 60, true).start();
 
         this.addMouseListener(new MouseListener()
         {
@@ -38,7 +47,7 @@ public class InterfacePanel extends GLJPanel implements ZoneTransitionObserver
 
            public void mousePressed(MouseEvent e)
            {
-                System.out.println("Mouse button " + e.getButton() + " pressed at " + e.getPoint());
+                //System.out.println("Mouse button " + e.getButton() + " pressed at " + e.getPoint());
                 uberstate.parseMousePress(e.getButton());
            }
 
@@ -49,7 +58,7 @@ public class InterfacePanel extends GLJPanel implements ZoneTransitionObserver
 
            public void mouseReleased(MouseEvent e)
            {
-                System.out.println("Mouse button " + e.getButton() + " released at " + e.getPoint());
+                //System.out.println("Mouse button " + e.getButton() + " released at " + e.getPoint());
                uberstate.parseMouseRelease(e.getButton());
            }
 
@@ -95,7 +104,10 @@ public class InterfacePanel extends GLJPanel implements ZoneTransitionObserver
         });
     }
 
-    @Override
+    public void start() { new FPSAnimator(this, 60, true).start(); }
+
+    public void setUberstate(Uberstate uberstate) { this.uberstate = uberstate; }
+
     public void notifyTransition(Zone nextZone)
     {
         // todo: redo all of this
@@ -113,13 +125,33 @@ public class InterfacePanel extends GLJPanel implements ZoneTransitionObserver
         }
     }
 
-    public void switchToOverworld() { this.uberstate = overworld; }
+    public void switchToOverworld()
+    {
+        this.removeGLEventListener(uberstate);
+        this.uberstate = new OverworldUberstate(this.uberstate.getRenderstate(), player, true, this);
+        this.addGLEventListener(uberstate);
+    }
 
-    public void switchToTradingPost() { this.uberstate = tradingpost; }
+    public void switchToTradingPost()
+    {
+        this.removeGLEventListener(uberstate);
+        this.uberstate = new TradingPostUberstate(this, this.uberstate.getRenderstate(), player, true);
+        this.addGLEventListener(uberstate);
+    }
 
-    public void switchToInflight() { this.uberstate = inflight; }
+    public void switchToInflight()
+    {
+        this.removeGLEventListener(uberstate);
+        this.uberstate = new GameUberstate(this, this.uberstate.getRenderstate(), new Point(centerPt), player, true);
+        this.addGLEventListener(uberstate);
+    }
 
-    public void changeSize() { uberstate.changeSize(getSize()); }
+    public void changeSize()
+    {
+        Dimension size = getSize();
+        this.centerPt = new Point(size.width/2, size.height/2);
+        uberstate.changeSize(size);
+    }
 
     @Override
     public void paintComponent(Graphics g)

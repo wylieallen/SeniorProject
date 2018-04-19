@@ -1,8 +1,13 @@
+import Model.Pilot.Player;
 import gameview.GameUberstate;
 import gameview.drawstate.OverworldUberstate;
 import gameview.drawstate.StartUberstate;
 import guiframework.InterfacePanel;
 import gameview.drawstate.TradingPostUberstate;
+import guiframework.Uberstate;
+import guiframework.control.ClickableControlstate;
+import guiframework.control.Controlstate;
+import guiframework.gui2d.Drawstate;
 import guiframework.gui3d.Renderstate;
 
 import javax.swing.*;
@@ -30,14 +35,19 @@ public class Application
 
         Renderstate renderstate = new Renderstate(WIDTH, HEIGHT);
 
-        TradingPostUberstate tpUberstate = new TradingPostUberstate(renderstate);
-        OverworldUberstate overworldUberstate = new OverworldUberstate(renderstate);
-        StartUberstate startUberstate = new StartUberstate(renderstate);
-        GameUberstate gameUberstate = new GameUberstate(renderstate, new Point(WIDTH / 2, HEIGHT / 2));
+        //TradingPostUberstate tpUberstate = new TradingPostUberstate(renderstate);
+        //OverworldUberstate overworldUberstate = new OverworldUberstate(renderstate);
+        //StartUberstate startUberstate = new StartUberstate(renderstate);
+        Player player = new Player();
 
-        InterfacePanel panel = new InterfacePanel(tpUberstate);
+        InterfacePanel panel = new InterfacePanel(renderstate, new Point(WIDTH / 2, HEIGHT / 2), player);
+        //GameUberstate gameUberstate = new GameUberstate(panel, renderstate, new Point(WIDTH / 2, HEIGHT / 2), player, false);
+        //panel.setUberstate(gameUberstate);
+
         panel.setSize(WIDTH, HEIGHT);
         panel.setBackground(Color.BLACK);
+
+        panel.start();
 
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 

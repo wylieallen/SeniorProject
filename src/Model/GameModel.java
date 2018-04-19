@@ -96,6 +96,10 @@ public class GameModel {
         }
     }
 
+    public boolean gameIsOver()
+    {
+        return (myBattleZone.isGameOver());
+    }
 
     public void update() {
         myBattleZone.update();

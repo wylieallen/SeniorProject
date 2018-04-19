@@ -22,6 +22,7 @@ import Model.TradingPost.BountyMission;
 import Model.TradingPost.TradingPost;
 import Model.TradingPost.Wallet;
 import Utility.Rarity;
+import gameview.TransitionObserver;
 import guiframework.Uberstate;
 import guiframework.control.ClickableControlstate;
 import guiframework.gui2d.Drawstate;
@@ -65,8 +66,12 @@ public class OverworldUberstate extends Uberstate
     private TradingPost currentTP;
     private Player currentPlayer;
 
-    public OverworldUberstate(Renderstate renderstate) {
+    private TransitionObserver transitionObserver;
+
+    public OverworldUberstate(Renderstate renderstate, Player player, boolean initialized, TransitionObserver transitionObserver) {
         super(new Drawstate(), renderstate, new ClickableControlstate());
+
+        this.transitionObserver = transitionObserver;
 
         TradingPost tp1 = new TradingPost(new Inventory(20), new Wallet(500), new ArrayList<BountyMission>());
         overworld = Overworld.getOverworld();
@@ -76,36 +81,39 @@ public class OverworldUberstate extends Uberstate
         overworld.addNode(new Node(new TradingZone(tp1)));
         overworld.addNode(new Node(new BattleZone(4)));
 
-        currentPlayer = new Player();
-        currentPlayer.getPilotStats().levelUp();
-        currentPlayer.getPilotStats().levelUp();
-        currentPlayer.getPilotStats().levelUp();
+        currentPlayer = player;
+
+        if(!initialized)
+        {
+            currentPlayer.getPilotStats().levelUp();
+            currentPlayer.getPilotStats().levelUp();
+            currentPlayer.getPilotStats().levelUp();
 //        Ship ship1 = new Ship(currentPlayer, new ShipHull(100, Rarity.COMMON, 500, 40));
 //        ship1.equipEngine(new ShipEngine(100,100, Rarity.COMMON));
 //        ship1.equipShield(new ShipShield(100,100, Rarity.COMMON));
 //        ship1.equipSpecial(new BoostSpecial(100, 100,100,100, Rarity.COMMON));
 //        ship1.getWeaponSlot1(new EnergyWeapon(100, new LinearProjectile(currentPlayer,)));
-        ShipBuilder buildShip = new ShipBuilder();
-        Ship ship1 = buildShip.buildRandomShip(currentPlayer, Rarity.COMMON);
-        Ship ship2 = buildShip.buildRandomShip(currentPlayer, Rarity.RARE);
-        Ship ship3 = buildShip.buildRandomShip(currentPlayer, Rarity.EPIC);
-        Ship ship4 = buildShip.buildRandomShip(currentPlayer, Rarity.LEGENDARY);
-        currentPlayer.getShipHangar().addShip(ship1);
-        currentPlayer.getShipHangar().addShip(ship2);
-        currentPlayer.getShipHangar().addShip(ship3);
-        currentPlayer.getShipHangar().addShip(ship4);
-        currentPlayer.setActiveShip(ship1);
+            ShipBuilder buildShip = new ShipBuilder();
+            Ship ship1 = buildShip.buildRandomShip(currentPlayer, Rarity.COMMON);
+            Ship ship2 = buildShip.buildRandomShip(currentPlayer, Rarity.RARE);
+            Ship ship3 = buildShip.buildRandomShip(currentPlayer, Rarity.EPIC);
+            Ship ship4 = buildShip.buildRandomShip(currentPlayer, Rarity.LEGENDARY);
+            currentPlayer.getShipHangar().addShip(ship1);
+            currentPlayer.getShipHangar().addShip(ship2);
+            currentPlayer.getShipHangar().addShip(ship3);
+            currentPlayer.getShipHangar().addShip(ship4);
+            currentPlayer.setActiveShip(ship1);
 
-        RandomItemGenerator RIG = new RandomItemGenerator();
-        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
-        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
-        currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
-        currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
-        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
-        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.COMMON));
-        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.LEGENDARY));
-        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
-        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+            RandomItemGenerator RIG = new RandomItemGenerator();
+            currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+            currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+            currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
+            currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
+            currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+            currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.COMMON));
+            currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.LEGENDARY));
+            currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
+            currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
 //        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
 //        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
 //        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
@@ -121,6 +129,8 @@ public class OverworldUberstate extends Uberstate
             ship2.getInventory().addItem(RIG.getRandomItem());
             ship3.getInventory().addItem(RIG.getRandomItem());
             ship4.getInventory().addItem(RIG.getRandomItem());
+        }
+
         }
 
         playerItems = new ArrayList<Button>();
