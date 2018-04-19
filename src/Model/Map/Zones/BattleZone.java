@@ -339,6 +339,8 @@ public class BattleZone extends Zone implements CollisionObserver {
     public void notifyAsteroidToShip(Body<Asteroid> asteroid, Body<Ship> ship){
         Ship theShip = ship.get();
         ship.get().takeDamage(0);
+        asteroid.get().setTrajectory(ship.get().getFacingDirection());
+        asteroid.get().setSpeed(ship.get().getSpeed()/FRAMERATE);
         theShip.getShipStats().modifyCurrentSpeed(-theShip.getSpeed());
     }
 

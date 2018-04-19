@@ -4,6 +4,7 @@ import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
 
 import static Utility.Config.BASE_PROJECTILE_RANGE;
+import static Utility.Config.BATTLEZONE_SIZE;
 
 public class Asteroid {
 
@@ -11,7 +12,7 @@ public class Asteroid {
     private Point3D startingPoint;
     private float speed;
     private boolean expired = false;
-    private float maxDist = 1000f;
+    private float maxDist = BATTLEZONE_SIZE*2;
 
     public Asteroid(float speed, Vector3D trajectory, float maxDist){
         this.speed = speed;
@@ -25,6 +26,14 @@ public class Asteroid {
 
     public Vector3D getTrajectory(){
         return trajectory;
+    }
+
+    public void setTrajectory(Vector3D trajectory) {
+        this.trajectory = trajectory;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     public void update()
