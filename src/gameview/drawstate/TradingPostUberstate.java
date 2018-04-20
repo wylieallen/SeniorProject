@@ -88,18 +88,19 @@ public class TradingPostUberstate extends Uberstate
         currentTP = new TradingPost(new Inventory(40), new Wallet(50000), new ArrayList<BountyMission>());
 //        currentTP.getInventory().addItem(new FuelConsumable(300, 70));
 
+        playerInventory = currentPlayer.getActiveShip().getInventory();
+        tpInventory = currentTP.getInventory();
+
         RandomItemGenerator RIG = new RandomItemGenerator();
-        for(int i =0; i < 40; i++) {
-            currentTP.getInventory().addItem(RIG.getRandomItem());
-            currentPlayer.getActiveShip().getInventory().addItem(RIG.getRandomItem());
-        }
+        for(int i =0; i < 40; i++)
+            tpInventory.addItem(RIG.getRandomItem());
+
 
         currentTP.getBountyList().add(new BountyMission(1000, 20,"Klingon"));
         currentTP.getBountyList().add(new BountyMission(2000, 20,"Dalek"));
         currentTP.getBountyList().add(new BountyMission(3000, 40,"Jeff"));
 
-        playerInventory = currentPlayer.getActiveShip().getInventory();
-        tpInventory = currentTP.getInventory();
+
 
         playerMaxPage = ((playerInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
         tpMaxPage = ((tpInventory.getcurrItemsNum()-1)/ITEMSPERPAGE) + 1;
