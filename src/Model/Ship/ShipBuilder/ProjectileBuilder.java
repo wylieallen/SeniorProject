@@ -17,7 +17,6 @@ public class ProjectileBuilder extends PartBuilder {
 
     public Projectile buildRandomProjectile(int baseSpeed, int baseDamage, Rarity rarity){
 
-        //TODO random between linear/homing...
         return buildRandomLinearProjectile(baseSpeed, baseDamage, rarity);
     }
 

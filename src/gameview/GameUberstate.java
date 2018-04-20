@@ -49,7 +49,6 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
 
         this.transitionObserver = transitionObserver;
 
-        //TODO make player & zoneID passed in by GameUberstate constructor
         gameModel = new GameModel(newPlayer);
         gameModel.run();
         playerShip = gameModel.getPlayerShip();
