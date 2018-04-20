@@ -81,11 +81,6 @@ public class OverworldUberstate extends Uberstate
             currentPlayer.getPilotStats().levelUp();
             currentPlayer.getPilotStats().levelUp();
             currentPlayer.getPilotStats().levelUp();
-//        Ship ship1 = new Ship(currentPlayer, new ShipHull(100, Rarity.COMMON, 500, 40));
-//        ship1.equipEngine(new ShipEngine(100,100, Rarity.COMMON));
-//        ship1.equipShield(new ShipShield(100,100, Rarity.COMMON));
-//        ship1.equipSpecial(new BoostSpecial(100, 100,100,100, Rarity.COMMON));
-//        ship1.getWeaponSlot1(new EnergyWeapon(100, new LinearProjectile(currentPlayer,)));
             ShipBuilder buildShip = new ShipBuilder();
             Ship ship1 = buildShip.buildRandomShip(currentPlayer, Rarity.COMMON);
             Ship ship2 = buildShip.buildRandomShip(currentPlayer, Rarity.RARE);
@@ -107,16 +102,7 @@ public class OverworldUberstate extends Uberstate
             currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.LEGENDARY));
             currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
             currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
-//        currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
+
         for(int i =0; i < 10; i++) {
             ship1.getInventory().addItem(RIG.getRandomItem());
             ship2.getInventory().addItem(RIG.getRandomItem());
