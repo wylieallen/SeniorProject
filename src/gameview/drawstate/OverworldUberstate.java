@@ -158,8 +158,8 @@ public class OverworldUberstate extends Uberstate
                                 ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.BLACK, Color.WHITE, "Travel to Node"),
                                 ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.BLACK, Color.GREEN, "Travel to Node"),
                                 () -> {
-                                    transitionObserver.notifyTransition(node.getThisZone());
                                     Overworld.getOverworld().setCurrentNode(node);
+                                    transitionObserver.notifyTransition(node.getThisZone());
                                     System.out.println("Travel to " + node.getThisZone().getZoneType());
                                 });
                         selectedNode.add(travelToNode);
