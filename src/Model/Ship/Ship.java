@@ -191,21 +191,25 @@ public class Ship{
     }
 
     public Collection<Projectile> useWeapon1(){
-        if (!shieldActivated && weaponSlot1 != null) {
+        if (shieldActivated){
+            toggleShieldActivated();
+        }
+        if (weaponSlot1 != null) {
             return weaponSlot1.fireWeapon(myPilot);
         }
         else{
-            System.out.println("Shield is active, CANNOT fire");
             return new HashSet<>();
         }
     }
 
     public Collection<Projectile> useWeapon2(){
-        if (!shieldActivated && weaponSlot2 != null) {
+        if (shieldActivated){
+            toggleShieldActivated();
+        }
+        if (weaponSlot2 != null) {
             return weaponSlot2.fireWeapon(myPilot);
         }
         else{
-            System.out.println("Shield is active, CANNOT fire");
             return new HashSet<>();
         }
     }
