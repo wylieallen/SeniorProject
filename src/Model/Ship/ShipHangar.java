@@ -19,6 +19,7 @@ public class ShipHangar {
         myShips.remove(ship);
     }
 
+
     public Ship getShipAtIndex(int index){
         return myShips.get(index);
     }

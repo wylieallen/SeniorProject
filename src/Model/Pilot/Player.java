@@ -45,8 +45,15 @@ public class Player extends Pilot {
 
     @Override
     public void pilotDied() {
-        //TODO go to death menu
-        System.out.println("Game over");
+        shipHangar.removeShip(super.getActiveShip());
+        if (shipHangar.hangarSize() > 0){
+            super.setActiveShip(shipHangar.getShipAtIndex(0));
+        }
+        else {
+            System.out.println("Game over");
+            System.exit(0);
+        }
+
     }
 
 

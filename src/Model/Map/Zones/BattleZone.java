@@ -58,7 +58,6 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     public BattleZone(int zoneID) {
         this.zoneID = zoneID;
-
         //Stuff from Gamemodel
         this.collisionChecker = new NaiveCollisionChecker();
         collisionChecker.add(this);
@@ -75,6 +74,17 @@ public class BattleZone extends Zone implements CollisionObserver {
 
     public int getZoneID() {
         return zoneID;
+    }
+
+
+    public void clear(){
+        this.collisionChecker = new NaiveCollisionChecker();
+        collisionChecker.add(this);
+        this.spawnObservers = new HashSet<>();
+        this.ships = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.projectiles = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.lootChests = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.asteroids = Collections.newSetFromMap(new ConcurrentHashMap<>());
     }
 
     public void run(Body<Ship> playerShip, int numAsteroid) {
