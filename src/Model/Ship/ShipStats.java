@@ -132,9 +132,9 @@ public class ShipStats {
     }
 
     public void reset(){
-        currentHealth += maxHealth;
-        currentShield += maxShield;
-        currentFuel += maxFuel;
+        currentHealth = maxHealth;
+        currentShield = 0;
+        currentFuel = maxFuel;
         currentSpeed = 0;
     }
     // End Getter/Setters

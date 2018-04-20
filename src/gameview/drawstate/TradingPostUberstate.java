@@ -96,9 +96,9 @@ public class TradingPostUberstate extends Uberstate
             tpInventory.addItem(RIG.getRandomItem());
 
 
-        currentTP.getBountyList().add(new BountyMission(1000, 20,"Klingon"));
+        currentTP.getBountyList().add(new BountyMission(500, 2,"Klingon"));
         currentTP.getBountyList().add(new BountyMission(2000, 20,"Dalek"));
-        currentTP.getBountyList().add(new BountyMission(3000, 40,"Jeff"));
+        currentTP.getBountyList().add(new BountyMission(5000, 40,"Jeff"));
 
 
 
