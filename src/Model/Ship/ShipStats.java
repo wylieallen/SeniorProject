@@ -131,6 +131,12 @@ public class ShipStats {
         this.detectRange = detectRange;
     }
 
+    public void reset(){
+        currentHealth += maxHealth;
+        currentShield += maxShield;
+        currentFuel += maxFuel;
+        currentSpeed = 0;
+    }
     // End Getter/Setters
 
     public boolean isAlive(){

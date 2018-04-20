@@ -9,6 +9,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 import gameview.GameUberstate;
 import gameview.TransitionObserver;
 import gameview.drawstate.OverworldUberstate;
+import gameview.drawstate.StartUberstate;
 import gameview.drawstate.TradingPostUberstate;
 import guiframework.control.ClickableControlstate;
 import guiframework.control.Controlstate;
@@ -28,7 +29,8 @@ public class InterfacePanel extends GLJPanel implements TransitionObserver
 
     public InterfacePanel(Renderstate renderstate, Point centerPt, Player player)
     {
-        this.uberstate =  new GameUberstate(this, renderstate, new Point(WIDTH / 2, HEIGHT / 2), player, false);
+        //this.uberstate =  new GameUberstate(this, renderstate, new Point(WIDTH / 2, HEIGHT / 2), player, false);
+        this.uberstate = new StartUberstate(this, renderstate, player, false);
 
         this.player = player;
 

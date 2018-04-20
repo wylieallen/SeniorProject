@@ -73,6 +73,10 @@ public class BattleZone extends Zone implements CollisionObserver {
         return zoneType;
     }
 
+    public int getZoneID() {
+        return zoneID;
+    }
+
     public void run(Body<Ship> playerShip, int numAsteroid) {
         this.player = playerShip;
         spawnShip(player);

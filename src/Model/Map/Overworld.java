@@ -1,5 +1,6 @@
 package Model.Map;
 
+import Model.Map.Zones.BattleZone;
 import Model.Map.Zones.Zone;
 
 import java.util.ArrayList;
@@ -27,6 +28,10 @@ public class Overworld {
     public void addNode(Node node){
         nodes.add(node);
         currentNode = node;
+    }
+
+    public void setCurrentNode(int zoneID){
+
     }
 
     public void setCurrentNode(Node node){

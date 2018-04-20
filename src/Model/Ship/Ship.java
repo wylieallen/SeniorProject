@@ -164,6 +164,10 @@ public class Ship{
         if (shieldSlot != null) shipStats.setMaxShield(shieldSlot.getmaxShield());
     }
 
+    public void resetStats(){
+        shipStats.reset();
+    }
+
     public Inventory getInventory(){
         return inventory;
     }

@@ -46,18 +46,9 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         this.transitionObserver = transitionObserver;
 
         //TODO make player & zoneID passed in by GameUberstate constructor
-        if(!initialized)
-        {
-            newPlayer = new Player();
-            ShipBuilder buildShip = new ShipBuilder();
-            Ship myShip = buildShip.buildRandomShip(newPlayer, Rarity.COMMON);
-            newPlayer.setActiveShip(myShip);
+        int zoneID = 6;
 
-        }
-        int battlezoneID = 2;
-        // END
-
-        gameModel = new GameModel(newPlayer, battlezoneID);
+        gameModel = new GameModel(newPlayer, zoneID);
         gameModel.run();
         playerShip = gameModel.getPlayerShip();
         gameModel.add((SpawnObserver) this);
@@ -86,6 +77,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         bindKeyRelease(KeyEvent.VK_SHIFT, () -> playerShip.get().deactivateSpecial());
         bindKeyRelease(KeyEvent.VK_E, () -> playerShip.get().toggleShieldActivated());
         bindKeyRelease(KeyEvent.VK_F, ()-> playerShip.get().setFiring2(false));
+        bindKeyRelease(KeyEvent.VK_ESCAPE, () -> transitionObserver.switchToOverworld());
     }
 
     @Override

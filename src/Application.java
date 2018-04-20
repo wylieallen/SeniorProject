@@ -40,6 +40,7 @@ public class Application
         //StartUberstate startUberstate = new StartUberstate(renderstate);
         Player player = new Player();
 
+
         InterfacePanel panel = new InterfacePanel(renderstate, new Point(WIDTH / 2, HEIGHT / 2), player);
         //GameUberstate gameUberstate = new GameUberstate(panel, renderstate, new Point(WIDTH / 2, HEIGHT / 2), player, false);
         //panel.setUberstate(gameUberstate);

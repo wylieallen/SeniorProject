@@ -1232,7 +1232,7 @@ public class TradingPostUberstate extends Uberstate
                 ImageFactory.getExitButtonBase(),
                 () -> {
                     //todo: switch system exit to change to overworldUberstate
-                    System.exit(0);
+                    transitionObserver.switchToOverworld();
                 });
 
         controlstate.add(exitButton);

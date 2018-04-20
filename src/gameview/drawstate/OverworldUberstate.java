@@ -73,14 +73,7 @@ public class OverworldUberstate extends Uberstate
 
         this.transitionObserver = transitionObserver;
 
-        TradingPost tp1 = new TradingPost(new Inventory(20), new Wallet(500), new ArrayList<BountyMission>());
         overworld = Overworld.getOverworld();
-        overworld.addNode(new Node(new BattleZone(1)));
-        overworld.addNode(new Node(new BattleZone(2)));
-        overworld.addNode(new Node(new BattleZone(3)));
-        overworld.addNode(new Node(new TradingZone(tp1)));
-        overworld.addNode(new Node(new BattleZone(4)));
-
         currentPlayer = player;
 
         if(!initialized)
@@ -179,6 +172,8 @@ public class OverworldUberstate extends Uberstate
                                 ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.BLACK, Color.WHITE, "Travel to Node"),
                                 ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.BLACK, Color.GREEN, "Travel to Node"),
                                 () -> {
+                                    transitionObserver.notifyTransition(node.getThisZone());
+                                    Overworld.getOverworld().setCurrentNode(node);
                                     System.out.println("Travel to " + node.getThisZone().getZoneType());
                                 });
                         selectedNode.add(travelToNode);
