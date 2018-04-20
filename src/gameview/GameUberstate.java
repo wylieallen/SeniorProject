@@ -90,6 +90,8 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
 
         Renderstate renderstate = super.getRenderstate();
 
+        renderstate.clear();
+
         ShipRenderable playerRenderable = new ShipRenderable(playerShip);
 
         renderstate.add(playerRenderable);

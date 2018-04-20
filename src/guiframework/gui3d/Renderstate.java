@@ -132,4 +132,9 @@ public class Renderstate
     }
 
     public void setCamera(Camera camera) { this.camera = camera; }
+
+    public void clear()
+    {
+        renderables.clear();
+    }
 }

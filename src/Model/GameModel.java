@@ -41,7 +41,7 @@ public class GameModel {
         //INITIALIZE GAME STUFF
         myBattleZone = (BattleZone) Overworld.getOverworld().getZoneAtNode();
         this.zoneID = myBattleZone.getZoneID();
-        myBattleZone = new BattleZone(zoneID);
+        myBattleZone = new BattleZone(battlezoneID);
         Point3D origin = new Point3D(0f, 0f, 0f);
         player.getActiveShip().resetStats();
         this.playerShip = new Body<>(origin, new Dimension3D(7.086f, 1.323f, 12.380f), new Orientation3D(), player.getActiveShip());
