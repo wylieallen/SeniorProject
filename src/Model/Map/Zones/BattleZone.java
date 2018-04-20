@@ -5,23 +5,17 @@ import Model.Items.Item;
 import Model.Items.LootChest;
 import Model.Items.RandomItemGenerator;
 import Model.Pilot.*;
-import Model.Powerup.Powerup;
 import Model.Ship.Ship;
-import Model.Ship.ShipBuilder.ShipBuilder;
-import Model.Ship.ShipParts.Projectile.LinearProjectile;
 import Model.Ship.ShipParts.Projectile.Projectile;
 import Model.physics.Body;
 import Model.physics.CollisionObserver;
 import Model.physics.checking.CollisionChecker;
 import Model.physics.checking.NaiveCollisionChecker;
-import Model.physics.collidable.BoundingBoxCollidable;
-import Model.physics.collidable.Collidable;
 import Utility.Geom3D.Dimension3D;
 import Utility.Geom3D.Orientation3D;
 import Utility.Geom3D.Point3D;
 import Utility.Geom3D.Vector3D;
 import Utility.RandomNumberGenerator;
-import Utility.Rarity;
 import gameview.observers.spawn.SpawnObserver;
 
 
@@ -336,7 +330,12 @@ public class BattleZone extends Zone implements CollisionObserver {
         }
         projectile.get().disable();
         if (!(ship.get().isAlive())){
-            projectile.get().getProjectileSource().gainExperience(25);
+            Pilot projectileSource =  projectile.get().getProjectileSource();
+            projectileSource.gainExperience(25);
+            //Should not be instanceof but for demoing purposes....
+            if (projectileSource instanceof Player){
+                ((Player) projectile.get().getProjectileSource()).increaseBounty();
+            }
         }
         System.out.println("Proj dmg: " + projectile.get().getDamage());
         System.out.println(ship.toString() + " " + ship.get().getShipStats().getCurrentHealth() + " " + ship.get().getShipStats().getCurrentShield());

@@ -53,6 +53,12 @@ public class StartUberstate extends Uberstate {
             overworld.addNode(new Node(new TradingZone(tp1)));
             overworld.addNode(new Node(new BattleZone(4)));
 
+            Ship ship2 = buildShip.buildRandomShip(player, Rarity.RARE);
+            Ship ship3 = buildShip.buildRandomShip(player, Rarity.EPIC);
+            Ship ship4 = buildShip.buildRandomShip(player, Rarity.LEGENDARY);
+            player.getShipHangar().addShip(ship2);
+            player.getShipHangar().addShip(ship3);
+            player.getShipHangar().addShip(ship4);
             player.getActiveShip().getInventory().addItem(new ShipHull(100,Rarity.COMMON,100, 16));
             player.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.COMMON));
 

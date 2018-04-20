@@ -36,6 +36,12 @@ public class Player extends Pilot {
         this.currentBountyMission = currentBountyMission;
     }
 
+    public void increaseBounty(){
+        if (currentBountyMission != null){
+            currentBountyMission.increaseBounty();
+        }
+    }
+
     @Override
     public void setActiveShip(Ship ship) {
         //shipHangar.addShip(getActiveShip());

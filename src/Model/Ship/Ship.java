@@ -36,8 +36,6 @@ public class Ship{
 
 
     //
-
-
     private ShipWeapon weaponSlot1;
     private ShipWeapon weaponSlot2;
     private ShipEngine engineSlot;
@@ -166,6 +164,18 @@ public class Ship{
 
     public void resetStats(){
         shipStats.reset();
+        yawingLeft = false;
+        yawingRight = false;
+        pitchingUp = false;
+        pitchingDown = false;
+        rollingLeft = false;
+        rollingRight = false;
+        accelerating = false;
+        decelerating = false;
+        breaking = false;
+        firing1 = false;
+        firing2 = false;
+        facingDirection = new Vector3D(0, 0, -1);
     }
 
     public Inventory getInventory(){
@@ -239,7 +249,6 @@ public class Ship{
         shipStats.setDetectRange(detectRange);
     }
 
-
     public Vector3D getFacingDirection() {
         return facingDirection;
     }
@@ -270,7 +279,6 @@ public class Ship{
 
     }
 
-
     public boolean shieldActivated(){
         return shieldActivated;
     }
@@ -292,58 +300,6 @@ public class Ship{
         weaponSlot1.update();
         weaponSlot2.update();
     }
-
-    /*
-    @Override
-    public void update(){
-
-        super.update();
-
-        boolean directionUpdate = false;
-        if(rollingLeft ^ rollingRight)
-        {
-            adjustRoll(rollingRight ? rollSpeed : -rollSpeed);
-            directionUpdate = true;
-        }
-        if(pitchingDown ^ pitchingUp)
-        {
-            adjustPitch(pitchingUp ? -pitchSpeed : pitchSpeed);
-            directionUpdate = true;
-        }
-        if(yawingLeft ^ yawingRight)
-        {
-            adjustYaw(yawingRight ? yawSpeed : -yawSpeed);
-            directionUpdate = true;
-        }
-
-
-        // todo: move this block somewhere useful then delete the whole old update() function
-        if (directionUpdate){
-            float yawRads = super.getOrientation().getYaw()/180.0f * 3.1415926535f;
-            float pitchRads = -super.getOrientation().getPitch()/180.0f * 3.1415926535f;
-
-            float i = (float) ((Math.cos(pitchRads) * Math.sin(yawRads)));
-            float j = (float) Math.sin(pitchRads);
-            float k = (float) (Math.cos(pitchRads) * Math.cos(yawRads));
-            facingDirection = new Vector3D(i,j,k);
-            facingDirection.makeUnitVector();
-        }
-
-        if(accelerating)
-        {
-            accelerate();
-        }
-        if(decelerating)
-        {
-            decelerate();
-        }
-
-
-        this.moveForward((float) shipStats.getCurrentSpeed());
-
-        //System.out.println("Speed: " + shipStats.getCurrentSpeed() + " Curloc: " + super.getOrigin().getX() + "," + super.getOrigin().getY() + "," + super.getOrigin().getZ());
-    }
-    */
 
     //Rendering Methods
     public void setYawingLeft(boolean yawingLeft) { this.yawingLeft = yawingLeft; }
