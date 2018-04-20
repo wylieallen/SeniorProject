@@ -21,6 +21,10 @@ import gameview.renderables.debug.*;
 import guiframework.Uberstate;
 import guiframework.control.ClickableControlstate;
 import guiframework.gui2d.Drawstate;
+import guiframework.gui2d.ImageFactory;
+import guiframework.gui2d.displayable.CompositeDisplayable;
+import guiframework.gui2d.displayable.ImageDisplayable;
+import guiframework.gui2d.displayable.StringDisplayable;
 import guiframework.gui3d.Renderstate;
 import guiframework.gui3d.camera.ThirdPersonCamera;
 import guiframework.gui3d.model3d.Model3DFactory;
@@ -51,6 +55,22 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         playerShip = gameModel.getPlayerShip();
         gameModel.add((SpawnObserver) this);
         gameModel.add((CollisionObserver) this);
+
+        Drawstate drawstate = super.getDrawstate();
+        CompositeDisplayable hudOverlay = new CompositeDisplayable(new Point(16, 16));
+        hudOverlay.add(new ImageDisplayable(new Point(0, 0), ImageFactory.makeBorderedRect(128, 128, Color.WHITE, Color.GRAY)));
+        hudOverlay.add(new StringDisplayable(new Point(4, 0), () -> "Ship Status"));
+        hudOverlay.add(new StringDisplayable(new Point(4, 16), () -> "Shield: " + playerShip.get().getShipStats().getCurrentShield()
+                + " / " + playerShip.get().getShipStats().getMaxShield()));
+        hudOverlay.add(new StringDisplayable(new Point(4, 32), () -> "Health: " + playerShip.get().getShipStats().getCurrentHealth()
+            + " / " + playerShip.get().getShipStats().getMaxHealth()));
+        hudOverlay.add(new StringDisplayable(new Point(4, 48), () -> "Fuel: " + playerShip.get().getShipStats().getCurrentFuel()
+                + " / " + playerShip.get().getShipStats().getMaxFuel()));
+        hudOverlay.add(new StringDisplayable(new Point(4, 64), () -> "Velocity: " + playerShip.get().getSpeed()
+                + " / " + playerShip.get().getShipStats().getMaxSpeed()));
+        drawstate.addLeftOverlay(hudOverlay);
+
+
 
         super.setControlstate(this.controlstate = new PilotingControlstate(playerShip.get(), centerPt));
 
@@ -93,6 +113,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         ShipRenderable playerRenderable = new ShipRenderable(playerShip);
 
         renderstate.add(playerRenderable);
+        /*
         renderstate.add(new MinpointRenderable(playerShip));
         renderstate.add(new MaxpointRenderable(playerShip));
 
@@ -106,6 +127,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
                 }
             }
         }
+        */
 
         renderstate.setCamera(new ThirdPersonCamera(playerRenderable, 16));
 /*
@@ -118,10 +140,10 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         renderstate.add(new ConeRenderable(new Point3D(1, 1, -8),
                 0.5f, 2, new Orientation3D(180, 0, 0), 10));*/
 
-        renderstate.add(new SphereRenderable(new Point3D(0, 0, 0),
-                new Orientation3D(), 2, 10, 10));
+       // renderstate.add(new SphereRenderable(new Point3D(0, 0, 0),
+       //         new Orientation3D(), 2, 10, 10));
 
-        Random rng = new Random();
+       // Random rng = new Random();
 
         /*
         for(int i = 0; i < 1000; i++)
