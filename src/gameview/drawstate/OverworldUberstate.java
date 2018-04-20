@@ -93,22 +93,18 @@ public class OverworldUberstate extends Uberstate
             currentPlayer.setActiveShip(ship1);
 
             RandomItemGenerator RIG = new RandomItemGenerator();
-            currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
-            currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
-            currentPlayer.getActiveShip().getInventory().addItem(new HealthConsumable(100,20));
-            currentPlayer.getActiveShip().getInventory().addItem(new ShieldConsumable(200,50));
             currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
             currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.COMMON));
             currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.LEGENDARY));
             currentPlayer.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.LEGENDARY));
             currentPlayer.getActiveShip().getInventory().addItem(new ShipEngine(100,100, Rarity.COMMON));
 
-        for(int i =0; i < 10; i++) {
-            ship1.getInventory().addItem(RIG.getRandomItem());
-            ship2.getInventory().addItem(RIG.getRandomItem());
-            ship3.getInventory().addItem(RIG.getRandomItem());
-            ship4.getInventory().addItem(RIG.getRandomItem());
-        }
+            for(int i =0; i < 10; i++) {
+                ship1.getInventory().addItem(RIG.getRandomItem());
+                ship2.getInventory().addItem(RIG.getRandomItem());
+                ship3.getInventory().addItem(RIG.getRandomItem());
+                ship4.getInventory().addItem(RIG.getRandomItem());
+            }
 
         }
 
@@ -123,15 +119,11 @@ public class OverworldUberstate extends Uberstate
         drawstate.addUnderlay(spaceBackground);
 
         mapOverlay = new Overlay(new Point(0, 0));
-//        ImageDisplayable mapBackground = new ImageDisplayable(new Point(0,0),
-//                //ImageFactory.makeBorderedRect(WIDTH, 900, Color.BLACK, Color.WHITE));
-//                ImageFactory.getSpaceBackground());
-//        mapOverlay.add(mapBackground);
 
         //Add title box
-        ImageDisplayable overworldTitle =
-                new ImageDisplayable(new Point(WIDTH/2 - (ImageFactory.getOverworldLabel().getWidth()/2),25), ImageFactory.getOverworldLabel());
-        //mapOverlay.add(overworldTitle);
+//        ImageDisplayable overworldTitle =
+//                new ImageDisplayable(new Point(WIDTH/2 - (ImageFactory.getOverworldLabel().getWidth()/2),25), ImageFactory.getOverworldLabel());
+//        mapOverlay.add(overworldTitle);
 
 
         for(int i = 0; i < overworld.getNodes().size(); i++) {
@@ -148,9 +140,6 @@ public class OverworldUberstate extends Uberstate
                         selectedNode = new Overlay(new Point(WIDTH/2 - 200,HEIGHT-375));
                         ImageDisplayable snBackground = new ImageDisplayable(new Point(0,0), ImageFactory.makeBorderedRect(400,200, Color.GREEN, Color.GREEN));
                         selectedNode.add(snBackground);
-
-//                        ImageDisplayable nodeDisplay = new ImageDisplayable(new Point(100, 75),
-//                                ImageFactory.makeCenterLabeledRect(200, 50, Color.BLACK, Color.GRAY, Color.WHITE, node.getThisZone().getZoneType()));
                         selectedNode.add(new StringDisplayable( new Point(100, 25), () -> "" + node.getThisZone().getZoneType(), Color.BLACK, font));
 
                         Button travelToNode = new Button(new Point(100,125),
@@ -200,17 +189,10 @@ public class OverworldUberstate extends Uberstate
                     //Remove map overlay so it cant be clicked under the stats display
                     mapOverlay.removeClickable(selectedNode);
                     mapOverlay.remove(selectedNode);
-//                    mapOverlay.removeClickable(skillsMenu);
-//                    mapOverlay.remove(skillsMenu);
                     drawstate.removeOverlay(mapOverlay);
                     controlstate.remove(mapOverlay);
-//                    drawstate.removeOverlay(skillsMenu);
-//                    controlstate.remove(skillsMenu);
 
                     Overlay skillsMenuOverlay = new Overlay(new Point(0,0));
-//                    ImageDisplayable svBackground = new ImageDisplayable(new Point(0,0),
-//                            ImageFactory.makeBorderedRect(600, 900, Color.WHITE, Color.GRAY ));
-//                    skillsMenuOverlay.add(svBackground);
 
                     skillsMenuOverlay.add(new StringDisplayable( new Point(800, 150), () -> "Skill Points: " + currentPlayer.getPilotStats().getCurrentSkillPoints(), Color.GREEN, font));
                     skillsMenuOverlay.add(new StringDisplayable( new Point(100, 300), () -> "Flying: " + currentPlayer.getPilotStats().getFlying(), Color.GREEN, font));
@@ -392,8 +374,6 @@ public class OverworldUberstate extends Uberstate
                                 //readd map and upgrade stats and title
                                 drawstate.addLeftOverlay(mapOverlay);
                                 controlstate.add(mapOverlay);
-//                                drawstate.addRightOverlay(skillsMenu);
-//                                controlstate.add(skillsMenu);
                             });
                     skillsMenuOverlay.add(closeSkills);
                     skillsMenuOverlay.addClickable(closeSkills);
@@ -405,8 +385,6 @@ public class OverworldUberstate extends Uberstate
 
         mapOverlay.addClickable(skillsMenu);
         mapOverlay.add(skillsMenu);
-//        drawstate.addRightOverlay(skillsMenu);
-//        controlstate.add(skillsMenu);
 
         //Add Hangar button
         Button hangarButton = new Button(new Point(1050, 25),
@@ -456,7 +434,6 @@ public class OverworldUberstate extends Uberstate
                         int widthAST = activeShipTitle.getSize().width;
                         activeShipTitle.getOrigin().setLocation((WIDTH/2)-(widthAST/2), (HEIGHT/2)-200);
                         selectedShipOverlay.add(activeShipTitle);
-                        //hangarOverlay.add(activeShipTitle);
                     }
                     ImageDisplayable selectedShipImage = new ImageDisplayable(new Point((WIDTH/2)-75,(HEIGHT/2)-125), currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
                     selectedShipOverlay.add(selectedShipImage);
@@ -478,7 +455,6 @@ public class OverworldUberstate extends Uberstate
                                         int widthAST = activeShipTitle.getSize().width;
                                         activeShipTitle.getOrigin().setLocation((WIDTH/2)-(widthAST/2), (HEIGHT/2)-200);
                                         selectedShipOverlay.add(activeShipTitle);
-                                        //hangarOverlay.add(activeShipTitle);
                                     }
                                     selectedShipImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
                                     selectedShipOverlay.add(selectedShipImage);
@@ -504,7 +480,6 @@ public class OverworldUberstate extends Uberstate
                                         int widthAST = activeShipTitle.getSize().width;
                                         activeShipTitle.getOrigin().setLocation((WIDTH/2)-(widthAST/2), (HEIGHT/2)-200);
                                         selectedShipOverlay.add(activeShipTitle);
-                                        //hangarOverlay.add(activeShipTitle);
                                     }
                                     selectedShipImage.setImage(currentPlayer.getShipHangar().getShipAtIndex(selectedShip).getShipImageBlack());
                                     selectedShipOverlay.add(selectedShipImage);
@@ -544,12 +519,6 @@ public class OverworldUberstate extends Uberstate
                                 drawstate.removeOverlay(hangarOverlay);
                                 controlstate.remove(hangarOverlay);
 
-                                //clear buttons list and parts count
-//                                for(int j = 0; j < playerItems.size(); j++) {
-//                                    Button pButton = playerItems.get(j);
-//                                    changePartsOverlay.remove(pButton);
-//                                    changePartsOverlay.removeClickable(pButton);
-//                                }
                                 playerItems.clear();
                                 partsCount = 0;
                                 selectedPart = 0;
@@ -643,13 +612,6 @@ public class OverworldUberstate extends Uberstate
                                         ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, ""));
                                 ImageDisplayable itemInfo = new ImageDisplayable(new Point(0, 55),
                                         ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, ""));
-//                                ImageDisplayable spBackground = new ImageDisplayable(new Point(0, 0),
-//                                        ImageFactory.makeBorderedRect(200, 165, Color.WHITE, Color.GREEN));
-//                                ImageDisplayable itemName = new ImageDisplayable(new Point(0, 0),
-//                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, playerInventory.getItem(selectedPart).getName()));
-//                                ImageDisplayable itemInfo = new ImageDisplayable(new Point(0, 55),
-//                                        ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, playerInventory.getItem(selectedPart).getAttributes().get(1)));
-                                //selectedPartOverlay.add(spBackground);
                                 selectedPartOverlay.add(itemName);
                                 selectedPartOverlay.add(itemInfo);
 
@@ -738,36 +700,6 @@ public class OverworldUberstate extends Uberstate
                                                     spBackground.setImage(ImageFactory.makeBorderedRect(200, 165, Color.GREEN, Color.GREEN));
                                                     itemName.setImage(ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, part.getName()));
                                                     itemInfo.setImage(ImageFactory.makeCenterLabeledRect(200, 55, Color.GREEN, Color.GREEN, Color.BLACK, part.getAttributes().get(1)));
-//                                                    selectedPartOverlay = new Overlay(new Point(x-25,y+120));
-//                                                    ImageDisplayable spBackground = new ImageDisplayable(new Point(0,0),
-//                                                            ImageFactory.makeBorderedRect(200, 165,Color.WHITE, Color.GREEN));
-//                                                    ImageDisplayable itemName = new ImageDisplayable(new Point(0,0),
-//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getName()));
-//                                                    ImageDisplayable itemInfo = new ImageDisplayable(new Point(0,55),
-//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.GREEN,Color.BLACK, part.getAttributes().get(1)));
-//                                                    Button equipPart = new Button(new Point(0, 110),
-//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
-//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
-//                                                            ImageFactory.makeCenterLabeledRect(200,55,Color.GREEN,Color.WHITE,Color.BLACK, "Equip"),
-//                                                            () -> {
-//                                                                //Equip part
-//                                                                //Note: This also removes part from inventory and puts unequiped part into inventory
-//                                                                part.equip();
-//
-//                                                                //clear buttons and make new ones
-//                                                                for(int j = 0; j < playerItems.size(); j++) {
-//                                                                    Button pButton = playerItems.get(j);
-//                                                                    changePartsOverlay.remove(pButton);
-//                                                                    changePartsOverlay.removeClickable(pButton);
-//                                                                }
-//                                                                playerItems.clear();
-//
-//                                                            });
-//                                                    selectedPartOverlay.add(spBackground);
-//                                                    selectedPartOverlay.add(itemName);
-//                                                    selectedPartOverlay.add(itemInfo);
-//                                                    selectedPartOverlay.add(equipPart);
-//                                                    selectedPartOverlay.addClickable(equipPart);
 
                                                     changePartsOverlay.add(selectedPartOverlay);
                                                     changePartsOverlay.addClickable(selectedPartOverlay);
@@ -818,8 +750,5 @@ public class OverworldUberstate extends Uberstate
                 });
         mapOverlay.addClickable(exitButton);
         mapOverlay.add(exitButton);
-
-
-        //drawstate.addCenterOverlay(overworldTitle);
     }
 }

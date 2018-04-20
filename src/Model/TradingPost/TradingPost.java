@@ -29,35 +29,4 @@ public class TradingPost {
     public List<BountyMission> getBountyList() {
         return bountyList;
     }
-
-//    public void Buy(Item i) {
-//        int value = i.getCurrencyValue();
-//
-//        if(value <= wallet.getCurrencyBalance()) {
-//            inventory.addItem(i);
-//            wallet.decreaseCurrencyBalance(value);
-//        }
-//        else
-//            System.out.println("Could not buy item: Insuffiecient Funds");
-//    }
-//
-//    public void Sell(Item i){
-//        int value = i.getCurrencyValue();
-//        inventory.removeItem(i);
-//        wallet.increaseCurrencyBalance(value);
-//    }
-//
-//    public void giveBountyMission(Player p, BountyMission b) {
-//        p.setCurrentBountyMission(b);
-//        bountyList.remove(b);
-//    }
-//
-//    public void rewardFinishedBounty(Player p) {
-//        BountyMission b = p.getCurrentBountyMission();
-//        Wallet w = p.getMyWallet();
-//        if(b.isCompleted()) {
-//            w.increaseCurrencyBalance(b.getCurrencyValue());
-//            p.setCurrentBountyMission(null);
-//        }
-//    }
 }
