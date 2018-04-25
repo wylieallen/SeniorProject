@@ -93,11 +93,20 @@ public class BattleZone extends Zone implements CollisionObserver {
 
         EnemyBuilder newEnemyBuilder = new EnemyBuilder();
         //Set<Body<Ship>> enemies = (newEnemyBuilder.buildEnemies("resources/Zones/battlezone", Integer.toString(zoneID)));
-        Set<Body<Ship>> enemies = newEnemyBuilder.buildEnemies(numberToGenerate);
+        Set<Body<Ship>> enemies = newEnemyBuilder.buildEnemies(numberToGenerate, Faction.REBEL);
         for (Body<Ship> enemy : enemies) {
             spawnShip(enemy);
         }
+    }
 
+    public void addFriendlies(int numberToGenerate) {
+
+        EnemyBuilder newEnemyBuilder = new EnemyBuilder();
+        //Set<Body<Ship>> enemies = (newEnemyBuilder.buildEnemies("resources/Zones/battlezone", Integer.toString(zoneID)));
+        Set<Body<Ship>> enemies = newEnemyBuilder.buildEnemies(numberToGenerate, Faction.ALLY);
+        for (Body<Ship> enemy : enemies) {
+            spawnShip(enemy);
+        }
     }
 
     private void generateRandomEnemy() {

@@ -34,6 +34,7 @@ public class GameModel {
     private BattleZone myBattleZone;
     private int zoneID;
     private int numEnemy;
+    private int numFriendly;
     private int numLootChest;
     private int numAsteroid;
 
@@ -68,6 +69,9 @@ public class GameModel {
         lineIndex++; //SKIP ENEMY
         numEnemy = Integer.parseInt(enemyData.get(lineIndex++).split("\t")[1]);
 
+        lineIndex++; //SKIP FRIENDLY
+        numFriendly = Integer.parseInt(enemyData.get(lineIndex++).split("\t")[1]);
+
         lineIndex++; //SKIP LOOTCHEST
         numLootChest = Integer.parseInt(enemyData.get(lineIndex++).split("\t")[1]);
 
@@ -82,6 +86,10 @@ public class GameModel {
 
     public void spawnEnemies() {
         myBattleZone.addEnemies(numEnemy);
+    }
+
+    public void spawnFriendlies() {
+        myBattleZone.addFriendlies(numFriendly);
     }
 
     public void spawnLootChests() {

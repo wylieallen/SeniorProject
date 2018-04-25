@@ -152,6 +152,7 @@ public class GameUberstate extends Uberstate implements SpawnObserver, Collision
         }
         */
         gameModel.spawnEnemies();
+        gameModel.spawnFriendlies();
         gameModel.spawnLootChests();
         gameModel.spawnAsteroids();
     }

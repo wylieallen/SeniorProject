@@ -27,7 +27,7 @@ public class EnemyBuilder {
         rng = new RandomNumberGenerator();
     }
 
-    public Set<Body<Ship>> buildEnemies(int numberToGenerate){
+    public Set<Body<Ship>> buildEnemies(int numberToGenerate, Faction faction){
         Set<Body<Ship>> enemies = new HashSet<>();
         for (int i = 0; i < numberToGenerate; i++){
             Enemy newEnemy = new Enemy(0);
@@ -36,8 +36,8 @@ public class EnemyBuilder {
             Rarity enemyRarity = rng.getRandomRarity();
 
             //Decide Faction
-            Faction enemyFaction = rng.getRandomFaction();
-            newEnemy.setFaction(enemyFaction);
+            //Faction enemyFaction = rng.getRandomFaction();
+            newEnemy.setFaction(faction);
 
             //Decide Location
             Point3D enemyLoc = rng.getRandomLocation();
