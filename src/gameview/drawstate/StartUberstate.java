@@ -59,8 +59,8 @@ public class StartUberstate extends Uberstate {
             player.getShipHangar().addShip(ship2);
             player.getShipHangar().addShip(ship3);
             player.getShipHangar().addShip(ship4);
-            player.getActiveShip().getInventory().addItem(new ShipHull(100,Rarity.COMMON,100, 16));
-            player.getActiveShip().getInventory().addItem(new ShipShield(100,100, Rarity.COMMON));
+            player.getActiveShip().getInventory().addItem(new ShipHull(100,Rarity.COMMON,500, 16));
+            player.getActiveShip().getInventory().addItem(new ShipShield(20000,100, Rarity.COMMON));
 
         }
 
