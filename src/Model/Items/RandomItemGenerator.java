@@ -29,11 +29,11 @@ public class RandomItemGenerator {
         //Determine type of Item
         int itemDetermine = rng.getRandomInBetween(1,100);
         //10% chance random ship part
-        if (itemDetermine > 90){
+        if (itemDetermine > 60){
             return shipBuilder.buildRandomPart(rarity.value(), rarity);
         }
         //20% chance for consumable
-        else if (itemDetermine > 70){
+        else if (itemDetermine > 58){
             return getRandomConsumable(rarity);
         }
         //70% chance trash loot
